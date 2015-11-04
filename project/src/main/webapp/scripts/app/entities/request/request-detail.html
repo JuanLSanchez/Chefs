@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="chefsApp.request.detail.title">Request</span> {{request.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.request.creationDate">CreationDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{request.creationDate}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.request.accepted">Accepted</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{request.accepted}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.request.locked">Locked</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{request.locked}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.request.ignored">Ignored</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{request.ignored}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.request.follower">follower</span>
+                </td>
+                <td>
+                    {{request.follower.id}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.request.followed">followed</span>
+                </td>
+                <td>
+                    {{request.followed.id}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

@@ -1,0 +1,23 @@
+{
+    "chefsApp": {
+        "request" : {
+            "home": {
+                "title": "Requests",
+                "createLabel": "Create a new Request",
+                "createOrEditLabel": "Create or edit a Request"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Request {{ id }}?"
+            },
+            "detail": {
+                "title": "Request"
+            },
+            "creationDate": "CreationDate",
+            "accepted": "Accepted",
+            "locked": "Locked",
+            "ignored": "Ignored",
+            "follower": "Follower",
+            "followed": "Followed"
+        }
+    }
+}

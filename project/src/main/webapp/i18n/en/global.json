@@ -7,6 +7,7 @@
             "entities": {
                 "main": "Entities",
                 "profilePicture": "ProfilePicture",
+                "request": "Request",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

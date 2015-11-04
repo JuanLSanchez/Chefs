@@ -1,0 +1,68 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myRequestLabel" translate="chefsApp.request.home.createOrEditLabel">Create or edit a Request</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="request.id" readonly>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.request.creationDate" for="field_creationDate">CreationDate</label>
+            <input type="date" class="form-control" name="creationDate" id="field_creationDate"
+                    ng-model="request.creationDate"
+                    required>
+            <div ng-show="editForm.creationDate.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.creationDate.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.request.accepted" for="field_accepted">Accepted</label>
+            <input type="checkbox" class="form-control" name="accepted" id="field_accepted"
+                    ng-model="request.accepted"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.request.locked" for="field_locked">Locked</label>
+            <input type="checkbox" class="form-control" name="locked" id="field_locked"
+                    ng-model="request.locked"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.request.ignored" for="field_ignored">Ignored</label>
+            <input type="checkbox" class="form-control" name="ignored" id="field_ignored"
+                    ng-model="request.ignored"
+                    >
+        </div>
+
+        <div class="form-group">
+            <label translate="chefsApp.request.follower" for="field_follower">follower</label>
+            <select class="form-control" id="field_follower" name="follower" ng-model="request.follower" ng-options="user as user.id for user in users track by user.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.request.followed" for="field_followed">followed</label>
+            <select class="form-control" id="field_followed" name="followed" ng-model="request.followed" ng-options="user as user.id for user in users track by user.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
