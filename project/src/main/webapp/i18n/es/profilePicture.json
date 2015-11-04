@@ -1,0 +1,21 @@
+{
+    "chefsApp": {
+        "profilePicture" : {
+            "home": {
+                "title": "ProfilePictures",
+                "createLabel": "Create a new ProfilePicture",
+                "createOrEditLabel": "Create or edit a ProfilePicture"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ProfilePicture {{ id }}?"
+            },
+            "detail": {
+                "title": "ProfilePicture"
+            },
+            "title": "Title",
+            "url": "Url",
+            "properties": "Properties",
+            "user": "User"
+        }
+    }
+}

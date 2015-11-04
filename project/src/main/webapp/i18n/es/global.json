@@ -6,6 +6,7 @@
             "home": "Inicio",
             "entities": {
                 "main": "Entities",
+                "profilePicture": "ProfilePicture",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
