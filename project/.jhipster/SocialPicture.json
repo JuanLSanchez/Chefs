@@ -1,0 +1,32 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "socialEntity",
+            "otherEntityName": "socialEntity",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "socialPicture"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "url",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "properties",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20151104205508",
+    "dto": "no",
+    "pagination": "pagination"
+}

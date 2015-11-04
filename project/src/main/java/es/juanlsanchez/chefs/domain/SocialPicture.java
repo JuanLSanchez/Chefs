@@ -1,0 +1,108 @@
+package es.juanlsanchez.chefs.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
+
+/**
+ * A SocialPicture.
+ */
+@Entity
+@Table(name = "SOCIAL_PICTURE")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+public class SocialPicture implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @Column(name = "title")
+    private String title;
+    
+    @Column(name = "url")
+    private String url;
+    
+    @Column(name = "properties")
+    private String properties;
+
+    @OneToOne(mappedBy = "socialPicture")
+    @JsonIgnore
+    private SocialEntity socialEntity;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getProperties() {
+        return properties;
+    }
+
+    public void setProperties(String properties) {
+        this.properties = properties;
+    }
+
+    public SocialEntity getSocialEntity() {
+        return socialEntity;
+    }
+
+    public void setSocialEntity(SocialEntity socialEntity) {
+        this.socialEntity = socialEntity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        SocialPicture socialPicture = (SocialPicture) o;
+
+        if ( ! Objects.equals(id, socialPicture.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "SocialPicture{" +
+                "id=" + id +
+                ", title='" + title + "'" +
+                ", url='" + url + "'" +
+                ", properties='" + properties + "'" +
+                '}';
+    }
+}

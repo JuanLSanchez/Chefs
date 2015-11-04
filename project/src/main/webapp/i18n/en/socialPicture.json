@@ -1,0 +1,24 @@
+{
+    "chefsApp": {
+        "socialPicture" : {
+            "home": {
+                "title": "SocialPictures",
+                "createLabel": "Create a new SocialPicture",
+                "createOrEditLabel": "Create or edit a SocialPicture"
+            },
+            "created": "A new SocialPicture is created with identifier {{ param }}",
+            "updated": "A SocialPicture is updated with identifier {{ param }}",
+            "deleted": "A SocialPicture is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete SocialPicture {{ id }}?"
+            },
+            "detail": {
+                "title": "SocialPicture"
+            },
+            "title": "Title",
+            "url": "Url",
+            "properties": "Properties",
+            "socialEntity": "SocialEntity"
+        }
+    }
+}

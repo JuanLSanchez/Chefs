@@ -9,6 +9,7 @@
                 "profilePicture": "ProfilePicture",
                 "request": "Request",
                 "tag": "Tag",
+                "socialPicture": "SocialPicture",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
