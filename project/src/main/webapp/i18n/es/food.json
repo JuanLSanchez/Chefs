@@ -1,0 +1,21 @@
+{
+    "chefsApp": {
+        "food" : {
+            "home": {
+                "title": "Foods",
+                "createLabel": "Create a new Food",
+                "createOrEditLabel": "Create or edit a Food"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Food {{ id }}?"
+            },
+            "detail": {
+                "title": "Food"
+            },
+            "normalizaedName": "NormalizaedName",
+            "name": "Name",
+            "kcal": "Kcal",
+            "ingredients": "Ingredients"
+        }
+    }
+}

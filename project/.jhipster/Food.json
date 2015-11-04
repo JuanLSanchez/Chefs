@@ -1,0 +1,41 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "ingredients",
+            "otherEntityName": "ingredient",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "food"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "normalizaedName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "kcal",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        }
+    ],
+    "changelogDate": "20151104210802",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}
