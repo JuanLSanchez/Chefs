@@ -15,7 +15,7 @@
             "normalizaedName": "NormalizaedName",
             "name": "Name",
             "kcal": "Kcal",
-            "ingredients": "Ingredients"
+            "ingredient": "Ingredient"
         }
     }
 }

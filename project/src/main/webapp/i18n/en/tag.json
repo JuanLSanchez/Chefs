@@ -16,7 +16,7 @@
                 "title": "Tag"
             },
             "name": "Name",
-            "socialEntityes": "SocialEntityes"
+            "socialEntity": "SocialEntity"
         }
     }
 }

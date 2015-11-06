@@ -2,7 +2,7 @@
     "relationships": [
         {
             "relationshipId": 1,
-            "relationshipName": "ingredients",
+            "relationshipName": "ingredient",
             "otherEntityName": "ingredient",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "food"

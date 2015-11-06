@@ -38,7 +38,7 @@ public class Food implements Serializable {
     @OneToMany(mappedBy = "food")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Ingredient> ingredientss = new HashSet<>();
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -72,12 +72,12 @@ public class Food implements Serializable {
         this.kcal = kcal;
     }
 
-    public Set<Ingredient> getIngredientss() {
-        return ingredientss;
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredientss(Set<Ingredient> ingredients) {
-        this.ingredientss = ingredients;
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override
