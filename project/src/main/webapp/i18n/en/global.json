@@ -7,6 +7,7 @@
             "entities": {
                 "main": "Entities",
                 "profilePicture": "ProfilePicture",
+<<<<<<< Updated upstream
                 "request": "Request",
                 "tag": "Tag",
                 "socialPicture": "SocialPicture",
@@ -19,6 +20,9 @@
                 "schedule": "Schedule",
                 "menu": "Menu",
                 "event": "Event",
+=======
+>>>>>>> Stashed changes
+                "vote": "Vote",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

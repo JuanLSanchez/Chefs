@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="chefsApp.vote.detail.title">Vote</span> {{vote.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.vote.isFinal">IsFinal</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{vote.isFinal}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.vote.abstain">Abstain</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{vote.abstain}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.vote.comment">Comment</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{vote.comment}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.vote.completedScore">CompletedScore</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{vote.completedScore}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.vote.recipe">recipe</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="recipe.detail({id:vote.recipe.id})">{{vote.recipe.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.vote.user">user</span>
+                </td>
+                <td>
+                    {{vote.user.id}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

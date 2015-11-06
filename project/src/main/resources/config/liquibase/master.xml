@@ -6,6 +6,7 @@
 
     <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20151104200401_added_entity_ProfilePicture.xml" relativeToChangelogFile="false"/>
+<<<<<<< Updated upstream
     <include file="classpath:config/liquibase/changelog/20151104204318_added_entity_Request.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20151104205043_added_entity_Tag.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20151104205508_added_entity_SocialPicture.xml" relativeToChangelogFile="false"/>
@@ -18,5 +19,8 @@
     <include file="classpath:config/liquibase/changelog/20151106182629_added_entity_Schedule.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20151106182823_added_entity_Menu.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20151106183423_added_entity_Event.xml" relativeToChangelogFile="false"/>
+=======
+>>>>>>> Stashed changes
+    <include file="classpath:config/liquibase/changelog/20151106185627_added_entity_Vote.xml" relativeToChangelogFile="false"/>
     <!-- JHipster will add liquibase changelogs here -->
 </databaseChangeLog>

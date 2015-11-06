@@ -1,0 +1,24 @@
+{
+    "chefsApp": {
+        "vote" : {
+            "home": {
+                "title": "Votes",
+                "createLabel": "Create a new Vote",
+                "createOrEditLabel": "Create or edit a Vote"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Vote {{ id }}?"
+            },
+            "detail": {
+                "title": "Vote"
+            },
+            "isFinal": "IsFinal",
+            "abstain": "Abstain",
+            "comment": "Comment",
+            "completedScore": "CompletedScore",
+            "recipe": "Recipe",
+            "user": "User",
+            "score": "Score"
+        }
+    }
+}
