@@ -23,5 +23,6 @@
 >>>>>>> Stashed changes
     <include file="classpath:config/liquibase/changelog/20151106185627_added_entity_Vote.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20151106190101_added_entity_Comment.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20151106190335_added_entity_Assessment.xml" relativeToChangelogFile="false"/>
     <!-- JHipster will add liquibase changelogs here -->
 </databaseChangeLog>

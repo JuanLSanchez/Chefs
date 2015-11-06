@@ -1,0 +1,20 @@
+{
+    "chefsApp": {
+        "assessment" : {
+            "home": {
+                "title": "Assessments",
+                "createLabel": "Create a new Assessment",
+                "createOrEditLabel": "Create or edit a Assessment"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Assessment {{ id }}?"
+            },
+            "detail": {
+                "title": "Assessment"
+            },
+            "rating": "Rating",
+            "user": "User",
+            "socialEntity": "SocialEntity"
+        }
+    }
+}
