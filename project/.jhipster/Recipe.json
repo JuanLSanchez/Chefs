@@ -1,0 +1,126 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "competition",
+            "otherEntityName": "competition",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "recipe"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "vote",
+            "otherEntityName": "vote",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "recipe"
+        },
+        {
+            "relationshipId": 3,
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 4,
+            "relationshipName": "menu",
+            "otherEntityName": "menu",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "recipe"
+        },
+        {
+            "relationshipId": 5,
+            "relationshipName": "son",
+            "otherEntityName": "recipe",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "father"
+        },
+        {
+            "relationshipId": 6,
+            "relationshipName": "father",
+            "otherEntityName": "recipe",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 7,
+            "relationshipName": "event",
+            "otherEntityName": "event",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "recipe"
+        },
+        {
+            "relationshipId": 8,
+            "relationshipName": "socialEntity",
+            "otherEntityName": "socialEntity",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "recipe"
+        },
+        {
+            "relationshipId": 9,
+            "relationshipName": "step",
+            "otherEntityName": "step",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "recipe"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "creationDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "informationUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "advice",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 6,
+            "fieldName": "sugestedTime",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 7,
+            "fieldName": "updateDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldId": 8,
+            "fieldName": "ingredientsInSteps",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20151106175635",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}

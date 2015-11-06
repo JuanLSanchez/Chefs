@@ -12,6 +12,7 @@
                 "socialPicture": "SocialPicture",
                 "food": "Food",
                 "socialEntity": "SocialEntity",
+                "recipe": "Recipe",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

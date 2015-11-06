@@ -1,0 +1,110 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myRecipeLabel" translate="chefsApp.recipe.home.createOrEditLabel">Create or edit a Recipe</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="recipe.id" readonly>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="recipe.name"
+                    required>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="recipe.description"
+                    required>
+            <div ng-show="editForm.description.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.description.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.creationDate" for="field_creationDate">CreationDate</label>
+            <input type="date" class="form-control" name="creationDate" id="field_creationDate"
+                    ng-model="recipe.creationDate"
+                    required>
+            <div ng-show="editForm.creationDate.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.creationDate.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.informationUrl" for="field_informationUrl">InformationUrl</label>
+            <input type="text" class="form-control" name="informationUrl" id="field_informationUrl"
+                    ng-model="recipe.informationUrl"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.advice" for="field_advice">Advice</label>
+            <input type="text" class="form-control" name="advice" id="field_advice"
+                    ng-model="recipe.advice"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.sugestedTime" for="field_sugestedTime">SugestedTime</label>
+            <input type="text" class="form-control" name="sugestedTime" id="field_sugestedTime"
+                    ng-model="recipe.sugestedTime"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.updateDate" for="field_updateDate">UpdateDate</label>
+            <input type="date" class="form-control" name="updateDate" id="field_updateDate"
+                    ng-model="recipe.updateDate"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.ingredientsInSteps" for="field_ingredientsInSteps">IngredientsInSteps</label>
+            <input type="checkbox" class="form-control" name="ingredientsInSteps" id="field_ingredientsInSteps"
+                    ng-model="recipe.ingredientsInSteps"
+                    >
+        </div>
+
+        <div class="form-group">
+            <label translate="chefsApp.recipe.user" for="field_user">user</label>
+            <select class="form-control" id="field_user" name="user" ng-model="recipe.user" ng-options="user as user.id for user in users track by user.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.father" for="field_father">father</label>
+            <select class="form-control" id="field_father" name="father" ng-model="recipe.father" ng-options="recipe as recipe.id for recipe in recipes track by recipe.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.recipe.socialEntity" for="field_socialEntity">socialEntity</label>
+            <select class="form-control" id="field_socialEntity" name="socialEntity" ng-model="recipe.socialEntity" ng-options="socialEntity as socialEntity.id for socialEntity in socialentitys | orderBy:'id' track by socialEntity.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

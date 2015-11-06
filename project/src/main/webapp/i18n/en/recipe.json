@@ -1,0 +1,37 @@
+{
+    "chefsApp": {
+        "recipe" : {
+            "home": {
+                "title": "Recipes",
+                "createLabel": "Create a new Recipe",
+                "createOrEditLabel": "Create or edit a Recipe"
+            },
+            "created": "A new Recipe is created with identifier {{ param }}",
+            "updated": "A Recipe is updated with identifier {{ param }}",
+            "deleted": "A Recipe is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Recipe {{ id }}?"
+            },
+            "detail": {
+                "title": "Recipe"
+            },
+            "name": "Name",
+            "description": "Description",
+            "creationDate": "CreationDate",
+            "informationUrl": "InformationUrl",
+            "advice": "Advice",
+            "sugestedTime": "SugestedTime",
+            "updateDate": "UpdateDate",
+            "ingredientsInSteps": "IngredientsInSteps",
+            "competition": "Competition",
+            "vote": "Vote",
+            "user": "User",
+            "menu": "Menu",
+            "son": "Son",
+            "father": "Father",
+            "event": "Event",
+            "socialEntity": "SocialEntity",
+            "step": "Step"
+        }
+    }
+}
