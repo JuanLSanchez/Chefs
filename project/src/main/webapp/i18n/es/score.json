@@ -1,0 +1,20 @@
+{
+    "chefsApp": {
+        "score" : {
+            "home": {
+                "title": "Scores",
+                "createLabel": "Create a new Score",
+                "createOrEditLabel": "Create or edit a Score"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Score {{ id }}?"
+            },
+            "detail": {
+                "title": "Score"
+            },
+            "value": "Value",
+            "vote": "Vote",
+            "opinion": "Opinion"
+        }
+    }
+}

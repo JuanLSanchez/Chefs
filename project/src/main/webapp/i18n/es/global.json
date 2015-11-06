@@ -27,6 +27,7 @@
                 "assessment": "Assessment",
                 "competition": "Competition",
                 "opinion": "Opinion",
+                "score": "Score",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

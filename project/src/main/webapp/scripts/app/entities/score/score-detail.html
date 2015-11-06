@@ -1,0 +1,46 @@
+
+<div>
+    <h2><span translate="chefsApp.score.detail.title">Score</span> {{score.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.score.value">Value</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{score.value}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.score.vote">vote</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="vote.detail({id:score.vote.id})">{{score.vote.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.score.opinion">opinion</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="opinion.detail({id:score.opinion.id})">{{score.opinion.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
