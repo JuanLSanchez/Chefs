@@ -1,0 +1,22 @@
+{
+    "chefsApp": {
+        "step" : {
+            "home": {
+                "title": "Steps",
+                "createLabel": "Create a new Step",
+                "createOrEditLabel": "Create or edit a Step"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Step {{ id }}?"
+            },
+            "detail": {
+                "title": "Step"
+            },
+            "position": "Position",
+            "section": "Section",
+            "recipe": "Recipe",
+            "stepPicture": "StepPicture",
+            "ingredient": "Ingredient"
+        }
+    }
+}

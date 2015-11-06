@@ -13,6 +13,7 @@
                 "food": "Food",
                 "socialEntity": "SocialEntity",
                 "recipe": "Recipe",
+                "step": "Step",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

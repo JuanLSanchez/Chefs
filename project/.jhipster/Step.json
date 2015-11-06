@@ -1,0 +1,48 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "recipe",
+            "otherEntityName": "recipe",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "stepPicture",
+            "otherEntityName": "stepPicture",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "step"
+        },
+        {
+            "relationshipId": 3,
+            "relationshipName": "ingredient",
+            "otherEntityName": "ingredient",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "step"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "position",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "section",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20151106180354",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}
