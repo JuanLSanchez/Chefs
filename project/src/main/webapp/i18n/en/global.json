@@ -11,6 +11,7 @@
                 "tag": "Tag",
                 "socialPicture": "SocialPicture",
                 "food": "Food",
+                "socialEntity": "SocialEntity",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

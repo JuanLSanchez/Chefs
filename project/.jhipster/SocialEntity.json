@@ -1,0 +1,92 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "event",
+            "otherEntityName": "event",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "socialEntity"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "recipe",
+            "otherEntityName": "recipe",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "socialEntity"
+        },
+        {
+            "relationshipId": 3,
+            "relationshipName": "socialPicture",
+            "otherEntityName": "socialPicture",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "socialEntity"
+        },
+        {
+            "relationshipId": 4,
+            "relationshipName": "tag",
+            "otherEntityName": "tag",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipId": 5,
+            "relationshipName": "competition",
+            "otherEntityName": "competition",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "socialEntity"
+        },
+        {
+            "relationshipId": 6,
+            "relationshipName": "assessment",
+            "otherEntityName": "assessment",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "socialEntity"
+        },
+        {
+            "relationshipId": 7,
+            "relationshipName": "comment",
+            "otherEntityName": "comment",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "socialEntity"
+        },
+        {
+            "relationshipId": 8,
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "sumRating",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "isPublic",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "publicInscription",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "blocked",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20151106173255",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}

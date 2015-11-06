@@ -1,0 +1,64 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="mySocialEntityLabel" translate="chefsApp.socialEntity.home.createOrEditLabel">Create or edit a SocialEntity</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="socialEntity.id" readonly>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.socialEntity.sumRating" for="field_sumRating">SumRating</label>
+            <input type="number" class="form-control" name="sumRating" id="field_sumRating"
+                    ng-model="socialEntity.sumRating"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.socialEntity.isPublic" for="field_isPublic">IsPublic</label>
+            <input type="checkbox" class="form-control" name="isPublic" id="field_isPublic"
+                    ng-model="socialEntity.isPublic"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.socialEntity.publicInscription" for="field_publicInscription">PublicInscription</label>
+            <input type="checkbox" class="form-control" name="publicInscription" id="field_publicInscription"
+                    ng-model="socialEntity.publicInscription"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.socialEntity.blocked" for="field_blocked">Blocked</label>
+            <input type="checkbox" class="form-control" name="blocked" id="field_blocked"
+                    ng-model="socialEntity.blocked"
+                    >
+        </div>
+
+        <div class="form-group">
+            <label translate="chefsApp.socialEntity.socialPicture" for="field_socialPicture">socialPicture</label>
+            <select class="form-control" id="field_socialPicture" name="socialPicture" ng-model="socialEntity.socialPicture" ng-options="socialPicture as socialPicture.id for socialPicture in socialpictures | orderBy:'id' track by socialPicture.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.socialEntity.tag" for="field_tag">tag</label>
+            <select class="form-control" id="field_tag" multiple name="tag" ng-model="socialEntity.tags" ng-options="tag as tag.id for tag in tags track by tag.id"></select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.socialEntity.user" for="field_user">user</label>
+            <select class="form-control" id="field_user" multiple name="user" ng-model="socialEntity.users" ng-options="user as user.id for user in users track by user.id"></select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,29 @@
+{
+    "chefsApp": {
+        "socialEntity" : {
+            "home": {
+                "title": "SocialEntitys",
+                "createLabel": "Create a new SocialEntity",
+                "createOrEditLabel": "Create or edit a SocialEntity"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete SocialEntity {{ id }}?"
+            },
+            "detail": {
+                "title": "SocialEntity"
+            },
+            "sumRating": "SumRating",
+            "isPublic": "IsPublic",
+            "publicInscription": "PublicInscription",
+            "blocked": "Blocked",
+            "event": "Event",
+            "recipe": "Recipe",
+            "socialPicture": "SocialPicture",
+            "tag": "Tag",
+            "competition": "Competition",
+            "assessment": "Assessment",
+            "comment": "Comment",
+            "user": "User"
+        }
+    }
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle"/>
+
+    <!--
+        Added the entity SocialEntity.
+    -->
+    <changeSet id="20151106173255" author="jhipster">
+        <createTable tableName="SOCIAL_ENTITY">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sum_rating" type="integer"/>
+            <column name="is_public" type="bit"/>
+            <column name="public_inscription" type="bit"/>
+            <column name="blocked" type="bit"/>
+            <column name="social_picture_id" type="bigint">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint baseColumnNames="social_picture_id"
+                                 baseTableName="SOCIAL_ENTITY"
+                                 constraintName="fk_socialentity_socialpicture_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="SOCIAL_PICTURE"/>
+
+        <createTable tableName="SOCIAL_ENTITY_TAG">
+            <column name="tags_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="social_entitys_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="social_entitys_id, tags_id" tableName="SOCIAL_ENTITY_TAG"/>
+
+        <addForeignKeyConstraint baseColumnNames="social_entitys_id"
+                                 baseTableName="SOCIAL_ENTITY_TAG"
+                                 constraintName="fk_socialentity_tag_tag_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="SOCIAL_ENTITY"/>
+
+        <addForeignKeyConstraint baseColumnNames="tags_id"
+                                 baseTableName="SOCIAL_ENTITY_TAG"
+                                 constraintName="fk_tag_tag_socialentity_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="TAG"/>
+        
+        <createTable tableName="SOCIAL_ENTITY_USER">
+            <column name="users_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="social_entitys_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="social_entitys_id, users_id" tableName="SOCIAL_ENTITY_USER"/>
+
+        <addForeignKeyConstraint baseColumnNames="social_entitys_id"
+                                 baseTableName="SOCIAL_ENTITY_USER"
+                                 constraintName="fk_socialentity_user_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="SOCIAL_ENTITY"/>
+
+        <addForeignKeyConstraint baseColumnNames="users_id"
+                                 baseTableName="SOCIAL_ENTITY_USER"
+                                 constraintName="fk_user_user_socialentity_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="JHI_USER"/>
+        
+    </changeSet>
+</databaseChangeLog>
