@@ -1,0 +1,22 @@
+{
+    "chefsApp": {
+        "opinion" : {
+            "home": {
+                "title": "Opinions",
+                "createLabel": "Create a new Opinion",
+                "createOrEditLabel": "Create or edit a Opinion"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Opinion {{ id }}?"
+            },
+            "detail": {
+                "title": "Opinion"
+            },
+            "name": "Name",
+            "minValue": "MinValue",
+            "maximum": "Maximum",
+            "score": "Score",
+            "competition": "Competition"
+        }
+    }
+}

@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="chefsApp.opinion.detail.title">Opinion</span> {{opinion.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.opinion.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{opinion.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.opinion.minValue">MinValue</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{opinion.minValue}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.opinion.maximum">Maximum</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{opinion.maximum}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.opinion.competition">competition</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="competition.detail({id:opinion.competition.id})">{{opinion.competition.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
