@@ -1,0 +1,48 @@
+
+<div>
+    <h2><span translate="chefsApp.menu.detail.title">Menu</span> {{menu.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.menu.time">Time</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{menu.time}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.menu.schedule">schedule</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="schedule.detail({id:menu.schedule.id})">{{menu.schedule.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.menu.recipe">recipe</span>
+                </td>
+                <td>
+                    <span ng-repeat="recipe in menu.recipes">
+                        <a class="form-control-static" ui-sref="recipe.detail({id: {{recipe.id}}})">{{recipe.id}}</a>{{$last ? '' : ', '}}
+                    <span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

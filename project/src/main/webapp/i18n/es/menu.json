@@ -1,0 +1,20 @@
+{
+    "chefsApp": {
+        "menu" : {
+            "home": {
+                "title": "Menus",
+                "createLabel": "Create a new Menu",
+                "createOrEditLabel": "Create or edit a Menu"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Menu {{ id }}?"
+            },
+            "detail": {
+                "title": "Menu"
+            },
+            "time": "Time",
+            "schedule": "Schedule",
+            "recipe": "Recipe"
+        }
+    }
+}

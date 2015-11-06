@@ -17,6 +17,7 @@
                 "ingredient": "Ingredient",
                 "stepPicture": "StepPicture",
                 "schedule": "Schedule",
+                "menu": "Menu",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -1,0 +1,32 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "schedule",
+            "otherEntityName": "schedule",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "recipe",
+            "otherEntityName": "recipe",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "time",
+            "fieldType": "DateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20151106182823",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}

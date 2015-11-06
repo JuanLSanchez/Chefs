@@ -1,0 +1,52 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myMenuLabel" translate="chefsApp.menu.home.createOrEditLabel">Create or edit a Menu</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="menu.id" readonly>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.menu.time" for="field_time">Time</label>
+            <input type="datetime-local" class="form-control" name="time" id="field_time"
+                    ng-model="menu.time" ng-model-options="{timezone: 'UTC'}"
+                    required>
+            <div ng-show="editForm.time.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.time.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.time.$error.datetimelocal" translate="entity.validation.datetimelocal">
+                    This field should be a date and time.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label translate="chefsApp.menu.schedule" for="field_schedule">schedule</label>
+            <select class="form-control" id="field_schedule" name="schedule" ng-model="menu.schedule" ng-options="schedule as schedule.id for schedule in schedules track by schedule.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.menu.recipe" for="field_recipe">recipe</label>
+            <select class="form-control" id="field_recipe" multiple name="recipe" ng-model="menu.recipes" ng-options="recipe as recipe.id for recipe in recipes track by recipe.id"></select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
