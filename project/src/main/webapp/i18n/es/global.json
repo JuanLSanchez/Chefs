@@ -23,6 +23,7 @@
 =======
 >>>>>>> Stashed changes
                 "vote": "Vote",
+                "comment": "Comment",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
