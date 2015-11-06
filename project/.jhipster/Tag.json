@@ -2,11 +2,11 @@
     "relationships": [
         {
             "relationshipId": 1,
-            "relationshipName": "socialEntity",
+            "relationshipName": "socialEntityes",
             "otherEntityName": "socialEntity",
             "relationshipType": "many-to-many",
             "ownerSide": false,
-            "otherEntityRelationshipName": "tag"
+            "otherEntityRelationshipName": "tags"
         }
     ],
     "fields": [
