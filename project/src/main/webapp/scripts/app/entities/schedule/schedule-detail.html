@@ -1,0 +1,46 @@
+
+<div>
+    <h2><span translate="chefsApp.schedule.detail.title">Schedule</span> {{schedule.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.schedule.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{schedule.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.schedule.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{schedule.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.schedule.user">user</span>
+                </td>
+                <td>
+                    {{schedule.user.id}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

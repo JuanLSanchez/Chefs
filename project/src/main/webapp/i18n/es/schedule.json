@@ -1,0 +1,21 @@
+{
+    "chefsApp": {
+        "schedule" : {
+            "home": {
+                "title": "Schedules",
+                "createLabel": "Create a new Schedule",
+                "createOrEditLabel": "Create or edit a Schedule"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Schedule {{ id }}?"
+            },
+            "detail": {
+                "title": "Schedule"
+            },
+            "name": "Name",
+            "description": "Description",
+            "user": "User",
+            "menu": "Menu"
+        }
+    }
+}
