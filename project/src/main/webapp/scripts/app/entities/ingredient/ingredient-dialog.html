@@ -1,0 +1,63 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myIngredientLabel" translate="chefsApp.ingredient.home.createOrEditLabel">Create or edit a Ingredient</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="ingredient.id" readonly>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.ingredient.amount" for="field_amount">Amount</label>
+            <input type="number" class="form-control" name="amount" id="field_amount"
+                    ng-model="ingredient.amount"
+                    min="0">
+            <div ng-show="editForm.amount.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.amount.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.amount.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.ingredient.measurement" for="field_measurement">Measurement</label>
+            <select class="form-control" name="measurement" ng-model="ingredient.measurement" id="field_measurement">
+                <option value="g" translate="chefsApp.Measurement.g">g</option>
+                <option value="kg" translate="chefsApp.Measurement.kg">kg</option>
+                <option value="l" translate="chefsApp.Measurement.l">l</option>
+                <option value="ml" translate="chefsApp.Measurement.ml">ml</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label translate="chefsApp.ingredient.step" for="field_step">step</label>
+            <select class="form-control" id="field_step" name="step" ng-model="ingredient.step" ng-options="step as step.id for step in steps track by step.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.ingredient.food" for="field_food">food</label>
+            <select class="form-control" id="field_food" name="food" ng-model="ingredient.food" ng-options="food as food.id for food in foods track by food.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

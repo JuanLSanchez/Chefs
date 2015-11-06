@@ -1,0 +1,21 @@
+{
+    "chefsApp": {
+        "ingredient" : {
+            "home": {
+                "title": "Ingredients",
+                "createLabel": "Create a new Ingredient",
+                "createOrEditLabel": "Create or edit a Ingredient"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Ingredient {{ id }}?"
+            },
+            "detail": {
+                "title": "Ingredient"
+            },
+            "amount": "Amount",
+            "measurement": "Measurement",
+            "step": "Step",
+            "food": "Food"
+        }
+    }
+}

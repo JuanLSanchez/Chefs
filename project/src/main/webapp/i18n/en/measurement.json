@@ -1,0 +1,11 @@
+{
+    "chefsApp": {
+        "Measurement" : {
+            "null": "",
+            "g": "g",
+            "kg": "kg",
+            "l": "l",
+            "ml": "ml"
+        }
+    }
+}

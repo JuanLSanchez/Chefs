@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="chefsApp.ingredient.detail.title">Ingredient</span> {{ingredient.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.ingredient.amount">Amount</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{ingredient.amount}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.ingredient.measurement">Measurement</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'chefsApp.Measurement.' + ingredient.measurement}}">{{ingredient.measurement}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.ingredient.step">step</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="step.detail({id:ingredient.step.id})">{{ingredient.step.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.ingredient.food">food</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="food.detail({id:ingredient.food.id})">{{ingredient.food.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
