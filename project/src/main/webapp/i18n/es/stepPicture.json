@@ -1,0 +1,21 @@
+{
+    "chefsApp": {
+        "stepPicture" : {
+            "home": {
+                "title": "StepPictures",
+                "createLabel": "Create a new StepPicture",
+                "createOrEditLabel": "Create or edit a StepPicture"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete StepPicture {{ id }}?"
+            },
+            "detail": {
+                "title": "StepPicture"
+            },
+            "title": "Title",
+            "url": "Url",
+            "properties": "Properties",
+            "step": "Step"
+        }
+    }
+}

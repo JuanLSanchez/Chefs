@@ -1,0 +1,31 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "step",
+            "otherEntityName": "step",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "url",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "properties",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20151106181922",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}
