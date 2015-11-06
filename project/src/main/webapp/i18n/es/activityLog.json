@@ -1,0 +1,26 @@
+{
+    "chefsApp": {
+        "activityLog" : {
+            "home": {
+                "title": "ActivityLogs",
+                "createLabel": "Create a new ActivityLog",
+                "createOrEditLabel": "Create or edit a ActivityLog"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ActivityLog {{ id }}?"
+            },
+            "detail": {
+                "title": "ActivityLog"
+            },
+            "idOfCustomer": "IdOfCustomer",
+            "nameOfCustomer": "NameOfCustomer",
+            "pictureUrl": "PictureUrl",
+            "objectType": "ObjectType",
+            "verb": "Verb",
+            "moment": "Moment",
+            "name": "Name",
+            "description": "Description",
+            "tags": "Tags"
+        }
+    }
+}

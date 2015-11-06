@@ -1,0 +1,53 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "idOfCustomer",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "nameOfCustomer",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "pictureUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "objectType",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "verb",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 6,
+            "fieldName": "moment",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldId": 7,
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 8,
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 9,
+            "fieldName": "tags",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20151106193448",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}

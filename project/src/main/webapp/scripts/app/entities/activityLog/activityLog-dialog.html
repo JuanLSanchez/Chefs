@@ -1,0 +1,80 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myActivityLogLabel" translate="chefsApp.activityLog.home.createOrEditLabel">Create or edit a ActivityLog</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="activityLog.id" readonly>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.idOfCustomer" for="field_idOfCustomer">IdOfCustomer</label>
+            <input type="number" class="form-control" name="idOfCustomer" id="field_idOfCustomer"
+                    ng-model="activityLog.idOfCustomer"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.nameOfCustomer" for="field_nameOfCustomer">NameOfCustomer</label>
+            <input type="text" class="form-control" name="nameOfCustomer" id="field_nameOfCustomer"
+                    ng-model="activityLog.nameOfCustomer"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.pictureUrl" for="field_pictureUrl">PictureUrl</label>
+            <input type="text" class="form-control" name="pictureUrl" id="field_pictureUrl"
+                    ng-model="activityLog.pictureUrl"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.objectType" for="field_objectType">ObjectType</label>
+            <input type="text" class="form-control" name="objectType" id="field_objectType"
+                    ng-model="activityLog.objectType"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.verb" for="field_verb">Verb</label>
+            <input type="text" class="form-control" name="verb" id="field_verb"
+                    ng-model="activityLog.verb"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.moment" for="field_moment">Moment</label>
+            <input type="date" class="form-control" name="moment" id="field_moment"
+                    ng-model="activityLog.moment"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="activityLog.name"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="activityLog.description"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.activityLog.tags" for="field_tags">Tags</label>
+            <input type="text" class="form-control" name="tags" id="field_tags"
+                    ng-model="activityLog.tags"
+                    >
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

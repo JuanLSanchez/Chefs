@@ -28,6 +28,7 @@
                 "competition": "Competition",
                 "opinion": "Opinion",
                 "score": "Score",
+                "activityLog": "ActivityLog",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
