@@ -7,7 +7,6 @@
             "entities": {
                 "main": "Entities",
                 "profilePicture": "ProfilePicture",
-<<<<<<< Updated upstream
                 "request": "Request",
                 "tag": "Tag",
                 "socialPicture": "SocialPicture",
@@ -20,8 +19,6 @@
                 "schedule": "Schedule",
                 "menu": "Menu",
                 "event": "Event",
-=======
->>>>>>> Stashed changes
                 "vote": "Vote",
                 "comment": "Comment",
                 "assessment": "Assessment",
