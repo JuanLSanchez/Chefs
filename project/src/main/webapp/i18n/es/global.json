@@ -18,6 +18,7 @@
                 "stepPicture": "StepPicture",
                 "schedule": "Schedule",
                 "menu": "Menu",
+                "event": "Event",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

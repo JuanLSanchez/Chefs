@@ -1,0 +1,82 @@
+
+<div>
+    <h2><span translate="chefsApp.event.detail.title">Event</span> {{event.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.event.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{event.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.event.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{event.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.event.date">Date</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{event.date}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.event.user">user</span>
+                </td>
+                <td>
+                    <span ng-repeat="user in event.users">
+                        {{user.id}}{{$last ? '' : ', '}}
+                    <span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.event.owner">owner</span>
+                </td>
+                <td>
+                    {{event.owner.id}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.event.recipe">recipe</span>
+                </td>
+                <td>
+                    <span ng-repeat="recipe in event.recipes">
+                        <a class="form-control-static" ui-sref="recipe.detail({id: {{recipe.id}}})">{{recipe.id}}</a>{{$last ? '' : ', '}}
+                    <span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.event.socialEntity">socialEntity</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="socialEntity.detail({id:event.socialEntity.id})">{{event.socialEntity.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
