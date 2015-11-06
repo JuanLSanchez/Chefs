@@ -1,0 +1,34 @@
+{
+    "chefsApp": {
+        "competition" : {
+            "home": {
+                "title": "Competitions",
+                "createLabel": "Create a new Competition",
+                "createOrEditLabel": "Create or edit a Competition"
+            },
+            "created": "A new Competition is created with identifier {{ param }}",
+            "updated": "A Competition is updated with identifier {{ param }}",
+            "deleted": "A Competition is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Competition {{ id }}?"
+            },
+            "detail": {
+                "title": "Competition"
+            },
+            "name": "Name",
+            "description": "Description",
+            "deadline": "Deadline",
+            "rules": "Rules",
+            "inscriptionTime": "InscriptionTime",
+            "maxNRecipesByChefs": "MaxNRecipesByChefs",
+            "creationDate": "CreationDate",
+            "completedScore": "CompletedScore",
+            "publicJury": "PublicJury",
+            "recipe": "Recipe",
+            "opinion": "Opinion",
+            "user": "User",
+            "owner": "Owner",
+            "socialEntity": "SocialEntity"
+        }
+    }
+}

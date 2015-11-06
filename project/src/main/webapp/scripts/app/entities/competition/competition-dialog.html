@@ -1,0 +1,144 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myCompetitionLabel" translate="chefsApp.competition.home.createOrEditLabel">Create or edit a Competition</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="competition.id" readonly>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="competition.name"
+                    required>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="competition.description"
+                    required>
+            <div ng-show="editForm.description.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.description.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.deadline" for="field_deadline">Deadline</label>
+            <input type="date" class="form-control" name="deadline" id="field_deadline"
+                    ng-model="competition.deadline"
+                    required>
+            <div ng-show="editForm.deadline.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.deadline.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.rules" for="field_rules">Rules</label>
+            <input type="text" class="form-control" name="rules" id="field_rules"
+                    ng-model="competition.rules"
+                    required>
+            <div ng-show="editForm.rules.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.rules.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.inscriptionTime" for="field_inscriptionTime">InscriptionTime</label>
+            <input type="date" class="form-control" name="inscriptionTime" id="field_inscriptionTime"
+                    ng-model="competition.inscriptionTime"
+                    required>
+            <div ng-show="editForm.inscriptionTime.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.inscriptionTime.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.maxNRecipesByChefs" for="field_maxNRecipesByChefs">MaxNRecipesByChefs</label>
+            <input type="number" class="form-control" name="maxNRecipesByChefs" id="field_maxNRecipesByChefs"
+                    ng-model="competition.maxNRecipesByChefs"
+                    required min="0">
+            <div ng-show="editForm.maxNRecipesByChefs.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.maxNRecipesByChefs.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.maxNRecipesByChefs.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.maxNRecipesByChefs.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.creationDate" for="field_creationDate">CreationDate</label>
+            <input type="date" class="form-control" name="creationDate" id="field_creationDate"
+                    ng-model="competition.creationDate"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.completedScore" for="field_completedScore">CompletedScore</label>
+            <input type="checkbox" class="form-control" name="completedScore" id="field_completedScore"
+                    ng-model="competition.completedScore"
+                    >
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.publicJury" for="field_publicJury">PublicJury</label>
+            <input type="checkbox" class="form-control" name="publicJury" id="field_publicJury"
+                    ng-model="competition.publicJury"
+                    >
+        </div>
+
+        <div class="form-group">
+            <label translate="chefsApp.competition.recipe" for="field_recipe">recipe</label>
+            <select class="form-control" id="field_recipe" multiple name="recipe" ng-model="competition.recipes" ng-options="recipe as recipe.id for recipe in recipes track by recipe.id"></select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.user" for="field_user">user</label>
+            <select class="form-control" id="field_user" multiple name="user" ng-model="competition.users" ng-options="user as user.id for user in users track by user.id"></select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.owner" for="field_owner">owner</label>
+            <select class="form-control" id="field_owner" name="owner" ng-model="competition.owner" ng-options="user as user.id for user in users track by user.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="chefsApp.competition.socialEntity" for="field_socialEntity">socialEntity</label>
+            <select class="form-control" id="field_socialEntity" name="socialEntity" ng-model="competition.socialEntity" ng-options="socialEntity as socialEntity.id for socialEntity in socialentitys | orderBy:'id' track by socialEntity.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

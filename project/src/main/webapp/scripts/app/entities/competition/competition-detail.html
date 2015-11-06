@@ -1,0 +1,130 @@
+
+<div>
+    <h2><span translate="chefsApp.competition.detail.title">Competition</span> {{competition.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.deadline">Deadline</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.deadline}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.rules">Rules</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.rules}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.inscriptionTime">InscriptionTime</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.inscriptionTime}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.maxNRecipesByChefs">MaxNRecipesByChefs</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.maxNRecipesByChefs}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.creationDate">CreationDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.creationDate}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.completedScore">CompletedScore</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.completedScore}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.publicJury">PublicJury</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{competition.publicJury}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.recipe">recipe</span>
+                </td>
+                <td>
+                    <span ng-repeat="recipe in competition.recipes">
+                        <a class="form-control-static" ui-sref="recipe.detail({id: {{recipe.id}}})">{{recipe.id}}</a>{{$last ? '' : ', '}}
+                    <span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.user">user</span>
+                </td>
+                <td>
+                    <span ng-repeat="user in competition.users">
+                        {{user.id}}{{$last ? '' : ', '}}
+                    <span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.owner">owner</span>
+                </td>
+                <td>
+                    {{competition.owner.id}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.competition.socialEntity">socialEntity</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="socialEntity.detail({id:competition.socialEntity.id})">{{competition.socialEntity.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

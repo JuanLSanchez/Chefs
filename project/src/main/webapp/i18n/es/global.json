@@ -25,6 +25,7 @@
                 "vote": "Vote",
                 "comment": "Comment",
                 "assessment": "Assessment",
+                "competition": "Competition",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
