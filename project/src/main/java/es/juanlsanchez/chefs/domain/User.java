@@ -91,17 +91,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "biography", length = 255)
     private String biography;
 
-    @Size(max = 100)
-    @Column(length = 100, unique = true)
-    private String userName;
-
     public String getBiography() { return biography; }
 
     public void setBiography(String biography) { this.biography = biography; }
-
-    public String getUserName() { return userName; }
-
-    public void setUserName(String userName) { this.userName = userName; }
 
     public Long getId() {
         return id;
@@ -411,7 +403,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
                 ", biography='" + biography + '\'' +
                 ", activated='" + activated + '\'' +
                 ", langKey='" + langKey + '\'' +
