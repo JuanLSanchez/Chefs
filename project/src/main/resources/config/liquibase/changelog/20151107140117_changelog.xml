@@ -3,10 +3,23 @@
                    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-   <changeSet author="juanlu (generated)" id="1446901283305-1">
-      <addColumn tableName="JHI_USER">
-         <column name="biography" type="varchar(255)"/>
-      </addColumn>
-   </changeSet>
+    <changeSet author="juanlu (generated)" id="1446901283305-1">
+        <addColumn tableName="JHI_USER">
+            <column name="biography" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="populate" author="1446901283305-2">
+        <loadData encoding="UTF-8"
+                 file="config/liquibase/populate/profile_picture.csv"
+                 separator=";"
+                 tableName="profile_picture">
+        </loadData>
+        <loadData encoding="UTF-8"
+                 file="config/liquibase/populate/background_picture.csv"
+                 separator=";"
+                 tableName="background_picture">
+        </loadData>
+    </changeSet>
 
 </databaseChangeLog>

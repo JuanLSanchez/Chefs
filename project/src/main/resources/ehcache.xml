@@ -36,4 +36,80 @@
     <cache name="es.juanlsanchez.chefs.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.ProfilePicture"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Request"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Tag"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.SocialEntity"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Food"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.SocialPicture"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Recipe"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Step"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Ingredient"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.StepPicture"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Menu"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Event"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Vote"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Comment"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Assessment"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Competition"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.Score"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.ActivityLog"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="es.juanlsanchez.chefs.domain.BackgroundPicture"
+           timeToLiveSeconds="3600">
+    </cache>
 </ehcache>
