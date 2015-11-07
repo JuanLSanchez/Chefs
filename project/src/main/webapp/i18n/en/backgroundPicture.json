@@ -1,0 +1,24 @@
+{
+    "chefsApp": {
+        "backgroundPicture" : {
+            "home": {
+                "title": "BackgroundPictures",
+                "createLabel": "Create a new BackgroundPicture",
+                "createOrEditLabel": "Create or edit a BackgroundPicture"
+            },
+            "created": "A new BackgroundPicture is created with identifier {{ param }}",
+            "updated": "A BackgroundPicture is updated with identifier {{ param }}",
+            "deleted": "A BackgroundPicture is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete BackgroundPicture {{ id }}?"
+            },
+            "detail": {
+                "title": "BackgroundPicture"
+            },
+            "title": "Title",
+            "url": "Url",
+            "properties": "Properties",
+            "user": "User"
+        }
+    }
+}

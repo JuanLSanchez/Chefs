@@ -1,0 +1,21 @@
+{
+    "chefsApp": {
+        "backgroundPicture" : {
+            "home": {
+                "title": "BackgroundPictures",
+                "createLabel": "Create a new BackgroundPicture",
+                "createOrEditLabel": "Create or edit a BackgroundPicture"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete BackgroundPicture {{ id }}?"
+            },
+            "detail": {
+                "title": "BackgroundPicture"
+            },
+            "title": "Title",
+            "url": "Url",
+            "properties": "Properties",
+            "user": "User"
+        }
+    }
+}

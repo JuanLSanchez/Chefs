@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="chefsApp.backgroundPicture.detail.title">BackgroundPicture</span> {{backgroundPicture.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.backgroundPicture.title">Title</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{backgroundPicture.title}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.backgroundPicture.url">Url</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{backgroundPicture.url}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.backgroundPicture.properties">Properties</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{backgroundPicture.properties}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.backgroundPicture.user">user</span>
+                </td>
+                <td>
+                    {{backgroundPicture.user.id}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
