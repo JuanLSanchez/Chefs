@@ -87,6 +87,22 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
 
+    @Size(max = 255)
+    @Column(name = "biography", length = 255)
+    private String biography;
+
+    @Size(max = 100)
+    @Column(length = 100, unique = true)
+    private String userName;
+
+    public String getBiography() { return biography; }
+
+    public void setBiography(String biography) { this.biography = biography; }
+
+    public String getUserName() { return userName; }
+
+    public void setUserName(String userName) { this.userName = userName; }
+
     public Long getId() {
         return id;
     }
@@ -191,6 +207,180 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.persistentTokens = persistentTokens;
     }
 
+/* Relationships */
+
+    @OneToMany(mappedBy = "followed")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Request> makeRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "follower")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Request> acceptRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Recipe> recipes = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Schedule> schedules = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Event> makeEvents = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Assessment> assessments = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Competition> makeCompetitions = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Vote> votes= new HashSet<>();
+
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private ProfilePicture profilePicture;
+
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private BackgroundPicture backgroundPicture;
+
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Event> events = new HashSet<>();
+
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Competition> competitions = new HashSet<>();
+
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<SocialEntity> socialEntities = new HashSet<>();
+
+    public Set<Request> getMakeRequests() {
+        return makeRequests;
+    }
+
+    public void setMakeRequests(Set<Request> makeRequests) {
+        this.makeRequests = makeRequests;
+    }
+
+    public Set<Request> getAcceptRequests() {
+        return acceptRequests;
+    }
+
+    public void setAcceptRequests(Set<Request> acceptRequests) {
+        this.acceptRequests = acceptRequests;
+    }
+
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
+    public Set<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    public Set<Event> getMakeEvents() {
+        return makeEvents;
+    }
+
+    public void setMakeEvents(Set<Event> makeEvents) {
+        this.makeEvents = makeEvents;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Set<Assessment> getAssessments() {
+        return assessments;
+    }
+
+    public void setAssessments(Set<Assessment> assessments) {
+        this.assessments = assessments;
+    }
+
+    public Set<Competition> getCompetitions() {
+        return competitions;
+    }
+
+    public void setCompetitions(Set<Competition> competitions) {
+        this.competitions = competitions;
+    }
+
+    public Set<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Set<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public ProfilePicture getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(ProfilePicture profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public BackgroundPicture getBackgroundPicture() {
+        return backgroundPicture;
+    }
+
+    public void setBackgroundPicture(BackgroundPicture backgroundPicture) {
+        this.backgroundPicture = backgroundPicture;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public Set<SocialEntity> getSocialEntities() {
+        return socialEntities;
+    }
+
+    public void setSocialEntities(Set<SocialEntity> socialEntities) {
+        this.socialEntities = socialEntities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -221,6 +411,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", userName='" + userName + '\'' +
+                ", biography='" + biography + '\'' +
                 ", activated='" + activated + '\'' +
                 ", langKey='" + langKey + '\'' +
                 ", activationKey='" + activationKey + '\'' +
