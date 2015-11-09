@@ -60,6 +60,46 @@
                   tableName="social_picture"/>
 
         <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_1.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_2.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_3.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_4.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_5.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_6.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_7.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/food_8.csv"
+                  separator=";"
+                  tableName="food"/>
+
+        <loadData encoding="UTF-8"
                   file="config/liquibase/populate/social_entity.csv"
                   separator=";"
                   tableName="social_entity">
@@ -75,6 +115,33 @@
             <column name="ingredients_in_steps" type="boolean"/>
             <column name="creation_date" type="timestamp"/>
             <column name="update_date" type="timestamp"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/step.csv"
+                  separator=";"
+                  tableName="step"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/ingredient.csv"
+                  separator=";"
+                  tableName="ingredient"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/step_picture.csv"
+                  separator=";"
+                  tableName="step_picture"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/schedule.csv"
+                  separator=";"
+                  tableName="schedule"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/menu.csv"
+                  separator=";"
+                  tableName="menu">
+            <column name="time" type="timestamp"/>
         </loadData>
 
     </changeSet>
