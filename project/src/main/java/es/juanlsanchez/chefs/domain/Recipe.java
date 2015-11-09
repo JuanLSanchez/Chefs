@@ -3,12 +3,12 @@ package es.juanlsanchez.chefs.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import es.juanlsanchez.chefs.domain.util.CustomLocalDateSerializer;
-import es.juanlsanchez.chefs.domain.util.ISO8601LocalDateDeserializer;
+import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
+import es.juanlsanchez.chefs.domain.util.CustomDateTimeSerializer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -38,11 +38,11 @@ public class Recipe implements Serializable {
     private String description;
 
     @NotNull        
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
-    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "creation_date", nullable = false)
-    private LocalDate creationDate;
+    private DateTime creationDate;
     
     @Column(name = "information_url")
     private String informationUrl;
@@ -53,11 +53,11 @@ public class Recipe implements Serializable {
     @Column(name = "sugested_time")
     private String sugestedTime;
     
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
-    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "update_date", nullable = false)
-    private LocalDate updateDate;
+    private DateTime updateDate;
     
     @Column(name = "ingredients_in_steps")
     private Boolean ingredientsInSteps;
@@ -125,11 +125,11 @@ public class Recipe implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getCreationDate() {
+    public DateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(DateTime creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -157,11 +157,11 @@ public class Recipe implements Serializable {
         this.sugestedTime = sugestedTime;
     }
 
-    public LocalDate getUpdateDate() {
+    public DateTime getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDate updateDate) {
+    public void setUpdateDate(DateTime updateDate) {
         this.updateDate = updateDate;
     }
 

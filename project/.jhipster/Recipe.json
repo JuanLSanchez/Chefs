@@ -89,7 +89,7 @@
         {
             "fieldId": 3,
             "fieldName": "creationDate",
-            "fieldType": "LocalDate",
+            "fieldType": "DateTime",
             "fieldValidateRules": [
                 "required"
             ]
@@ -112,7 +112,7 @@
         {
             "fieldId": 7,
             "fieldName": "updateDate",
-            "fieldType": "LocalDate"
+            "fieldType": "DateTime"
         },
         {
             "fieldId": 8,

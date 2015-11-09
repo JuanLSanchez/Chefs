@@ -39,13 +39,17 @@
         </div>
         <div class="form-group">
             <label translate="chefsApp.recipe.creationDate" for="field_creationDate">CreationDate</label>
-            <input type="date" class="form-control" name="creationDate" id="field_creationDate"
-                    ng-model="recipe.creationDate"
+            <input type="datetime-local" class="form-control" name="creationDate" id="field_creationDate"
+                    ng-model="recipe.creationDate" ng-model-options="{timezone: 'UTC'}"
                     required>
             <div ng-show="editForm.creationDate.$invalid">
                 <p class="help-block"
                     ng-show="editForm.creationDate.$error.required" translate="entity.validation.required">
                     This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.creationDate.$error.datetimelocal" translate="entity.validation.datetimelocal">
+                    This field should be a date and time.
                 </p>
             </div>
         </div>
@@ -69,8 +73,8 @@
         </div>
         <div class="form-group">
             <label translate="chefsApp.recipe.updateDate" for="field_updateDate">UpdateDate</label>
-            <input type="date" class="form-control" name="updateDate" id="field_updateDate"
-                    ng-model="recipe.updateDate"
+            <input type="datetime-local" class="form-control" name="updateDate" id="field_updateDate"
+                    ng-model="recipe.updateDate" ng-model-options="{timezone: 'UTC'}"
                     >
         </div>
         <div class="form-group">

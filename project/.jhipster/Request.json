@@ -19,7 +19,7 @@
         {
             "fieldId": 1,
             "fieldName": "creationDate",
-            "fieldType": "LocalDate",
+            "fieldType": "DateTime",
             "fieldValidateRules": [
                 "required"
             ]

@@ -23,7 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,13 +45,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class RecipeResourceTest {
 
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     private static final String DEFAULT_NAME = "SAMPLE_TEXT";
     private static final String UPDATED_NAME = "UPDATED_TEXT";
     private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
     private static final String UPDATED_DESCRIPTION = "UPDATED_TEXT";
 
-    private static final LocalDate DEFAULT_CREATION_DATE = new LocalDate(0L);
-    private static final LocalDate UPDATED_CREATION_DATE = new LocalDate();
+    private static final DateTime DEFAULT_CREATION_DATE = new DateTime(0L, DateTimeZone.UTC);
+    private static final DateTime UPDATED_CREATION_DATE = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
+    private static final String DEFAULT_CREATION_DATE_STR = dateTimeFormatter.print(DEFAULT_CREATION_DATE);
     private static final String DEFAULT_INFORMATION_URL = "SAMPLE_TEXT";
     private static final String UPDATED_INFORMATION_URL = "UPDATED_TEXT";
     private static final String DEFAULT_ADVICE = "SAMPLE_TEXT";
@@ -56,8 +62,9 @@ public class RecipeResourceTest {
     private static final String DEFAULT_SUGESTED_TIME = "SAMPLE_TEXT";
     private static final String UPDATED_SUGESTED_TIME = "UPDATED_TEXT";
 
-    private static final LocalDate DEFAULT_UPDATE_DATE = new LocalDate(0L);
-    private static final LocalDate UPDATED_UPDATE_DATE = new LocalDate();
+    private static final DateTime DEFAULT_UPDATE_DATE = new DateTime(0L, DateTimeZone.UTC);
+    private static final DateTime UPDATED_UPDATE_DATE = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
+    private static final String DEFAULT_UPDATE_DATE_STR = dateTimeFormatter.print(DEFAULT_UPDATE_DATE);
 
     private static final Boolean DEFAULT_INGREDIENTS_IN_STEPS = false;
     private static final Boolean UPDATED_INGREDIENTS_IN_STEPS = true;
@@ -116,11 +123,11 @@ public class RecipeResourceTest {
         Recipe testRecipe = recipes.get(recipes.size() - 1);
         assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testRecipe.getCreationDate()).isEqualTo(DEFAULT_CREATION_DATE);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_CREATION_DATE);
         assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
         assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
         assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
-        assertThat(testRecipe.getUpdateDate()).isEqualTo(DEFAULT_UPDATE_DATE);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_UPDATE_DATE);
         assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
     }
 
@@ -191,11 +198,11 @@ public class RecipeResourceTest {
                 .andExpect(jsonPath("$.[*].id").value(hasItem(recipe.getId().intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-                .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
+                .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE_STR)))
                 .andExpect(jsonPath("$.[*].informationUrl").value(hasItem(DEFAULT_INFORMATION_URL.toString())))
                 .andExpect(jsonPath("$.[*].advice").value(hasItem(DEFAULT_ADVICE.toString())))
                 .andExpect(jsonPath("$.[*].sugestedTime").value(hasItem(DEFAULT_SUGESTED_TIME.toString())))
-                .andExpect(jsonPath("$.[*].updateDate").value(hasItem(DEFAULT_UPDATE_DATE.toString())))
+                .andExpect(jsonPath("$.[*].updateDate").value(hasItem(DEFAULT_UPDATE_DATE_STR)))
                 .andExpect(jsonPath("$.[*].ingredientsInSteps").value(hasItem(DEFAULT_INGREDIENTS_IN_STEPS.booleanValue())));
     }
 
@@ -212,11 +219,11 @@ public class RecipeResourceTest {
             .andExpect(jsonPath("$.id").value(recipe.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE.toString()))
+            .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE_STR))
             .andExpect(jsonPath("$.informationUrl").value(DEFAULT_INFORMATION_URL.toString()))
             .andExpect(jsonPath("$.advice").value(DEFAULT_ADVICE.toString()))
             .andExpect(jsonPath("$.sugestedTime").value(DEFAULT_SUGESTED_TIME.toString()))
-            .andExpect(jsonPath("$.updateDate").value(DEFAULT_UPDATE_DATE.toString()))
+            .andExpect(jsonPath("$.updateDate").value(DEFAULT_UPDATE_DATE_STR))
             .andExpect(jsonPath("$.ingredientsInSteps").value(DEFAULT_INGREDIENTS_IN_STEPS.booleanValue()));
     }
 
@@ -258,11 +265,11 @@ public class RecipeResourceTest {
         Recipe testRecipe = recipes.get(recipes.size() - 1);
         assertThat(testRecipe.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testRecipe.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testRecipe.getCreationDate()).isEqualTo(UPDATED_CREATION_DATE);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isEqualTo(UPDATED_CREATION_DATE);
         assertThat(testRecipe.getInformationUrl()).isEqualTo(UPDATED_INFORMATION_URL);
         assertThat(testRecipe.getAdvice()).isEqualTo(UPDATED_ADVICE);
         assertThat(testRecipe.getSugestedTime()).isEqualTo(UPDATED_SUGESTED_TIME);
-        assertThat(testRecipe.getUpdateDate()).isEqualTo(UPDATED_UPDATE_DATE);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isEqualTo(UPDATED_UPDATE_DATE);
         assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(UPDATED_INGREDIENTS_IN_STEPS);
     }
 

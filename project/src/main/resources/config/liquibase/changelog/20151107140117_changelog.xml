@@ -10,16 +10,73 @@
     </changeSet>
 
     <changeSet id="populate" author="1446901283305-2">
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/users.csv"
+                  separator=";"
+                  tableName="JHI_USER">
+            <column name="activated" type="boolean"/>
+            <column name="created_date" type="timestamp"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/authorities.csv"
+                  separator=";"
+                  tableName="JHI_AUTHORITY"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/users_authorities.csv"
+                  separator=";"
+                  tableName="JHI_USER_AUTHORITY"/>
+
         <loadData encoding="UTF-8"
                  file="config/liquibase/populate/profile_picture.csv"
                  separator=";"
-                 tableName="profile_picture">
-        </loadData>
+                 tableName="profile_picture"/>
+
         <loadData encoding="UTF-8"
                  file="config/liquibase/populate/background_picture.csv"
                  separator=";"
-                 tableName="background_picture">
+                 tableName="background_picture"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/request.csv"
+                  separator=";"
+                  tableName="request">
+            <column name="accepted" type="boolean"/>
+            <column name="locked" type="boolean"/>
+            <column name="ignored" type="boolean"/>
+            <column name="creation_date" type="timestamp"/>
         </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/tag.csv"
+                  separator=";"
+                  tableName="tag"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/social_picture.csv"
+                  separator=";"
+                  tableName="social_picture"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/social_entity.csv"
+                  separator=";"
+                  tableName="social_entity">
+            <column name="is_public" type="boolean"/>
+            <column name="public_inscription" type="boolean"/>
+            <column name="blocked" type="boolean"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/recipe.csv"
+                  separator=";"
+                  tableName="recipe">
+            <column name="ingredients_in_steps" type="boolean"/>
+            <column name="creation_date" type="timestamp"/>
+            <column name="update_date" type="timestamp"/>
+        </loadData>
+
     </changeSet>
 
 </databaseChangeLog>
