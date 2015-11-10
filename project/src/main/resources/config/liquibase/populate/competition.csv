@@ -1,0 +1,11 @@
+id;name;description;deadline;rules;inscription_time;max_nrecipes_by_chefs;creation_date;completed_score;public_jury;owner_id;social_entity_id
+1;Competition 01;Description competition 01;2014-12-03 10:20:13;Rules of competition 01;2014-11-29 10:20:13;0;2014-11-15 10:20:13;true;true;6;41
+2;Competition 02;Description competition 02;2014-12-04 10:20:13;Rules of competition 02;2014-11-30 10:20:13;0;2014-11-16 10:20:13;false;true;7;42
+3;Competition 03;Description competition 03;2014-12-05 10:20:13;Rules of competition 03;2014-12-01 10:20:13;0;2014-11-17 10:20:13;false;true;8;43
+4;Competition 04;Description competition 04;2014-12-06 10:20:13;Rules of competition 04;2014-12-02 10:20:13;0;2014-11-18 10:20:13;false;true;9;44
+5;Competition 05;Description competition 05;2016-12-03 10:20:13;Rules of competition 05;2014-12-03 10:20:13;0;2014-11-19 10:20:13;false;true;10;45
+6;Competition 06;Description competition 06;2016-12-04 10:20:13;Rules of competition 06;2016-11-29 10:20:13;0;2014-11-20 10:20:13;false;true;11;46
+7;Competition 07;Description competition 07;2016-12-05 10:20:13;Rules of competition 07;2016-11-30 10:20:13;0;2014-11-21 10:20:13;false;true;12;47
+8;Competition 08;Description competition 08;2016-12-06 10:20:13;Rules of competition 08;2016-12-01 10:20:13;0;2014-11-22 10:20:13;false;true;13;48
+9;Competition 09;Description competition 09;2016-12-07 10:20:13;Rules of competition 09;2016-12-02 10:20:13;0;2014-11-23 10:20:13;false;true;14;49
+10;Competition 10;Description competition 10;2016-12-08 10:20:13;Rules of competition 10;2016-12-03 10:20:13;1;2014-11-24 10:20:13;false;true;15;50

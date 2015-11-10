@@ -1,0 +1,20 @@
+id;name;min_value;maximum;competition_id
+1;Opinion 01;0;10;1
+2;Opinion 02;0;10;1
+3;Opinion 03;5;10;2
+4;Opinion 04;0;15;2
+5;Opinion 05;-5;20;3
+6;Opinion 06;0;5;3
+7;Opinion 07;0;3;4
+8;Opinion 08;-10;10;4
+9;Opinion 09;0;10;5
+10;Opinion 10;0;10;5
+11;Opinion 11;5;15;6
+12;Opinion 12;0;20;6
+13;Opinion 13;-5;5;7
+14;Opinion 14;0;3;7
+15;Opinion 15;0;10;8
+16;Opinion 16;-10;10;8
+17;Opinion 17;0;10;9
+18;Opinion 18;0;15;9
+19;Opinion 19;5;20;10

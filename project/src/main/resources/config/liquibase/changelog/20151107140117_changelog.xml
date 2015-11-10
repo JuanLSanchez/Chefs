@@ -144,6 +144,90 @@
             <column name="time" type="timestamp"/>
         </loadData>
 
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/event.csv"
+                  separator=";"
+                  tableName="event">
+            <column name="date" type="timestamp"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/vote.csv"
+                  separator=";"
+                  tableName="vote">
+            <column name="is_final" type="boolean"/>
+            <column name="abstain" type="boolean"/>
+            <column name="completed_score" type="boolean"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/comment.csv"
+                  separator=";"
+                  tableName="comment">
+            <column name="creation_moment" type="timestamp"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/assessment.csv"
+                  separator=";"
+                  tableName="assessment"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/competition.csv"
+                  separator=";"
+                  tableName="competition">
+            <column name="public_jury" type="boolean"/>
+            <column name="completed_score" type="boolean"/>
+            <column name="deadline" type="timestamp"/>
+            <column name="inscription_time" type="timestamp"/>
+            <column name="creation_date" type="timestamp"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/opinion.csv"
+                  separator=";"
+                  tableName="opinion"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/score.csv"
+                  separator=";"
+                  tableName="score"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/competition_recipe.csv"
+                  separator=";"
+                  tableName="competition_recipe"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/competition_user.csv"
+                  separator=";"
+                  tableName="competition_user"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/event_recipe.csv"
+                  separator=";"
+                  tableName="event_recipe"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/event_user.csv"
+                  separator=";"
+                  tableName="event_user"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/menu_recipe.csv"
+                  separator=";"
+                  tableName="menu_recipe"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/social_entity_tag.csv"
+                  separator=";"
+                  tableName="social_entity_tag"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/social_entity_user.csv"
+                  separator=";"
+                  tableName="social_entity_user"/>
+
     </changeSet>
 
 </databaseChangeLog>
