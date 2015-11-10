@@ -60,7 +60,7 @@
         {
             "fieldId": 3,
             "fieldName": "deadline",
-            "fieldType": "LocalDate",
+            "fieldType": "DateTime",
             "fieldValidateRules": [
                 "required"
             ]
@@ -76,7 +76,7 @@
         {
             "fieldId": 5,
             "fieldName": "inscriptionTime",
-            "fieldType": "LocalDate",
+            "fieldType": "DateTime",
             "fieldValidateRules": [
                 "required"
             ]
@@ -94,7 +94,7 @@
         {
             "fieldId": 7,
             "fieldName": "creationDate",
-            "fieldType": "LocalDate"
+            "fieldType": "DateTime"
         },
         {
             "fieldId": 8,

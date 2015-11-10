@@ -23,7 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,6 +45,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class ActivityLogResourceTest {
 
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
 
     private static final Integer DEFAULT_ID_OF_CUSTOMER = 1;
     private static final Integer UPDATED_ID_OF_CUSTOMER = 2;
@@ -54,8 +59,9 @@ public class ActivityLogResourceTest {
     private static final String DEFAULT_VERB = "SAMPLE_TEXT";
     private static final String UPDATED_VERB = "UPDATED_TEXT";
 
-    private static final LocalDate DEFAULT_MOMENT = new LocalDate(0L);
-    private static final LocalDate UPDATED_MOMENT = new LocalDate();
+    private static final DateTime DEFAULT_MOMENT = new DateTime(0L, DateTimeZone.UTC);
+    private static final DateTime UPDATED_MOMENT = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
+    private static final String DEFAULT_MOMENT_STR = dateTimeFormatter.print(DEFAULT_MOMENT);
     private static final String DEFAULT_NAME = "SAMPLE_TEXT";
     private static final String UPDATED_NAME = "UPDATED_TEXT";
     private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
@@ -121,7 +127,7 @@ public class ActivityLogResourceTest {
         assertThat(testActivityLog.getPictureUrl()).isEqualTo(DEFAULT_PICTURE_URL);
         assertThat(testActivityLog.getObjectType()).isEqualTo(DEFAULT_OBJECT_TYPE);
         assertThat(testActivityLog.getVerb()).isEqualTo(DEFAULT_VERB);
-        assertThat(testActivityLog.getMoment()).isEqualTo(DEFAULT_MOMENT);
+        assertThat(testActivityLog.getMoment().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_MOMENT);
         assertThat(testActivityLog.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testActivityLog.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testActivityLog.getTags()).isEqualTo(DEFAULT_TAGS);
@@ -143,7 +149,7 @@ public class ActivityLogResourceTest {
                 .andExpect(jsonPath("$.[*].pictureUrl").value(hasItem(DEFAULT_PICTURE_URL.toString())))
                 .andExpect(jsonPath("$.[*].objectType").value(hasItem(DEFAULT_OBJECT_TYPE.toString())))
                 .andExpect(jsonPath("$.[*].verb").value(hasItem(DEFAULT_VERB.toString())))
-                .andExpect(jsonPath("$.[*].moment").value(hasItem(DEFAULT_MOMENT.toString())))
+                .andExpect(jsonPath("$.[*].moment").value(hasItem(DEFAULT_MOMENT_STR)))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
                 .andExpect(jsonPath("$.[*].tags").value(hasItem(DEFAULT_TAGS.toString())));
@@ -165,7 +171,7 @@ public class ActivityLogResourceTest {
             .andExpect(jsonPath("$.pictureUrl").value(DEFAULT_PICTURE_URL.toString()))
             .andExpect(jsonPath("$.objectType").value(DEFAULT_OBJECT_TYPE.toString()))
             .andExpect(jsonPath("$.verb").value(DEFAULT_VERB.toString()))
-            .andExpect(jsonPath("$.moment").value(DEFAULT_MOMENT.toString()))
+            .andExpect(jsonPath("$.moment").value(DEFAULT_MOMENT_STR))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.tags").value(DEFAULT_TAGS.toString()));
@@ -213,7 +219,7 @@ public class ActivityLogResourceTest {
         assertThat(testActivityLog.getPictureUrl()).isEqualTo(UPDATED_PICTURE_URL);
         assertThat(testActivityLog.getObjectType()).isEqualTo(UPDATED_OBJECT_TYPE);
         assertThat(testActivityLog.getVerb()).isEqualTo(UPDATED_VERB);
-        assertThat(testActivityLog.getMoment()).isEqualTo(UPDATED_MOMENT);
+        assertThat(testActivityLog.getMoment().toDateTime(DateTimeZone.UTC)).isEqualTo(UPDATED_MOMENT);
         assertThat(testActivityLog.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testActivityLog.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testActivityLog.getTags()).isEqualTo(UPDATED_TAGS);

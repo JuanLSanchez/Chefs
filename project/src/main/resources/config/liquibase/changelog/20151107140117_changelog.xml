@@ -228,6 +228,11 @@
                   separator=";"
                   tableName="social_entity_user"/>
 
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/populate/activity_log.csv"
+                  separator=";"
+                  tableName="activity_log"/>
+
     </changeSet>
 
 </databaseChangeLog>

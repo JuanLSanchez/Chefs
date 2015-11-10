@@ -3,12 +3,12 @@ package es.juanlsanchez.chefs.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import es.juanlsanchez.chefs.domain.util.CustomLocalDateSerializer;
-import es.juanlsanchez.chefs.domain.util.ISO8601LocalDateDeserializer;
+import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
+import es.juanlsanchez.chefs.domain.util.CustomDateTimeSerializer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -38,33 +38,33 @@ public class Competition implements Serializable {
     private String description;
 
     @NotNull        
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
-    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "deadline", nullable = false)
-    private LocalDate deadline;
+    private DateTime deadline;
 
     @NotNull        
     @Column(name = "rules", nullable = false)
     private String rules;
 
     @NotNull        
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
-    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "inscription_time", nullable = false)
-    private LocalDate inscriptionTime;
+    private DateTime inscriptionTime;
 
     @NotNull
     @Min(value = 0)        
     @Column(name = "max_nrecipes_by_chefs", nullable = false)
     private Integer maxNRecipesByChefs;
     
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
-    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "creation_date", nullable = false)
-    private LocalDate creationDate;
+    private DateTime creationDate;
     
     @Column(name = "completed_score")
     private Boolean completedScore;
@@ -121,11 +121,11 @@ public class Competition implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getDeadline() {
+    public DateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(DateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -137,11 +137,11 @@ public class Competition implements Serializable {
         this.rules = rules;
     }
 
-    public LocalDate getInscriptionTime() {
+    public DateTime getInscriptionTime() {
         return inscriptionTime;
     }
 
-    public void setInscriptionTime(LocalDate inscriptionTime) {
+    public void setInscriptionTime(DateTime inscriptionTime) {
         this.inscriptionTime = inscriptionTime;
     }
 
@@ -153,11 +153,11 @@ public class Competition implements Serializable {
         this.maxNRecipesByChefs = maxNRecipesByChefs;
     }
 
-    public LocalDate getCreationDate() {
+    public DateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(DateTime creationDate) {
         this.creationDate = creationDate;
     }
 

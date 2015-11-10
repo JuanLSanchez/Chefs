@@ -2,12 +2,12 @@ package es.juanlsanchez.chefs.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import es.juanlsanchez.chefs.domain.util.CustomLocalDateSerializer;
-import es.juanlsanchez.chefs.domain.util.ISO8601LocalDateDeserializer;
+import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
+import es.juanlsanchez.chefs.domain.util.CustomDateTimeSerializer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,11 +40,11 @@ public class ActivityLog implements Serializable {
     @Column(name = "verb")
     private String verb;
     
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
-    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "moment")
-    private LocalDate moment;
+    private DateTime moment;
     
     @Column(name = "name")
     private String name;
@@ -103,11 +103,11 @@ public class ActivityLog implements Serializable {
         this.verb = verb;
     }
 
-    public LocalDate getMoment() {
+    public DateTime getMoment() {
         return moment;
     }
 
-    public void setMoment(LocalDate moment) {
+    public void setMoment(DateTime moment) {
         this.moment = moment;
     }
 

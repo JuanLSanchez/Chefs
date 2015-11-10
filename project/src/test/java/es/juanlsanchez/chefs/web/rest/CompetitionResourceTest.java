@@ -23,7 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,24 +45,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class CompetitionResourceTest {
 
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     private static final String DEFAULT_NAME = "SAMPLE_TEXT";
     private static final String UPDATED_NAME = "UPDATED_TEXT";
     private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
     private static final String UPDATED_DESCRIPTION = "UPDATED_TEXT";
 
-    private static final LocalDate DEFAULT_DEADLINE = new LocalDate(0L);
-    private static final LocalDate UPDATED_DEADLINE = new LocalDate();
+    private static final DateTime DEFAULT_DEADLINE = new DateTime(0L, DateTimeZone.UTC);
+    private static final DateTime UPDATED_DEADLINE = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
+    private static final String DEFAULT_DEADLINE_STR = dateTimeFormatter.print(DEFAULT_DEADLINE);
     private static final String DEFAULT_RULES = "SAMPLE_TEXT";
     private static final String UPDATED_RULES = "UPDATED_TEXT";
 
-    private static final LocalDate DEFAULT_INSCRIPTION_TIME = new LocalDate(0L);
-    private static final LocalDate UPDATED_INSCRIPTION_TIME = new LocalDate();
+    private static final DateTime DEFAULT_INSCRIPTION_TIME = new DateTime(0L, DateTimeZone.UTC);
+    private static final DateTime UPDATED_INSCRIPTION_TIME = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
+    private static final String DEFAULT_INSCRIPTION_TIME_STR = dateTimeFormatter.print(DEFAULT_INSCRIPTION_TIME);
 
     private static final Integer DEFAULT_MAX_NRECIPES_BY_CHEFS = 0;
     private static final Integer UPDATED_MAX_NRECIPES_BY_CHEFS = 1;
 
-    private static final LocalDate DEFAULT_CREATION_DATE = new LocalDate(0L);
-    private static final LocalDate UPDATED_CREATION_DATE = new LocalDate();
+    private static final DateTime DEFAULT_CREATION_DATE = new DateTime(0L, DateTimeZone.UTC);
+    private static final DateTime UPDATED_CREATION_DATE = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
+    private static final String DEFAULT_CREATION_DATE_STR = dateTimeFormatter.print(DEFAULT_CREATION_DATE);
 
     private static final Boolean DEFAULT_COMPLETED_SCORE = false;
     private static final Boolean UPDATED_COMPLETED_SCORE = true;
@@ -122,11 +130,11 @@ public class CompetitionResourceTest {
         Competition testCompetition = competitions.get(competitions.size() - 1);
         assertThat(testCompetition.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCompetition.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testCompetition.getDeadline()).isEqualTo(DEFAULT_DEADLINE);
+        assertThat(testCompetition.getDeadline().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_DEADLINE);
         assertThat(testCompetition.getRules()).isEqualTo(DEFAULT_RULES);
-        assertThat(testCompetition.getInscriptionTime()).isEqualTo(DEFAULT_INSCRIPTION_TIME);
+        assertThat(testCompetition.getInscriptionTime().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_INSCRIPTION_TIME);
         assertThat(testCompetition.getMaxNRecipesByChefs()).isEqualTo(DEFAULT_MAX_NRECIPES_BY_CHEFS);
-        assertThat(testCompetition.getCreationDate()).isEqualTo(DEFAULT_CREATION_DATE);
+        assertThat(testCompetition.getCreationDate().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_CREATION_DATE);
         assertThat(testCompetition.getCompletedScore()).isEqualTo(DEFAULT_COMPLETED_SCORE);
         assertThat(testCompetition.getPublicJury()).isEqualTo(DEFAULT_PUBLIC_JURY);
     }
@@ -252,11 +260,11 @@ public class CompetitionResourceTest {
                 .andExpect(jsonPath("$.[*].id").value(hasItem(competition.getId().intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-                .andExpect(jsonPath("$.[*].deadline").value(hasItem(DEFAULT_DEADLINE.toString())))
+                .andExpect(jsonPath("$.[*].deadline").value(hasItem(DEFAULT_DEADLINE_STR)))
                 .andExpect(jsonPath("$.[*].rules").value(hasItem(DEFAULT_RULES.toString())))
-                .andExpect(jsonPath("$.[*].inscriptionTime").value(hasItem(DEFAULT_INSCRIPTION_TIME.toString())))
+                .andExpect(jsonPath("$.[*].inscriptionTime").value(hasItem(DEFAULT_INSCRIPTION_TIME_STR)))
                 .andExpect(jsonPath("$.[*].maxNRecipesByChefs").value(hasItem(DEFAULT_MAX_NRECIPES_BY_CHEFS)))
-                .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
+                .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE_STR)))
                 .andExpect(jsonPath("$.[*].completedScore").value(hasItem(DEFAULT_COMPLETED_SCORE.booleanValue())))
                 .andExpect(jsonPath("$.[*].publicJury").value(hasItem(DEFAULT_PUBLIC_JURY.booleanValue())));
     }
@@ -274,11 +282,11 @@ public class CompetitionResourceTest {
             .andExpect(jsonPath("$.id").value(competition.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.deadline").value(DEFAULT_DEADLINE.toString()))
+            .andExpect(jsonPath("$.deadline").value(DEFAULT_DEADLINE_STR))
             .andExpect(jsonPath("$.rules").value(DEFAULT_RULES.toString()))
-            .andExpect(jsonPath("$.inscriptionTime").value(DEFAULT_INSCRIPTION_TIME.toString()))
+            .andExpect(jsonPath("$.inscriptionTime").value(DEFAULT_INSCRIPTION_TIME_STR))
             .andExpect(jsonPath("$.maxNRecipesByChefs").value(DEFAULT_MAX_NRECIPES_BY_CHEFS))
-            .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE.toString()))
+            .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE_STR))
             .andExpect(jsonPath("$.completedScore").value(DEFAULT_COMPLETED_SCORE.booleanValue()))
             .andExpect(jsonPath("$.publicJury").value(DEFAULT_PUBLIC_JURY.booleanValue()));
     }
@@ -322,11 +330,11 @@ public class CompetitionResourceTest {
         Competition testCompetition = competitions.get(competitions.size() - 1);
         assertThat(testCompetition.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCompetition.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testCompetition.getDeadline()).isEqualTo(UPDATED_DEADLINE);
+        assertThat(testCompetition.getDeadline().toDateTime(DateTimeZone.UTC)).isEqualTo(UPDATED_DEADLINE);
         assertThat(testCompetition.getRules()).isEqualTo(UPDATED_RULES);
-        assertThat(testCompetition.getInscriptionTime()).isEqualTo(UPDATED_INSCRIPTION_TIME);
+        assertThat(testCompetition.getInscriptionTime().toDateTime(DateTimeZone.UTC)).isEqualTo(UPDATED_INSCRIPTION_TIME);
         assertThat(testCompetition.getMaxNRecipesByChefs()).isEqualTo(UPDATED_MAX_NRECIPES_BY_CHEFS);
-        assertThat(testCompetition.getCreationDate()).isEqualTo(UPDATED_CREATION_DATE);
+        assertThat(testCompetition.getCreationDate().toDateTime(DateTimeZone.UTC)).isEqualTo(UPDATED_CREATION_DATE);
         assertThat(testCompetition.getCompletedScore()).isEqualTo(UPDATED_COMPLETED_SCORE);
         assertThat(testCompetition.getPublicJury()).isEqualTo(UPDATED_PUBLIC_JURY);
     }

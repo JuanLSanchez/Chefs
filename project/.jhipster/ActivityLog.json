@@ -29,7 +29,7 @@
         {
             "fieldId": 6,
             "fieldName": "moment",
-            "fieldType": "LocalDate"
+            "fieldType": "DateTime"
         },
         {
             "fieldId": 7,

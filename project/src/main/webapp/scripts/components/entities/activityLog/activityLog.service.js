@@ -8,23 +8,10 @@ angular.module('chefsApp')
                 method: 'GET',
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
-                    data.moment = DateUtils.convertLocaleDateFromServer(data.moment);
+                    data.moment = DateUtils.convertDateTimeFromServer(data.moment);
                     return data;
                 }
             },
-            'update': {
-                method: 'PUT',
-                transformRequest: function (data) {
-                    data.moment = DateUtils.convertLocaleDateToServer(data.moment);
-                    return angular.toJson(data);
-                }
-            },
-            'save': {
-                method: 'POST',
-                transformRequest: function (data) {
-                    data.moment = DateUtils.convertLocaleDateToServer(data.moment);
-                    return angular.toJson(data);
-                }
-            }
+            'update': { method:'PUT' }
         });
     });

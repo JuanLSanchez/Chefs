@@ -8,29 +8,12 @@ angular.module('chefsApp')
                 method: 'GET',
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
-                    data.deadline = DateUtils.convertLocaleDateFromServer(data.deadline);
-                    data.inscriptionTime = DateUtils.convertLocaleDateFromServer(data.inscriptionTime);
-                    data.creationDate = DateUtils.convertLocaleDateFromServer(data.creationDate);
+                    data.deadline = DateUtils.convertDateTimeFromServer(data.deadline);
+                    data.inscriptionTime = DateUtils.convertDateTimeFromServer(data.inscriptionTime);
+                    data.creationDate = DateUtils.convertDateTimeFromServer(data.creationDate);
                     return data;
                 }
             },
-            'update': {
-                method: 'PUT',
-                transformRequest: function (data) {
-                    data.deadline = DateUtils.convertLocaleDateToServer(data.deadline);
-                    data.inscriptionTime = DateUtils.convertLocaleDateToServer(data.inscriptionTime);
-                    data.creationDate = DateUtils.convertLocaleDateToServer(data.creationDate);
-                    return angular.toJson(data);
-                }
-            },
-            'save': {
-                method: 'POST',
-                transformRequest: function (data) {
-                    data.deadline = DateUtils.convertLocaleDateToServer(data.deadline);
-                    data.inscriptionTime = DateUtils.convertLocaleDateToServer(data.inscriptionTime);
-                    data.creationDate = DateUtils.convertLocaleDateToServer(data.creationDate);
-                    return angular.toJson(data);
-                }
-            }
+            'update': { method:'PUT' }
         });
     });

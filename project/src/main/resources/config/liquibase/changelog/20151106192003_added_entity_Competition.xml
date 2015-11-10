@@ -28,19 +28,19 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="deadline" type="date">
+            <column name="deadline" type="timestamp">
                 <constraints nullable="false" />
             </column>
             <column name="rules" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="inscription_time" type="date">
+            <column name="inscription_time" type="timestamp">
                 <constraints nullable="false" />
             </column>
             <column name="max_nrecipes_by_chefs" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="creation_date" type="date"/>
+            <column name="creation_date" type="timestamp"/>
             <column name="completed_score" type="bit"/>
             <column name="public_jury" type="bit"/>
             <column name="owner_id" type="bigint"/>
@@ -48,6 +48,12 @@
                 <constraints unique="true"/>
             </column>
         </createTable>
+        <dropDefaultValue tableName="COMPETITION" columnName="deadline" columnDataType="datetime"/>
+
+        <dropDefaultValue tableName="COMPETITION" columnName="inscription_time" columnDataType="datetime"/>
+
+        <dropDefaultValue tableName="COMPETITION" columnName="creation_date" columnDataType="datetime"/>
+
         
         <createTable tableName="COMPETITION_RECIPE">
             <column name="recipes_id" type="bigint">

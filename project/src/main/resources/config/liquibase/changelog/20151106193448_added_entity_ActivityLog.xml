@@ -27,11 +27,13 @@
             <column name="picture_url" type="varchar(255)"/>
             <column name="object_type" type="varchar(255)"/>
             <column name="verb" type="varchar(255)"/>
-            <column name="moment" type="date"/>
+            <column name="moment" type="timestamp"/>
             <column name="name" type="varchar(255)"/>
             <column name="description" type="varchar(255)"/>
             <column name="tags" type="varchar(255)"/>
         </createTable>
+        <dropDefaultValue tableName="ACTIVITY_LOG" columnName="moment" columnDataType="datetime"/>
+
         
     </changeSet>
 </databaseChangeLog>
