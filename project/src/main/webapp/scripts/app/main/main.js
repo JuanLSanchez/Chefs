@@ -10,7 +10,7 @@ angular.module('chefsApp')
                     authorities: []
                 },
                 views: {
-                    'content@': {
+                    'welcome@': {
                         templateUrl: 'scripts/app/main/main.html',
                         controller: 'MainController'
                     }

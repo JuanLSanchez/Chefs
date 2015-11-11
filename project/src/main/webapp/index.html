@@ -13,23 +13,33 @@
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
-        <link rel="stylesheet" href="assets/styles/main.css">
+        <link rel="stylesheet" href="assets/styles/main.css"/>
+        <link rel="stylesheet" href="assets/styles/chefs-theme.css"/>
         <!-- endbuild -->
     </head>
-    <body ng-app="chefsApp">
+    <body ng-app="chefsApp" class="initial-wallpaper">
         <!--[if lt IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div ng-show="{{ENV === 'dev'}}" class="development" ng-cloak=""></div>
         <div ui-view="navbar" ng-cloak=""></div>
+        <div ui-view="welcome"></div>
         <div class="container">
-            <div class="well" ui-view="content"></div>
+            <nav ui-view="nav"></nav>
+            <article ui-view="article">
+                <div class="well" ui-view="content">
+                    <div class="hide-parent">Hola</div>
+                </div>
+                <div class="well">
+                    <div class="hide-parent" onload="">Hola</div>
+                </div>
+            </article>
+            <aside ui-view="aside"></aside>
 
-            <div class="footer">
-                <p translate="footer">This is your footer</p>
-            </div>
         </div>
-
+        <div class="footer">
+            <p translate="footer">This is your footer</p>
+        </div>
         <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -94,6 +104,7 @@
     <script src="scripts/components/user/user.service.js"></script>
     <script src="scripts/components/util/truncate.filter.js"></script>
     <script src="scripts/components/util/base64.service.js"></script>
+    <script src="scripts/components/util/tools.js"></script>
     <script src="scripts/components/alert/alert.service.js"></script>
     <script src="scripts/components/alert/alert.directive.js"></script>
     <script src="scripts/components/util/parse-links.service.js"></script>
