@@ -1,7 +1,7 @@
 {
     "main": {
-        "title": "¡Bienvenido, Java Hipster!",
-        "subtitle": "Esta es su página de inicio",
+        "title": "¡Bienvenido a Chefs!",
+        "subtitle": "Aprende a cocinar o actualizar sus recetas en Chefs, un sitio web donde puede crear y comentar recetas",
         "logged": {
             "message": "Esta conectado como \"{{username}}\"."
         },

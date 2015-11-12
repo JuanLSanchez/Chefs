@@ -1,7 +1,7 @@
 {
     "main": {
-        "title": "Welcome, Java Hipster!",
-        "subtitle": "This is your homepage",
+        "title": "Welcome to Chefs!",
+        "subtitle": "Learn to cook or upgrade your recipes in Chefs, a website where, you can create and comment recipes",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },

@@ -4,7 +4,20 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    width: 100%;
 }
-div < .hide-parent{
-    background: red;
+.well:empty {
+    visibility: hidden !important;
+}
+#main-chefs{
+    width: 100%;
+}
+#welcome{
+    width: 98%;
+}
+footer {
+    background-color: #333;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
 }

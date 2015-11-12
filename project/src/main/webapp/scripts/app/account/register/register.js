@@ -12,8 +12,7 @@ angular.module('chefsApp')
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/account/register/register.html',
-                        controller: 'RegisterController'
+                        templateUrl: 'scripts/app/account/register/register.html'
                     }
                 },
                 resolve: {
