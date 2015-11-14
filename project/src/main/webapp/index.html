@@ -15,9 +15,10 @@
         <!-- build:css assets/styles/main.css -->
         <link rel="stylesheet" href="assets/styles/main.css"/>
         <link rel="stylesheet" href="assets/styles/chefs-theme.css"/>
+        <script src="assets/js/tools.js"></script>
         <!-- endbuild -->
     </head>
-    <body ng-app="chefsApp" class="initial-wallpaper">
+    <body ng-app="chefsApp" ng-class="bodyClass">
         <!--[if lt IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -25,15 +26,23 @@
         <div ui-view="navbar" ng-cloak=""></div>
         <div ui-view="welcome" id="welcome">
             <div id="main-chefs">
-                <nav ui-view="nav"></nav>
+                <div id="nav" ui-view="nav">
+                    <div ui-view="nav_1" class="well"></div>
+                    <div ui-view="nav_2" class="well"></div>
+                    <div ui-view="nav_3" class="well"></div>
+                </div>
                 <article ui-view="article">
                     <div class="well" ui-view="content"></div>
                 </article>
-                <aside ui-view="aside"></aside>
+                <aside>
+                    <div ui-view="aside_1" class="well"></div>
+                    <div ui-view="aside_2" class="well"></div>
+                    <div ui-view="aside_3" class="well"></div>
+                </aside>
             </div>
         </div>
         <footer>
-            <p translate="footer">This is your footer</p>
+            <p translate="footer" >Copyright &copy; 2015 </p>
         </footer>
         <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
         <script>
@@ -99,7 +108,6 @@
     <script src="scripts/components/user/user.service.js"></script>
     <script src="scripts/components/util/truncate.filter.js"></script>
     <script src="scripts/components/util/base64.service.js"></script>
-    <script src="scripts/components/util/tools.js"></script>
     <script src="scripts/components/alert/alert.service.js"></script>
     <script src="scripts/components/alert/alert.directive.js"></script>
     <script src="scripts/components/util/parse-links.service.js"></script>
@@ -258,5 +266,9 @@
     <script src="scripts/app/entities/backgroundPicture/backgroundPicture-detail.controller.js"></script>
     <script src="scripts/components/entities/backgroundPicture/backgroundPicture.service.js"></script>
     <!-- endbuild -->
+    <!-- views -->
+    <script src="scripts/app/controllers/home/recipe/recipe.controller.js"></script>
+    <script src="scripts/app/controllers/home/recipe/recipe.js"></script>
+    <script src="scripts/app/controllers/home/user-detail.controller.js"></script>
 </body>
 </html>

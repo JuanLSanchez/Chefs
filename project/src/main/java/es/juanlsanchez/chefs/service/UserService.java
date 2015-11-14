@@ -165,7 +165,7 @@ public class UserService {
     @Scheduled(cron = "0 0 0 * * ?")
     public void removeOldPersistentTokens() {
         LocalDate now = new LocalDate();
-        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).stream().forEach(token ->{
+        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).stream().forEach(token -> {
             log.debug("Deleting token {}", token.getSeries());
             User user = token.getUser();
             user.getPersistentTokens().remove(token);
@@ -188,5 +188,27 @@ public class UserService {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
         }
+    }
+
+    public Long getPrincipalId(){
+        String login;
+        Long result;
+
+        login = SecurityUtils.getCurrentLogin();
+
+        result = login!=null? userRepository.findOneByLogin(login).get().getId():null;
+
+        return result;
+    }
+
+    public User getPrincipal(){
+        String login;
+        User result;
+
+        login = SecurityUtils.getCurrentLogin();
+
+        result = login!=null? userRepository.findOneByLogin(login).get():null;
+
+        return result;
     }
 }

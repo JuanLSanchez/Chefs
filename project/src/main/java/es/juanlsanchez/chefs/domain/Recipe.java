@@ -29,36 +29,36 @@ public class Recipe implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull        
+    @NotNull
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotNull        
+    @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "creation_date", nullable = false)
     private DateTime creationDate;
-    
+
     @Column(name = "information_url")
     private String informationUrl;
-    
+
     @Column(name = "advice")
     private String advice;
-    
+
     @Column(name = "sugested_time")
     private String sugestedTime;
-    
+
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "update_date", nullable = false)
     private DateTime updateDate;
-    
+
     @Column(name = "ingredients_in_steps")
     private Boolean ingredientsInSteps;
 
@@ -97,7 +97,6 @@ public class Recipe implements Serializable {
     private SocialEntity socialEntity;
 
     @OneToMany(mappedBy = "recipe")
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Step> steps = new HashSet<>();
 

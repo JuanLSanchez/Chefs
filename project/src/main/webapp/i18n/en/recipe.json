@@ -31,7 +31,8 @@
             "father": "Father",
             "event": "Event",
             "socialEntity": "SocialEntity",
-            "step": "Step"
+            "step": "Step",
+            "steps": "Steps"
         }
     }
 }

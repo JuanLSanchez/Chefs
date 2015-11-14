@@ -1,6 +1,8 @@
 package es.juanlsanchez.chefs.repository;
 
 import es.juanlsanchez.chefs.domain.Recipe;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 
 import java.util.List;
@@ -13,4 +15,9 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     @Query("select recipe from Recipe recipe where recipe.user.login = ?#{principal.username}")
     List<Recipe> findByUserIsCurrentUser();
 
+    @Query("select recipe from Recipe recipe where recipe.user.login = ?#{principal.username}")
+    Page<Recipe> findByUserIsCurrentUser(Pageable pageable);
+
+    @Query("select recipe from Recipe recipe where recipe.user.id = ?1")
+    Page<Recipe> findByUser(Long id, Pageable pageable);
 }

@@ -18,6 +18,7 @@ angular.module('chefsApp')
                 $scope.error = null;
                 $scope.errorUserExists = null;
                 $scope.errorEmailExists = null;
+                $scope.registerAccount.firstName = $scope.registerAccount.login;
 
                 Auth.createAccount($scope.registerAccount).then(function () {
                     $scope.success = 'OK';

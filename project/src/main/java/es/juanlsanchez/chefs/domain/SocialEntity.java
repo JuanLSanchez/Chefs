@@ -21,16 +21,16 @@ public class SocialEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "sum_rating")
     private Integer sumRating;
-    
+
     @Column(name = "is_public")
     private Boolean isPublic;
-    
+
     @Column(name = "public_inscription")
     private Boolean publicInscription;
-    
+
     @Column(name = "blocked")
     private Boolean blocked;
 
@@ -57,12 +57,10 @@ public class SocialEntity implements Serializable {
     private Competition competition;
 
     @OneToMany(mappedBy = "socialEntity")
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Assessment> assessments = new HashSet<>();
 
     @OneToMany(mappedBy = "socialEntity")
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
 

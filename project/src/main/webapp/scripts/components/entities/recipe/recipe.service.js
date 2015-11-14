@@ -16,3 +16,11 @@ angular.module('chefsApp')
             'update': { method:'PUT' }
         });
     });
+
+angular.module('chefsApp')
+    .factory('RecipeUser', function ($resource) {
+        return $resource('api/recipes/user/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': { method: 'GET', isArray: true}
+        });
+    });

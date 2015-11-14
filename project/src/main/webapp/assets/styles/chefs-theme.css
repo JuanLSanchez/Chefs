@@ -1,3 +1,4 @@
+/* class */
 .initial-wallpaper{
     background: url("../images/initial-wallpaper.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -9,15 +10,37 @@
 .well:empty {
     visibility: hidden !important;
 }
+.navbar-chefs{
+
+}
+/* id */
 #main-chefs{
     width: 100%;
 }
 #welcome{
     width: 98%;
 }
+
+/* element */
 footer {
-    background-color: #333;
+    background-color: #f5f5f5;
     width: 100%;
     bottom: 0;
     position: fixed;
+    text-align:center;
+}
+#nav{
+    float: left;
+    width: 20%;
+    padding: 20px;
+}
+article{
+    float: left;
+    width: 60%;
+    padding: 20px;
+}
+aside{
+    float: left;
+    width: 20%;
+    padding: 20px;
 }
