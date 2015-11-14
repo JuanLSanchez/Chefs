@@ -23,20 +23,21 @@ public class Step implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Min(value = 0)        
+    @Min(value = 0)
     @Column(name = "position")
     private Integer position;
 
-    @NotNull        
+    @NotNull
     @Column(name = "section", nullable = false)
     private String section;
 
     @ManyToOne
+    @JsonIgnore
     private Recipe recipe;
 
-    @OneToOne(mappedBy = "step")
+    @OneToMany(mappedBy = "step")
     @JsonIgnore
-    private StepPicture stepPicture;
+    private Set<StepPicture> stepPicture;
 
     @OneToMany(mappedBy = "step")
     @JsonIgnore
@@ -75,11 +76,11 @@ public class Step implements Serializable {
         this.recipe = recipe;
     }
 
-    public StepPicture getStepPicture() {
+    public Set<StepPicture> getStepPicture() {
         return stepPicture;
     }
 
-    public void setStepPicture(StepPicture stepPicture) {
+    public void setStepPicture(Set<StepPicture> stepPicture) {
         this.stepPicture = stepPicture;
     }
 

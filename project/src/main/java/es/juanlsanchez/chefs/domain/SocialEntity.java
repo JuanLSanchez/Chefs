@@ -1,14 +1,15 @@
 package es.juanlsanchez.chefs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A SocialEntity.
@@ -45,7 +46,7 @@ public class SocialEntity implements Serializable {
     @OneToOne
     private SocialPicture socialPicture;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "SOCIAL_ENTITY_TAG",
                joinColumns = @JoinColumn(name="social_entitys_id", referencedColumnName="ID"),
@@ -56,15 +57,16 @@ public class SocialEntity implements Serializable {
     @JsonIgnore
     private Competition competition;
 
-    @OneToMany(mappedBy = "socialEntity")
+    @OneToMany(mappedBy = "socialEntity", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Assessment> assessments = new HashSet<>();
 
-    @OneToMany(mappedBy = "socialEntity")
+    @OneToMany(mappedBy = "socialEntity", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonSerialize
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "SOCIAL_ENTITY_USER",
                joinColumns = @JoinColumn(name="social_entitys_id", referencedColumnName="ID"),

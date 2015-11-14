@@ -1,5 +1,6 @@
 package es.juanlsanchez.chefs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
@@ -28,21 +29,23 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "creation_moment", nullable = false)
     private DateTime creationMoment;
 
-    @NotNull        
+    @NotNull
     @Column(name = "body", nullable = false)
     private String body;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     private SocialEntity socialEntity;
 
     public Long getId() {

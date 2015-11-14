@@ -29,7 +29,9 @@
             "event": "Event",
             "socialEntity": "SocialEntity",
             "step": "Step",
-            "steps": "Pasos"
+            "steps": "Pasos",
+            "comments": "Comentarios",
+            "assessment": "Puntuación"
         }
     }
 }

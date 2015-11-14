@@ -32,7 +32,9 @@
             "event": "Event",
             "socialEntity": "SocialEntity",
             "step": "Step",
-            "steps": "Steps"
+            "steps": "Steps",
+            "comments": "Comments",
+            "assessment": "Assessment"
         }
     }
 }

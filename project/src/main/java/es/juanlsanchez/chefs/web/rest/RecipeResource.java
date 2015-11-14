@@ -3,7 +3,6 @@ package es.juanlsanchez.chefs.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
-import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.UserService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;

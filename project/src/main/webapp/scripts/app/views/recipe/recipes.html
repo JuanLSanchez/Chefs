@@ -10,67 +10,28 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th translate="global.field.id">ID</th>
-                    <th translate="chefsApp.recipe.name">Name</th>
-                    <th translate="chefsApp.recipe.description">Description</th>
-                    <th translate="chefsApp.recipe.creationDate">CreationDate</th>
-                    <th translate="chefsApp.recipe.informationUrl">InformationUrl</th>
-                    <th translate="chefsApp.recipe.advice">Advice</th>
-                    <th translate="chefsApp.recipe.sugestedTime">SugestedTime</th>
-                    <th translate="chefsApp.recipe.updateDate">UpdateDate</th>
-                    <th translate="chefsApp.recipe.ingredientsInSteps">IngredientsInSteps</th>
-                    <th translate="chefsApp.recipe.user">user</th>
-                    <th translate="chefsApp.recipe.father">father</th>
-                    <th translate="chefsApp.recipe.steps">socialEntity</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
-                <tr ng-repeat="recipe in recipes">
-                    <td><a ui-sref="chefsApp.recipe.detail({id:recipe.id})">{{recipe.id}}</a></td>
-                    <td>{{recipe.name.socialEntity.socialPicture.url}}</td>
-                    <td>
-                        <h3>{{recipe.name}}</h3>
-                        <p><span translate="chefsApp.recipe.steps">Steps</span>: {{ chefsApp.recipe.steps }}aa </p>
-                        <p>{{recipe.description}}</p>
-                    </td>
-                    <td>{{recipe.description}}</td>
-                    <td>{{recipe.creationDate}}</td>
-                    <td>{{recipe.informationUrl}}</td>
-                    <td>{{recipe.updateDate}}</td>
-                    <td>{{recipe.ingredientsInSteps}}</td>
-                    <td>
-                        {{recipe.user.id}}
-                    </td>
-                    <td>
-                        <a ui-sref="recipe.detail({id:recipe.father.id})">{{recipe.father.id}}</a>
-                    </td>
-                    <td>
-                        <a ui-sref="socialEntity.detail({id:recipe.socialEntity.id})">{{recipe.socialEntity.id}}</a>
-                    </td>
-                    <td>
-                        <button type="submit"
-                                ui-sref="recipe.detail({id:recipe.id})"
-                                class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
-                        </button>
-                        <button type="submit"
-                                ui-sref="recipe.edit({id:recipe.id})"
-                                class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
-                        </button>
-                        <button type="submit"
-                                ng-click="delete(recipe.id)"
-                                class="btn btn-danger btn-sm">
-                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+    <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
+        <div ng-repeat="recipe in recipes">
+            <hr>
+            <a ui-sref="recipe.detail({id:recipe.id})" class="thumbnail">
+            <div class="row">
+                <div class="col-lg-3">
+                        <img src="{{recipe.socialEntity.socialPicture.url}}" class="img-responsive" />
+                </div>
+                <div class="col-lg-9">
+                    <h3>{{recipe.name}}</h3>
+                    <p>
+                        <span translate="chefsApp.recipe.steps">Steps</span>: {{ recipe.steps.length }},
+                        Likes: {{recipe.socialEntity.users.length}},
+                        <span translate="chefsApp.recipe.comments">Comments</span>: {{ recipe.socialEntity.comments.length }},
+                        <span translate="chefsApp.recipe.assessment">Assessment</span>: {{ (recipe.socialEntity.sumRating?recipe.socialEntity.sumRating:0 / recipe.socialEntity.assessments.length)  }}
+                    </p>
+                    <p>{{recipe.description}}</p>
+                    <p><span ng-repeat="tag in recipe.socialEntity.tags">{{tag.name}}{{$last ? '' : ', '}}</span></p>
+                </div>
+            </div>
+            </a>
+        </div>
     </div>
 </div>

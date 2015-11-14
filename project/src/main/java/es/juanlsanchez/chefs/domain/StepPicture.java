@@ -20,13 +20,13 @@ public class StepPicture implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "title")
     private String title;
-    
+
     @Column(name = "url")
     private String url;
-    
+
     @Column(name = "properties")
     private String properties;
 

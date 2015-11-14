@@ -1,5 +1,6 @@
 package es.juanlsanchez.chefs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,14 +25,16 @@ public class Assessment implements Serializable {
 
     @NotNull
     @Min(value = 0)
-    @Max(value = 10)        
+    @Max(value = 10)
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     private SocialEntity socialEntity;
 
     public Long getId() {

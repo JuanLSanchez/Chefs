@@ -96,7 +96,7 @@ public class Recipe implements Serializable {
     @OneToOne
     private SocialEntity socialEntity;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Step> steps = new HashSet<>();
 
