@@ -3,21 +3,17 @@
 angular.module('chefsApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('home_recipe', {
+            .state('user', {
                 parent: 'entity',
-                url: '/home/recipes',
+                abstract: true,
+                url: '/chef',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'chefsApp.recipe.home.title'
                 },
-                views: {
+                views:{
                     'nav_1@': {
                         templateUrl: 'scripts/app/views/user/user-detail.html',
                         controller: 'HomeUserController'
-                    },
-                    'content@': {
-                        templateUrl: 'scripts/app/views/recipe/recipes.html',
-                        controller: 'HomeRecipeController'
                     },
                     'aside_1@': {
                         templateUrl: 'scripts/app/views/creator/creator.html'
@@ -27,9 +23,24 @@ angular.module('chefsApp')
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');
                         $translatePartialLoader.addPart('global');
-                        $translatePartialLoader.addPart('settings');
                         return $translate.refresh();
                     }]
+                }
+            })
+            .state('user.recipe',{
+                parent: 'user',
+                url: '/recipe/new/:name',
+                views:{
+                    'content@': {
+                        templateUrl: 'scripts/app/views/recipe/recipe-edit.html',
+                        controller: 'RecipeEditController'
+                    }
+                },
+                resolve: {
+                    entity: function ($stateParams) {
+                        return {name: $stateParams.name, description: null, creationDate: new Date(), informationUrl: null, advice: null,
+                            sugestedTime: null, updateDate: new Date(), ingredientsInSteps: null, id: null};
+                    }
                 }
             });
     });

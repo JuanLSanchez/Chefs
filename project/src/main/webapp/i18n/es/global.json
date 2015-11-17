@@ -124,5 +124,12 @@
             "datetimelocal": "This field should be a date and time."
         }
     },
-    "footer": "pie de página"
+    "footer": "pie de página",
+    "create":{
+        "recipe": "Crear Receta",
+        "competition": "Crear Competición",
+        "event": "Crear Evento",
+        "schedule": "Crear Dieta"
+    },
+    "name": "Nombre"
 }
