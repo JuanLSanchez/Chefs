@@ -38,22 +38,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label translate="chefsApp.recipe.creationDate" for="field_creationDate">CreationDate</label>
-            <input type="datetime-local" class="form-control" name="creationDate" id="field_creationDate"
-                    ng-model="recipe.creationDate" ng-model-options="{timezone: 'UTC'}"
-                    required>
-            <div ng-show="editForm.creationDate.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.creationDate.$error.required" translate="entity.validation.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.creationDate.$error.datetimelocal" translate="entity.validation.datetimelocal">
-                    This field should be a date and time.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
             <label translate="chefsApp.recipe.informationUrl" for="field_informationUrl">InformationUrl</label>
             <input type="text" class="form-control" name="informationUrl" id="field_informationUrl"
                     ng-model="recipe.informationUrl"
@@ -72,35 +56,10 @@
                     >
         </div>
         <div class="form-group">
-            <label translate="chefsApp.recipe.updateDate" for="field_updateDate">UpdateDate</label>
-            <input type="datetime-local" class="form-control" name="updateDate" id="field_updateDate"
-                    ng-model="recipe.updateDate" ng-model-options="{timezone: 'UTC'}"
-                    >
-        </div>
-        <div class="form-group">
             <label translate="chefsApp.recipe.ingredientsInSteps" for="field_ingredientsInSteps">IngredientsInSteps</label>
             <input type="checkbox" class="form-control" name="ingredientsInSteps" id="field_ingredientsInSteps"
                     ng-model="recipe.ingredientsInSteps"
                     >
-        </div>
-
-        <div class="form-group">
-            <label translate="chefsApp.recipe.user" for="field_user">user</label>
-            <select class="form-control" id="field_user" name="user" ng-model="recipe.user" ng-options="user as user.id for user in users track by user.id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label translate="chefsApp.recipe.father" for="field_father">father</label>
-            <select class="form-control" id="field_father" name="father" ng-model="recipe.father" ng-options="recipe as recipe.id for recipe in recipes track by recipe.id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label translate="chefsApp.recipe.socialEntity" for="field_socialEntity">socialEntity</label>
-            <select class="form-control" id="field_socialEntity" name="socialEntity" ng-model="recipe.socialEntity" ng-options="socialEntity as socialEntity.id for socialEntity in socialentitys | orderBy:'id' track by socialEntity.id">
-                <option value=""></option>
-            </select>
         </div>
     </div>
     <div class="modal-footer">

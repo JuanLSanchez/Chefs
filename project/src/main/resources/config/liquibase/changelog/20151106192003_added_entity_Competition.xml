@@ -48,13 +48,13 @@
                 <constraints unique="true"/>
             </column>
         </createTable>
-        <dropDefaultValue tableName="COMPETITION" columnName="deadline" columnDataType="datetime"/>
+        <dropDefaultValue tableName="COMPETITION" columnName="deadline" columnDataType="timestamp"/>
 
-        <dropDefaultValue tableName="COMPETITION" columnName="inscription_time" columnDataType="datetime"/>
+        <dropDefaultValue tableName="COMPETITION" columnName="inscription_time" columnDataType="timestamp"/>
 
-        <dropDefaultValue tableName="COMPETITION" columnName="creation_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="COMPETITION" columnName="creation_date" columnDataType="timestamp"/>
 
-        
+
         <createTable tableName="COMPETITION_RECIPE">
             <column name="recipes_id" type="bigint">
                 <constraints nullable="false"/>
@@ -77,7 +77,7 @@
                                  constraintName="fk_recipe_recipe_competition_id"
                                  referencedColumnNames="id"
                                  referencedTableName="RECIPE"/>
-        
+
         <createTable tableName="COMPETITION_USER">
             <column name="users_id" type="bigint">
                 <constraints nullable="false"/>
@@ -100,7 +100,7 @@
                                  constraintName="fk_user_user_competition_id"
                                  referencedColumnNames="id"
                                  referencedTableName="JHI_USER"/>
-        
+
         <addForeignKeyConstraint baseColumnNames="owner_id"
                                  baseTableName="COMPETITION"
                                  constraintName="fk_competition_owner_id"

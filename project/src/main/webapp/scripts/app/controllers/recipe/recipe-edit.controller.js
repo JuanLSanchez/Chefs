@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('chefsApp').controller('RecipeEditController',
-    ['$scope', '$stateParams', '$q', 'entity', 'Recipe', 'Competition', 'Vote', 'User', 'Menu', 'Event', 'SocialEntity', 'Step',
-        function($scope, $stateParams, $q, entity, Recipe, Competition, Vote, User, Menu, Event, SocialEntity, Step) {
+        function($rootScope, $scope, $stateParams, $q, entity, Recipe, Competition, Vote, User, Menu, Event, SocialEntity, Step) {
 
         $scope.recipe = entity;
         $scope.competitions = Competition.query();
@@ -43,4 +42,5 @@ angular.module('chefsApp').controller('RecipeEditController',
         $scope.clear = function() {
             $modalInstance.dismiss('cancel');
         };
-}]);
+        $rootScope.securityEntity = $scope.recipe;
+});

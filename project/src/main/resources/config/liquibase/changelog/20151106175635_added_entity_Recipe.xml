@@ -42,11 +42,11 @@
                 <constraints unique="true"/>
             </column>
         </createTable>
-        <dropDefaultValue tableName="RECIPE" columnName="creation_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="RECIPE" columnName="creation_date" columnDataType="timestamp"/>
 
-        <dropDefaultValue tableName="RECIPE" columnName="update_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="RECIPE" columnName="update_date" columnDataType="timestamp"/>
 
-        
+
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="RECIPE"
                                  constraintName="fk_recipe_user_id"
