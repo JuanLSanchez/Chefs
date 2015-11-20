@@ -10,7 +10,7 @@
         <!-- build:css assets/styles/vendor.css -->
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-        <link href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
@@ -19,27 +19,27 @@
         <script src="assets/js/tools.js"></script>
         <!-- endbuild -->
     </head>
-    <body ng-app="chefsApp" ng-class="bodyClass">
+    <body ng-app="chefsApp" ng-class="bodyClass" ng-cloak>
         <!--[if lt IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div ng-show="{{ENV === 'dev'}}" class="development" ng-cloak=""></div>
         <div ui-view="navbar" ng-cloak=""></div>
-        <div ui-view="welcome" id="welcome">
-            <div id="main-chefs">
-                <div id="nav" ui-view="nav">
+        <div class="container">
+            <div ui-view="welcome" id="welcome" class="row">
+                <div ui-view="nav" class="col-md-3  col-sm-6">
                     <div ui-view="nav_1" class="well"></div>
                     <div ui-view="nav_2" class="well"></div>
                     <div ui-view="nav_3" class="well"></div>
                 </div>
-                <article ui-view="article">
-                    <div class="well" ui-view="content"></div>
-                </article>
-                <aside>
+                <div class="col-md-3 col-md-push-6 col-sm-6">
                     <div ui-view="aside_1" class="well"></div>
                     <div ui-view="aside_2" class="well"></div>
                     <div ui-view="aside_3" class="well"></div>
-                </aside>
+                </div>
+                <div ui-view="article" class="col-md-6 col-md-pull-3 col-sm-12">
+                    <div class="well" ui-view="content"></div>
+                </div>
             </div>
         </div>
         <footer>
@@ -78,6 +78,7 @@
         <script src="bower_components/json3/lib/json3.js"></script>
         <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
         <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -276,5 +277,8 @@
     <script src="scripts/app/controllers/recipe/recipe-edit.controller.js"></script>
     <script src="scripts/app/controllers/recipe/recipe-security.controller.js"></script>
     <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+
+    <!-- directives -->
+    <script src="scripts/directives/switch-directive.js"></script>
 </body>
 </html>

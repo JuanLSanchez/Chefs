@@ -1,0 +1,15 @@
+restrict: A=Atributo, C=Clase, M=Comentario, E=Elemento, EA=Elemento o Atributo
+    Ejemplos:
+        A: <div dir></div>
+        C: <div class="dir"></div>
+        M: <!–- directive: dir -–>
+        E: <dir></dir>
+
+template: Html directo
+templateUrl: Url de la plantilla url
+
+scope: Variables,   '@'= (Texto) Variables de alcance($scope) o por valor ej: {{usuario}}
+                    '='= (Variables) Usado para hacer uso de data-binding(datos entre vista controlador) o por referencia ej: edad
+                    '&'= (Funciones) Útiles para llamar a funciones ej: funcion(usuario, edad)
+
+link: Ejecución de codigo dentro de la directiva

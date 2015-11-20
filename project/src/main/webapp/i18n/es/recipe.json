@@ -31,7 +31,10 @@
             "step": "Step",
             "steps": "Pasos",
             "comments": "Comentarios",
-            "assessment": "Puntuación"
+            "assessment": "Puntuación",
+            "blocked": "Bloqueada",
+            "publicInscription": "Clonable",
+            "isPublic": "Publica"
         }
     }
 }

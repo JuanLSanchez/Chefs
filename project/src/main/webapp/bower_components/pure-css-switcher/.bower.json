@@ -1,0 +1,47 @@
+{
+  "name": "pure-css-switcher",
+  "main": [
+    "dist/rb-switcher.min.css"
+  ],
+  "homepage": "https://github.com/rebelliard/pure-css-switcher",
+  "author": [
+    "Rafael Belliard <me@rebelliard.com> (http://rebelliard.com)"
+  ],
+  "description": "Lightweight animated switches for checkbox and radio elements.",
+  "keywords": [
+    "css",
+    "scss",
+    "sass",
+    "checkbox",
+    "radio",
+    "input",
+    "switch",
+    "switcher",
+    "toggle"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "build",
+    "components",
+    "node_modules",
+    "bower_components",
+    "component.json",
+    "Makefile",
+    "README.md",
+    ".*"
+  ],
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "_release": "c5550c1f4c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c5550c1f4c094bb45879330e09f8d10e1f2fb20c"
+  },
+  "_source": "git://github.com/rebelliard/pure-css-switcher.git",
+  "_target": "*",
+  "_originalSource": "pure-css-switcher",
+  "_direct": true
+}

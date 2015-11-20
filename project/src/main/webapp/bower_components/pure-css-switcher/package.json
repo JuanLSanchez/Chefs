@@ -1,0 +1,35 @@
+{
+  "name": "pure-css-switcher",
+  "version": "0.0.1",
+  "main": "dist/rb-switcher.min.css",
+  "description": "Lightweight animated switches for checkbox and radio elements.",
+  "repository": {},
+  "devDependencies": {
+    "grunt-autoprefixer": "^3.0.0",
+    "grunt-bump": "^0.3.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "^1.0.0",
+    "load-grunt-tasks": "^3.1.0",
+    "time-grunt": "^1.0.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rebelliard/pure-css-switcher/issues"
+  },
+  "author": "Rafael Belliard <me@rebelliard.com> (http://rebelliard.com)",
+  "homepage": "https://github.com/rebelliard/pure-css-switcher",
+  "keywords": [
+    "css",
+    "scss",
+    "sass",
+    "checkbox",
+    "radio",
+    "input",
+    "switch",
+    "switcher",
+    "toggle"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

@@ -1,15 +1,12 @@
 <div>
+    <div>
+        <switch object="securityEntity.socialEntity.blocked" id="'blocked'" tag="'chefsApp.recipe.blocked'"></switch>
+    </div>
+    <div>
+        <switch object="securityEntity.socialEntity.isPublic" id="'isPublic'" tag="'chefsApp.recipe.isPublic'"></switch>
+    </div>
+    <div>
+        <switch object="securityEntity.socialEntity.publicInscription" id="'publicInscription'" tag="'chefsApp.recipe.publicInscription'"></switch>
+    </div>
 
-    <div>
-        <p>{{securityEntity.socialEntity.isPublic}}</p>
-        <input name="checkbox-isPublic" type="checkbox" class="switch-button">
-    </div>
-    <div>
-        <p>{{$root.securityEntity.socialEntity.publicInscription}}</p>
-        <input name="checkbox-publicInscription" type="checkbox" class="switch-button">
-    </div>
-    <div>
-        <p>{{securityEntity.socialEntity.blocked}}</p>
-        <input name="checkbox-blocked" type="checkbox" class="switch-button">
-    </div>
 </div>

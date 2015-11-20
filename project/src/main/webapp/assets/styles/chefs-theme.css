@@ -10,16 +10,6 @@
 .well:empty {
     visibility: hidden !important;
 }
-.navbar-chefs{
-
-}
-/* id */
-#main-chefs{
-    width: 100%;
-}
-#welcome{
-    width: 98%;
-}
 
 /* element */
 footer {
@@ -29,18 +19,7 @@ footer {
     position: fixed;
     text-align:center;
 }
-#nav{
-    float: left;
-    width: 20%;
-    padding: 20px;
-}
-article{
-    float: left;
-    width: 60%;
-    padding: 20px;
-}
-aside{
-    float: left;
-    width: 20%;
-    padding: 20px;
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
 }

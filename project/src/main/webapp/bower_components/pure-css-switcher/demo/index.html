@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>Pure CSS Switcher demo</title>
+    <link rel="shortcut icon" href="https://assets-cdn.github.com/favicon.ico">
+    <link rel="stylesheet" href="../dist/rb-switcher.min.css"/>
+    <style>
+      body {
+        font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+      }
+      fieldset {
+        max-width: 250px;
+      }
+      label[for] {
+        cursor: pointer;
+      }
+      footer {
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pure CSS Switcher demo</h1>
+
+    <h2>Checkboxes</h2>
+    <fieldset>
+      <legend>What's your favorite pet?</legend>
+      <div>
+        <label for="dog">
+          Dog
+        </label>
+        <label class="rb-switcher">
+          <input type="checkbox" name="animal" id="dog" value="dog" />
+          <i></i>
+        </label>
+      </div>
+      <div>
+        <label for="cat">
+          Cat
+        </label>
+        <label class="rb-switcher">
+          <input type="checkbox" name="animal" id="cat" value="cat" />
+          <i></i>
+        </label>
+      </div>
+      <div>
+        <label for="bird">
+          Bird
+        </label>
+        <label class="rb-switcher">
+          <input type="checkbox" name="animal" id="bird" value="bird" />
+          <i></i>
+        </label>
+      </div>
+    </fieldset>
+
+    <h2>Radio groups</h2>
+    <fieldset>
+      <legend>Male</legend>
+      <label class="rb-switcher">
+        <input type="radio" name="sex" value="male" checked>
+        <i></i>
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend>Female</legend>
+      <label class="rb-switcher red">
+        <input type="radio" name="sex" value="female">
+        <i></i>
+      </label>
+    </fieldset>
+
+    <footer>
+      <a href="https://github.com/rebelliard/pure-css-switcher">Pure CSS Switcher</a>
+    </footer>
+  </body>
+</html>

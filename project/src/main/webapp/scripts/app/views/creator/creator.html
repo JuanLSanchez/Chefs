@@ -6,17 +6,27 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ui-sref="user.recipe({name:name})" title="{{'create.recipe' | translate}}">
-            <span class="glyphicon glyphicon-cutlery"></span>
-        </button>
-        <button type="button" class="btn btn-primary" ng-click="user.schedule({name:name})" title="{{'create.schedule' | translate}}">
-            <span class="glyphicon glyphicon-scale"></span>
-        </button>
-        <button type="button" class="btn btn-primary" ng-click="user.event({name:name})" title="{{'create.event' | translate}}">
-            <span class="glyphicon glyphicon-calendar"></span>
-        </button>
-        <button type="button" class="btn btn-primary" ng-click="user.competition({name:name})" title="{{'create.competition' | translate}}">
-            <span class="glyphicon glyphicon-equalizer"></span>
-        </button>
+        <div class="row">
+        <div class="col-xs-3">
+            <button type="button" class="btn btn-primary" ui-sref="user.recipe({name:name})" title="{{'create.recipe' | translate}}">
+                <span class="glyphicon glyphicon-cutlery"></span>
+            </button>
+        </div>
+        <div class="col-xs-3">
+            <button type="button" class="btn btn-primary" ng-click="user.schedule({name:name})" title="{{'create.schedule' | translate}}">
+                <span class="glyphicon glyphicon-scale"></span>
+            </button>
+        </div>
+        <div class="col-xs-3">
+            <button type="button" class="btn btn-primary" ng-click="user.event({name:name})" title="{{'create.event' | translate}}">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+        </div>
+        <div class="col-xs-3">
+            <button type="button" class="btn btn-primary" ng-click="user.competition({name:name})" title="{{'create.competition' | translate}}">
+                <span class="glyphicon glyphicon-equalizer"></span>
+            </button>
+        </div>
+        </div>
     </div>
 </div>
