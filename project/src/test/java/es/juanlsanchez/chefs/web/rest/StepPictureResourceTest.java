@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
+import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.StepPicture;
 import es.juanlsanchez.chefs.repository.StepPictureRepository;
 
@@ -11,6 +12,7 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -106,6 +108,12 @@ public class StepPictureResourceTest {
         // Initialize the database
         stepPictureRepository.saveAndFlush(stepPicture);
 
+        // Set pageable
+        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+
+        // Set pageable
+        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+
         // Get all the stepPictures
         restStepPictureMockMvc.perform(get("/api/stepPictures"))
                 .andExpect(status().isOk())
@@ -152,7 +160,7 @@ public class StepPictureResourceTest {
         stepPicture.setTitle(UPDATED_TITLE);
         stepPicture.setUrl(UPDATED_URL);
         stepPicture.setProperties(UPDATED_PROPERTIES);
-        
+
 
         restStepPictureMockMvc.perform(put("/api/stepPictures")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

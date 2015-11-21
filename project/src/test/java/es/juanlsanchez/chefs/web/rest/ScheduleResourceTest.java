@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
+import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.Schedule;
 import es.juanlsanchez.chefs.repository.ScheduleRepository;
 
@@ -11,6 +12,7 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -138,6 +140,9 @@ public class ScheduleResourceTest {
         // Initialize the database
         scheduleRepository.saveAndFlush(schedule);
 
+        // Set pageable
+        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+
         // Get all the schedules
         restScheduleMockMvc.perform(get("/api/schedules"))
                 .andExpect(status().isOk())
@@ -181,7 +186,7 @@ public class ScheduleResourceTest {
         // Update the schedule
         schedule.setName(UPDATED_NAME);
         schedule.setDescription(UPDATED_DESCRIPTION);
-        
+
 
         restScheduleMockMvc.perform(put("/api/schedules")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

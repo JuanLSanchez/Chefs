@@ -1,19 +1,23 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
+import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.ActivityLog;
 import es.juanlsanchez.chefs.repository.ActivityLogRepository;
-
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -23,13 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -139,6 +140,9 @@ public class ActivityLogResourceTest {
         // Initialize the database
         activityLogRepository.saveAndFlush(activityLog);
 
+        // Set pageable
+        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+
         // Get all the activityLogs
         restActivityLogMockMvc.perform(get("/api/activityLogs"))
                 .andExpect(status().isOk())
@@ -203,7 +207,7 @@ public class ActivityLogResourceTest {
         activityLog.setName(UPDATED_NAME);
         activityLog.setDescription(UPDATED_DESCRIPTION);
         activityLog.setTags(UPDATED_TAGS);
-        
+
 
         restActivityLogMockMvc.perform(put("/api/activityLogs")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

@@ -1,9 +1,11 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
+import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
 
+import es.juanlsanchez.chefs.security.SecurityUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,13 +13,19 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -108,14 +116,18 @@ public class RecipeResourceTest {
     @Test
     @Transactional
     public void createRecipe() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(
+            new UsernamePasswordAuthenticationToken("user001", "user"));
+
         int databaseSizeBeforeCreate = recipeRepository.findAll().size();
 
         // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions.andExpect(status().isCreated());
 
-        restRecipeMockMvc.perform(post("/api/recipes")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(recipe)))
-                .andExpect(status().isCreated());
 
         // Validate the Recipe in the database
         List<Recipe> recipes = recipeRepository.findAll();
@@ -191,6 +203,9 @@ public class RecipeResourceTest {
         // Initialize the database
         recipeRepository.saveAndFlush(recipe);
 
+        // Set pageable
+        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+
         // Get all the recipes
         restRecipeMockMvc.perform(get("/api/recipes"))
                 .andExpect(status().isOk())
@@ -252,7 +267,7 @@ public class RecipeResourceTest {
         recipe.setSugestedTime(UPDATED_SUGESTED_TIME);
         recipe.setUpdateDate(UPDATED_UPDATE_DATE);
         recipe.setIngredientsInSteps(UPDATED_INGREDIENTS_IN_STEPS);
-        
+
 
         restRecipeMockMvc.perform(put("/api/recipes")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

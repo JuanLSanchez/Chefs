@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
+import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.Ingredient;
 import es.juanlsanchez.chefs.repository.IngredientRepository;
 
@@ -11,6 +12,7 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -105,6 +107,9 @@ public class IngredientResourceTest {
         // Initialize the database
         ingredientRepository.saveAndFlush(ingredient);
 
+        // Set pageable
+        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+
         // Get all the ingredients
         restIngredientMockMvc.perform(get("/api/ingredients"))
                 .andExpect(status().isOk())
@@ -148,7 +153,7 @@ public class IngredientResourceTest {
         // Update the ingredient
         ingredient.setAmount(UPDATED_AMOUNT);
         ingredient.setMeasurement(UPDATED_MEASUREMENT);
-        
+
 
         restIngredientMockMvc.perform(put("/api/ingredients")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

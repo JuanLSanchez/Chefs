@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
+import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.Score;
 import es.juanlsanchez.chefs.repository.ScoreRepository;
 
@@ -11,6 +12,7 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -117,6 +119,9 @@ public class ScoreResourceTest {
         // Initialize the database
         scoreRepository.saveAndFlush(score);
 
+        // Set pageable
+        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+
         // Get all the scores
         restScoreMockMvc.perform(get("/api/scores"))
                 .andExpect(status().isOk())
@@ -157,7 +162,7 @@ public class ScoreResourceTest {
 
         // Update the score
         score.setValue(UPDATED_VALUE);
-        
+
 
         restScoreMockMvc.perform(put("/api/scores")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
