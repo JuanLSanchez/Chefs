@@ -1,25 +1,10 @@
 'use strict';
 
 angular.module('chefsApp').controller('RecipeEditController',
-        function($rootScope, $scope, $stateParams, $q, entity, Recipe, Competition, Vote, User, Menu, Event, SocialEntity, Step) {
+        function($rootScope, $scope, $stateParams, entity, Recipe) {
 
+        $scope.step = {position: null, section: null, id: null};
         $scope.recipe = entity;
-        $scope.competitions = Competition.query();
-        $scope.votes = Vote.query();
-        $scope.users = User.query();
-        $scope.menus = Menu.query();
-        $scope.recipes = Recipe.query();
-        $scope.events = Event.query();
-        $scope.socialentitys = SocialEntity.query({filter: 'recipe-is-null'});
-        $q.all([$scope.recipe.$promise, $scope.socialentitys.$promise]).then(function() {
-            if (!$scope.recipe.socialEntity.id) {
-                return $q.reject();
-            }
-            return SocialEntity.get({id : $scope.recipe.socialEntity.id}).$promise;
-        }).then(function(socialEntity) {
-            $scope.socialentitys.push(socialEntity);
-        });
-        $scope.steps = Step.query();
         $scope.load = function(id) {
             Recipe.get({id : id}, function(result) {
                 $scope.recipe = result;
@@ -39,8 +24,23 @@ angular.module('chefsApp').controller('RecipeEditController',
             }
         };
 
+//Steps
+        $scope.addStep = function (){
+            $scope.recipe.steps.push(angular.copy($scope.step));
+            $scope.step = {position: null, section: null, id: null};
+        };
+        $scope.deleteStep = function(position){
+            $scope.recipe.steps.splice(position,1);
+        };
+        $scope.sortableOptions = {
+            stop: function(e, ui) {
+                $scope.recipe.steps.forEach(function(element, index, array){element.position = index;});
+            }
+        };
+
         $scope.clear = function() {
             $modalInstance.dismiss('cancel');
         };
         $rootScope.securityEntity = $scope.recipe;
+
 });

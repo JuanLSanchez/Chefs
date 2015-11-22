@@ -2,34 +2,34 @@
     "chefsApp": {
         "recipe" : {
             "home": {
-                "title": "Recipes",
-                "createLabel": "Create a new Recipe",
-                "createOrEditLabel": "Create or edit a Recipe"
+                "title": "Receta",
+                "createLabel": "Crear una receta",
+                "createOrEditLabel": "Crear o editar receta"
             },
             "delete": {
-                "question": "Are you sure you want to delete Recipe {{ id }}?"
+                "question": "Estas seguro de que desea eliminar la receta {{ id }}?"
             },
             "detail": {
-                "title": "Recipe"
+                "title": "Receta"
             },
-            "name": "Name",
-            "description": "Description",
-            "creationDate": "CreationDate",
-            "informationUrl": "InformationUrl",
-            "advice": "Advice",
-            "sugestedTime": "SugestedTime",
-            "updateDate": "UpdateDate",
-            "ingredientsInSteps": "IngredientsInSteps",
-            "competition": "Competition",
-            "vote": "Vote",
-            "user": "User",
-            "menu": "Menu",
-            "son": "Son",
-            "father": "Father",
-            "event": "Event",
-            "socialEntity": "SocialEntity",
-            "step": "Step",
-            "steps": "Pasos",
+            "name": "Nombre",
+            "description": "Descripción",
+            "creationDate": "Momento de creación",
+            "informationUrl": "Url de información",
+            "advice": "Sugerencia a la hora de cocinarlo",
+            "sugestedTime": "¿Cuando se lo tomaría?",
+            "updateDate": "Dia de actualización",
+            "ingredientsInSteps": "Ingredientes",
+            "competition": "Competiciones",
+            "vote": "Votos",
+            "user": "Usuarios",
+            "menu": "Menús",
+            "son": "Hijas",
+            "father": "Padre",
+            "event": "Eventos",
+            "socialEntity": "Entidad social",
+            "step": "Paso",
+            "steps": "Elavoración",
             "comments": "Comentarios",
             "assessment": "Puntuación",
             "blocked": "Bloqueada",

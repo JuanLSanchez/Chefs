@@ -1,22 +1,12 @@
 
 <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="clear()">&times;</button>
-        <h4 class="modal-title" id="myRecipeLabel" translate="chefsApp.recipe.home.createOrEditLabel">Create or edit a Recipe</h4>
-    </div>
     <div class="modal-body">
         <jh-alert-error></jh-alert-error>
         <div class="form-group">
-            <label for="id" translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="recipe.id" readonly>
-        </div>
-        <div class="form-group">
-            <label translate="chefsApp.recipe.name" for="field_name">Name</label>
+            <!--<label translate="chefsApp.recipe.name" for="field_name">Name</label>-->
             <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="recipe.name"
+                    ng-model="recipe.name" placeholder="{{'chefsApp.recipe.name' | translate}}..."
                     required>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
@@ -26,10 +16,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label translate="chefsApp.recipe.description" for="field_description">Description</label>
-            <input type="text" class="form-control" name="description" id="field_description"
-                    ng-model="recipe.description"
-                    required>
+            <!--<label translate="chefsApp.recipe.description" for="field_description">Description</label>-->
+            <textarea class="form-control" name="description" id="field_description"
+                    ng-model="recipe.description" placeholder="{{'chefsApp.recipe.description' | translate}}..."
+                    required/>
             <div ng-show="editForm.description.$invalid">
                 <p class="help-block"
                     ng-show="editForm.description.$error.required" translate="entity.validation.required">
@@ -37,6 +27,9 @@
                 </p>
             </div>
         </div>
+
+        <div ng-include="'scripts/app/views/step/step-edit.html'"></div>
+
         <div class="form-group">
             <label translate="chefsApp.recipe.informationUrl" for="field_informationUrl">InformationUrl</label>
             <input type="text" class="form-control" name="informationUrl" id="field_informationUrl"
@@ -71,3 +64,4 @@
         </button>
     </div>
 </form>
+<p>{{recipe}}</p>
