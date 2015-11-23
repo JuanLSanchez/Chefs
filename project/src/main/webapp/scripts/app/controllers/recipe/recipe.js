@@ -45,7 +45,7 @@ angular.module('chefsApp')
                         return {name: $stateParams.name, description: null, creationDate: new Date(), informationUrl: null, advice: null,
                             sugestedTime: null, updateDate: new Date(), ingredientsInSteps: null, id: null,
                             socialEntity:{sumRating: 0, isPublic: false, publicInscription: false, blocked: true, id: null},
-                            steps:[{position: 0, section: 'Tal1', id: null},{position: 1, section: 'Tal2', id: null}]};
+                            steps:[]};
                     },
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');

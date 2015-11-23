@@ -25,7 +25,7 @@
                         <span translate="chefsApp.recipe.steps">Steps</span>: {{ recipe.steps.length }},
                         Likes: {{recipe.socialEntity.users.length}},
                         <span translate="chefsApp.recipe.comments">Comments</span>: {{ recipe.socialEntity.comments.length }},
-                        <span translate="chefsApp.recipe.assessment">Assessment</span>: {{ (recipe.socialEntity.sumRating?recipe.socialEntity.sumRating:0 / recipe.socialEntity.assessments.length)  }}
+                        <span translate="chefsApp.recipe.assessment">Assessment</span>: {{ ((recipe.socialEntity.sumRating / recipe.socialEntity.assessments.length) || 0).toFixed(1)  }}
                     </p>
                     <p>{{recipe.description}}</p>
                     <p><span ng-repeat="tag in recipe.socialEntity.tags">{{tag.name}}{{$last ? '' : ', '}}</span></p>
