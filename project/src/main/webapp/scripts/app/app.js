@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chefsApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
-               'ui.bootstrap', // for modal dialogs
+               'ui.bootstrap', 'flow', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll', 'ui.sortable'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {

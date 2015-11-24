@@ -1,3 +1,21 @@
+<div flow-init="{target: '/upload'}"
+     flow-files-submitted="$flow.upload()"
+     flow-file-success="$file.msg = $message">
+
+    <input type="file" flow-btn/>
+    Input OR Other element as upload button
+    <span class="btn" flow-btn>Upload File</span>
+
+    <table>
+        <tr ng-repeat="file in $flow.files">
+            <td>{{$index+1}}</td>
+            <td>{{file.name}}</td>
+            <td>{{file.msg}}</td>
+        </tr>
+    </table>
+    <img flow-img="$flow.files[0]" />
+    
+</div>
 
 <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
 
@@ -26,6 +44,9 @@
                     This field is required.
                 </p>
             </div>
+        </div>
+<!-- Picture -->
+        <div class="form-group">
         </div>
 
         <div ng-include="'scripts/app/views/step/step-edit.html'"></div>
@@ -64,4 +85,3 @@
         </button>
     </div>
 </form>
-<p>{{recipe}}</p>
