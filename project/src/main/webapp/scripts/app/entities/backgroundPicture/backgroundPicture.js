@@ -60,7 +60,7 @@ angular.module('chefsApp')
                         size: 'lg',
                         resolve: {
                             entity: function () {
-                                return {title: null, url: null, properties: null, id: null};
+                                return {title: null, src: null, properties: null, id: null};
                             }
                         }
                     }).result.then(function(result) {

@@ -44,7 +44,9 @@ angular.module('chefsApp')
                     entity: function ($stateParams) {
                         return {name: $stateParams.name, description: null, creationDate: new Date(), informationUrl: null, advice: null,
                             sugestedTime: null, updateDate: new Date(), ingredientsInSteps: null, id: null,
-                            socialEntity:{sumRating: 0, isPublic: false, publicInscription: false, blocked: true, id: null},
+                            socialEntity:{sumRating: 0, isPublic: false, publicInscription: false, blocked: true, id: null,
+                                socialPicture:{title: null, src: null, properties: null}
+                            },
                             steps:[]};
                     },
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {

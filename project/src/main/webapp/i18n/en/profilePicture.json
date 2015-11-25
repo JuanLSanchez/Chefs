@@ -16,7 +16,7 @@
                 "title": "ProfilePicture"
             },
             "title": "Title",
-            "url": "Url",
+            "src": "Src",
             "properties": "Properties",
             "user": "User"
         }

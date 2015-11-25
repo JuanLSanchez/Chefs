@@ -17,7 +17,9 @@
             <a ui-sref="recipe.detail({id:recipe.id})" class="thumbnail">
             <div class="row">
                 <div class="col-lg-3">
-                        <img src="{{recipe.socialEntity.socialPicture.url}}" class="img-responsive" />
+                    <img class="img-responsive img-thumbnail"
+                         data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"
+                         ng-if="recipe.socialEntity.socialPicture.src"/>
                 </div>
                 <div class="col-lg-9">
                     <h3>{{recipe.name}}</h3>

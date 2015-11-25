@@ -20,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -43,8 +44,9 @@ public class BackgroundPictureResourceTest {
 
     private static final String DEFAULT_TITLE = "SAMPLE_TEXT";
     private static final String UPDATED_TITLE = "UPDATED_TEXT";
-    private static final String DEFAULT_URL = "SAMPLE_TEXT";
-    private static final String UPDATED_URL = "UPDATED_TEXT";
+
+    private static final byte[] DEFAULT_SRC = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_SRC = TestUtil.createByteArray(2, "1");
     private static final String DEFAULT_PROPERTIES = "SAMPLE_TEXT";
     private static final String UPDATED_PROPERTIES = "UPDATED_TEXT";
 
@@ -75,7 +77,7 @@ public class BackgroundPictureResourceTest {
     public void initTest() {
         backgroundPicture = new BackgroundPicture();
         backgroundPicture.setTitle(DEFAULT_TITLE);
-        backgroundPicture.setUrl(DEFAULT_URL);
+        backgroundPicture.setSrc(DEFAULT_SRC);
         backgroundPicture.setProperties(DEFAULT_PROPERTIES);
     }
 
@@ -96,7 +98,7 @@ public class BackgroundPictureResourceTest {
         assertThat(backgroundPictures).hasSize(databaseSizeBeforeCreate + 1);
         BackgroundPicture testBackgroundPicture = backgroundPictures.get(backgroundPictures.size() - 1);
         assertThat(testBackgroundPicture.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testBackgroundPicture.getUrl()).isEqualTo(DEFAULT_URL);
+        assertThat(testBackgroundPicture.getSrc()).isEqualTo(DEFAULT_SRC);
         assertThat(testBackgroundPicture.getProperties()).isEqualTo(DEFAULT_PROPERTIES);
     }
 
@@ -112,7 +114,7 @@ public class BackgroundPictureResourceTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(backgroundPicture.getId().intValue())))
                 .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-                .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
+                .andExpect(jsonPath("$.[*].src").value(hasItem(Base64Utils.encodeToString(DEFAULT_SRC))))
                 .andExpect(jsonPath("$.[*].properties").value(hasItem(DEFAULT_PROPERTIES.toString())));
     }
 
@@ -128,7 +130,7 @@ public class BackgroundPictureResourceTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(backgroundPicture.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
+            .andExpect(jsonPath("$.src").value(Base64Utils.encodeToString(DEFAULT_SRC)))
             .andExpect(jsonPath("$.properties").value(DEFAULT_PROPERTIES.toString()));
     }
 
@@ -150,7 +152,7 @@ public class BackgroundPictureResourceTest {
 
         // Update the backgroundPicture
         backgroundPicture.setTitle(UPDATED_TITLE);
-        backgroundPicture.setUrl(UPDATED_URL);
+        backgroundPicture.setSrc(UPDATED_SRC);
         backgroundPicture.setProperties(UPDATED_PROPERTIES);
         
 
@@ -164,7 +166,7 @@ public class BackgroundPictureResourceTest {
         assertThat(backgroundPictures).hasSize(databaseSizeBeforeUpdate);
         BackgroundPicture testBackgroundPicture = backgroundPictures.get(backgroundPictures.size() - 1);
         assertThat(testBackgroundPicture.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testBackgroundPicture.getUrl()).isEqualTo(UPDATED_URL);
+        assertThat(testBackgroundPicture.getSrc()).isEqualTo(UPDATED_SRC);
         assertThat(testBackgroundPicture.getProperties()).isEqualTo(UPDATED_PROPERTIES);
     }
 

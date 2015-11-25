@@ -103,7 +103,8 @@
             "delete": "Delete",
             "edit": "Edit",
             "save": "Save",
-            "view": "View"
+            "view": "View",
+            "addordropimage": "Add or Drop Image"
         },
         "detail": {
             "field": "Field",

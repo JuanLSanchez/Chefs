@@ -1,7 +1,6 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
-import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.StepPicture;
 import es.juanlsanchez.chefs.repository.StepPictureRepository;
 
@@ -12,7 +11,6 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -22,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -45,8 +44,9 @@ public class StepPictureResourceTest {
 
     private static final String DEFAULT_TITLE = "SAMPLE_TEXT";
     private static final String UPDATED_TITLE = "UPDATED_TEXT";
-    private static final String DEFAULT_URL = "SAMPLE_TEXT";
-    private static final String UPDATED_URL = "UPDATED_TEXT";
+
+    private static final byte[] DEFAULT_SRC = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_SRC = TestUtil.createByteArray(2, "1");
     private static final String DEFAULT_PROPERTIES = "SAMPLE_TEXT";
     private static final String UPDATED_PROPERTIES = "UPDATED_TEXT";
 
@@ -77,7 +77,7 @@ public class StepPictureResourceTest {
     public void initTest() {
         stepPicture = new StepPicture();
         stepPicture.setTitle(DEFAULT_TITLE);
-        stepPicture.setUrl(DEFAULT_URL);
+        stepPicture.setSrc(DEFAULT_SRC);
         stepPicture.setProperties(DEFAULT_PROPERTIES);
     }
 
@@ -98,7 +98,7 @@ public class StepPictureResourceTest {
         assertThat(stepPictures).hasSize(databaseSizeBeforeCreate + 1);
         StepPicture testStepPicture = stepPictures.get(stepPictures.size() - 1);
         assertThat(testStepPicture.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testStepPicture.getUrl()).isEqualTo(DEFAULT_URL);
+        assertThat(testStepPicture.getSrc()).isEqualTo(DEFAULT_SRC);
         assertThat(testStepPicture.getProperties()).isEqualTo(DEFAULT_PROPERTIES);
     }
 
@@ -108,19 +108,13 @@ public class StepPictureResourceTest {
         // Initialize the database
         stepPictureRepository.saveAndFlush(stepPicture);
 
-        // Set pageable
-        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
-
-        // Set pageable
-        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
-
         // Get all the stepPictures
         restStepPictureMockMvc.perform(get("/api/stepPictures"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(stepPicture.getId().intValue())))
                 .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-                .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
+                .andExpect(jsonPath("$.[*].src").value(hasItem(Base64Utils.encodeToString(DEFAULT_SRC))))
                 .andExpect(jsonPath("$.[*].properties").value(hasItem(DEFAULT_PROPERTIES.toString())));
     }
 
@@ -136,7 +130,7 @@ public class StepPictureResourceTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(stepPicture.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
+            .andExpect(jsonPath("$.src").value(Base64Utils.encodeToString(DEFAULT_SRC)))
             .andExpect(jsonPath("$.properties").value(DEFAULT_PROPERTIES.toString()));
     }
 
@@ -158,9 +152,9 @@ public class StepPictureResourceTest {
 
         // Update the stepPicture
         stepPicture.setTitle(UPDATED_TITLE);
-        stepPicture.setUrl(UPDATED_URL);
+        stepPicture.setSrc(UPDATED_SRC);
         stepPicture.setProperties(UPDATED_PROPERTIES);
-
+        
 
         restStepPictureMockMvc.perform(put("/api/stepPictures")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -172,7 +166,7 @@ public class StepPictureResourceTest {
         assertThat(stepPictures).hasSize(databaseSizeBeforeUpdate);
         StepPicture testStepPicture = stepPictures.get(stepPictures.size() - 1);
         assertThat(testStepPicture.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testStepPicture.getUrl()).isEqualTo(UPDATED_URL);
+        assertThat(testStepPicture.getSrc()).isEqualTo(UPDATED_SRC);
         assertThat(testStepPicture.getProperties()).isEqualTo(UPDATED_PROPERTIES);
     }
 

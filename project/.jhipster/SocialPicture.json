@@ -17,8 +17,9 @@
         },
         {
             "fieldId": 2,
-            "fieldName": "url",
-            "fieldType": "String"
+            "fieldName": "src",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
         },
         {
             "fieldId": 3,

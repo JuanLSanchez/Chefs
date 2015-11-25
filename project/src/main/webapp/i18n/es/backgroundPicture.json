@@ -13,7 +13,7 @@
                 "title": "BackgroundPicture"
             },
             "title": "Title",
-            "url": "Url",
+            "src": "Src",
             "properties": "Properties",
             "user": "User"
         }

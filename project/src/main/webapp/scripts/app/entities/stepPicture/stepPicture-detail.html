@@ -20,10 +20,10 @@
             </tr>
             <tr>
                 <td>
-                    <span translate="chefsApp.stepPicture.url">Url</span>
+                    <span translate="chefsApp.stepPicture.src">Src</span>
                 </td>
                 <td>
-                    <span class="form-control-static">{{stepPicture.url}}</span>
+                    <img data-ng-src="{{'data:image/*;base64,' + stepPicture.src}}" style="max-width: 100%;" ng-if="stepPicture.src"/>
                 </td>
             </tr>
             <tr>

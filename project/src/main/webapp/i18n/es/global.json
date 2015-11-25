@@ -5,7 +5,7 @@
         "menu": {
             "home": "Inicio",
             "entities": {
-                "main": "Entities",
+                "main": "Entidades",
                 "profilePicture": "ProfilePicture",
                 "request": "Request",
                 "tag": "Tag",
@@ -95,14 +95,15 @@
     },
     "entity": {
         "action": {
-            "addblob": "Add blob",
+            "addblob": "Añadir binario",
             "addimage": "Añadir imagen",
             "back": "Atrás",
             "cancel": "Cancelar",
             "delete": "Eliminar",
             "edit": "Editar",
             "save": "Guardar",
-            "view": "Ver"
+            "view": "Ver",
+            "addordropimage": "Añade o arrastra una imagen"
         },
         "detail": {
             "field": "Field",

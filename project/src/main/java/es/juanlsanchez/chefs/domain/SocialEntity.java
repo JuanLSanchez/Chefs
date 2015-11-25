@@ -43,7 +43,7 @@ public class SocialEntity implements Serializable {
     @JsonIgnore
     private Recipe recipe;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private SocialPicture socialPicture;
 
     @ManyToMany(fetch = FetchType.EAGER)

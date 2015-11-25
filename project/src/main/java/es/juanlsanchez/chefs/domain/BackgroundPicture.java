@@ -24,8 +24,9 @@ public class BackgroundPicture implements Serializable {
     @Column(name = "title")
     private String title;
     
-    @Column(name = "url")
-    private String url;
+    @Lob
+    @Column(name = "src")
+    private byte[] src;
     
     @Column(name = "properties")
     private String properties;
@@ -49,12 +50,12 @@ public class BackgroundPicture implements Serializable {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public byte[] getSrc() {
+        return src;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setSrc(byte[] src) {
+        this.src = src;
     }
 
     public String getProperties() {
@@ -99,7 +100,7 @@ public class BackgroundPicture implements Serializable {
         return "BackgroundPicture{" +
                 "id=" + id +
                 ", title='" + title + "'" +
-                ", url='" + url + "'" +
+                ", src='" + src + "'" +
                 ", properties='" + properties + "'" +
                 '}';
     }

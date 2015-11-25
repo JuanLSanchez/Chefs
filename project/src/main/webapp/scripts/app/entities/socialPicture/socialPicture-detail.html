@@ -20,10 +20,10 @@
             </tr>
             <tr>
                 <td>
-                    <span translate="chefsApp.socialPicture.url">Url</span>
+                    <span translate="chefsApp.socialPicture.src">Src</span>
                 </td>
                 <td>
-                    <span class="form-control-static">{{socialPicture.url}}</span>
+                    <img data-ng-src="{{'data:image/*;base64,' + socialPicture.src}}" style="max-width: 100%;" ng-if="socialPicture.src"/>
                 </td>
             </tr>
             <tr>

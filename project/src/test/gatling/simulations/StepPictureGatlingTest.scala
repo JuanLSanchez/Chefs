@@ -67,7 +67,7 @@ class StepPictureGatlingTest extends Simulation {
             .exec(http("Create new stepPicture")
             .post("/api/stepPictures")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "url":"SAMPLE_TEXT", "properties":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "src":null, "properties":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_stepPicture_url")))
             .pause(10)

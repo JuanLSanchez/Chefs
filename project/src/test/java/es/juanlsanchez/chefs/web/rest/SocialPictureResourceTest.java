@@ -1,7 +1,6 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
-import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.SocialPicture;
 import es.juanlsanchez.chefs.repository.SocialPictureRepository;
 
@@ -12,7 +11,6 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -22,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -45,8 +44,9 @@ public class SocialPictureResourceTest {
 
     private static final String DEFAULT_TITLE = "SAMPLE_TEXT";
     private static final String UPDATED_TITLE = "UPDATED_TEXT";
-    private static final String DEFAULT_URL = "SAMPLE_TEXT";
-    private static final String UPDATED_URL = "UPDATED_TEXT";
+
+    private static final byte[] DEFAULT_SRC = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_SRC = TestUtil.createByteArray(2, "1");
     private static final String DEFAULT_PROPERTIES = "SAMPLE_TEXT";
     private static final String UPDATED_PROPERTIES = "UPDATED_TEXT";
 
@@ -77,7 +77,7 @@ public class SocialPictureResourceTest {
     public void initTest() {
         socialPicture = new SocialPicture();
         socialPicture.setTitle(DEFAULT_TITLE);
-        socialPicture.setUrl(DEFAULT_URL);
+        socialPicture.setSrc(DEFAULT_SRC);
         socialPicture.setProperties(DEFAULT_PROPERTIES);
     }
 
@@ -98,7 +98,7 @@ public class SocialPictureResourceTest {
         assertThat(socialPictures).hasSize(databaseSizeBeforeCreate + 1);
         SocialPicture testSocialPicture = socialPictures.get(socialPictures.size() - 1);
         assertThat(testSocialPicture.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testSocialPicture.getUrl()).isEqualTo(DEFAULT_URL);
+        assertThat(testSocialPicture.getSrc()).isEqualTo(DEFAULT_SRC);
         assertThat(testSocialPicture.getProperties()).isEqualTo(DEFAULT_PROPERTIES);
     }
 
@@ -108,16 +108,13 @@ public class SocialPictureResourceTest {
         // Initialize the database
         socialPictureRepository.saveAndFlush(socialPicture);
 
-        // Set pageable
-        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
-
         // Get all the socialPictures
         restSocialPictureMockMvc.perform(get("/api/socialPictures"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(socialPicture.getId().intValue())))
                 .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-                .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
+                .andExpect(jsonPath("$.[*].src").value(hasItem(Base64Utils.encodeToString(DEFAULT_SRC))))
                 .andExpect(jsonPath("$.[*].properties").value(hasItem(DEFAULT_PROPERTIES.toString())));
     }
 
@@ -133,7 +130,7 @@ public class SocialPictureResourceTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(socialPicture.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
+            .andExpect(jsonPath("$.src").value(Base64Utils.encodeToString(DEFAULT_SRC)))
             .andExpect(jsonPath("$.properties").value(DEFAULT_PROPERTIES.toString()));
     }
 
@@ -155,9 +152,9 @@ public class SocialPictureResourceTest {
 
         // Update the socialPicture
         socialPicture.setTitle(UPDATED_TITLE);
-        socialPicture.setUrl(UPDATED_URL);
+        socialPicture.setSrc(UPDATED_SRC);
         socialPicture.setProperties(UPDATED_PROPERTIES);
-
+        
 
         restSocialPictureMockMvc.perform(put("/api/socialPictures")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -169,7 +166,7 @@ public class SocialPictureResourceTest {
         assertThat(socialPictures).hasSize(databaseSizeBeforeUpdate);
         SocialPicture testSocialPicture = socialPictures.get(socialPictures.size() - 1);
         assertThat(testSocialPicture.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testSocialPicture.getUrl()).isEqualTo(UPDATED_URL);
+        assertThat(testSocialPicture.getSrc()).isEqualTo(UPDATED_SRC);
         assertThat(testSocialPicture.getProperties()).isEqualTo(UPDATED_PROPERTIES);
     }
 

@@ -42,7 +42,7 @@
                 <tr>
                     <th translate="global.field.id">ID</th>
                     <th translate="chefsApp.backgroundPicture.title">Title</th>
-                    <th translate="chefsApp.backgroundPicture.url">Url</th>
+                    <th translate="chefsApp.backgroundPicture.src">Src</th>
                     <th translate="chefsApp.backgroundPicture.properties">Properties</th>
                     <th translate="chefsApp.backgroundPicture.user">user</th>
                     <th></th>
@@ -52,7 +52,9 @@
                 <tr ng-repeat="backgroundPicture in backgroundPictures">
                     <td><a ui-sref="backgroundPicture.detail({id:backgroundPicture.id})">{{backgroundPicture.id}}</a></td>
                     <td>{{backgroundPicture.title}}</td>
-                    <td>{{backgroundPicture.url}}</td>
+                    <td>
+                        <img data-ng-src="{{'data:image/*;base64,' + backgroundPicture.src}}" style="max-height: 30px;" ng-if="backgroundPicture.src"/> {{byteSize(backgroundPicture.src)}}
+                    </td>
                     <td>{{backgroundPicture.properties}}</td>
                     <td>
                         {{backgroundPicture.user.id}}

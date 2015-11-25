@@ -67,7 +67,7 @@ class BackgroundPictureGatlingTest extends Simulation {
             .exec(http("Create new backgroundPicture")
             .post("/api/backgroundPictures")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "url":"SAMPLE_TEXT", "properties":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "src":null, "properties":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_backgroundPicture_url")))
             .pause(10)

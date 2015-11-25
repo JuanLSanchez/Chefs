@@ -20,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -43,8 +44,9 @@ public class ProfilePictureResourceTest {
 
     private static final String DEFAULT_TITLE = "SAMPLE_TEXT";
     private static final String UPDATED_TITLE = "UPDATED_TEXT";
-    private static final String DEFAULT_URL = "SAMPLE_TEXT";
-    private static final String UPDATED_URL = "UPDATED_TEXT";
+
+    private static final byte[] DEFAULT_SRC = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_SRC = TestUtil.createByteArray(2, "1");
     private static final String DEFAULT_PROPERTIES = "SAMPLE_TEXT";
     private static final String UPDATED_PROPERTIES = "UPDATED_TEXT";
 
@@ -75,7 +77,7 @@ public class ProfilePictureResourceTest {
     public void initTest() {
         profilePicture = new ProfilePicture();
         profilePicture.setTitle(DEFAULT_TITLE);
-        profilePicture.setUrl(DEFAULT_URL);
+        profilePicture.setSrc(DEFAULT_SRC);
         profilePicture.setProperties(DEFAULT_PROPERTIES);
     }
 
@@ -96,7 +98,7 @@ public class ProfilePictureResourceTest {
         assertThat(profilePictures).hasSize(databaseSizeBeforeCreate + 1);
         ProfilePicture testProfilePicture = profilePictures.get(profilePictures.size() - 1);
         assertThat(testProfilePicture.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testProfilePicture.getUrl()).isEqualTo(DEFAULT_URL);
+        assertThat(testProfilePicture.getSrc()).isEqualTo(DEFAULT_SRC);
         assertThat(testProfilePicture.getProperties()).isEqualTo(DEFAULT_PROPERTIES);
     }
 
@@ -112,7 +114,7 @@ public class ProfilePictureResourceTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(profilePicture.getId().intValue())))
                 .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-                .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
+                .andExpect(jsonPath("$.[*].src").value(hasItem(Base64Utils.encodeToString(DEFAULT_SRC))))
                 .andExpect(jsonPath("$.[*].properties").value(hasItem(DEFAULT_PROPERTIES.toString())));
     }
 
@@ -128,7 +130,7 @@ public class ProfilePictureResourceTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(profilePicture.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
+            .andExpect(jsonPath("$.src").value(Base64Utils.encodeToString(DEFAULT_SRC)))
             .andExpect(jsonPath("$.properties").value(DEFAULT_PROPERTIES.toString()));
     }
 
@@ -150,7 +152,7 @@ public class ProfilePictureResourceTest {
 
         // Update the profilePicture
         profilePicture.setTitle(UPDATED_TITLE);
-        profilePicture.setUrl(UPDATED_URL);
+        profilePicture.setSrc(UPDATED_SRC);
         profilePicture.setProperties(UPDATED_PROPERTIES);
         
 
@@ -164,7 +166,7 @@ public class ProfilePictureResourceTest {
         assertThat(profilePictures).hasSize(databaseSizeBeforeUpdate);
         ProfilePicture testProfilePicture = profilePictures.get(profilePictures.size() - 1);
         assertThat(testProfilePicture.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testProfilePicture.getUrl()).isEqualTo(UPDATED_URL);
+        assertThat(testProfilePicture.getSrc()).isEqualTo(UPDATED_SRC);
         assertThat(testProfilePicture.getProperties()).isEqualTo(UPDATED_PROPERTIES);
     }
 

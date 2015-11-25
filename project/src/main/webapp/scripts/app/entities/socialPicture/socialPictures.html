@@ -42,7 +42,7 @@
                 <tr>
                     <th translate="global.field.id">ID</th>
                     <th translate="chefsApp.socialPicture.title">Title</th>
-                    <th translate="chefsApp.socialPicture.url">Url</th>
+                    <th translate="chefsApp.socialPicture.src">Src</th>
                     <th translate="chefsApp.socialPicture.properties">Properties</th>
                     <th></th>
                 </tr>
@@ -51,7 +51,9 @@
                 <tr ng-repeat="socialPicture in socialPictures">
                     <td><a ui-sref="socialPicture.detail({id:socialPicture.id})">{{socialPicture.id}}</a></td>
                     <td>{{socialPicture.title}}</td>
-                    <td>{{socialPicture.url}}</td>
+                    <td>
+                        <img data-ng-src="{{'data:image/*;base64,' + socialPicture.src}}" style="max-height: 30px;" ng-if="socialPicture.src"/> {{byteSize(socialPicture.src)}}
+                    </td>
                     <td>{{socialPicture.properties}}</td>
                     <td>
                         <button type="submit"

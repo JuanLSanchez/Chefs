@@ -42,7 +42,7 @@
                 <tr>
                     <th translate="global.field.id">ID</th>
                     <th translate="chefsApp.stepPicture.title">Title</th>
-                    <th translate="chefsApp.stepPicture.url">Url</th>
+                    <th translate="chefsApp.stepPicture.src">Src</th>
                     <th translate="chefsApp.stepPicture.properties">Properties</th>
                     <th translate="chefsApp.stepPicture.step">step</th>
                     <th></th>
@@ -52,7 +52,9 @@
                 <tr ng-repeat="stepPicture in stepPictures">
                     <td><a ui-sref="stepPicture.detail({id:stepPicture.id})">{{stepPicture.id}}</a></td>
                     <td>{{stepPicture.title}}</td>
-                    <td>{{stepPicture.url}}</td>
+                    <td>
+                        <img data-ng-src="{{'data:image/*;base64,' + stepPicture.src}}" style="max-height: 30px;" ng-if="stepPicture.src"/> {{byteSize(stepPicture.src)}}
+                    </td>
                     <td>{{stepPicture.properties}}</td>
                     <td>
                         <a ui-sref="step.detail({id:stepPicture.step.id})">{{stepPicture.step.id}}</a>
