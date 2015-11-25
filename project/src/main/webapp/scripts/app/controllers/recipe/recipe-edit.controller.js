@@ -3,7 +3,7 @@
 angular.module('chefsApp').controller('RecipeEditController',
         function($rootScope, $scope, $stateParams, entity, Recipe) {
 
-        $scope.step = {position: null, section: null, id: null};
+        $scope.step = {position: null, section: null, id: null, stepPicture:[]};
         $scope.recipe = entity;
         $scope.load = function(id) {
             Recipe.get({id : id}, function(result) {
@@ -27,7 +27,7 @@ angular.module('chefsApp').controller('RecipeEditController',
 //Steps
         $scope.addStep = function (){
             $scope.recipe.steps.push(angular.copy($scope.step));
-            $scope.step = {position: null, section: null, id: null};
+            $scope.step = {position: null, section: null, id: null, stepPicture:[]};
         };
         $scope.deleteStep = function(position){
             $scope.recipe.steps.splice(position,1);
@@ -40,6 +40,12 @@ angular.module('chefsApp').controller('RecipeEditController',
 
         $scope.clear = function() {
             $modalInstance.dismiss('cancel');
+        };
+        $scope.addImg = function(step) {
+            step.stepPicture.push({title:null, src:null, properties:null});
+        };
+        $scope.deleteImg = function(step, img){
+            $scope.recipe.steps[step].stepPicture.splice(img,1);
         };
 
 //Pictures

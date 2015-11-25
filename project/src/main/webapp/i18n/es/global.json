@@ -1,5 +1,6 @@
 {
     "global": {
+        "add": "Añadir",
         "title": "Chefs",
         "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
         "menu": {
@@ -94,6 +95,7 @@
         }
     },
     "entity": {
+        "title": "Titulo",
         "action": {
             "addblob": "Añadir binario",
             "addimage": "Añadir imagen",
@@ -103,7 +105,7 @@
             "edit": "Editar",
             "save": "Guardar",
             "view": "Ver",
-            "addordropimage": "Añade o arrastra una imagen"
+            "addordropimage": "Selecciona o arrastra una imagen"
         },
         "detail": {
             "field": "Field",
