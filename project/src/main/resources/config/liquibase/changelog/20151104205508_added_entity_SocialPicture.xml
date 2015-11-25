@@ -23,7 +23,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="varchar(255)"/>
-            <column name="url" type="varchar(255)"/>
+            <column name="src" type="blob"/>
             <column name="properties" type="varchar(255)"/>
         </createTable>
         
