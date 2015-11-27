@@ -20,18 +20,18 @@ public class StepPicture implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "title")
     private String title;
-    
+
     @Lob
     @Column(name = "src")
     private byte[] src;
-    
+
     @Column(name = "properties")
     private String properties;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Step step;
 
     public Long getId() {

@@ -24,18 +24,18 @@ public class Ingredient implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Min(value = 0)        
+    @Min(value = 0)
     @Column(name = "amount")
     private Double amount;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "measurement")
     private Measurement measurement;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Step step;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Food food;
 
     public Long getId() {

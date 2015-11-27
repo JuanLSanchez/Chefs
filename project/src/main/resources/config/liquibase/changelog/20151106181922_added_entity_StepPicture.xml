@@ -23,11 +23,11 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="varchar(255)"/>
-            <column name="url" type="varchar(255)"/>
+            <column name="src" type="longblob"/>
             <column name="properties" type="varchar(255)"/>
             <column name="step_id" type="bigint"/>
         </createTable>
-        
+
         <addForeignKeyConstraint baseColumnNames="step_id"
                                  baseTableName="STEP_PICTURE"
                                  constraintName="fk_steppicture_step_id"

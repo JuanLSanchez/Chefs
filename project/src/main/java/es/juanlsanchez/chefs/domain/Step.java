@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.inject.Inject;
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Step.
@@ -31,15 +33,15 @@ public class Step implements Serializable {
     @Column(name = "section", nullable = false)
     private String section;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JsonIgnore
     private Recipe recipe;
 
-    @OneToMany(mappedBy = "step")
+    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<StepPicture> stepPicture;
 
-    @OneToMany(mappedBy = "step")
+    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Ingredient> ingredients = new HashSet<>();

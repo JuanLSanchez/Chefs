@@ -2,8 +2,10 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
+import es.juanlsanchez.chefs.service.RecipeService;
 import es.juanlsanchez.chefs.service.UserService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
@@ -25,6 +27,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing Recipe.
@@ -41,6 +44,8 @@ public class RecipeResource {
     @Autowired
     private UserService userService;
 
+    @Autowired RecipeService recipeService;
+
     /**
      * POST  /recipes -> Create a new recipe.
      */
@@ -53,17 +58,11 @@ public class RecipeResource {
         if (recipe.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new recipe cannot already have an ID").body(null);
         }
-        User principal;
-        DateTime currentTime;
 
-        currentTime = new DateTime();
-        principal = userService.getPrincipal();
+        Recipe result;
 
-        recipe.setUser(principal);
-        recipe.setCreationDate(currentTime);
-        recipe.setUpdateDate(currentTime);
+        result = recipeService.create(recipe);
 
-        Recipe result = recipeRepository.save(recipe);
         return ResponseEntity.created(new URI("/api/recipes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("recipe", result.getId().toString()))
             .body(result);

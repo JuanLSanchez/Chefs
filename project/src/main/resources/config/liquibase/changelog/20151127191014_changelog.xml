@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+   <changeSet author="juanlu (generated)" id="1448647820356-33">
+      <addNotNullConstraint columnDataType="datetime"
+                            columnName="creation_date"
+                            tableName="COMPETITION"/>
+   </changeSet>
+   <changeSet author="juanlu (generated)" id="1448647820356-34">
+      <addNotNullConstraint columnDataType="datetime" columnName="date" tableName="EVENT"/>
+   </changeSet>
+   <changeSet author="juanlu (generated)" id="1448647820356-35">
+      <addNotNullConstraint columnDataType="bigint" columnName="food_id" tableName="INGREDIENT"/>
+   </changeSet>
+   <changeSet author="juanlu (generated)" id="1448647820356-36">
+      <addNotNullConstraint columnDataType="bigint" columnName="recipe_id" tableName="STEP"/>
+   </changeSet>
+   <changeSet author="juanlu (generated)" id="1448647820356-37">
+      <addNotNullConstraint columnDataType="bigint" columnName="step_id" tableName="INGREDIENT"/>
+   </changeSet>
+   <changeSet author="juanlu (generated)" id="1448647820356-38">
+      <addNotNullConstraint columnDataType="bigint"
+                            columnName="step_id"
+                            tableName="STEP_PICTURE"/>
+   </changeSet>
+   <changeSet author="juanlu (generated)" id="1448647820356-39">
+      <addNotNullConstraint columnDataType="datetime"
+                            columnName="update_date"
+                            tableName="RECIPE"/>
+   </changeSet>
+</databaseChangeLog>
