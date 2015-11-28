@@ -15,7 +15,8 @@
                 "socialEntity": "SocialEntity",
                 "recipe": "Recipe",
                 "step": "Step",
-                "ingredient": "Ingredient",
+                "ingredient": "Ingrediente",
+                "ingredients": "Ingredientes",
                 "stepPicture": "StepPicture",
                 "schedule": "Schedule",
                 "menu": "Menu",
@@ -99,6 +100,8 @@
         "action": {
             "addblob": "Añadir binario",
             "addimage": "Añadir imagen",
+            "addingredient": "Añadir ingrediente",
+            "addstep": "Añadir paso",
             "back": "Atrás",
             "cancel": "Cancelar",
             "delete": "Eliminar",

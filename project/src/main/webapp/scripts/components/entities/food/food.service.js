@@ -14,3 +14,9 @@ angular.module('chefsApp')
             'update': { method:'PUT' }
         });
     });
+angular.module('chefsApp')
+    .factory('FoodSearch', function ($resource, DateUtils) {
+        return $resource('api/foods/search/:name', {}, {
+            'query': { method: 'GET', isArray: true}
+        });
+    });

@@ -1,51 +1,51 @@
 id;normalizaed_name;name;kcal
-1;ARROZBLANCO;Arroz blanco ;354
-2;ARROZINTEGRAL;Arroz integral ;350
-3;AVENA;Avena ;367
-4;CEBADA;Cebada ;373
-5;CENTENO;Centeno ;350
-6;CEREALESCONCHOCOLATE;Cereales con chocolate ;358
-7;CEREALESDESAYUNO,CONMIEL;Cereales desayuno, con miel ;386
-8;COPOSDEMAIZ;Copos de maíz ;350
-9;HARINADEMAIZ;Harina de maíz ;349
-10;HARINADETRIGOINTEGRAL;Harina de trigo integral ;340
-11;HARINADETRIGOREFINADA;Harina de trigo refinada ;353
-12;PANDECENTENO;Pan de centeno ;241
-13;PANDETRIGOBLANCO;Pan de trigo blanco ;255
-14;PANDETRIGOINTEGRAL;Pan de trigo integral ;239
-15;PANDETRIGOMOLDEBLANCO;Pan de trigo molde blanco ;233
-16;PANDETRIGOMOLDEINTEGRAL;Pan de trigo molde integral ;216
-17;PASTAALHUEVO;Pasta al huevo ;368
-18;PASTADESEMOLA;Pasta de sémola ;361
-19;POLENTA;Polenta ;358
-20;SEMOLADETRIGO;Sémola de trigo ;368
-21;YUCA;Yuca ;338
-22;ARVEJASSECAS;Arvejas secas ;340
-23;GARBANZOS;Garbanzos ;361
-24;HABASSECAS;Habas secas ;343
-25;LENTEJAS;Lentejas ;336
-26;POROTO;Poroto ;316
-27;SOJAENGRANO;Soja en grano ;422
-28;CLARA;Clara ;48
-29;HUEVODURO;Huevo duro ;147
-30;HUEVOENTERO;Huevo entero ;162
-31;YEMA;Yema ;368
-32;BIZCOCHO;Bizcocho ;456
-33;CROISSANTCHOCOLATE;Croissant chocolate ;469
-34;CROISSANT,DONUT;Croissant, donut ;456
-35;GALLETASDECHOCOLATE;Galletas de chocolate ;524
-36;GALLETASDEMANTEQUILLATIPO“DANESAS”;Galletas de mantequilla tipo “Danesas” ;397
-37;GALLETASSALADAS;Galletas saladas ;464
-38;MAGDALENAS;Magdalenas ;469
-39;PASTADEHOJALDRECOCIDA;Pasta de hojaldre cocida ;565
-40;PASTELDEMANZANA;Pastel de manzana ;311
-41;PASTELDEMANZANA,MASAHOJALDRE;Pastel de manzana, masa hojaldre ;456
-42;PASTELDEQUESO;Pastel de queso ;414
-43;AZUCAR;Azúcar ;380
-44;CACAOENPOLVOCONAZUCARINSTANTANEO;Cacao en polvo con azúcar instantáneo ;366
-45;CARAMELOS;Caramelos ;378
-46;CHOCOLATECONLECHE;Chocolate con leche ;550
-47;CHOCOLATESINLECHE;Chocolate sin leche ;530
-48;CREMACHOCOLATECONAVELLANAS;Crema chocolate con avellanas ;549
-49;DULCEDEMEMBRILLO;Dulce de membrillo ;215
-50;GOMASDEFRUTA;Gomas de fruta ;172
+1;ARROZBLANCO;Arroz blanco;354
+2;ARROZINTEGRAL;Arroz integral;350
+3;AVENA;Avena;367
+4;CEBADA;Cebada;373
+5;CENTENO;Centeno;350
+6;CEREALESCONCHOCOLATE;Cereales con chocolate;358
+7;CEREALESDESAYUNO,CONMIEL;Cereales desayuno, con miel;386
+8;COPOSDEMAIZ;Copos de maíz;350
+9;HARINADEMAIZ;Harina de maíz;349
+10;HARINADETRIGOINTEGRAL;Harina de trigo integral;340
+11;HARINADETRIGOREFINADA;Harina de trigo refinada;353
+12;PANDECENTENO;Pan de centeno;241
+13;PANDETRIGOBLANCO;Pan de trigo blanco;255
+14;PANDETRIGOINTEGRAL;Pan de trigo integral;239
+15;PANDETRIGOMOLDEBLANCO;Pan de trigo molde blanco;233
+16;PANDETRIGOMOLDEINTEGRAL;Pan de trigo molde integral;216
+17;PASTAALHUEVO;Pasta al huevo;368
+18;PASTADESEMOLA;Pasta de sémola;361
+19;POLENTA;Polenta;358
+20;SEMOLADETRIGO;Sémola de trigo;368
+21;YUCA;Yuca;338
+22;ARVEJASSECAS;Arvejas secas;340
+23;GARBANZOS;Garbanzos;361
+24;HABASSECAS;Habas secas;343
+25;LENTEJAS;Lentejas;336
+26;POROTO;Poroto;316
+27;SOJAENGRANO;Soja en grano;422
+28;CLARA;Clara;48
+29;HUEVODURO;Huevo duro;147
+30;HUEVOENTERO;Huevo entero;162
+31;YEMA;Yema;368
+32;BIZCOCHO;Bizcocho;456
+33;CROISSANTCHOCOLATE;Croissant chocolate;469
+34;CROISSANT,DONUT;Croissant, donut;456
+35;GALLETASDECHOCOLATE;Galletas de chocolate;524
+36;GALLETASDEMANTEQUILLATIPO“DANESAS”;Galletas de mantequilla tipo “Danesas”;397
+37;GALLETASSALADAS;Galletas saladas;464
+38;MAGDALENAS;Magdalenas;469
+39;PASTADEHOJALDRECOCIDA;Pasta de hojaldre cocida;565
+40;PASTELDEMANZANA;Pastel de manzana;311
+41;PASTELDEMANZANA,MASAHOJALDRE;Pastel de manzana, masa hojaldre;456
+42;PASTELDEQUESO;Pastel de queso;414
+43;AZUCAR;Azúcar;380
+44;CACAOENPOLVOCONAZUCARINSTANTANEO;Cacao en polvo con azúcar instantáneo;366
+45;CARAMELOS;Caramelos;378
+46;CHOCOLATECONLECHE;Chocolate con leche;550
+47;CHOCOLATESINLECHE;Chocolate sin leche;530
+48;CREMACHOCOLATECONAVELLANAS;Crema chocolate con avellanas;549
+49;DULCEDEMEMBRILLO;Dulce de membrillo;215
+50;GOMASDEFRUTA;Gomas de fruta;172

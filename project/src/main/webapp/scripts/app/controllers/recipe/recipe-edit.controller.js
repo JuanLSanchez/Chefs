@@ -1,10 +1,23 @@
 'use strict';
 
 angular.module('chefsApp').controller('RecipeEditController',
-        function($rootScope, $scope, $stateParams, entity, Recipe) {
+        function($rootScope, $scope, $stateParams, entity, Recipe, FoodSearch) {
 
-        $scope.step = {position: null, section: null, id: null, stepPicture:[]};
+        $scope.step = {position: null, section: null, id: null, stepPicture:[], ingredients:[]};
         $scope.recipe = entity;
+        $scope.searchFood = function(ingredient) {
+            if(ingredient.food.name != null && ingredient.food.name.length > 0){
+                FoodSearch.query({name : ingredient.food.name}, function(result) {
+                    $scope.listOfFoods = result;
+                    $scope.listOfFoods.forEach(function(element){
+                        if ( element.name == ingredient.food.name){
+                            ingredient.food = element;
+                        }
+                    });
+                });
+
+            }
+        };
         $scope.load = function(id) {
             Recipe.get({id : id}, function(result) {
                 $scope.recipe = result;
@@ -24,7 +37,7 @@ angular.module('chefsApp').controller('RecipeEditController',
             }
         };
 
-//Steps
+//Add Steps to Recipe
         $scope.addStep = function (){
             $scope.recipe.steps.push(angular.copy($scope.step));
             $scope.step = {position: null, section: null, id: null, stepPicture:[]};
@@ -37,20 +50,24 @@ angular.module('chefsApp').controller('RecipeEditController',
                 $scope.recipe.steps.forEach(function(element, index, array){element.position = index;});
             }
         };
-
         $scope.clear = function() {
             $modalInstance.dismiss('cancel');
         };
+//Add Picture to Step
         $scope.addImg = function(step) {
             step.stepPicture.push({title:null, src:null, properties:null, id:null});
         };
         $scope.deleteImg = function(step, img){
-            $scope.recipe.steps[step
-                ].stepPicture.splice(img,1);
+            step.stepPicture.splice(img,1);
         };
-
-//Pictures
-
+//Add Ingredient to Step
+        $scope.addIngredient = function(step){
+            step.ingredients.push({amount:null, measurement:null, food:{id:null, normalizaedName:null, name:null, kcal:null}})
+        };
+        $scope.deleteIngredient = function(step, ingredient){
+            step.ingredients.splice(ingredient,1);
+        };
+//Pictures tools
         $scope.byteSize = function (base64String) {
             if (!angular.isString(base64String)) {
                 return '';
@@ -93,50 +110,6 @@ angular.module('chefsApp').controller('RecipeEditController',
                 };
             }
         };
-
-        $scope.byteSize = function (base64String) {
-            if (!angular.isString(base64String)) {
-                return '';
-            }
-            function endsWith(suffix, str) {
-                return str.indexOf(suffix, str.length - suffix.length) !== -1;
-            }
-            function paddingSize(base64String) {
-                if (endsWith('==', base64String)) {
-                    return 2;
-                }
-                if (endsWith('=', base64String)) {
-                    return 1;
-                }
-                return 0;
-            }
-            function size(base64String) {
-                return base64String.length / 4 * 3 - paddingSize(base64String);
-            }
-            function formatAsBytes(size) {
-                return size.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " bytes";
-            }
-
-            return formatAsBytes(size(base64String));
-        };
-
-        $scope.setSrc = function ($file, socialPicture) {
-            if ($file && $file.$error == 'pattern') {
-                return;
-            }
-            if ($file) {
-                var fileReader = new FileReader();
-                fileReader.readAsDataURL($file);
-                fileReader.onload = function (e) {
-                    var data = e.target.result;
-                    var base64Data = data.substr(data.indexOf('base64,') + 'base64,'.length);
-                    $scope.$apply(function() {
-                        socialPicture.src = base64Data;
-                    });
-                };
-            }
-        };
-
 
         $rootScope.securityEntity = $scope.recipe;
 

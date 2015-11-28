@@ -52,6 +52,7 @@ angular.module('chefsApp')
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');
                         $translatePartialLoader.addPart('global');
+                        $translatePartialLoader.addPart('measurement');
                         return $translate.refresh();
                     }]
                 }

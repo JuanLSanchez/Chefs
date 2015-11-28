@@ -3,10 +3,12 @@ package es.juanlsanchez.chefs.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Food;
 import es.juanlsanchez.chefs.repository.FoodRepository;
+import es.juanlsanchez.chefs.service.FoodService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing Food.
@@ -33,6 +36,9 @@ public class FoodResource {
 
     @Inject
     private FoodRepository foodRepository;
+
+    @Autowired
+    private FoodService foodService;
 
     /**
      * POST  /foods -> Create a new food.
@@ -88,8 +94,8 @@ public class FoodResource {
      * GET  /foods/:id -> get the "id" food.
      */
     @RequestMapping(value = "/foods/{id}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Food> getFood(@PathVariable Long id) {
         log.debug("REST request to get Food : {}", id);
@@ -98,6 +104,29 @@ public class FoodResource {
                 food,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * GET  /foods/search/:name -> get the "id" food.
+     */
+    @RequestMapping(value = "/foods/search/{name}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Set<Food>> searchFood(@PathVariable String name) {
+        log.debug("REST request to search Food : {}", name);
+        Set<Food> foods;
+        ResponseEntity result;
+
+        foods = foodService.search(name);
+
+        result = Optional.ofNullable(foods)
+            .map(food -> new ResponseEntity<>(
+                food,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+        return result;
     }
 
     /**

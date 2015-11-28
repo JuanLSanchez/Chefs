@@ -16,6 +16,7 @@
                 "recipe": "Recipe",
                 "step": "Step",
                 "ingredient": "Ingredient",
+                "ingredients": "Ingredients",
                 "stepPicture": "StepPicture",
                 "schedule": "Schedule",
                 "menu": "Menu",
@@ -100,6 +101,8 @@
         "action": {
             "addblob": "Add blob",
             "addimage": "Add image",
+            "addingredient": "Add ingredient",
+            "addstep": "Add step",
             "back": "Back",
             "cancel": "Cancel",
             "delete": "Delete",
