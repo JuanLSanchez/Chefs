@@ -62,6 +62,7 @@ public class RecipeResource {
         Recipe result;
 
         result = recipeService.create(recipe);
+        System.out.println("Creado");
 
         return ResponseEntity.created(new URI("/api/recipes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("recipe", result.getId().toString()))
@@ -154,6 +155,7 @@ public class RecipeResource {
         throws URISyntaxException {
         Page<Recipe> page = recipeRepository.findByUserIsCurrentUser(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        ResponseEntity result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return result;
     }
 }

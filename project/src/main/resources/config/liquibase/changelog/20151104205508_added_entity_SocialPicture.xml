@@ -23,9 +23,9 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="varchar(255)"/>
-            <column name="src" type="blob"/>
+            <column name="src" type="longblob"/>
             <column name="properties" type="varchar(255)"/>
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>

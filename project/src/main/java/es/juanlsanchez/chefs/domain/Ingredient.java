@@ -1,5 +1,6 @@
 package es.juanlsanchez.chefs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,7 +33,9 @@ public class Ingredient implements Serializable {
     @Column(name = "measurement")
     private Measurement measurement;
 
+    /*Si se quiere quitar el JsonIgnore, se debe de poner @JsonManagedReference*/
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Step step;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)

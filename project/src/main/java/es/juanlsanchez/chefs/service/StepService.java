@@ -33,15 +33,20 @@ public class StepService {
         stepPictures = step.getStepPicture();
         ingredients = step.getIngredients();
 
-        step.setIngredients(Sets.newConcurrentHashSet());
-        step.setStepPicture(Sets.newConcurrentHashSet());
+        step.setIngredients(Sets.newHashSet());
+        step.setStepPicture(Sets.newHashSet());
 
         result = stepRepository.save(step);
 
-        if (stepPictures != null && !stepPictures.isEmpty())
-            stepPictures.forEach(stepPicture -> stepPictures.add(stepPictureService.save(stepPicture)));
-        if (ingredients != null && !ingredients.isEmpty())
-            ingredients.forEach(ingredient -> ingredients.add(ingredientService.save(ingredient)));
+        if (stepPictures != null && !stepPictures.isEmpty()){
+            stepPictures.forEach(stepPicture -> stepPicture.setStep(result));
+            result.setStepPicture(stepPictureService.save(stepPictures));
+        }
+
+        if (ingredients != null && !ingredients.isEmpty()){
+            ingredients.forEach(ingredient -> ingredient.setStep(result));
+            result.setIngredients(ingredientService.save(ingredients));
+        }
 
         result.setStepPicture(stepPictures);
         result.setIngredients(ingredients);

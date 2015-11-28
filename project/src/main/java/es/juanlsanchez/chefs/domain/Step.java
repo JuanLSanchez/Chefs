@@ -37,12 +37,10 @@ public class Step implements Serializable {
     @JsonIgnore
     private Recipe recipe;
 
-    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<StepPicture> stepPicture;
 
-    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Ingredient> ingredients = new HashSet<>();
 

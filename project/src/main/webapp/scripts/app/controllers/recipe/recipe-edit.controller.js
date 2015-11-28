@@ -42,10 +42,11 @@ angular.module('chefsApp').controller('RecipeEditController',
             $modalInstance.dismiss('cancel');
         };
         $scope.addImg = function(step) {
-            step.stepPicture.push({title:null, src:null, properties:null});
+            step.stepPicture.push({title:null, src:null, properties:null, id:null});
         };
         $scope.deleteImg = function(step, img){
-            $scope.recipe.steps[step].stepPicture.splice(img,1);
+            $scope.recipe.steps[step
+                ].stepPicture.splice(img,1);
         };
 
 //Pictures

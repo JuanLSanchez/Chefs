@@ -1,5 +1,7 @@
 package es.juanlsanchez.chefs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -31,7 +33,9 @@ public class StepPicture implements Serializable {
     @Column(name = "properties")
     private String properties;
 
+    /*Si se quiere quitar el JsonIgnore, se debe de poner @JsonManagedReference*/
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Step step;
 
     public Long getId() {

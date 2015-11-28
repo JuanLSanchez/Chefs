@@ -23,13 +23,13 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="varchar(255)"/>
-            <column name="src" type="blob"/>
+            <column name="src" type="longblob"/>
             <column name="properties" type="varchar(255)"/>
             <column name="user_id" type="bigint">
                 <constraints unique="true"/>
             </column>
         </createTable>
-        
+
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="PROFILE_PICTURE"
                                  constraintName="fk_profilepicture_user_id"
