@@ -21,16 +21,16 @@ public class Vote implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "is_final")
     private Boolean isFinal;
-    
+
     @Column(name = "abstain")
     private Boolean abstain;
-    
+
     @Column(name = "comment")
     private String comment;
-    
+
     @Column(name = "completed_score")
     private Boolean completedScore;
 
@@ -111,6 +111,7 @@ public class Vote implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

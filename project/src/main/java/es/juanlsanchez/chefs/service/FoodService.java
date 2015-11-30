@@ -23,11 +23,28 @@ public class FoodService {
         Set<Food> result;
         String normalizaedName;
 
-        normalizaedName = StringUtils.stripAccents(name);
-        normalizaedName = normalizaedName.replaceAll(" ", "");
-        normalizaedName = normalizaedName.toUpperCase();
+        normalizaedName = normaliza(name);
 
         result = foodRepository.search("%" + normalizaedName + "%");
+
+        return result;
+    }
+
+    public static String normaliza(String name){
+        String result;
+
+        result = StringUtils.stripAccents(name);
+        result = result.replaceAll(" ", "");
+        result = result.toUpperCase();
+
+        return result;
+    }
+
+    public Food save(Food food) {
+        Food result;
+
+        food.setNormalizaedName(normaliza(food.getName()));
+        result = foodRepository.save(food);
 
         return result;
     }

@@ -80,6 +80,7 @@ public class StepPicture implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

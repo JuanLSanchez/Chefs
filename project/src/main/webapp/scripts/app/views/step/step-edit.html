@@ -102,11 +102,12 @@
                         <span class="glyphicon glyphicon-picture" />
                     </button>
                 </div>
-                <!-- Ingredients -->
+<!-- Ingredients -->
                 <p><b style="margin: 5px;"><spam translate="global.menu.entities.ingredients">Ingredients</spam>:</b></p>
                 <ul style="margin:0px; padding: 0px;">
                     <li ng-repeat="ingredient in s.ingredients" class="row list-unstyled"  style="margin: 5px;">
-                        <div class="col-sm-6">
+                        <div class="col-sm-1"><p class="glyphicon glyphicon-remove" ng-click="deleteIngredient(s, $index)" style="color: red;"></p></div>
+                        <div class="col-sm-5">
                             <input class="form-control" list="food_name" ng-model="ingredient.food.name" ng-change="searchFood(ingredient)">
                         </div>
                         <div class="col-sm-2" style="padding: 0px;">

@@ -28,19 +28,19 @@ public class Request implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "creation_date", nullable = false)
     private DateTime creationDate;
-    
+
     @Column(name = "accepted")
     private Boolean accepted;
-    
+
     @Column(name = "locked")
     private Boolean locked;
-    
+
     @Column(name = "ignored")
     private Boolean ignored;
 
@@ -108,6 +108,7 @@ public class Request implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

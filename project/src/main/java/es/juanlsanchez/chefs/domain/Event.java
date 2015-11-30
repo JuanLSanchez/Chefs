@@ -28,14 +28,14 @@ public class Event implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull        
+    @NotNull
     @Column(name = "description", nullable = false)
     private String description;
-    
+
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
@@ -128,6 +128,7 @@ public class Event implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

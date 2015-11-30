@@ -29,26 +29,26 @@ public class Competition implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull        
+    @NotNull
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotNull        
+    @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "deadline", nullable = false)
     private DateTime deadline;
 
-    @NotNull        
+    @NotNull
     @Column(name = "rules", nullable = false)
     private String rules;
 
-    @NotNull        
+    @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
@@ -56,19 +56,19 @@ public class Competition implements Serializable {
     private DateTime inscriptionTime;
 
     @NotNull
-    @Min(value = 0)        
+    @Min(value = 0)
     @Column(name = "max_nrecipes_by_chefs", nullable = false)
     private Integer maxNRecipesByChefs;
-    
+
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "creation_date", nullable = false)
     private DateTime creationDate;
-    
+
     @Column(name = "completed_score")
     private Boolean completedScore;
-    
+
     @Column(name = "public_jury")
     private Boolean publicJury;
 
@@ -219,6 +219,7 @@ public class Competition implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

@@ -9,6 +9,7 @@ angular.module('chefsApp').controller('RecipeEditController',
             if(ingredient.food.name != null && ingredient.food.name.length > 0){
                 FoodSearch.query({name : ingredient.food.name}, function(result) {
                     $scope.listOfFoods = result;
+                    ingredient.food.id = null;
                     $scope.listOfFoods.forEach(function(element){
                         if ( element.name == ingredient.food.name){
                             ingredient.food = element;
@@ -62,7 +63,7 @@ angular.module('chefsApp').controller('RecipeEditController',
         };
 //Add Ingredient to Step
         $scope.addIngredient = function(step){
-            step.ingredients.push({amount:null, measurement:null, food:{id:null, normalizaedName:null, name:null, kcal:null}})
+            step.ingredients.push({id:null, amount:null, measurement:null, food:{id:null, normalizaedName:null, name:null, kcal:null}})
         };
         $scope.deleteIngredient = function(step, ingredient){
             step.ingredients.splice(ingredient,1);

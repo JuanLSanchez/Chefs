@@ -22,7 +22,7 @@ public class Score implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Column(name = "value", nullable = false)
     private Integer value;
 
@@ -66,6 +66,7 @@ public class Score implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

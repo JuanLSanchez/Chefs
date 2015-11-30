@@ -23,15 +23,15 @@ public class Food implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Column(name = "normalizaed_name", nullable = false)
     private String normalizaedName;
 
-    @NotNull        
+    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Min(value = 0)        
+    @Min(value = 0)
     @Column(name = "kcal")
     private Double kcal;
 
@@ -82,6 +82,7 @@ public class Food implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

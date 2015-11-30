@@ -20,14 +20,14 @@ public class BackgroundPicture implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "title")
     private String title;
-    
+
     @Lob
     @Column(name = "src")
     private byte[] src;
-    
+
     @Column(name = "properties")
     private String properties;
 
@@ -76,6 +76,7 @@ public class BackgroundPicture implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

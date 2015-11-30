@@ -23,15 +23,15 @@ public class Opinion implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull        
+    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull        
+    @NotNull
     @Column(name = "min_value", nullable = false)
     private Integer minValue;
 
-    @NotNull        
+    @NotNull
     @Column(name = "maximum", nullable = false)
     private Integer maximum;
 
@@ -93,6 +93,7 @@ public class Opinion implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

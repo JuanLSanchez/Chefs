@@ -38,7 +38,7 @@ public class Ingredient implements Serializable {
     @JsonIgnore
     private Step step;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Food food;
 
     public Long getId() {
@@ -83,6 +83,7 @@ public class Ingredient implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }

@@ -24,34 +24,34 @@ public class ActivityLog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "id_of_customer")
     private Integer idOfCustomer;
-    
+
     @Column(name = "name_of_customer")
     private String nameOfCustomer;
-    
+
     @Column(name = "picture_url")
     private String pictureUrl;
-    
+
     @Column(name = "object_type")
     private String objectType;
-    
+
     @Column(name = "verb")
     private String verb;
-    
+
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
     @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     @Column(name = "moment")
     private DateTime moment;
-    
+
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "description")
     private String description;
-    
+
     @Column(name = "tags")
     private String tags;
 
@@ -137,6 +137,7 @@ public class ActivityLog implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (id == null){return false;}
         if (this == o) {
             return true;
         }
