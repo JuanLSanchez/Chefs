@@ -20,7 +20,8 @@
     <p><b style="margin: 5px;"><spam translate="global.menu.entities.ingredients">Ingredients</spam>:</b></p>
     <ul style="margin:0px; padding: 0px;">
         <li ng-repeat="ingredient in step.ingredients" class="row list-unstyled"  style="margin: 5px;">
-            <div class="col-sm-6">
+            <div class="col-sm-1"><p class="glyphicon glyphicon-remove" ng-click="deleteIngredient(step, $index)" style="color: red;"></p></div>
+            <div class="col-sm-5">
                 <input class="form-control" list="food_name" ng-model="ingredient.food.name" ng-change="searchFood(ingredient)">
             </div>
             <div class="col-sm-2" style="padding: 0px;">
@@ -47,9 +48,9 @@
 </div>
 <!-- Pictures -->
 <div ui-sortable="sortableOptions" ng-model="step.stepPicture">
-    <div class="col-lg-12" ng-repeat="picture in s.stepPicture" style="margin-bottom: 20px;">
+    <div class="col-lg-12" ng-repeat="picture in step.stepPicture" style="margin-bottom: 20px;">
         <div class="col-lg-1">
-            <p class="glyphicon glyphicon-remove" ng-click="deleteImg(s, $index)" style="color: red;"></p>
+            <p class="glyphicon glyphicon-remove" ng-click="deleteImg(step, $index)" style="color: red;"></p>
             <p class="glyphicon glyphicon-move"></p>
         </div>
         <div class="col-lg-11" ngf-drop ngf-change="setSrc($file, picture)" ngf-pattern="'image/*'">
