@@ -9,12 +9,12 @@
                 "main": "Entidades",
                 "profilePicture": "ProfilePicture",
                 "request": "Request",
-                "tag": "Tag",
+                "tag": "Etiqueta",
                 "socialPicture": "SocialPicture",
-                "food": "Food",
+                "food": "Comida",
                 "socialEntity": "SocialEntity",
-                "recipe": "Recipe",
-                "step": "Step",
+                "recipe": "Receta",
+                "step": "Paso",
                 "ingredient": "Ingrediente",
                 "ingredients": "Ingredientes",
                 "stepPicture": "StepPicture",
@@ -108,11 +108,13 @@
             "edit": "Editar",
             "save": "Guardar",
             "view": "Ver",
-            "addordropimage": "Selecciona o arrastra una imagen"
+            "addordropimage": "Selecciona o arrastra una imagen",
+            "showfather": "Ver padre"
         },
         "detail": {
             "field": "Field",
-            "value": "Value"
+            "value": "Value",
+            "createdfrom": "Creada a partir de"
         },
         "delete": {
             "title": "Confirm delete operation"

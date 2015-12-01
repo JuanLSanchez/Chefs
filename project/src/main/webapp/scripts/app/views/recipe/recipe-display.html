@@ -1,6 +1,30 @@
 
 <div>
-    <h2><span translate="chefsApp.recipe.detail.title">Recipe</span> {{recipe.id}}</h2>
+    <h2>
+        {{recipe.name}}
+        <small ng-if="recipe.father.id">
+            <span translate="entity.detail.createdfrom">Created from</span>
+            <a  ui-sref="display_recipe({id:recipe.father.id})">{{recipe.father.name}}</a>
+        </small>
+    </h2>
+            <img class="img-responsive img-thumbnail"
+                 data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"
+                 ng-if="recipe.socialEntity.socialPicture.src"/>
+            <p>{{recipe.description}}</p>
+    <h3 translate="chefsApp.recipe.steps"></h3>
+    <div ng-repeat="step in recipe.steps">
+        <h4><span translate="global.menu.entities.step">Step</span> {{$index + 1}}</h4>
+        <p><span translate="global.menu.entities.ingredients">Ingredients</span>: </p>
+        <ul>
+            <li ng-repeat="ingredient in step.ingredients"> {{ingredient.food.name}} {{ingredient.amount}}{{ingredient.measurement}}</li>
+        </ul>
+        <p>{{step.section}}</p>
+        <div ng-repeat="picture in step.stepPicture">
+            <img class="img-responsive img-thumbnail"
+                 data-ng-src="{{'data:image/*;base64,' + picture.src}}"
+                 ng-if="picture.src"/>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>

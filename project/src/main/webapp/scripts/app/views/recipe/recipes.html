@@ -14,7 +14,7 @@
     <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
         <div ng-repeat="recipe in recipes">
             <hr>
-            <a ui-sref="recipe.detail({id:recipe.id})" class="thumbnail">
+            <a ui-sref="display_recipe({id:recipe.id})" class="thumbnail">
             <div class="row">
                 <div class="col-lg-3">
                     <img class="img-responsive img-thumbnail"

@@ -109,11 +109,13 @@
             "edit": "Edit",
             "save": "Save",
             "view": "View",
-            "addordropimage": "Add or Drop Image"
+            "addordropimage": "Add or Drop Image",
+            "showfather": "Show father"
         },
         "detail": {
             "field": "Field",
-            "value": "Value"
+            "value": "Value",
+            "createdfrom": "Created from"
         },
         "delete": {
             "title": "Confirm delete operation"
