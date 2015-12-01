@@ -15,7 +15,8 @@ import java.util.Objects;
  * A Food.
  */
 @Entity
-@Table(name = "FOOD")
+@Table(name = "FOOD", uniqueConstraints =
+    {@UniqueConstraint(columnNames = {"normalizaed_name", "name"})})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Food implements Serializable {
 

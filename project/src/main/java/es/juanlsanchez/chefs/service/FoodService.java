@@ -44,7 +44,9 @@ public class FoodService {
         Food result;
 
         food.setNormalizaedName(normaliza(food.getName()));
-        result = foodRepository.save(food);
+        result = foodRepository.findOneByNormalizaedNameAndName(food.getNormalizaedName(), food.getName());
+        if (result == null)
+            result = foodRepository.save(food);
 
         return result;
     }

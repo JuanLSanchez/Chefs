@@ -1,0 +1,110 @@
+
+<div>
+    <h2><span translate="chefsApp.recipe.detail.title">Recipe</span> {{recipe.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.creationDate">CreationDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.creationDate}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.informationUrl">InformationUrl</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.informationUrl}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.advice">Advice</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.advice}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.sugestedTime">SugestedTime</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.sugestedTime}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.updateDate">UpdateDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.updateDate}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.ingredientsInSteps">IngredientsInSteps</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{recipe.ingredientsInSteps}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.user">user</span>
+                </td>
+                <td>
+                    {{recipe.user.id}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.father">father</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="recipe.detail({id:recipe.father.id})">{{recipe.father.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="chefsApp.recipe.socialEntity">socialEntity</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="socialEntity.detail({id:recipe.socialEntity.id})">{{recipe.socialEntity.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
