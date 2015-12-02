@@ -5,7 +5,7 @@ angular.module('chefsApp')
         $stateProvider
             .state('user.recipe',{
                 parent: 'user',
-                url: '/recipe/new/:name',
+                url: '/recipe/:name',
                 views:{
                     'content@': {
                         templateUrl: 'scripts/app/views/recipe/recipe-edit.html',
@@ -24,6 +24,30 @@ angular.module('chefsApp')
                                 socialPicture:{title: null, src: null, properties: null}
                             },
                             steps:[]};
+                    },
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('recipe');
+                        $translatePartialLoader.addPart('measurement');
+                        return $translate.refresh();
+                    }]
+                }
+            })
+            .state('user.recipe.edit', {
+                parent: 'user',
+                url: '/recipe/{id}/edit',
+                views:{
+                    'content@': {
+                        templateUrl: 'scripts/app/views/recipe/recipe-edit.html',
+                        controller: 'RecipeEditController'
+                    },
+                    'aside_2@': {
+                        templateUrl: 'scripts/app/views/recipe/recipe-security.html',
+                        controller: 'RecipeSecurityController'
+                    }
+                },
+                resolve: {
+                    entity: function ($stateParams, Recipe){
+                        return Recipe.get({id : $stateParams.id});
                     },
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');

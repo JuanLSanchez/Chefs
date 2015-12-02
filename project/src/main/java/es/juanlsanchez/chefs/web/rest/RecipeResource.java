@@ -2,14 +2,11 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Recipe;
-import es.juanlsanchez.chefs.domain.Step;
-import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
 import es.juanlsanchez.chefs.service.RecipeService;
 import es.juanlsanchez.chefs.service.UserService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * REST controller for managing Recipe.
@@ -61,7 +57,7 @@ public class RecipeResource {
 
         Recipe result;
 
-        result = recipeService.create(recipe);
+        result = recipeService.save(recipe);
         System.out.println("Creado");
 
         return ResponseEntity.created(new URI("/api/recipes/" + result.getId()))
@@ -81,7 +77,7 @@ public class RecipeResource {
         if (recipe.getId() == null) {
             return createRecipe(recipe);
         }
-        Recipe result = recipeRepository.save(recipe);
+        Recipe result = recipeService.save(recipe);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("recipe", recipe.getId().toString()))
             .body(result);
