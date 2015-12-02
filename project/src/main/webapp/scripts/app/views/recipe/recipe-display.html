@@ -7,9 +7,15 @@
             <a  ui-sref="display_recipe({id:recipe.father.id})">{{recipe.father.name}}</a>
         </small>
     </h2>
-            <img class="img-responsive img-thumbnail"
-                 data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"
-                 ng-if="recipe.socialEntity.socialPicture.src"/>
+    <div class="thumbnail" ng-if="recipe.socialEntity.socialPicture.src">
+        <img class="img-responsive"
+             data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"
+             ng-if="recipe.socialEntity.socialPicture.src"/>
+        <div class="caption" ng-if="recipe.socialEntity.socialPicture.title">
+            <p class="text-center">{{recipe.socialEntity.socialPicture.title}}</p>
+        </div>
+    </div>
+
             <p>{{recipe.description}}</p>
     <h3 translate="chefsApp.recipe.steps"></h3>
     <div ng-repeat="step in recipe.steps">
@@ -19,112 +25,31 @@
             <li ng-repeat="ingredient in step.ingredients"> {{ingredient.food.name}} {{ingredient.amount}}{{ingredient.measurement}}</li>
         </ul>
         <p>{{step.section}}</p>
-        <div ng-repeat="picture in step.stepPicture">
-            <img class="img-responsive img-thumbnail"
+        <div ng-repeat="picture in step.stepPicture" class="thumbnail" ng-if="picture.src">
+            <img class="img-responsive"
                  data-ng-src="{{'data:image/*;base64,' + picture.src}}"
                  ng-if="picture.src"/>
+            <div class="caption" ng-if="picture.title">
+                <p class="text-center">{{picture.title}}</p>
+            </div>
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th translate="entity.detail.field">Field</th>
-                <th translate="entity.detail.value">Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.name">Name</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.name}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.description">Description</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.description}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.creationDate">CreationDate</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.creationDate}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.informationUrl">InformationUrl</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.informationUrl}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.advice">Advice</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.advice}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.sugestedTime">SugestedTime</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.sugestedTime}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.updateDate">UpdateDate</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.updateDate}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.ingredientsInSteps">IngredientsInSteps</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{recipe.ingredientsInSteps}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.user">user</span>
-                </td>
-                <td>
-                    {{recipe.user.id}}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.father">father</span>
-                </td>
-                <td>
-                    <a class="form-control-static" ui-sref="recipe.detail({id:recipe.father.id})">{{recipe.father.id}}</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span translate="chefsApp.recipe.socialEntity">socialEntity</span>
-                </td>
-                <td>
-                    <a class="form-control-static" ui-sref="socialEntity.detail({id:recipe.socialEntity.id})">{{recipe.socialEntity.id}}</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div ng-if="recipe.advice">
+        <h3><span translate="chefsApp.recipe.advice">Advice</span></h3>
+        <p>{{recipe.advice}}</p>
     </div>
+    <div ng-if="recipe.sugestedTime">
+        <h3><span translate="chefsApp.recipe.sugestedTime"></span></h3>
+        <p>{{recipe.sugestedTime}}</p>
+    </div>
+    <hr>
+    <div ng-if="recipe.informationUrl">
+        <p><b><span translate="chefsApp.recipe.informationUrl"></span>:</b> <a href="{{recipe.informationUrl}}">{{recipe.informationUrl}}</a></p>
+    </div>
+    <div>
+        <p tags tags-list="recipe.socialEntity.tags"></p>
+    </div>
+
 
     <button type="submit"
             onclick="window.history.back()"

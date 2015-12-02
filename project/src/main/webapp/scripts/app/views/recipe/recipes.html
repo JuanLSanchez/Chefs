@@ -17,7 +17,7 @@
             <a ui-sref="display_recipe({id:recipe.id})" class="thumbnail">
             <div class="row">
                 <div class="col-lg-3">
-                    <img class="img-responsive img-thumbnail"
+                    <img class="img-responsive"
                          data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"
                          ng-if="recipe.socialEntity.socialPicture.src"/>
                 </div>
@@ -30,7 +30,7 @@
                         <span translate="chefsApp.recipe.assessment">Assessment</span>: {{ ((recipe.socialEntity.sumRating / recipe.socialEntity.assessments.length) || 0).toFixed(1)  }}
                     </p>
                     <p>{{recipe.description}}</p>
-                    <p><span ng-repeat="tag in recipe.socialEntity.tags">{{tag.name}}{{$last ? '' : ', '}}</span></p>
+                    <p tags tags-list="recipe.socialEntity.tags"></p>
                 </div>
             </div>
             </a>
