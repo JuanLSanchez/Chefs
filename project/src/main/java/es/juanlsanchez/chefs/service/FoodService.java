@@ -42,12 +42,26 @@ public class FoodService {
 
     public Food save(Food food) {
         Food result;
+        String normalizaedName;
 
-        food.setNormalizaedName(normaliza(food.getName()));
-        result = foodRepository.findOneByNormalizaedNameAndName(food.getNormalizaedName(), food.getName());
-        if (result == null)
+        normalizaedName = normaliza(food.getName());
+        result = findOneByNormalizaedNameAndName(normalizaedName, food.getName());
+
+        if (result == null){
+            food.setNormalizaedName(normalizaedName);
             result = foodRepository.save(food);
+        }
 
         return result;
     }
+
+    public Food findOneByNormalizaedNameAndName(String normalizaedName, String name) {
+        Food result = null;
+
+        result = foodRepository.findOneByNormalizaedNameAndName(normalizaedName, name);
+
+        return result;
+    }
+
+
 }

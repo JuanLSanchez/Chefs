@@ -27,11 +27,9 @@ public class IngredientService {
         Ingredient result;
         Food food;
 
-        if (ingredient.getFood().getId() == null ||
-            ingredient.getFood().getId() == 0){
-            food = foodService.save(ingredient.getFood());
-            ingredient.setFood(food);
-        }
+        food = foodService.save(ingredient.getFood());
+        ingredient.setFood(food);
+
         result = ingredientRepository.save(ingredient);
 
         return result;

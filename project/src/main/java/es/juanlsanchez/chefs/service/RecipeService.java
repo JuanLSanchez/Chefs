@@ -100,11 +100,15 @@ public class RecipeService {
 
         isVisible = recipe.getSocialEntity().getIsPublic();
 
-        if(isVisible){
+        if(!isVisible){
             principal = userService.getPrincipal();
+            if(!principal.equals(recipe.getUser())){
         /* Si no es publica se debe de revisar que te tiene como seguidor*/
-            isVisible = recipe.getUser().getAcceptRequests().stream().
-                filter(request -> request.getFollower().equals(principal)).findFirst().isPresent();
+                isVisible = recipe.getUser().getAcceptRequests().stream().
+                    filter(request -> request.getFollower().equals(principal)).findFirst().isPresent();
+            }else{
+                isVisible=true;
+            }
         }
 
         Assert.isTrue(isVisible);
