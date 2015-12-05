@@ -6,11 +6,11 @@
                 "createLabel": "Create a new Recipe",
                 "createOrEditLabel": "Create or edit a Recipe"
             },
-            "created": "A new Recipe is created with identifier {{ param }}",
-            "updated": "A Recipe is updated with identifier {{ param }}",
-            "deleted": "A Recipe is deleted with identifier {{ param }}",
+            "created": "A new Recipe is created",
+            "updated": "A Recipe is updated",
+            "deleted": "A Recipe is deleted",
             "delete": {
-                "question": "Are you sure you want to delete Recipe {{ id }}?"
+                "question": "Are you sure you want to delete Recipe?"
             },
             "detail": {
                 "title": "Recipe"
@@ -37,7 +37,10 @@
             "assessment": "Assessment",
             "blocked": "Blocked",
             "publicInscription": "Cloneable",
-            "isPublic": "Public"
+            "isPublic": "Public",
+            "amount": "Amount",
+            "measurement": "Measurement",
+            "kcal": "Kcal by 100g"
         }
     }
 }

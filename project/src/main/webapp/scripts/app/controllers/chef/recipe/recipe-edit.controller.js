@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chefsApp').controller('RecipeEditController',
-        function($rootScope, $scope, $stateParams, entity, Recipe, FoodSearch) {
+        function($rootScope, $state, $scope, $stateParams, entity, Recipe, FoodSearch) {
 
         $scope.step = {position: null, section: null, id: null, stepPicture:[], ingredients:[]};
         $scope.recipe = entity;
@@ -26,8 +26,7 @@ angular.module('chefsApp').controller('RecipeEditController',
         };
 
         var onSaveFinished = function (result) {
-            $scope.$emit('chefsApp:recipeUpdate', result);
-            $modalInstance.close(result);
+            $state.go('display_recipe', {id:result.id, message:result});
         };
 
         $scope.save = function () {

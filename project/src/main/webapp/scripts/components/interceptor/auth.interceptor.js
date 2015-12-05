@@ -14,7 +14,7 @@ angular.module('chefsApp')
                     Auth.logout();
                     $rootScope.returnToState = to;
                     $rootScope.returnToStateParams = params;
-                    $state.go('login');
+                    $state.go('main');
                 }
                 return $q.reject(response);
             }

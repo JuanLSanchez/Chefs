@@ -6,6 +6,7 @@ angular.module('chefsApp')
             .state('display_recipe', {
                 parent: 'display',
                 url: '/recipe/{id}',
+                params: {message:null},
                 data: {
                     pageTitle: 'chefsApp.recipe.detail.title'
                 },

@@ -6,8 +6,11 @@
                 "createLabel": "Crear una receta",
                 "createOrEditLabel": "Crear o editar receta"
             },
+            "created": "Una nueva receta se ha creado",
+            "updated": "Se ha modificado una receta",
+            "deleted": "Se ha eliminado una receta",
             "delete": {
-                "question": "Estas seguro de que desea eliminar la receta {{ id }}?"
+                "question": "¿Estas seguro de que desea eliminar la receta?"
             },
             "detail": {
                 "title": "Receta"
@@ -34,7 +37,10 @@
             "assessment": "Puntuación",
             "blocked": "Bloqueada",
             "publicInscription": "Clonable",
-            "isPublic": "Publica"
+            "isPublic": "Publica",
+            "amount": "Cantidad",
+            "measurement": "Medida",
+            "kcal": "Kcal por 100g"
         }
     }
 }

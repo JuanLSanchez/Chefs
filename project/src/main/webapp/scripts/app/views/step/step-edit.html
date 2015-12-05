@@ -1,10 +1,17 @@
 
-<h3 translate="chefsApp.recipe.steps"></h3>
+<h3>
+    <span translate="chefsApp.recipe.steps">Steps</span>
+    <button type="button" class="btn btn-success" ng-click="addStep()">
+        <span translate="entity.action.addstep">Add step</span>
+    </button>
+</h3>
 <datalist id="food_name">
     <option ng-repeat="food in listOfFoods" ng-value="food.name">
 </datalist>
-<div class="form-group">
-<!-- Step -->
+<div style="margin: 5px; margin-left: 0px;">
+</div>
+<!--<div class="form-group">
+&lt;!&ndash; Step &ndash;&gt;
     <p><b style="margin: 5px;"><spam translate="global.menu.entities.step">Step</spam>:</b></p>
     <textarea class="form-control" name="step_section" id="step_section"
               ng-model="step.section" placeholder="{{'chefsApp.recipe.step' | translate}}..."></textarea>
@@ -16,7 +23,7 @@
             <span translate="entity.action.addstep">Add step</span>
         </button>
     </div>
-    <!-- Ingredients -->
+    &lt;!&ndash; Ingredients &ndash;&gt;
     <p><b style="margin: 5px;"><spam translate="global.menu.entities.ingredients">Ingredients</spam>:</b></p>
     <ul style="margin:0px; padding: 0px;">
         <li ng-repeat="ingredient in step.ingredients" class="row list-unstyled"  style="margin: 5px;">
@@ -46,7 +53,7 @@
         </button>
     </div>
 </div>
-<!-- Pictures -->
+&lt;!&ndash; Pictures &ndash;&gt;
 <div ui-sortable="sortableOptions" ng-model="step.stepPicture">
     <div class="col-lg-12" ng-repeat="picture in step.stepPicture" style="margin-bottom: 20px;">
         <div class="col-lg-1">
@@ -80,7 +87,7 @@
         </div>
     </div>
 </div>
-<!-- Fin Picture -->
+&lt;!&ndash; Fin Picture &ndash;&gt;-->
 
 <!-- List of Steps-->
 
@@ -98,6 +105,9 @@
                 <textarea class="form-control"
                           ng-model="s.section"/>
                 <div style="margin: 5px;">
+                    <button type="button" class="btn btn-default" ng-click="addIngredient(s)">
+                        <span class="glyphicon glyphicon-pencil" />
+                    </button>
                     <button type="button" class="btn btn-default" ng-click="addImg(s)">
                         <span class="glyphicon glyphicon-picture" />
                     </button>
@@ -105,10 +115,29 @@
 <!-- Ingredients -->
                 <p><b style="margin: 5px;"><spam translate="global.menu.entities.ingredients">Ingredients</spam>:</b></p>
                 <ul style="margin:0px; padding: 0px;">
+                    <li ng-show="s.ingredients.length>0" class="text-center row list-unstyled"  style="margin: 5px;">
+                        <div class="col-sm-1">
+
+                        </div>
+                        <div class="col-sm-4" style="padding: 0px;">
+                            <span translate="global.menu.entities.food">Food</span>
+                        </div>
+                        <div class="col-sm-2" style="padding: 0px;">
+                            <span translate="chefsApp.recipe.amount">Amount</span>
+                        </div>
+                        <div class="col-sm-2" style="padding: 0px;">
+                            <span translate="chefsApp.recipe.measurement">Measurement</span>
+                        </div>
+                        <div class="col-sm-3">
+                            <span translate="chefsApp.recipe.kcal">Kcal by 100g</span>
+                        </div>
+                    </li>
                     <li ng-repeat="ingredient in s.ingredients" class="row list-unstyled"  style="margin: 5px;">
-                        <div class="col-sm-1"><p class="glyphicon glyphicon-remove" ng-click="deleteIngredient(s, $index)" style="color: red;"></p></div>
-                        <div class="col-sm-5">
-                            <input class="form-control" list="food_name" ng-model="ingredient.food.name" ng-change="searchFood(ingredient)">
+                        <div class="col-sm-1">
+                            <p class="glyphicon glyphicon-remove" ng-click="deleteIngredient(s, $index)" style="color: red;"></p>
+                        </div>
+                        <div class="col-sm-4" style="padding: 0px;">
+                            <input class="form-control" list="food_name" ng-model="ingredient.food.name" ng-change="searchFood(ingredient)" ng-model-options='{ debounce: 500 }'>
                         </div>
                         <div class="col-sm-2" style="padding: 0px;">
                             <input class="form-control" ng-model="ingredient.amount" type="number">
@@ -121,16 +150,11 @@
                                 <option value="ml" translate="chefsApp.Measurement.ml">ml</option>
                             </select>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <input class="form-control" ng-model="ingredient.food.kcal" placeholder="Kcal">
                         </div>
                     </li>
                 </ul>
-                <div style="margin: 5px;">
-                    <button type="button" class="btn btn-default" ng-click="addIngredient(s)">
-                        <span class="glyphicon glyphicon-plus-sign" />
-                    </button>
-                </div>
             </div>
 <!-- Pictures -->
             <div ui-sortable="sortableOptions" ng-model="s.stepPicture">
