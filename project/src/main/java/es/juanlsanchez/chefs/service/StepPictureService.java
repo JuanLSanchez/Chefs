@@ -34,4 +34,12 @@ public class StepPictureService {
 
         return result;
     }
+
+    public void delete(StepPicture stepPicture) {
+        stepPictureRepository.delete(stepPicture);
+    }
+
+    public void delete(Set<StepPicture> oldStepPicturesToRemove) {
+        stepPictureRepository.deleteInBatch(oldStepPicturesToRemove);
+    }
 }

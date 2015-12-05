@@ -13,4 +13,9 @@ angular.module('chefsApp')
             },
             'update': { method:'PUT' }
         });
+    })
+    .factory('TagByNameContains', function ($resource, DateUtils) {
+        return $resource('api/tags/byNameContains/:name', {}, {
+            'query': { method: 'GET', isArray: true}
+        });
     });

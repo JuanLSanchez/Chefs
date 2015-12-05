@@ -30,5 +30,7 @@
     <include file="classpath:config/liquibase/changelog/20151127191014_changelog.xml" relativeToChangelogFile="false"/>
     <!-- Unique for columns normalizaed_name and name in table food -->
     <include file="classpath:config/liquibase/changelog/20151201190535_changelog.xml" relativeToChangelogFile="false"/>
+    <!-- Unique for column name in Tag -->
+    <include file="classpath:config/liquibase/changelog/20151205191445_changelog.xml" relativeToChangelogFile="false"/>
     <!-- JHipster will add liquibase changelogs here -->
 </databaseChangeLog>

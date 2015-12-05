@@ -15,6 +15,8 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,9 +41,10 @@ public class RecipeService {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private StepService stepService;
+    @Autowired
+    private SocialEntityService socialEntityService;
 
     public Recipe save(Recipe recipe){
         User principal;
@@ -71,6 +74,8 @@ public class RecipeService {
         /*Se vacian los pasos*/
         steps = recipe.getSteps();
         recipe.setSteps(null);
+        /* Se crea la entidad social */
+        recipe.setSocialEntity(socialEntityService.save(recipe.getSocialEntity()));
 
         result = recipeRepository.save(recipe);
 
@@ -124,4 +129,11 @@ public class RecipeService {
         Assert.isTrue(isCloneable);
     }
 
+    public Page<Recipe> findByUserIsCurrentUser(Pageable pageable) {
+        Page<Recipe> result;
+
+        result = recipeRepository.findByUserIsCurrentUser(pageable);
+
+        return result;
+    }
 }

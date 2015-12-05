@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chefsApp').controller('RecipeEditController',
-        function($rootScope, $state, $scope, $stateParams, entity, Recipe, FoodSearch) {
+        function($rootScope, $state, $scope, $stateParams, entity, Recipe, FoodSearch, TagByNameContains) {
 
         $scope.step = {position: null, section: null, id: null, stepPicture:[], ingredients:[]};
         $scope.recipe = entity;
@@ -35,6 +35,11 @@ angular.module('chefsApp').controller('RecipeEditController',
             } else {
                 Recipe.save($scope.recipe, onSaveFinished);
             }
+        };
+//Tags
+
+        $scope.loadTags = function(query) {
+            return TagByNameContains.query({name:query}).$promise;
         };
 
 //Add Steps to Recipe

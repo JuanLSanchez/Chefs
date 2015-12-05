@@ -2,7 +2,8 @@
 
 angular.module('chefsApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
                'ui.bootstrap', 'flow', // for modal dialogs
-    'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll', 'ui.sortable'])
+    'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll',
+    'ngTagsInput', 'ui.sortable'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;

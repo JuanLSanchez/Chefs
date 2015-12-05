@@ -14,7 +14,9 @@ import java.util.Objects;
  * A Tag.
  */
 @Entity
-@Table(name = "TAG")
+@Table(name = "TAG", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "name")
+})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Tag implements Serializable {
 

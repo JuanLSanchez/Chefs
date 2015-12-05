@@ -44,4 +44,12 @@ public class IngredientService {
 
         return result;
     }
+
+    public void delete(Ingredient ingredient) {
+        ingredientRepository.delete(ingredient);
+    }
+
+    public void delete(Set<Ingredient> oldIngredientsToRemove) {
+        ingredientRepository.deleteInBatch(oldIngredientsToRemove);
+    }
 }

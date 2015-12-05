@@ -3,10 +3,12 @@ package es.juanlsanchez.chefs.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Tag;
 import es.juanlsanchez.chefs.repository.TagRepository;
+import es.juanlsanchez.chefs.service.TagService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +34,9 @@ public class TagResource {
 
     @Inject
     private TagRepository tagRepository;
+
+    @Autowired
+    private TagService tagService;
 
     /**
      * POST  /tags -> Create a new tag.
@@ -70,11 +75,11 @@ public class TagResource {
     }
 
     /**
-     * GET  /tags -> get all the tags.
+     * GET  /tags/:name -> get all the tags by name.
      */
     @RequestMapping(value = "/tags",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<Tag>> getAllTags(Pageable pageable)
         throws URISyntaxException {
@@ -110,5 +115,19 @@ public class TagResource {
         log.debug("REST request to delete Tag : {}", id);
         tagRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("tag", id.toString())).build();
+    }
+
+    /**
+     * GET  /tags/:name -> get all the tags by name.
+     */
+    @RequestMapping(value = "/tags/byNameContains/{name}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Tag>> getAllTagsByNameContains(Pageable pageable, @PathVariable String name)
+        throws URISyntaxException {
+        Page<Tag> page = tagService.findAllByNameContains(name, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tags");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }
