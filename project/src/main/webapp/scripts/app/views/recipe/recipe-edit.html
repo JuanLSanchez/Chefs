@@ -74,19 +74,11 @@
                     >
         </div>
         <div class="form-group">
-            <label translate="chefsApp.recipe.ingredientsInSteps" for="field_ingredientsInSteps">IngredientsInSteps</label>
-            <input type="checkbox" class="form-control" name="ingredientsInSteps" id="field_ingredientsInSteps"
-                    ng-model="recipe.ingredientsInSteps"
-                    >
-        </div>
-        <div class="form-group">
-            <label translate="global.menu.entities.tag">Etiquetas</label>
-            <tags-input ng-model="recipe.socialEntity.tags"  display-property="name" placeholder="Add a tag">
+            <tags-input ng-model="recipe.socialEntity.tags"  display-property="name" placeholder="{{'chefsApp.recipe.addTags' | translate}}">
                 <auto-complete source="loadTags($query)"
                                min-length="0"
-                               debounce-delay="500"></auto-complete>
+                               debounce-delay="300"></auto-complete>
             </tags-input>
-            <p>{{recipe.socialEntity.tags}}</p>
         </div>
 
     </div>

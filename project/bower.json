@@ -5,6 +5,7 @@
   "testPath": "src/test/javascript/spec",
   "dependencies": {
     "angular": "1.4.5",
+    "angular-animate": "~1.4.8",
     "angular-aria": "1.4.5",
     "angular-bootstrap": "0.13.3",
     "angular-cache-buster": "0.4.3",
@@ -12,6 +13,7 @@
     "angular-dynamic-locale": "0.1.27",
     "angular-i18n": "1.4.5",
     "angular-local-storage": "0.2.2",
+    "angular-material": "~0.11.4",
     "angular-resource": "1.4.5",
     "angular-sanitize": "1.4.5",
     "angular-translate": "2.7.2",
@@ -21,13 +23,14 @@
     "angular-ui-router": "0.2.15",
     "angular-ui-sortable": "~0.13.4",
     "bootstrap": "3.3.5",
-    "bootstrap-switch": "3.3.2",
     "jquery": "2.1.4",
+    "jquery-ui": "~1.11.4",
     "json3": "3.3.2",
     "modernizr": "2.8.3",
     "ng-file-upload": "7.0.17",
     "ng-tags-input": "3.0.0",
     "ngInfiniteScroll": "1.2.0",
+    "pure-css-switcher": "*",
     "swagger-ui": "2.1.2"
   },
   "devDependencies": {

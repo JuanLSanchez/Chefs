@@ -40,7 +40,8 @@
             "isPublic": "Public",
             "amount": "Amount",
             "measurement": "Measurement",
-            "kcal": "Kcal by 100g"
+            "kcal": "Kcal by 100g",
+            "addTags": "Add tags"
         }
     }
 }

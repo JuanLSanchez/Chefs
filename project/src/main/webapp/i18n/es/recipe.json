@@ -40,7 +40,8 @@
             "isPublic": "Publica",
             "amount": "Cantidad",
             "measurement": "Medida",
-            "kcal": "Kcal por 100g"
+            "kcal": "Kcal por 100g",
+            "addTags": "Añadir etiquetas"
         }
     }
 }
