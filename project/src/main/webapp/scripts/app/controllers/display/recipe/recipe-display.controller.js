@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('RecipeDisplayController', function ($scope, $rootScope, $stateParams, entity, Recipe, Competition, Vote, User, Menu, Event, SocialEntity, Step) {
+    .controller('RecipeDisplayController', function ($scope, $rootScope, $stateParams, entity, Recipe, Principal) {
         $scope.recipe = entity;
+        Principal.identity(true).then(function(account) {
+            $scope.userAccount = account;
+        });
         $scope.load = function (id, message) {
             Recipe.get({id: id}, function(result) {
                 $scope.recipe = result;

@@ -4,6 +4,7 @@ import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
+import es.juanlsanchez.chefs.service.util.CloneUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,8 +49,7 @@ public class RecipeService {
             oldRecipe = findOne(recipe.getId());
             if(!oldRecipe.getUser().equals(principal)){
                 isCloneable(recipe, oldRecipe);
-                recipe.setId(null);
-                recipe.setFather(oldRecipe);
+                recipe = recipe.copy();
             }
         }
 
@@ -66,7 +66,7 @@ public class RecipeService {
 
         /*Se le asigna la receta a los pasos y se guardan*/
         if (steps != null && !steps.isEmpty())
-            steps.forEach(step -> step.setRecipe(recipe));
+            steps.forEach(step -> step.setRecipe(result));
         steps = stepService.save(steps);
         result.setSteps(steps);
 

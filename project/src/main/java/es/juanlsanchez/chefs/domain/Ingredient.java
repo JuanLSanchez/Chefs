@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.Objects;
 
 import es.juanlsanchez.chefs.domain.enumeration.Measurement;
+import org.springframework.beans.BeanUtils;
 
 /**
  * A Ingredient.
@@ -110,5 +111,19 @@ public class Ingredient implements Serializable {
                 ", amount='" + amount + "'" +
                 ", measurement='" + measurement + "'" +
                 '}';
+    }
+
+    public Ingredient copy() {
+        Ingredient result;
+        String[] ignore;
+
+        //Ignore de relationShip and id
+        ignore = new String[]{"id", "step"};
+        result = new Ingredient();
+
+        //Copy the object
+        BeanUtils.copyProperties(this, result, ignore);
+
+        return result;
     }
 }

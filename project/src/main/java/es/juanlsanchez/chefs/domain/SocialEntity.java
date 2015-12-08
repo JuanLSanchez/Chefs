@@ -2,8 +2,10 @@ package es.juanlsanchez.chefs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Sets;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -208,5 +210,23 @@ public class SocialEntity implements Serializable {
                 ", publicInscription='" + publicInscription + "'" +
                 ", blocked='" + blocked + "'" +
                 '}';
+    }
+
+    public SocialEntity copy() {
+        SocialEntity result;
+        String[] ignore;
+
+        //Ignore de relationShip and id
+        ignore = new String[]{"id", "recipe", "event", "users", "comments", "assessments",
+            "competition", "socialPicture"};
+        result = new SocialEntity();
+
+        //Copy the object
+        BeanUtils.copyProperties(this, result, ignore);
+
+        //Set the socialPicture
+        result.setSocialPicture(this.socialPicture.copy());
+
+        return result;
     }
 }

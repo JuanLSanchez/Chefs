@@ -1,8 +1,10 @@
 package es.juanlsanchez.chefs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Sets;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.beans.BeanUtils;
 
 import javax.inject.Inject;
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A Step.
@@ -122,5 +125,32 @@ public class Step implements Serializable {
                 ", position='" + position + "'" +
                 ", section='" + section + "'" +
                 '}';
+    }
+
+    public Step copy() {
+        Step result;
+        String[] ignore;
+        Set<StepPicture> stepPictures;
+        Set<Ingredient> ingredients;
+
+        //Ignore de relationShip and id
+        ignore = new String[]{"id", "recipe", "ingredients", "stepPicture"};
+        result = new Step();
+
+        stepPictures = Sets.newHashSet();
+        ingredients = Sets.newHashSet();
+
+        //Copy the object
+        BeanUtils.copyProperties(this, result, ignore);
+
+        //Set the stepPictures
+        stepPictures.addAll(getStepPicture().stream().map(StepPicture::copy).collect(Collectors.toList()));
+        result.setStepPicture(stepPictures);
+
+        //Set the ingredients
+        ingredients.addAll(getIngredients().stream().map(Ingredient::copy).collect(Collectors.toList()));
+        result.setIngredients(ingredients);
+
+        return result;
     }
 }

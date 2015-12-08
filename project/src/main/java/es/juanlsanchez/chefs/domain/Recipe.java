@@ -3,12 +3,14 @@ package es.juanlsanchez.chefs.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Sets;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeSerializer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A Recipe.
@@ -279,5 +282,32 @@ public class Recipe implements Serializable {
                 ", updateDate='" + updateDate + "'" +
                 ", ingredientsInSteps='" + ingredientsInSteps + "'" +
                 '}';
+    }
+
+    public Recipe copy(){
+        Recipe result;
+        String[] ignore;
+        Set<Step> steps;
+
+        //Ignore de relationShip and id
+        ignore = new String[]{"id","competitions", "steps", "votes", "user", "menus",
+            "father", "sons", "events", "socialEntity"};
+        steps = Sets.newHashSet();
+        result = new Recipe();
+
+        //Copy the object
+        BeanUtils.copyProperties(this, result, ignore);
+
+        //Set the father
+        result.setFather(this);
+
+        //Set the steps
+        steps.addAll(getSteps().stream().map(Step::copy).collect(Collectors.toList()));
+        result.setSteps(steps);
+
+        //Set the socialEntity
+        result.setSocialEntity(getSocialEntity().copy());
+
+        return result;
     }
 }

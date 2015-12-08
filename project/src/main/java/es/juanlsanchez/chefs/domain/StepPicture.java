@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -108,5 +109,19 @@ public class StepPicture implements Serializable {
                 ", src='" + src + "'" +
                 ", properties='" + properties + "'" +
                 '}';
+    }
+
+    public StepPicture copy() {
+        StepPicture result;
+        String[] ignore;
+
+        //Ignore de relationShip and id
+        ignore = new String[]{"id", "step"};
+        result = new StepPicture();
+
+        //Copy the object
+        BeanUtils.copyProperties(this, result, ignore);
+
+        return result;
     }
 }
