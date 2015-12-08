@@ -1,32 +1,17 @@
 package es.juanlsanchez.chefs.service;
 
-import es.juanlsanchez.chefs.domain.Authority;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
-import es.juanlsanchez.chefs.repository.AuthorityRepository;
-import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
-import es.juanlsanchez.chefs.repository.UserRepository;
-import es.juanlsanchez.chefs.security.SecurityUtils;
-import es.juanlsanchez.chefs.service.util.RandomUtil;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.inject.Inject;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**

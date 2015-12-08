@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -113,18 +115,17 @@ public class FoodResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Set<Food>> searchFood(@PathVariable String name) {
+    public ResponseEntity<Set<Food>> searchFood(@PathVariable String name, Pageable pageable)
+        throws URISyntaxException, UnsupportedEncodingException {
+
         log.debug("REST request to search Food : {}", name);
-        Set<Food> foods;
+        Page<Food> page;
+        HttpHeaders headers;
         ResponseEntity result;
 
-        foods = foodService.search(name);
-
-        result = Optional.ofNullable(foods)
-            .map(food -> new ResponseEntity<>(
-                food,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        page = foodService.search(name, pageable);
+        headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/foods/search/" + URLEncoder.encode(name, "UTF-8"));
+        result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 
         return result;
     }

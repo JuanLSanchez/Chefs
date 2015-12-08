@@ -5,19 +5,29 @@ angular.module('chefsApp').controller('RecipeEditController',
 
         $scope.step = {position: null, section: null, id: null, stepPicture:[], ingredients:[]};
         $scope.recipe = entity;
+        $scope.page = 0;
+        $scope.foodsCache = {};
+        $scope.listOfFoods = [];
         $scope.searchFood = function(ingredient) {
             if(ingredient.food.name != null && ingredient.food.name.length > 0){
-                FoodSearch.query({name : ingredient.food.name}, function(result) {
-                    $scope.listOfFoods = result;
-                    ingredient.food.id = null;
-                    $scope.listOfFoods.forEach(function(element){
-                        if ( element.name == ingredient.food.name){
-                            ingredient.food = element;
-                        }
+                if($scope.foodsCache[ingredient.food.name] === undefined ){
+                    FoodSearch.query({name : ingredient.food.name, page: $scope.page, size: 10}, function(result) {
+                        $scope.foodsCache[ingredient.food.name] = result;
+                        $scope.refreshListOfFoods(ingredient);
                     });
-                });
-
+                }else{
+                    $scope.refreshListOfFoods(ingredient);
+                }
             }
+        };
+        $scope.refreshListOfFoods = function(ingredient){
+            $scope.listOfFoods = $scope.foodsCache[ingredient.food.name].slice();
+            ingredient.food.id = null;
+            $scope.listOfFoods.forEach(function(element){
+                if ( element.name == ingredient.food.name){
+                    ingredient.food = element;
+                }
+            });
         };
         $scope.load = function(id) {
             Recipe.get({id : id}, function(result) {
@@ -67,7 +77,7 @@ angular.module('chefsApp').controller('RecipeEditController',
         };
 //Add Ingredient to Step
         $scope.addIngredient = function(step){
-            step.ingredients.push({id:null, amount:null, measurement:null, food:{id:null, normalizaedName:null, name:null, kcal:null}})
+            step.ingredients.push({id:null, amount:null, measurement:null, food:{id:null, normalizaedName:null, name:'', kcal:null}})
         };
         $scope.deleteIngredient = function(step, ingredient){
             step.ingredients.splice(ingredient,1);

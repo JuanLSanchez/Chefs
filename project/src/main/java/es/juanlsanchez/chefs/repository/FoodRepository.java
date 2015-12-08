@@ -1,10 +1,10 @@
 package es.juanlsanchez.chefs.repository;
 
 import es.juanlsanchez.chefs.domain.Food;
-import org.springframework.data.jpa.repository.*;
-
-import java.util.List;
-import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * Spring Data JPA repository for the Food entity.
@@ -12,7 +12,7 @@ import java.util.Set;
 public interface FoodRepository extends JpaRepository<Food,Long> {
 
     @Query("select f from Food f where f.normalizaedName like ?1")
-    Set<Food> search(String normalizaedName);
+    Page<Food> search(String normalizaedName, Pageable pageable);
 
     @Query("select f from Food f where f.normalizaedName = ?1 and f.name = ?2")
     Food findOneByNormalizaedNameAndName(String normalizaedName, String name);

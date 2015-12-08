@@ -4,10 +4,10 @@ import es.juanlsanchez.chefs.domain.Food;
 import es.juanlsanchez.chefs.repository.FoodRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
 
 /**
  * Created by juanlu on 28/11/15.
@@ -19,13 +19,13 @@ public class FoodService {
     @Autowired
     private FoodRepository foodRepository;
 
-    public Set<Food> search(String name) {
-        Set<Food> result;
+    public Page<Food> search(String name, Pageable pageable) {
+        Page<Food> result;
         String normalizaedName;
 
         normalizaedName = normaliza(name);
 
-        result = foodRepository.search("%" + normalizaedName + "%");
+        result = foodRepository.search("%" + normalizaedName + "%", pageable);
 
         return result;
     }
