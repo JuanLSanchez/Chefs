@@ -34,9 +34,6 @@ public class RecipeResource {
 
     private final Logger log = LoggerFactory.getLogger(RecipeResource.class);
 
-    @Inject
-    private RecipeRepository recipeRepository;
-
     @Autowired
     private UserService userService;
 
@@ -92,7 +89,7 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<List<Recipe>> getAllRecipes(Pageable pageable)
         throws URISyntaxException {
-        Page<Recipe> page = recipeRepository.findAll(pageable);
+        Page<Recipe> page = recipeService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -106,24 +103,11 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<Recipe> getRecipe(@PathVariable Long id) {
         log.debug("REST request to get Recipe : {}", id);
-        return Optional.ofNullable(recipeRepository.findOne(id))
+        return Optional.ofNullable(recipeService.findOne(id))
             .map(recipe -> new ResponseEntity<>(
                 recipe,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    /**
-     * DELETE  /recipes/:id -> delete the "id" recipe.
-     */
-    @RequestMapping(value = "/recipes/{id}",
-        method = RequestMethod.DELETE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
-        log.debug("REST request to delete Recipe : {}", id);
-        recipeRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("recipe", id.toString())).build();
     }
 
     /**
@@ -135,7 +119,7 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<List<Recipe>> getAllRecipesUser(@PathVariable Long id, Pageable pageable)
         throws URISyntaxException {
-        Page<Recipe> page = recipeRepository.findByUser(id, pageable);
+        Page<Recipe> page = recipeService.findByUser(id, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

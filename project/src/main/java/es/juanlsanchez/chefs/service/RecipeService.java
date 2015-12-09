@@ -4,7 +4,6 @@ import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
-import es.juanlsanchez.chefs.service.util.CloneUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -118,6 +117,23 @@ public class RecipeService {
         Page<Recipe> result;
 
         result = recipeRepository.findByUserIsCurrentUser(pageable);
+
+        return result;
+    }
+
+
+    public Page<Recipe> findByUser(Long id, Pageable pageable) {
+        Page<Recipe> result;
+
+        result = recipeRepository.findByUser(id, pageable);
+
+        return result;
+    }
+
+    public Page<Recipe> findAll(Pageable pageable) {
+        Page<Recipe> result;
+
+        result = recipeRepository.findAll(pageable);
 
         return result;
     }
