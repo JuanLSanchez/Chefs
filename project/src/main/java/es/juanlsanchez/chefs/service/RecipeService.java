@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -136,5 +138,13 @@ public class RecipeService {
         result = recipeRepository.findAll(pageable);
 
         return result;
+    }
+
+    public List<Recipe> findAll() {
+        return recipeRepository.findAll();
+    }
+
+    public void saveAndFlush(Recipe recipe) {
+        recipeRepository.saveAndFlush(recipe);
     }
 }
