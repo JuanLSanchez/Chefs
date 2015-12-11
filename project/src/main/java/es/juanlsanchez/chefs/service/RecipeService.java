@@ -89,7 +89,7 @@ public class RecipeService {
         User principal;
         boolean isVisible;
 
-        isVisible = recipe.getSocialEntity().getIsPublic();
+        isVisible = recipe.getSocialEntity().getIsPublic()&&!recipe.getSocialEntity().getBlocked();
 
         if(!isVisible){
             principal = userService.getPrincipal();
