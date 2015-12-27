@@ -5,7 +5,7 @@ angular.module('chefsApp')
         $scope.recipes = [];
         $scope.page = 0;
         $scope.loadAll = function() {
-            RecipeUser.get({page: $scope.page, size: 5}, function(result, headers) {
+            RecipeUser.get({page: $scope.page, size: 10}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
                 for (var i = 0; i < result.length; i++) {
                     $scope.recipes.push(result[i]);

@@ -12,7 +12,7 @@
     </div>
 
     <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
-        <div ng-repeat="recipe in recipes">
+        <div ng-repeat="recipe in recipes| orderBy:'-updateDate'">
             <hr>
             <a ui-sref="display_recipe({id:recipe.id})" class="thumbnail">
             <div class="row">
