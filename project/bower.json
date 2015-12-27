@@ -38,14 +38,9 @@
   "overrides": {
     "bootstrap": {
       "main": [
-        "dist/js/bootstrap.min.js",
-        "dist/css/bootstrap.min.css",
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.css",
         "less/bootstrap.less"
-      ]
-    },
-    "jquery-ui":{
-      "main": [
-        "jquery-ui.min.js"
       ]
     },
     "ng-tags-input": {
@@ -53,16 +48,6 @@
         "ng-tags-input.min.css",
         "ng-tags-input.bootstrap.min.css",
         "ng-tags-input.min.js"
-      ]
-    },
-    "angular-ui-sortable": {
-      "main": [
-        "sortable.min.js"
-      ]
-    },
-    "angular": {
-      "main": [
-        "angular.min.js"
       ]
     }
   },
