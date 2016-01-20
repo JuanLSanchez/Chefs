@@ -147,4 +147,12 @@ public class RecipeService {
     public void saveAndFlush(Recipe recipe) {
         recipeRepository.saveAndFlush(recipe);
     }
+
+    public Page<Recipe> findByUserLogin(String login, Pageable pageable) {
+        Page<Recipe> result;
+
+        result =recipeRepository.findByUserLogin(login, pageable);
+
+        return result;
+    }
 }

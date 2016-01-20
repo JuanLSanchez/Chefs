@@ -8,7 +8,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="picture-details" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal fade in" id="picture-details" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" style="min-height: 40px;">
@@ -21,11 +21,13 @@
                 </div>
                 <div class="modal-body text-center">
                     <div>
-                        <span ng-click="prevPicture();" class="glyphicon glyphicon-chevron-left" ng-show="pictureIndex>0"></span>
-                        <img data-ng-src="{{'data:image/*;base64,' + pictureDetails.src}}" width="90%"/>
-                        <span ng-click="nextPicture();" class="glyphicon glyphicon-chevron-right" ng-show="pictureIndex<pictures.length-1"></span>
+                        <span ng-click="prevPicture();" class="glyphicon glyphicon-chevron-left" ng-show="pictureIndex>0" style="width: 5%"></span>
+                        <img data-ng-src="{{'data:image/*;base64,' + pictureDetails.src}}" style="width: 85%"/>
+                        <span ng-click="nextPicture();" class="glyphicon glyphicon-chevron-right" ng-show="pictureIndex<pictures.length-1"  style="width: 5%"></span>
                     </div>
-                    <span ng-click="cancel();" class="glyphicon glyphicon-eye-open"></span>
+                    <!--<p><a ng-click="cancel();" data-dismiss="modal" class="glyphicon glyphicon-eye-open"></a></p>-->
+                    <p>{{pictureDetails.recipeName}}</p>
+
                 </div>
             </div>
         </div>

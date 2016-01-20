@@ -1,0 +1,18 @@
+<div class="text-center">
+    <div class="modal-header">
+        <a ui-sref="home_recipe-pictures({id:userAccount.login})"><strong><span translate="entity.pictures"></span></strong></a>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div ng-repeat="picture in pictures">
+                <div class="clearfix" ng-if="$index % 2 == 0"><di></di></div>
+                <div ng-show="picture.src" class="thumbnail col-xs-6" >
+                    <div>
+                        <img class="img-responsive"
+                             data-ng-src="{{'data:image/*;base64,' + picture.src}}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

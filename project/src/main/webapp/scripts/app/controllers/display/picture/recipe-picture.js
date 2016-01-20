@@ -5,7 +5,7 @@ angular.module('chefsApp')
         $stateProvider
             .state('home_recipe-pictures', {
                 parent: 'display',
-                url: '/recipe-pictures/{id}',
+                url: '/recipe-pictures/{login}',
                 data: {
                     pageTitle: 'chefsApp.recipe.home.title'
                 },

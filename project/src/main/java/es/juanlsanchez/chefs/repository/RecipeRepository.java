@@ -20,4 +20,7 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
 
     @Query("select recipe from Recipe recipe where recipe.user.id = ?1 order by recipe.updateDate desc")
     Page<Recipe> findByUser(Long id, Pageable pageable);
+
+    @Query("select recipe from Recipe recipe where recipe.user.login = ?1 order by recipe.updateDate desc")
+    Page<Recipe> findByUserLogin(String login, Pageable pageable);
 }

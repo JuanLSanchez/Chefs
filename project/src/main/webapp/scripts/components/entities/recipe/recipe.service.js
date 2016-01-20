@@ -19,7 +19,7 @@ angular.module('chefsApp')
 
 angular.module('chefsApp')
     .factory('RecipeUser', function ($resource) {
-        return $resource('api/recipes/user/:id', {}, {
+        return $resource('api/recipes/user/:login', {}, {
             'query': { method: 'GET', isArray: true},
             'get': { method: 'GET', isArray: true}
         });

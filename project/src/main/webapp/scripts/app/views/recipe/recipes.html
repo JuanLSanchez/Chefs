@@ -1,15 +1,5 @@
 <div>
-    <h2 translate="chefsApp.recipe.home.title">Recipes</h2>
     <jh-alert></jh-alert>
-    <div>
-        <div class="row">
-            <div class="col-md-4">
-                <button class="btn btn-primary" ui-sref="recipe.new">
-                    <span class="glyphicon glyphicon-flash"></span> <span translate="chefsApp.recipe.home.createLabel">Create a new Recipe</span>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
         <div ng-repeat="recipe in recipes| orderBy:'-updateDate'">

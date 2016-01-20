@@ -20,6 +20,10 @@ angular.module('chefsApp')
                     },
                     'aside_1@': {
                         templateUrl: 'scripts/app/views/creator/creator.html'
+                    },
+                    'aside_2@': {
+                        templateUrl: 'scripts/app/views/picture/recipe-pictures-module.html',
+                        controller: 'HomePictureModuleController'
                     }
                 },
                 resolve: {

@@ -97,6 +97,7 @@
     },
     "entity": {
         "title": "Titulo",
+        "pictures": "Fotos",
         "action": {
             "addblob": "Añadir binario",
             "addimage": "Añadir imagen",

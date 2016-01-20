@@ -98,6 +98,7 @@
     },
     "entity": {
         "title": "Title",
+        "pictures": "Pictures",
         "action": {
             "addblob": "Add blob",
             "addimage": "Add image",

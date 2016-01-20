@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('RecipePicturesController', function ($scope, RecipeUser, ParseLinks) {
+    .controller('RecipePicturesController', function ($state, $timeout, $scope, $stateParams, RecipeUser, ParseLinks) {
         $scope.pictures = [];
         $scope.pictureDetails = {};
         $scope.pictureIndex = 0;
         $scope.page = 0;
         $scope.loadAll = function() {
-            RecipeUser.get({page: $scope.page, size: 10}, function(result, headers) {
+            RecipeUser.get({login:$stateParams.login ,page: $scope.page, size: 10}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
                 for (var i = 0; i < result.length; i++) {
                     if(result[i].socialEntity.socialPicture.src != null) {
                         $scope.pictures.push({
                             src: result[i].socialEntity.socialPicture.src, recipe: result[i].id,
                             recipeName: result[i].name, title: result[i].socialEntity.socialPicture.title,
-                            updateDate: result[i].updateDate, class: 'col-lg-4'
+                            updateDate: result[i].updateDate, class: 'col-xs-4'
                         });
                     }
                     for (var j = 0; j < result[i].steps.length; j++ ){
@@ -23,7 +23,7 @@ angular.module('chefsApp')
                                 $scope.pictures.push({
                                     src: result[i].steps[j].stepPicture[k].src, recipe: result[i].id,
                                     recipeName: result[i].name, title: result[i].steps[j].stepPicture[k].title,
-                                    updateDate: result[i].updateDate, class: 'col-lg-4'
+                                    updateDate: result[i].updateDate, class: 'col-xs-4'
                                 });
                             }
                         }
@@ -67,7 +67,7 @@ angular.module('chefsApp')
         };
 
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $timeout($state.go('display_recipe', {id:$scope.pictureDetails.recipe}), 3000);
         };
 
         $scope.clear = function () {
