@@ -129,7 +129,7 @@ public class AccountResourceTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.login").value("test"))
                 .andExpect(jsonPath("$.firstName").value("john"))
-                .andExpect(jsonPath("$.lastName").value("doe"))
+                .andExpect(jsonPath("$.biography").value("doe"))
                 .andExpect(jsonPath("$.email").value("john.doe@jhipter.com"))
                 .andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.ADMIN));
     }
@@ -150,11 +150,13 @@ public class AccountResourceTest {
             "joe",                  // login
             "password",             // password
             "Joe",                  // firstName
-            "Shmoe",                // lastName
+            "Shmoe",                // biography
             "joe@example.com",      // e-mail
             true,                   // activated
             "en",                   // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
+            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), // authorities
+            null,                   // profile picture
+            null                    // background pictre
         );
 
         restMvc.perform(
@@ -174,11 +176,13 @@ public class AccountResourceTest {
             "funky-log!n",          // login <-- invalid
             "password",             // password
             "Funky",                // firstName
-            "One",                  // lastName
+            "One",                  // biography
             "funky@example.com",    // e-mail
             true,                   // activated
             "en",                   // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
+            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), // authorities
+            null,                   // profile picture
+            null                    // background pictre
         );
 
         restUserMockMvc.perform(
@@ -198,11 +202,13 @@ public class AccountResourceTest {
             "bob",              // login
             "password",         // password
             "Bob",              // firstName
-            "Green",            // lastName
+            "Green",            // biography
             "invalid",          // e-mail <-- invalid
             true,               // activated
             "en",               // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
+            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), // authorities
+            null,                   // profile picture
+            null                    // background pictre
         );
 
         restUserMockMvc.perform(
@@ -223,16 +229,19 @@ public class AccountResourceTest {
             "alice",                // login
             "password",             // password
             "Alice",                // firstName
-            "Something",            // lastName
+            "Something",            // biography
             "alice@example.com",    // e-mail
             true,                   // activated
             "en",                   // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
+            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), // authorities
+            null,                   // profile picture
+            null                    // background pictre
         );
 
         // Duplicate login, different e-mail
-        UserDTO dup = new UserDTO(u.getLogin(), u.getPassword(), u.getLogin(), u.getLastName(),
-            "alicejr@example.com", true, u.getLangKey(), u.getAuthorities());
+        UserDTO dup = new UserDTO(u.getLogin(), u.getPassword(), u.getLogin(), u.getBiography(),
+            "alicejr@example.com", true, u.getLangKey(), u.getAuthorities(), u.getProfilePicture(),
+            u.getBackgroundPicture());
 
         // Good user
         restMvc.perform(
@@ -260,16 +269,19 @@ public class AccountResourceTest {
             "john",                 // login
             "password",             // password
             "John",                 // firstName
-            "Doe",                  // lastName
+            "Doe",                  // biography
             "john@example.com",     // e-mail
             true,                   // activated
             "en",                   // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
+            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), // authorities
+            null,                   // profile picture
+            null                    // background pictre
         );
 
         // Duplicate e-mail, different login
-        UserDTO dup = new UserDTO("johnjr", u.getPassword(), u.getLogin(), u.getLastName(),
-            u.getEmail(), true, u.getLangKey(), u.getAuthorities());
+        UserDTO dup = new UserDTO("johnjr", u.getPassword(), u.getLogin(), u.getBiography(),
+            u.getEmail(), true, u.getLangKey(), u.getAuthorities(), u.getProfilePicture(),
+            u.getBackgroundPicture());
 
         // Good user
         restMvc.perform(
@@ -296,11 +308,13 @@ public class AccountResourceTest {
             "badguy",               // login
             "password",             // password
             "Bad",                  // firstName
-            "Guy",                  // lastName
+            "Guy",                  // biography
             "badguy@example.com",   // e-mail
             true,                   // activated
             "en",                   // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)) // <-- only admin should be able to do that
+            new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)), // authorities<-- only admin should be able to do that
+            null,                   // profile picture
+            null                    // background pictre
         );
 
         restMvc.perform(

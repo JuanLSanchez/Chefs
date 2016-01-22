@@ -29,17 +29,17 @@
         <div ui-view="navbar" ng-cloak=""></div>
         <div class="container">
             <div ui-view="welcome" id="welcome" class="row">
-                <div ui-view="nav" class="col-md-3  col-sm-6">
+                <div ui-view="nav" class="col-md-3  col-sm-6" style="z-index: 50;">
                     <div ui-view="nav_1" class="well"></div>
                     <div ui-view="nav_2" class="well"></div>
                     <div ui-view="nav_3" class="well"></div>
                 </div>
-                <div class="col-md-3 col-md-push-6 col-sm-6">
+                <div class="col-md-3 col-md-push-6 col-sm-6" style="z-index: 50;">
                     <div ui-view="aside_1" class="well"></div>
                     <div ui-view="aside_2" class="well"></div>
                     <div ui-view="aside_3" class="well"></div>
                 </div>
-                <div ui-view="article" class="col-md-6 col-md-pull-3 col-sm-12">
+                <div ui-view="article" class="col-md-6 col-md-pull-3 col-sm-12" style="z-index: 50;">
                     <div class="well" ui-view="content"></div>
                 </div>
             </div>
@@ -279,7 +279,7 @@
     <!-- Home -->
     <script src="scripts/app/controllers/home/recipe/recipe.controller.js"></script>
     <script src="scripts/app/controllers/home/recipe/recipe.js"></script>
-    <script src="scripts/app/controllers/home/user/user-detail.controller.js"></script>
+    <script src="scripts/app/controllers/home/user/user.controller.js"></script>
     <script src="scripts/app/controllers/home/picture/picture.module.controller.js"></script>
     <!-- Chef -->
     <script src="scripts/app/controllers/chef/recipe/recipe.js"></script>

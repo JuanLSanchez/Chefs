@@ -2,6 +2,8 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Authority;
+import es.juanlsanchez.chefs.domain.BackgroundPicture;
+import es.juanlsanchez.chefs.domain.ProfilePicture;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
@@ -98,12 +100,21 @@ public class UserResource {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<ManagedUserDTO> updateUser(@RequestBody ManagedUserDTO managedUserDTO) throws URISyntaxException {
         log.debug("REST request to update User : {}", managedUserDTO);
+        ProfilePicture profilePicture;
+        BackgroundPicture backgroundPicture;
+
+        profilePicture = new ProfilePicture();
+        profilePicture.setSrc(managedUserDTO.getProfilePicture());
+
+        backgroundPicture = new BackgroundPicture();
+        backgroundPicture.setSrc(managedUserDTO.getBackgroundPicture());
+
         return Optional.of(userRepository
             .findOne(managedUserDTO.getId()))
             .map(user -> {
                 user.setLogin(managedUserDTO.getLogin());
                 user.setFirstName(managedUserDTO.getFirstName());
-                user.setLastName(managedUserDTO.getLastName());
+                user.setLastName(managedUserDTO.getBiography());
                 user.setEmail(managedUserDTO.getEmail());
                 user.setActivated(managedUserDTO.isActivated());
                 user.setLangKey(managedUserDTO.getLangKey());
@@ -112,6 +123,8 @@ public class UserResource {
                 managedUserDTO.getAuthorities().stream().forEach(
                     authority -> authorities.add(authorityRepository.findOne(authority))
                 );
+                user.setProfilePicture(profilePicture);
+                user.setBackgroundPicture(backgroundPicture);
                 return ResponseEntity.ok()
                     .headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDTO.getLogin()))
                     .body(new ManagedUserDTO(userRepository

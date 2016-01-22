@@ -31,8 +31,8 @@ public class UserDTO {
     @Size(max = 50)
     private String firstName;
 
-    @Size(max = 50)
-    private String lastName;
+    @Size(max = 255)
+    private String biography;
 
     @Email
     @Size(min = 5, max = 100)
@@ -45,27 +45,35 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private byte[] profilePicture;
+
+    private byte[] backgroundPicture;
+
     public UserDTO() {
     }
 
     public UserDTO(User user) {
-        this(user.getLogin(), null, user.getFirstName(), user.getLastName(),
+        this(user.getLogin(), null, user.getFirstName(), user.getBiography(),
             user.getEmail(), user.getActivated(), user.getLangKey(),
             user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()),
+            user.getProfilePicture().getSrc(), user.getBackgroundPicture().getSrc());
     }
 
-    public UserDTO(String login, String password, String firstName, String lastName,
-            String email, boolean activated, String langKey, Set<String> authorities) {
+    public UserDTO(String login, String password, String firstName, String biography,
+            String email, boolean activated, String langKey, Set<String> authorities,
+            byte[] profilePicture, byte[] backgroundPicture) {
 
         this.login = login;
         this.password = password;
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.biography = biography;
         this.email = email;
         this.activated = activated;
         this.langKey = langKey;
         this.authorities = authorities;
+        this.profilePicture = profilePicture;
+        this.backgroundPicture = backgroundPicture;
     }
 
     public String getPassword() {
@@ -80,8 +88,8 @@ public class UserDTO {
         return firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getBiography() {
+        return biography;
     }
 
     public String getEmail() {
@@ -100,13 +108,17 @@ public class UserDTO {
         return authorities;
     }
 
+    public byte[] getProfilePicture() { return profilePicture; }
+
+    public byte[] getBackgroundPicture() { return backgroundPicture; }
+
     @Override
     public String toString() {
         return "UserDTO{" +
         "login='" + login + '\'' +
         ", password='" + password + '\'' +
         ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' +
+        ", biography='" + biography + '\'' +
         ", email='" + email + '\'' +
         ", activated=" + activated +
         ", langKey='" + langKey + '\'' +

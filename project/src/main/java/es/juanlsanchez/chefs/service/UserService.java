@@ -1,8 +1,6 @@
 package es.juanlsanchez.chefs.service;
 
-import es.juanlsanchez.chefs.domain.Authority;
-import es.juanlsanchez.chefs.domain.PersistentToken;
-import es.juanlsanchez.chefs.domain.User;
+import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
@@ -90,6 +88,8 @@ public class UserService {
                                       String langKey) {
 
         User newUser = new User();
+        ProfilePicture profilePicture = new ProfilePicture();
+        BackgroundPicture backgroundPicture = new BackgroundPicture();
         Authority authority = authorityRepository.findOne("ROLE_USER");
         Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
@@ -100,6 +100,8 @@ public class UserService {
         newUser.setLastName(lastName);
         newUser.setEmail(email);
         newUser.setLangKey(langKey);
+        newUser.setProfilePicture(profilePicture);
+        newUser.setBackgroundPicture(backgroundPicture);
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
@@ -111,12 +113,17 @@ public class UserService {
         return newUser;
     }
 
-    public void updateUserInformation(String firstName, String lastName, String email, String langKey) {
+    public void updateUserInformation(String firstName, String lastName, String email, String langKey,
+                                      byte[] profilePicture, byte[] backgroundPicture) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);
             u.setLangKey(langKey);
+            if(u.getProfilePicture() == null){ u.setProfilePicture(new ProfilePicture());}
+            u.getProfilePicture().setSrc(profilePicture);
+            if(u.getBackgroundPicture() == null){ u.setBackgroundPicture(new BackgroundPicture());}
+            u.getBackgroundPicture().setSrc(backgroundPicture);
             userRepository.save(u);
             log.debug("Changed Information for User: {}", u);
         });
