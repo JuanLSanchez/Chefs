@@ -5,18 +5,18 @@ angular.module('chefsApp')
         $scope.success = null;
         $scope.error = null;
         Principal.identity(true).then(function(account) {
-            $scope.userAccount = account;
+            $scope.user = account;
         });
 
         $scope.save = function () {
-            Auth.updateAccount($scope.userAccount).then(function() {
+            Auth.updateAccount($scope.user).then(function() {
                 $scope.error = null;
                 $scope.success = 'OK';
                 Principal.identity().then(function(account) {
-                    $scope.userAccount = account;
+                    $scope.user = account;
                 });
                 Language.getCurrent().then(function(current) {
-                    if ($scope.userAccount.langKey !== current) {
+                    if ($scope.user.langKey !== current) {
                         $translate.use($scope.userAccount.langKey);
                     }
                 });
