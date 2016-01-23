@@ -122,15 +122,20 @@ public class AccountResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> saveAccount(@RequestBody UserDTO userDTO) {
-        return userRepository
-            .findOneByLogin(userDTO.getLogin())
-            .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentLogin()))
-            .map(u -> {
-                userService.updateUserInformation(userDTO.getFirstName(), userDTO.getBiography(), userDTO.getEmail(),
-                    userDTO.getLangKey(), userDTO.getProfilePicture(), userDTO.getBackgroundPicture());
-                return new ResponseEntity<String>(HttpStatus.OK);
-            })
-            .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+        return userRepository.findOneByEmail(userDTO.getEmail()).
+            filter(u -> !u.getLogin().equals(SecurityUtils.getCurrentLogin())).map(u -> {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }).orElseGet(() ->
+            userRepository
+                .findOneByLogin(userDTO.getLogin())
+                .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentLogin()))
+                .map(u -> {
+                    userService.updateUserInformation(userDTO.getFirstName(), userDTO.getBiography(), userDTO.getEmail(),
+                        userDTO.getLangKey(), userDTO.getProfilePicture(), userDTO.getBackgroundPicture());
+                    return new ResponseEntity<String>(HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR))
+        );
     }
 
     /**
@@ -201,8 +206,8 @@ public class AccountResource {
                     request.getServerName() +
                     ":" +
                     request.getServerPort();
-            mailService.sendPasswordResetMail(user, baseUrl);
-            return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
+                mailService.sendPasswordResetMail(user, baseUrl);
+                return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
             }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
 
     }

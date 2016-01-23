@@ -1,139 +1,163 @@
-<div ng-include="scripts/app/views/user/user-display.html"></div>
-<div ng-if="editMode">
-    <form name="form" role="form" novalidate ng-submit="save()" show-validation>
-        <div class="form-group" ngf-drop ngf-change="setBackgroundPicture($file)" ngf-pattern="'image/*'">
-            <div class="row">
-                <div class="col-xs-1">
-                    <div class="help-block clearfix">
-                        <button ng-click="user.backgroundPicture=null"
-                                ng-if="user.backgroundPicture"
-                                class="btn btn-default btn-xs pull-left">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-xs-11">
-                    <img class="img-responsive"
-                         data-ng-src="{{'data:image/*;base64,' + user.backgroundPicture}}"
-                         ng-if="user.backgroundPicture"/>
-                </div>
+<form name="userForm" role="form" novalidate ng-submit="save()" show-validation>
+    <div class="alert alert-success" ng-show="success" translate="settings.messages.success">
+        <strong>Settings saved!</strong>
+    </div>
 
-            </div>
-            <button ng-if="!user.backgroundPicture" type="file" ngf-select class="btn btn-default btn-block"
-                    ngf-change="setBackgroundPicture($file)" accept="image/*" translate="entity.action.addordropimage">
-            </button>
-            <input type="hidden" class="form-control" name="backgroundPicture" id="background_picture"
-                   ng-model="user.backgroundPicture">
-        </div>
-        <div class="form-group" ngf-drop ngf-change="setProfilePicture($file)" ngf-pattern="'image/*'">
-            <div class="row">
-                <div class="col-xs-1">
-                    <div class="help-block clearfix">
-                        <button ng-click="user.profilePicture=null"
-                                ng-if="user.profilePicture"
-                                class="btn btn-default btn-xs pull-left">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-xs-11">
-                    <img class="img-responsive"
-                         data-ng-src="{{'data:image/*;base64,' + user.profilePicture}}"
-                         ng-if="user.profilePicture"/>
-                </div>
+    <div class="alert alert-danger" ng-show="errorEmailExists" translate="settings.messages.error.emailexists">
+        <strong>E-mail is already in use!</strong> Please choose another one.
+    </div>
 
-            </div>
-            <button ng-if="!user.profilePicture" type="file" ngf-select class="btn btn-default btn-block"
-                    ngf-change="setProfilePicture($file)" accept="image/*" translate="entity.action.addordropimage">
-            </button>
-            <input type="hidden" class="form-control" name="profilePicture" id="profile_picture"
-                   ng-model="user.profilePicture">
-        </div>
-        <div class="form-group">
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">@</span>
-                <input type="text" class="form-control" id="login" name="login"
-                       title="{{'settings.form.login' | translate}}"
-                       ng-model="user.login" ng-minlength=1 ng-maxlength=50
-                       required maxlength="50">
-            </div>
-            <div ng-show="form.firstName.$dirty && form.firstName.$invalid">
-                <p class="help-block"
-                   ng-show="form.firstName.$error.required" translate="settings.messages.validate.firstname.required">
-                    Your first name is required.
-                </p>
-                <p class="help-block"
-                   ng-show="form.firstName.$error.minlength" translate="settings.messages.validate.firstname.minlength">
-                    Your first name is required to be at least 1 character.
-                </p>
-                <p class="help-block"
-                   ng-show="form.firstName.$error.maxlength" translate="settings.messages.validate.firstname.maxlength">
-                    Your first name cannot be longer than 50 characters.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="firstName" name="firstName"
-                   title="{{'settings.form.firstname' | translate}}"
-                   ng-model="user.firstName" ng-minlength=1 ng-maxlength=50
-                   required maxlength="50">
-            <div ng-show="form.firstName.$dirty && form.firstName.$invalid">
-                <p class="help-block"
-                   ng-show="form.firstName.$error.required" translate="settings.messages.validate.firstname.required">
-                    Your first name is required.
-                </p>
-                <p class="help-block"
-                   ng-show="form.firstName.$error.minlength" translate="settings.messages.validate.firstname.minlength">
-                    Your first name is required to be at least 1 character.
-                </p>
-                <p class="help-block"
-                   ng-show="form.firstName.$error.maxlength" translate="settings.messages.validate.firstname.maxlength">
-                    Your first name cannot be longer than 50 characters.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="email" class="form-control" id="email" name="email"
-                   title="{{'global.form.email.placeholder' | translate}}"
-                   ng-model="user.email" ng-minlength=5 ng-maxlength=100 required maxlength="100">
-            <div ng-show="form.email.$dirty && form.email.$invalid">
-                <p class="help-block"
-                   ng-show="form.email.$error.required" translate="global.messages.validate.email.required">
-                    Your e-mail is required.
-                </p>
-                <p class="help-block"
-                   ng-show="form.email.$error.email" translate="global.messages.validate.email.invalid">
-                    Your e-mail is invalid.
-                </p>
-                <p class="help-block"
-                   ng-show="form.email.$error.minlength" translate="global.messages.validate.email.minlength">
-                    Your e-mail is required to be at least 5 characters.
-                </p>
-                <p class="help-block"
-                   ng-show="form.email.$error.maxlength" translate="global.messages.validate.email.maxlength">
-                    Your e-mail cannot be longer than 100 characters.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="biography" name="biography"
-                   title="{{'settings.form.biography' | translate}}"
-                   ng-model="user.biography" ng-maxlength=255 maxlength="255">
-            <div ng-show="form.lastName.$dirty && form.lastName.$invalid">
-                <p class="help-block"
-                   ng-show="form.lastName.$error.required" translate="settings.messages.validate.lastname.required">
-                    Your last name is required.
-                </p>
-                <p class="help-block"
-                   ng-show="form.lastName.$error.minlength" translate="settings.messages.validate.lastname.minlength">
-                    Your last name is required to be at least 1 character.
-                </p>
-                <p class="help-block"
-                   ng-show="form.lastName.$error.maxlength" translate="settings.messages.validate.lastname.maxlength">
-                    Your last name cannot be longer than 50 characters.
-                </p>
-            </div>
-        </div>
-        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="settings.form.button">Save</button>
-    </form>
+    <div class="alert alert-danger" ng-show="error" translate="settings.messages.error.fail">
+        <strong>An error has occurred!</strong> Settings could not be saved.
+    </div>
+<div>
+    <div ng-click="switchMode()" style="display: inline-block">
+        <span ng-if="!editMode" class="glyphicon glyphicon-cog"></span>
+        <span ng-if="editMode" class="glyphicon glyphicon-eye-open"></span>
+    </div>
+    <button type="submit" ng-disabled="userForm.$invalid" ng-hide="userForm.$pristine && !imagesModified" class="btn btn-primary"
+            translate="settings.form.button">Save</button>
 </div>
+<div ng-if="!editMode" ng-include="'scripts/app/views/user/user-display.html'"></div>
+<div ng-if="editMode" class="well">
+    <div class="form-group" ngf-drop ngf-change="setBackgroundPicture($file)" ngf-pattern="'image/*'">
+        <div class="row">
+            <div class="col-xs-1">
+                <div class="help-block clearfix">
+                    <button ng-click="user.backgroundPicture=null; modifiedImage()"
+                            ng-if="user.backgroundPicture"
+                            class="btn btn-default btn-xs pull-left">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xs-11">
+                <img class="img-responsive"
+                     data-ng-src="{{'data:image/*;base64,' + user.backgroundPicture}}"
+                     ng-if="user.backgroundPicture"/>
+            </div>
+
+        </div>
+        <button ng-if="!user.backgroundPicture" type="file" ngf-select class="btn btn-default btn-block"
+                ngf-change="setBackgroundPicture($file)" accept="image/*" translate="entity.action.addordropimage">
+        </button>
+        <input type="hidden" class="form-control" name="backgroundPicture" id="backgroundPicture"
+               ng-model="user.backgroundPicture">
+    </div>
+    <div class="form-group" ngf-drop ngf-change="setProfilePicture($file)" ngf-pattern="'image/*'">
+        <div class="row">
+            <div class="col-xs-1">
+                <div class="help-block clearfix">
+                    <button ng-click="user.profilePicture=null; modifiedImage()"
+                            ng-if="user.profilePicture"
+                            class="btn btn-default btn-xs pull-left">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xs-11">
+                <img class="img-responsive"
+                     data-ng-src="{{'data:image/*;base64,' + user.profilePicture}}"
+                     ng-if="user.profilePicture"/>
+            </div>
+
+        </div>
+        <button ng-if="!user.profilePicture" type="file" ngf-select class="btn btn-default btn-block"
+                ngf-change="setProfilePicture($file)" accept="image/*" translate="entity.action.addordropimage">
+        </button>
+        <input type="hidden" class="form-control" name="profilePicture" id="profilePicture"
+               ng-model="user.profilePicture">
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">@</span>
+            <input disabled type="text" class="form-control" id="login" name="login"
+                   title="{{'settings.form.login' | translate}}"
+                   ng-model="user.login" ng-minlength=1 ng-maxlength=50
+                   required maxlength="50">
+        </div>
+        <div ng-show="userForm.firstName.$dirty && userForm.firstName.$invalid">
+            <p class="help-block"
+               ng-show="userForm.firstName.$error.required" translate="settings.messages.validate.firstname.required">
+                Your first name is required.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.firstName.$error.minlength" translate="settings.messages.validate.firstname.minlength">
+                Your first name is required to be at least 1 character.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.firstName.$error.maxlength" translate="settings.messages.validate.firstname.maxlength">
+                Your first name cannot be longer than 50 characters.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" class="userForm-control" id="firstName" name="firstName"
+               title="{{'settings.form.firstname' | translate}}"
+               ng-model="user.firstName" ng-minlength=1 ng-maxlength=50
+               required maxlength="50">
+        <div ng-show="userForm.firstName.$dirty && userForm.firstName.$invalid">
+            <p class="help-block"
+               ng-show="userForm.firstName.$error.required" translate="settings.messages.validate.firstname.required">
+                Your first name is required.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.firstName.$error.minlength" translate="settings.messages.validate.firstname.minlength">
+                Your first name is required to be at least 1 character.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.firstName.$error.maxlength" translate="settings.messages.validate.firstname.maxlength">
+                Your first name cannot be longer than 50 characters.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control" id="email" name="email"
+               title="{{'global.form.email.placeholder' | translate}}"
+               ng-model="user.email" ng-minlength=5 ng-maxlength=100 required maxlength="100">
+        <div ng-show="userForm.email.$dirty && userForm.email.$invalid">
+            <p class="help-block"
+               ng-show="userForm.email.$error.required" translate="global.messages.validate.email.required">
+                Your e-mail is required.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.email.$error.email" translate="global.messages.validate.email.invalid">
+                Your e-mail is invalid.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.email.$error.minlength" translate="global.messages.validate.email.minlength">
+                Your e-mail is required to be at least 5 characters.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.email.$error.maxlength" translate="global.messages.validate.email.maxlength">
+                Your e-mail cannot be longer than 100 characters.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" id="biography" name="biography"
+               title="{{'settings.form.biography' | translate}}"
+               ng-model="user.biography" ng-maxlength=255 maxlength="255">
+        <div ng-show="userForm.lastName.$dirty && form.lastName.$invalid">
+            <p class="help-block"
+               ng-show="userForm.lastName.$error.required" translate="settings.messages.validate.lastname.required">
+                Your last name is required.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.lastName.$error.minlength" translate="settings.messages.validate.lastname.minlength">
+                Your last name is required to be at least 1 character.
+            </p>
+            <p class="help-block"
+               ng-show="userForm.lastName.$error.maxlength" translate="settings.messages.validate.lastname.maxlength">
+                Your last name cannot be longer than 50 characters.
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="langKey" translate="settings.form.language">Language</label>
+        <select id="langKey" name="langKey" class="form-control" ng-model="user.langKey"
+                ng-controller="LanguageController"
+                    ng-options="code as (code | findLanguageFromKey) for code in languages"></select>
+    </div>
+</div>
+</form>
