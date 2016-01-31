@@ -123,19 +123,19 @@ public class AccountResource {
     @Timed
     public ResponseEntity<String> saveAccount(@RequestBody UserDTO userDTO) {
         return userRepository.findOneByEmail(userDTO.getEmail()).
-            filter(u -> !u.getLogin().equals(SecurityUtils.getCurrentLogin())).map(u -> {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-        }).orElseGet(() ->
-            userRepository
-                .findOneByLogin(userDTO.getLogin())
-                .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentLogin()))
-                .map(u -> {
-                    userService.updateUserInformation(userDTO.getFirstName(), userDTO.getBiography(), userDTO.getEmail(),
-                        userDTO.getLangKey(), userDTO.getProfilePicture(), userDTO.getBackgroundPicture());
-                    return new ResponseEntity<String>(HttpStatus.OK);
-                })
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR))
-        );
+            filter(u -> !u.getLogin().equals(SecurityUtils.getCurrentLogin())).
+            map(u ->  new ResponseEntity<String>(HttpStatus.BAD_REQUEST)).
+            orElseGet(() ->
+                userRepository
+                    .findOneByLogin(userDTO.getLogin())
+                    .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentLogin()))
+                    .map(u -> {
+                        userService.updateUserInformation(userDTO.getFirstName(), userDTO.getBiography(), userDTO.getEmail(),
+                            userDTO.getLangKey(), userDTO.getProfilePicture(), userDTO.getBackgroundPicture());
+                        return new ResponseEntity<String>(HttpStatus.OK);
+                    })
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR))
+            );
     }
 
     /**

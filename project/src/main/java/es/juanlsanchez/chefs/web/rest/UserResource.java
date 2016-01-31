@@ -150,6 +150,23 @@ public class UserResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(managedUserDTOs, headers, HttpStatus.OK);
     }
+    /**
+     * GET  /users/likeLoginOrLikeFirstName/{login} -> get all users by login.
+     */
+    @RequestMapping(value = "/users/likeLoginOrLikeFirstName/{q}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<ManagedUserDTO>> getAllUsersByLogin(@PathVariable String q, Pageable pageable)
+        throws URISyntaxException {
+        Page<User> page = userService.findAllLikeLoginOrLikeFirstName(q, pageable);
+        List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
+            .map(user -> new ManagedUserDTO(user))
+            .collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+        return new ResponseEntity<>(managedUserDTOs, headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /users/:login -> get the "login" user.

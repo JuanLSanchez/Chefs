@@ -4,13 +4,17 @@ import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
+import es.juanlsanchez.chefs.security.AuthoritiesConstants;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.util.RandomUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +45,12 @@ public class UserService {
 
     @Inject
     private AuthorityRepository authorityRepository;
+
+    @Inject
+    private ProfilePictureService profilePictureService;
+
+    @Inject
+    private BackgroundPictureService backgroundPictureService;
 
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -120,11 +130,17 @@ public class UserService {
             u.setLastName(lastName);
             u.setEmail(email);
             u.setLangKey(langKey);
-            if(u.getProfilePicture() == null){ u.setProfilePicture(new ProfilePicture());}
+            //u.getBackgroundPicture().setSrc(backgroundPicture);
+            userRepository.save(u);
+
+            if(u.getProfilePicture() == null){ u.setProfilePicture(new ProfilePicture()); }
             u.getProfilePicture().setSrc(profilePicture);
+            profilePictureService.save(u.getProfilePicture());
+
             if(u.getBackgroundPicture() == null){ u.setBackgroundPicture(new BackgroundPicture());}
             u.getBackgroundPicture().setSrc(backgroundPicture);
-            userRepository.save(u);
+            backgroundPictureService.save(u.getBackgroundPicture());
+
             log.debug("Changed Information for User: {}", u);
         });
     }
@@ -217,5 +233,14 @@ public class UserService {
         result = login!=null? userRepository.findOneByLogin(login).get():null;
 
         return result;
+    }
+
+    public Page<User> findAllLikeLoginOrLikeFirstName(String q, Pageable pageable) {
+        return userRepository.findAllLikeLoginOrLikeFirstName("%"+q+"%", "%"+q+"%",
+            authorityRepository.findOne("ROLE_USER"),pageable);
+    }
+
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAllByAuthority(authorityRepository.findOne("ROLE_USER"), pageable);
     }
 }

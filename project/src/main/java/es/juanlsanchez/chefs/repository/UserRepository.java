@@ -1,8 +1,12 @@
 package es.juanlsanchez.chefs.repository;
 
+import es.juanlsanchez.chefs.domain.Authority;
 import es.juanlsanchez.chefs.domain.User;
 
+import es.juanlsanchez.chefs.security.AuthoritiesConstants;
 import org.joda.time.DateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -24,7 +28,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByLogin(String login);
 
+    @Query("select u from User u where (u.login like ?1 or u.firstName like ?2) " +
+                                " and size(u.authorities)=1 " +
+                                " and ?3 in elements(u.authorities)")
+    Page<User> findAllLikeLoginOrLikeFirstName(String q, String q1, Authority authority,Pageable pageable);
+
     @Override
     void delete(User t);
 
+    @Query("select u from User u where size(u.authorities)=1 and ?1 in elements(u.authorities)")
+    Page<User> findAllByAuthority(Authority role_user, Pageable pageable);
 }

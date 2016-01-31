@@ -8,13 +8,8 @@ angular.module('chefsApp')
         $scope.backgroundStyle = {};
         $scope.errorEmailExists = null;
         $scope.imagesModified = false;
+        $scope.thumbailStyle = {'background-color': '#f5f5f5'}
 
-//Background picture in background-image style css
-        $scope.refreshBackground = function(){
-            $scope.backgroundStyle = {
-                'background-image':'url(data:image/png;base64,' + $scope.user.backgroundPicture + ')'
-            };
-        };
 //Check images
         $scope.modifiedImage = function(){
             $scope.imagesModified = true;

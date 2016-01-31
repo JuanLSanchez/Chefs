@@ -55,9 +55,9 @@ public class UserDTO {
     public UserDTO(User user) {
         this(user.getLogin(), null, user.getFirstName(), user.getBiography(),
             user.getEmail(), user.getActivated(), user.getLangKey(),
-            user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()),
-            user.getProfilePicture().getSrc(), user.getBackgroundPicture().getSrc());
+            user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet()),
+            user.getProfilePicture()==null?null:user.getProfilePicture().getSrc(),
+            user.getBackgroundPicture()==null?null:user.getBackgroundPicture().getSrc());
     }
 
     public UserDTO(String login, String password, String firstName, String biography,

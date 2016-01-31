@@ -1,0 +1,9 @@
+<div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" class="row">
+    <div ng-repeat="user in users" >
+        <div ng-include="'scripts/app/views/user/user-display.html'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12"></div>
+        <div class="clearfix visible-lg" ng-if="$index % 4 == 3"></div>
+        <div class="clearfix visible-md" ng-if="$index % 3 == 2"></div>
+        <div class="clearfix visible-sm" ng-if="$index % 2 == 1"></div>
+        <div class="clearfix visible-xs" ng-if="$index % 1 == 0"></div>
+    </div>
+</div>
