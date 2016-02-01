@@ -1,36 +1,25 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import es.juanlsanchez.chefs.domain.Authority;
-import es.juanlsanchez.chefs.domain.BackgroundPicture;
-import es.juanlsanchez.chefs.domain.ProfilePicture;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
-import es.juanlsanchez.chefs.security.AuthoritiesConstants;
 import es.juanlsanchez.chefs.service.UserService;
-import es.juanlsanchez.chefs.web.rest.dto.ManagedUserDTO;
-import es.juanlsanchez.chefs.web.rest.dto.MiniUserDTO;
-import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
-import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import es.juanlsanchez.chefs.web.rest.dto.SearchDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -78,13 +67,13 @@ public class SearchResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<List<MiniUserDTO>> getAllUsersByLoginAndFirstName(@PathVariable String q, Pageable pageable)
+    public ResponseEntity<List<SearchDTO>> getAllUsersByLoginAndFirstName(@PathVariable String q, Pageable pageable)
         throws URISyntaxException {
         Page<User> users = userService.findAllLikeLoginOrLikeFirstName(q, pageable);
-        List<MiniUserDTO> miniUserDTOs = users.getContent().stream()
-            .map(user -> new MiniUserDTO(user))
+        List<SearchDTO> searchDTO = users.getContent().stream()
+            .map(user -> new SearchDTO(user))
             .collect(Collectors.toList());
-        return new ResponseEntity<>(miniUserDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
     }
 
     /**
@@ -95,13 +84,13 @@ public class SearchResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<List<MiniUserDTO>> getAllUsersByLoginAndFirstName(Pageable pageable)
+    public ResponseEntity<List<SearchDTO>> getAllUsersByLoginAndFirstName(Pageable pageable)
         throws URISyntaxException {
         Page<User> users = userService.findAll(pageable);
-        List<MiniUserDTO> miniUserDTOs = users.getContent().stream()
-            .map(user -> new MiniUserDTO(user))
+        List<SearchDTO> searchDTO = users.getContent().stream()
+            .map(user -> new SearchDTO(user))
             .collect(Collectors.toList());
-        return new ResponseEntity<>(miniUserDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
     }
 
 }

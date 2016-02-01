@@ -1,8 +1,15 @@
 <div class="thumbnail" ng-style="thumbailStyle">
-    <div class="backgroundPicture" ng-style="{'background-image':'url(data:image/png;base64,' + user.backgroundPicture + ')'}">
+    <div class="backgroundPicture" ng-style="{'background-image':
+        user.backgroundPicture ? 'url(data:image/png;base64,' + user.backgroundPicture + ')':
+                                  'url(\'assets/images/picture-background.png\')',
+                                  'background-color': !user.backgroundPicture?'#fee8b4':none}">
         <img ng-show="user.profilePicture"
             class="img-responsive img-circle profilePicture"
              data-ng-src="{{'data:image/*;base64,' + user.profilePicture}}"/>
+        <img ng-show="!user.profilePicture"
+             class="img-responsive img-circle profilePicture"
+             src="assets/images/picture-profile.png"
+             ng-style="{'background-color':'#9999ff'}"/>
     </div>
     <div class="row caption text-center user-description">
 

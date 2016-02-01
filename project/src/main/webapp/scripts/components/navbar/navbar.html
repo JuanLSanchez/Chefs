@@ -144,38 +144,18 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-right" role="search" ng-submit="save()"
+            <form class="navbar-form navbar-right" role="search"
                   ng-controller="SearchesController">
                 <div class="input-group">
-                    <div custom-select="f for f in fruits" ng-model="fruit">
-                    </div>
-                    <!--<input type="text" class="form-control" name="search" ng-model="search" ng-change="prev">-->
-                    <!--<tags-input ng-model="search"  display-property="name" placeholder="{{'chefsApp.recipe.addTags' | translate}}"
-                                allowed-tags-pattern="^[@].*$">
-                        <auto-complete source="loadTags($query)"
-                                       min-length="0"
-                                       debounce-delay="300"></auto-complete>
-                    </tags-input>-->
-                    <datalist id="results">
-                        <option ng-repeat="result in searchResult" ng-value="resultSearch.html">
-                    </datalist>
-                    <script type="text/ng-template" id="customTemplate.html">
-                        <a>
-                            <p>
-                                <span class="glyphicon glyphicon-user"></span>&#32;
-                                <b>{{match.model.firstName}}</b>&#32;
-                                <small>(@{{match.model.login}})</small>
-                            </p>
-                        </a>
-                    </script>
                     <input class="form-control" ng-model="search"
                            ng-change="prev()" required
-                           typeahead="result as result.login for result in searchResult"
+                           typeahead="result as result.firstField for result in searchResult"
                            typeahead-template-url="scripts/templates/searchResult.html"
                            ng-model-options='{ debounce: 500 }'
+                           typeahead-focus-first="false"
                            data-typeahead-wait-ms="300">
                     <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default">
+                        <button ng-click="save()" class="btn btn-default">
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>

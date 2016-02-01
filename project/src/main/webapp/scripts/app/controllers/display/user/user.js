@@ -3,7 +3,7 @@
 angular.module('chefsApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('displayUser', {
+            .state('listUser', {
                 parent: 'display',
                 url: '/users/{q}',
                 params: {message:null},

@@ -18,7 +18,6 @@ angular.module('chefsApp')
 //Get principal
         Principal.identity(true).then(function(account) {
             $scope.user = account;
-            $scope.refreshBackground();
         });
 
 //Save function
@@ -42,7 +41,6 @@ angular.module('chefsApp')
                     $scope.error = 'ERROR';
                 }
             });
-            $scope.refreshBackground();
             $scope.userForm.$setPristine();
             $scope.imagesModified = false;
         };
@@ -85,7 +83,6 @@ angular.module('chefsApp')
 // Switch views edit and show
         $scope.switchMode = function(){
             $scope.editMode = !$scope.editMode;
-            $scope.refreshBackground();
         };
 
     });
