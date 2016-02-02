@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('HomeRecipeController', function ($scope, $rootScope, RecipeUser, ParseLinks) {
+    .controller('HomeRecipeController', function ($scope, $state, $rootScope, RecipeUser, ParseLinks) {
         $scope.recipes = [];
         $scope.page = 0;
         $rootScope.pictures = [];
@@ -52,5 +52,8 @@ angular.module('chefsApp')
 
         $scope.clear = function () {
             $scope.recipe = {name: null, description: null, creationDate: null, informationUrl: null, advice: null, sugestedTime: null, updateDate: null, ingredientsInSteps: null, id: null};
+        };
+        $scope.showRecipe = function (param) {
+            $state.go("HomeRecipesDisplay", param);
         };
     });

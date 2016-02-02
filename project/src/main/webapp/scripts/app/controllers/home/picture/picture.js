@@ -3,26 +3,22 @@
 angular.module('chefsApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('display_recipe', {
-                parent: 'display',
-                url: '/recipe/{id}',
-                params: {message:null},
+            .state('HomeRecipePicture', {
+                parent: 'home',
+                url: '/pictures/{login}',
                 data: {
-                    pageTitle: 'chefsApp.recipe.detail.title'
+                    pageTitle: 'chefsApp.recipe.home.title'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/views/recipe/recipe-display.html',
-                        controller: 'RecipeDisplayController'
+                        templateUrl: 'scripts/app/views/picture/recipe-pictures.html',
+                        controller: 'RecipePicturesController'
                     }
                 },
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');
                         return $translate.refresh();
-                    }],
-                    entity: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
-                        return Recipe.get({id : $stateParams.id});
                     }]
                 }
             });

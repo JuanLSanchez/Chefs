@@ -67,7 +67,7 @@ angular.module('chefsApp')
         };
 
         $scope.cancel = function () {
-            $timeout($state.go('display_recipe', {id:$scope.pictureDetails.recipe}), 3000);
+            $timeout($state.go('ChefRecipeDisplay', {id:$scope.pictureDetails.recipe}), 3000);
         };
 
         $scope.clear = function () {

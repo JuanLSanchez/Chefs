@@ -1,8 +1,8 @@
 
 <div>
     <jh-alert-error></jh-alert-error>
-    <button ng-if="userAccount.login==recipe.user.login" ui-sref="user.recipe.edit({id:recipe.id})"><span class="glyphicon glyphicon-cog"></span></button>
-    <button ng-if="userAccount.login!=recipe.user.login && recipe.socialEntity.publicInscription" ui-sref="user.recipe.edit({id:recipe.id})"><span class="glyphicon glyphicon-duplicate"></span></button>
+    <button ng-if="userAccount.login==recipe.user.login" ui-sref="HomeRecipeEdit({id:recipe.id})"><span class="glyphicon glyphicon-cog"></span></button>
+    <button ng-if="userAccount.login!=recipe.user.login && recipe.socialEntity.publicInscription" ui-sref="HomeRecipeEdit({id:recipe.id})"><span class="glyphicon glyphicon-duplicate"></span></button>
     <h2>
         {{recipe.name}}
         <small ng-if="recipe.father.id">
@@ -10,7 +10,7 @@
             @{{recipe.user.login}}
         </span>
             <span translate="entity.detail.createdfrom">Created from</span>
-            <a  ui-sref="display_recipe({id:recipe.father.id})">{{recipe.father.name}}</a>
+            <a  ui-sref="ChefRecipeDisplay({id:recipe.father.id})">{{recipe.father.name}}</a>
         </small>
     </h2>
     <div class="thumbnail" ng-if="recipe.socialEntity.socialPicture.src">

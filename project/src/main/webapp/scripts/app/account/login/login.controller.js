@@ -16,7 +16,7 @@ angular.module('chefsApp')
             }).then(function () {
                 $scope.authenticationError = false;
                 if ($rootScope.previousStateName === 'register') {
-                    $state.go('home_recipe');
+                    $state.go('HomeRecipes');
                 } else {
                     $rootScope.back();
                 }

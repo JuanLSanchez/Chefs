@@ -6,17 +6,14 @@
 angular.module('chefsApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('user', {
+            .state('chef', {
                 parent: 'entity',
                 abstract: true,
-                url: '/chef',
-                data: {
-                    authorities: ['ROLE_USER'],
-                },
+                url: '/chef/{login}',
                 views:{
                     'nav_1@': {
                         templateUrl: 'scripts/app/views/user/user-display.html',
-                        controller: 'HomeUserController'
+                        controller: 'ChefUserController'
                     },
                     'aside_1@': {
                         templateUrl: 'scripts/app/views/creator/creator.html'
@@ -27,7 +24,10 @@ angular.module('chefsApp')
                         $translatePartialLoader.addPart('global');
                         $translatePartialLoader.addPart('settings');
                         return $translate.refresh();
+                    }],
+                    entity: ['$stateParams', 'User', function($stateParams, User) {
+                        return User.get({login : $stateParams.login});
                     }]
                 }
-            });
+            })
     });

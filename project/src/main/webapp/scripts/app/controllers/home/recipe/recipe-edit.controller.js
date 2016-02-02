@@ -36,7 +36,7 @@ angular.module('chefsApp').controller('RecipeEditController',
         };
 
         var onSaveFinished = function (result) {
-            $state.go('display_recipe', {id:result.id, message:result});
+            $state.go('HomeRecipesDisplay', {id:result.id, message:result});
         };
 
         $scope.save = function () {

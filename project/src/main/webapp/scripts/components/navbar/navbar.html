@@ -12,10 +12,7 @@
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
             <ul class="nav navbar-nav navbar-left">
                 <li ng-class="{active: $state.indexOf('home') != -1}">
-                    <a ui-sref="home_recipe"><span translate="global.menu.home">Home</span></a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="home">
+                    <a ui-sref="HomeRecipes">
                         <span class="glyphicon glyphicon-home"></span>
                         <span translate="global.menu.home">Home</span>
                     </a>
