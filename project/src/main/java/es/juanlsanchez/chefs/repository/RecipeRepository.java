@@ -25,11 +25,21 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     Page<Recipe> findByUserLogin(String login, Pageable pageable);
 
 
+    /**
+     * Find all recipes of a user, that the principal can view
+     * @param login The user of the recipes
+     * @param pageable Pagination type
+     * @return All the login's recipes that the principal can view
+     */
     @Query("select recipe from Recipe recipe " +
             "   where recipe.socialEntity.blocked=false " +
             "   and recipe.user.login=?1" +
             "   and (" +
             "       recipe.socialEntity.isPublic=true" +
-            "       or (select request from Request request where request.accepted=true and request.followed.login=?#{principal.username}  and request.follower.login=?1) is not null)")
+            "       or (select request " +
+            "          from Request request " +
+            "          where request.accepted=true " +
+            "           and request.followed.login=?#{principal.username} " +
+            "           and request.follower.login=?1) is not null)")
     Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable);
 }

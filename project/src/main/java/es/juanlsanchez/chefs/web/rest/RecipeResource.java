@@ -119,7 +119,7 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<List<Recipe>> getAllRecipesUser(@PathVariable String login, Pageable pageable)
         throws URISyntaxException {
-        Page<Recipe> page = recipeService.findByUserLogin(login, pageable);
+        Page<Recipe> page = recipeService.findAllByLoginAndIsVisibility(login, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

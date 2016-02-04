@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('HomeRecipeController', function ($scope, $state, $rootScope, RecipeUser, ParseLinks) {
+    .controller('ChefRecipeController', function ($scope, $state, $stateParams, $rootScope, RecipeUser, ParseLinks) {
         $scope.recipes = [];
         $scope.page = 0;
         $rootScope.pictures = [];
         $scope.loadAll = function() {
-            RecipeUser.get({page: $scope.page, size: 10}, function(result, headers) {
+            RecipeUser.query({login:$stateParams.login,page: $scope.page, size: 10}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
                 for (var i = 0; i < result.length; i++) {
                     $scope.recipes.push(result[i]);
@@ -19,8 +19,8 @@ angular.module('chefsApp')
                             });
                         }
                         for (var j = 0; j < result[i].steps.length && $rootScope.pictures.length < 4; j++ ){
-                            for (var k = 0; k < result[i].steps[j].stepPicture.length &&
-                            $rootScope.pictures.length < 4; k++){
+                            for (var k = 0; k < result[i].steps[j].stepPicture.length
+                            && $rootScope.pictures.length < 4; k++){
                                 if(result[i].steps[j].stepPicture[k].src != null) {
                                     $rootScope  .pictures.push({
                                         src: result[i].steps[j].stepPicture[k].src, recipe: result[i].id,
@@ -55,6 +55,7 @@ angular.module('chefsApp')
             $scope.recipe = {name: null, description: null, creationDate: null, informationUrl: null, advice: null, sugestedTime: null, updateDate: null, ingredientsInSteps: null, id: null};
         };
         $scope.showRecipe = function (param) {
-            $state.go("HomeRecipesDisplay", param);
+            param['login']=$stateParams.login;
+            $state.go("ChefRecipeDisplay", param);
         };
     });

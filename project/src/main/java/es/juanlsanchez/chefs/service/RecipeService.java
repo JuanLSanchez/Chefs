@@ -159,4 +159,8 @@ public class RecipeService {
     public Page<Recipe> findAllByLoginAndVisibility(String login, Pageable pageable){
         return recipeRepository.findAllByLoginAndIsVisibility(login, pageable);
     }
+
+    public Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable) {
+        return recipeRepository.findAllByLoginAndIsVisibility(login, pageable);
+    }
 }

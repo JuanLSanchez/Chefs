@@ -24,4 +24,11 @@ angular.module('chefsApp')
             }
         };
 
+        $scope.goSearch = function (search){
+            if (search.type == 'user'){
+                $state.go('ChefRecipes', {login: search.firstField});
+                $scope.search='@'+search.firstField;
+            }
+        };
+
     });

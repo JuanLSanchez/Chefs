@@ -3,6 +3,29 @@
 angular.module('chefsApp')
     .config(function ($stateProvider) {
         $stateProvider
+            .state('ChefRecipes', {
+                parent: 'chef',
+                url: '/recipe',
+                data: {
+                    pageTitle: 'chefsApp.recipe.home.title'
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/views/recipe/recipe-list.html',
+                        controller: 'ChefRecipeController'
+                    },
+                    'aside_2@': {
+                        templateUrl: 'scripts/app/views/picture/recipe-pictures-module.html',
+                        controller: 'HomePictureModuleController'
+                    }
+                },
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('recipe');
+                        return $translate.refresh();
+                    }]
+                }
+            })
             .state('ChefRecipeDisplay', {
                 parent: 'chef',
                 url: '/recipe/{id}',
