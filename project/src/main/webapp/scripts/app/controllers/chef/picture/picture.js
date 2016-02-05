@@ -3,8 +3,8 @@
 angular.module('chefsApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('HomeRecipePicture', {
-                parent: 'home',
+            .state('ChefRecipePicture', {
+                parent: 'chef',
                 url: '/pictures',
                 data: {
                     pageTitle: 'chefsApp.recipe.home.title'
@@ -14,7 +14,7 @@ angular.module('chefsApp')
                         templateUrl: 'scripts/app/views/picture/recipe-pictures.html',
                         controller: 'RecipePicturesController',
                         resolve: {
-                            site: function(){return 'home'}
+                            site: function(){return 'chef'}
                         }
                     }
                 },
@@ -22,7 +22,8 @@ angular.module('chefsApp')
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');
                         return $translate.refresh();
-                    }]
+                    }],
+                    site: function(){return 'chef'}
                 }
             });
     });

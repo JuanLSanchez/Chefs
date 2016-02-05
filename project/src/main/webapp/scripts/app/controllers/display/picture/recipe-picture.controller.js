@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('RecipePicturesController', function ($state, $timeout, $scope, $stateParams, RecipeUser, ParseLinks) {
+    .controller('RecipePicturesController', function ($state, $timeout, $scope, $stateParams, RecipeUser,
+                                                      ParseLinks, $modal, site) {
         $scope.pictures = [];
         $scope.pictureDetails = {};
         $scope.pictureIndex = 0;
@@ -14,7 +15,7 @@ angular.module('chefsApp')
                         $scope.pictures.push({
                             src: result[i].socialEntity.socialPicture.src, recipe: result[i].id,
                             recipeName: result[i].name, title: result[i].socialEntity.socialPicture.title,
-                            updateDate: result[i].updateDate, class: 'col-xs-4'
+                            updateDate: result[i].updateDate, class: 'col-xs-4', user: result[i].user.login
                         });
                     }
                     for (var j = 0; j < result[i].steps.length; j++ ){
@@ -23,7 +24,7 @@ angular.module('chefsApp')
                                 $scope.pictures.push({
                                     src: result[i].steps[j].stepPicture[k].src, recipe: result[i].id,
                                     recipeName: result[i].name, title: result[i].steps[j].stepPicture[k].title,
-                                    updateDate: result[i].updateDate, class: 'col-xs-4'
+                                    updateDate: result[i].updateDate, class: 'col-xs-4', user: result[i].user.login
                                 });
                             }
                         }
@@ -47,30 +48,21 @@ angular.module('chefsApp')
             $scope.clear();
         };
 
-        $scope.detailsOfPicture = function(pictureIndex){
-            $scope.pictureDetails = $scope.pictures[pictureIndex];
-            $scope.pictureIndex = pictureIndex;
+
+        $scope.open = function (picture) {
+
+            $modal.open({
+                templateUrl: 'scripts/templates/picture.html',
+                controller: 'ModalInstanceController',
+                size: 'lg',
+                resolve: {
+                    pictures: function () { return $scope.pictures; },
+                    picture:  function () { return picture; },
+                    site: function() { return site; }
+                }
+            }).result.then(function(result) {
+                    result();
+            });
         };
 
-        $scope.nextPicture = function(){
-            if ($scope.pictureIndex < $scope.pictures.length - 1 ){
-                $scope.pictureIndex = $scope.pictureIndex + 1;
-                $scope.pictureDetails = $scope.pictures[$scope.pictureIndex];
-            }
-        };
-
-        $scope.prevPicture = function(){
-            if ($scope.pictureIndex > 0 ){
-                $scope.pictureIndex = $scope.pictureIndex - 1;
-                $scope.pictureDetails = $scope.pictures[$scope.pictureIndex];
-            }
-        };
-
-        $scope.cancel = function () {
-            $timeout($state.go('ChefRecipeDisplay', {id:$scope.pictureDetails.recipe}), 3000);
-        };
-
-        $scope.clear = function () {
-            $scope.pictures = {src:null, recipe:null, recipeName:null, title:null, updateDate:null};
-        };
     });

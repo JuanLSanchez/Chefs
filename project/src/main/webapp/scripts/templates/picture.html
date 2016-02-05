@@ -1,0 +1,25 @@
+<!--<div class="modal fade in" id="picture-details" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">-->
+            <div class="modal-header" style="min-height: 40px;">
+                <button type="button" class="close" ng-click="close()" aria-label="Close">
+                    <span class="glyphicon glyphicon-remove small"></span>
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                    {{pictures[picture].title}}
+                </h4>
+            </div>
+            <div class="modal-body text-center">
+                <div>
+                    <span ng-click="prevPicture();" class="glyphicon glyphicon-chevron-left" ng-show="picture>0"
+                          style="width: 5%"></span>
+                    <img data-ng-src="{{'data:image/*;base64,' + pictures[picture].src}}" style="width: 85%"/>
+                    <span ng-click="nextPicture();" class="glyphicon glyphicon-chevron-right"
+                          ng-show="picture<pictures.length-1"  style="width: 5%"></span>
+                </div>
+                <!--<p><a ng-click="cancel();" data-dismiss="modal" class="glyphicon glyphicon-eye-open"></a></p>-->
+
+
+            </div>
+    <div class="modal-footer">
+        <h3 class="text-center" style="margin:0;"><a ng-click="displayRecipe()">{{pictures[picture].recipeName}}</a></h3>
+    </div>
+<!--</div>-->

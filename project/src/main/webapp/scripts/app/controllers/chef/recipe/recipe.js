@@ -16,7 +16,12 @@ angular.module('chefsApp')
                     },
                     'aside_2@': {
                         templateUrl: 'scripts/app/views/picture/recipe-pictures-module.html',
-                        controller: 'HomePictureModuleController'
+                        controller: 'PictureModuleController',
+                        resolve: {
+                            showPictures: ['$state', function($state) {
+                                return function(){ $state.go('ChefRecipePicture')};
+                            }]
+                        }
                     }
                 },
                 resolve: {

@@ -34,12 +34,12 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     @Query("select recipe from Recipe recipe " +
             "   where recipe.socialEntity.blocked=false " +
             "   and recipe.user.login=?1" +
-            "   and (" +
-            "       recipe.socialEntity.isPublic=true" +
-            "       or (select request " +
-            "          from Request request " +
-            "          where request.accepted=true " +
-            "           and request.followed.login=?#{principal.username} " +
-            "           and request.follower.login=?1) is not null)")
+            "   and ( recipe.user.login=?#{principal.username}" +
+            "       or (recipe.socialEntity.isPublic=true" +
+            "           or (select request " +
+            "               from Request request " +
+            "               where request.accepted=true " +
+            "               and request.followed.login=?#{principal.username} " +
+            "               and request.follower.login=?1) is not null))")
     Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable);
 }

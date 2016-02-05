@@ -1,36 +1,13 @@
+<back-button></back-button>
+<p></p>
 <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" class="row">
-    <div ng-repeat="picture in pictures| orderBy:'-updateDate'">
+    <div ng-repeat="picture in pictures">
         <div class="clearfix" ng-if="$index % 3 == 0"><di></di></div>
         <div ng-class="picture.class" ng-show="picture.src" class="thumbnail" >
-            <div ng-click="detailsOfPicture($index);" data-toggle="modal" data-target="#picture-details">
+            <div ng-click="open($index);" data-toggle="modal" data-target="#picture-details">
                 <img class="img-responsive"
                      data-ng-src="{{'data:image/*;base64,' + picture.src}}"/>
             </div>
         </div>
     </div>
-    <div class="modal fade in" id="picture-details" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="min-height: 40px;">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="glyphicon glyphicon-remove small"></span>
-                    </button>
-                    <h4 class="modal-title text-center" id="myModalLabel">
-                        {{pictureDetails.title}}
-                    </h4>
-                </div>
-                <div class="modal-body text-center">
-                    <div>
-                        <span ng-click="prevPicture();" class="glyphicon glyphicon-chevron-left" ng-show="pictureIndex>0" style="width: 5%"></span>
-                        <img data-ng-src="{{'data:image/*;base64,' + pictureDetails.src}}" style="width: 85%"/>
-                        <span ng-click="nextPicture();" class="glyphicon glyphicon-chevron-right" ng-show="pictureIndex<pictures.length-1"  style="width: 5%"></span>
-                    </div>
-                    <!--<p><a ng-click="cancel();" data-dismiss="modal" class="glyphicon glyphicon-eye-open"></a></p>-->
-                    <p>{{pictureDetails.recipeName}}</p>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
