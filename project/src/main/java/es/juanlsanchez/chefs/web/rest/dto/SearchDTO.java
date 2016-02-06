@@ -17,6 +17,10 @@ public class SearchDTO {
     @Size(min = 1, max = 50)
     private String firstField;
 
+    @NotNull
+    @Size(min = 1, max = 50)
+    private String login;
+
     @Size(max = 50)
     private String secondField;
 
@@ -27,17 +31,18 @@ public class SearchDTO {
     }
 
     public SearchDTO(User user) {
-        this(user.getLogin(), user.getFirstName(), "user");
+        this(user.getLogin(), user.getFirstName(), "user", user.getLogin());
     }
 
     public SearchDTO(Recipe recipe) {
-        this(recipe.getId().toString(), recipe.getName(), "recipe");
+        this(recipe.getId().toString(), recipe.getName(), "recipe", recipe.getUser().getLogin());
     }
 
-    public SearchDTO(String firstField, String secondField, String type) {
+    public SearchDTO(String firstField, String secondField, String type, String login) {
         this.firstField = firstField;
         this.secondField = secondField;
         this.type = type;
+        this.login = login;
     }
 
     public String getFirstField() { return firstField; }
@@ -46,12 +51,15 @@ public class SearchDTO {
 
     public String getType() { return type; }
 
+    public String getLogin() { return login; }
+
     @Override
     public String toString() {
         return "SearchDTO{" +
         "firstField='" + firstField + '\'' +
         ", secondField='" + secondField + '\'' +
         ", type='" + type + '\'' +
+        ", login='" + login + '\'' +
         '}';
     }
 }

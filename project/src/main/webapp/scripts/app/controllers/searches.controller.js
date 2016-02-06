@@ -17,8 +17,14 @@ angular.module('chefsApp')
 
         $scope.prev = function () {
             $scope.searchResult.clear;
-            if($scope.search.substr(0,1) == '@' && $scope.search.length>2){
+            var type = $scope.search.substr(0,1);
+            var canSearch = $scope.search.length>2;
+            if( type == '@' && canSearch){
                 Search.users($scope.search.substr(1),{page: $scope.page, size: $scope.pageSize}).then(function(result){
+                    $scope.searchResult = result;
+                });
+            }else if( type == '&' && canSearch){
+                Search.recipes($scope.search.substr(1),{page: $scope.page, size: $scope.pageSize}).then(function(result){
                     $scope.searchResult = result;
                 });
             }
@@ -26,8 +32,11 @@ angular.module('chefsApp')
 
         $scope.goSearch = function (search){
             if (search.type == 'user'){
-                $state.go('ChefRecipes', {login: search.firstField});
+                $state.go('ChefRecipes', {login: search.login});
                 $scope.search='@'+search.firstField;
+            }else if(search.type == 'recipe'){
+                $state.go('ChefRecipeDisplay', {login: search.login, id: search.firstField});
+                $scope.search='&'+search.secondField;
             }
         };
 

@@ -111,16 +111,16 @@ public class RecipeResource {
     }
 
     /**
-     * GET /recipes/user -> get all the recipes of the user
+     * GET /recipes/user/{login} -> get all the recipes of the user
      */
     @RequestMapping(value = "/recipes/user/{login}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Recipe>> getAllRecipesUser(@PathVariable String login, Pageable pageable)
+    public ResponseEntity<List<Recipe>> findAllByLoginAndIsVisibility(@PathVariable String login, Pageable pageable)
         throws URISyntaxException {
         Page<Recipe> page = recipeService.findAllByLoginAndIsVisibility(login, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user/"+login);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
@@ -135,6 +135,22 @@ public class RecipeResource {
         throws URISyntaxException {
         Page<Recipe> page = recipeService.findByUserIsCurrentUser(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
+        ResponseEntity result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return result;
+    }
+
+    /**
+     * GET /recipes/findAllIsVisibilityAndLikeName/{name} -> get all the recipes like name
+     */
+    @RequestMapping(value = "/recipes/findAllIsVisibilityAndLikeName/{name}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Recipe>> findAllIsVisibilityAndLikeName(@PathVariable String name, Pageable pageable)
+        throws URISyntaxException {
+        Page<Recipe> page = recipeService.findAllIsVisibilityAndLikeName(name, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+            "/recipes/findAllIsVisibilityAndLikeName/"+name);
         ResponseEntity result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
         return result;
     }

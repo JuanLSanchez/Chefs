@@ -1,7 +1,8 @@
 <a>
     <p>
-        <span class="glyphicon glyphicon-user"></span>&#32;
+        <span ng-show="match.model.type == 'user'" class="glyphicon glyphicon-user"></span>&#32;
+        <span ng-show="match.model.type == 'recipe'" class="glyphicon glyphicon-cutlery"></span>&#32;
         <b>{{match.model.secondField}}</b>&#32;
-        <small>(@{{match.model.firstField}})</small>
+        <small>(@{{match.model.login}})</small>
     </p>
 </a>

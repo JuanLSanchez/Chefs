@@ -173,6 +173,7 @@ public class RecipeService {
 
     public Page<Recipe> findAllIsVisibilityAndLikeName(String name, Pageable pageable){
         Page<Recipe> result;
+        name = "%"+name+"%";
         if(SecurityUtils.isAuthenticated()){
             result = recipeRepository.findAllIsVisibilityAndLikeName(name, pageable);
         }else{

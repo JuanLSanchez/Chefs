@@ -1,9 +1,11 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
+import es.juanlsanchez.chefs.service.RecipeService;
 import es.juanlsanchez.chefs.service.UserService;
 import es.juanlsanchez.chefs.web.rest.dto.SearchDTO;
 import org.springframework.data.domain.Page;
@@ -59,6 +61,9 @@ public class SearchResource {
     @Inject
     private UserService userService;
 
+    @Inject
+    private RecipeService recipeService;
+
     /**
      * GET  /users/:q -> get all users filter by first name and login.
      */
@@ -67,7 +72,7 @@ public class SearchResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<List<SearchDTO>> getAllUsersByLoginAndFirstName(@PathVariable String q, Pageable pageable)
+    public ResponseEntity<List<SearchDTO>> findAllLikeLoginOrLikeFirstName(@PathVariable String q, Pageable pageable)
         throws URISyntaxException {
         Page<User> users = userService.findAllLikeLoginOrLikeFirstName(q, pageable);
         List<SearchDTO> searchDTO = users.getContent().stream()
@@ -92,5 +97,23 @@ public class SearchResource {
             .collect(Collectors.toList());
         return new ResponseEntity<>(searchDTO, HttpStatus.OK);
     }
+
+    /**
+     * GET  /recipes/:q -> get all recipes filter by name.
+     */
+    @RequestMapping(value = "/recipes/{q}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<SearchDTO>> getAllUsersByLoginAndFirstName(@PathVariable String q, Pageable pageable)
+        throws URISyntaxException {
+        Page<Recipe> recipes = recipeService.findAllIsVisibilityAndLikeName(q, pageable);
+        List<SearchDTO> searchDTO = recipes.getContent().stream()
+            .map(recipe -> new SearchDTO(recipe))
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
+    }
+
 
 }
