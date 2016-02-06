@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 
 import org.springframework.data.repository.query.spi.EvaluationContextExtension;
 import org.springframework.data.repository.query.spi.EvaluationContextExtensionSupport;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -115,6 +116,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/account/reset_password/init").permitAll()
             .antMatchers("/api/account/reset_password/finish").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/account").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/search/users/{.+}").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/users/{.+}").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/users/likeLoginOrLikeFirstName/{.+}").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/recipes/user/{.+}").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/recipes/{\\d+}").permitAll()
             .antMatchers("/api/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/audits/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/**").authenticated()

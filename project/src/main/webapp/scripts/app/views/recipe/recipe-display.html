@@ -3,18 +3,30 @@
     <jh-alert-error></jh-alert-error>
     <back-button></back-button>
     <p></p>
-    <button ng-if="userAccount.login==recipe.user.login" ui-sref="HomeRecipeEdit({id:recipe.id})"><span class="glyphicon glyphicon-cog"></span></button>
-    <button ng-if="userAccount.login!=recipe.user.login && recipe.socialEntity.publicInscription" ui-sref="HomeRecipeEdit({id:recipe.id})"><span class="glyphicon glyphicon-duplicate"></span></button>
+    <button ng-if="userAccount.login==recipe.user.login" ui-sref="HomeRecipeEdit({id:recipe.id})">
+        <span class="glyphicon glyphicon-cog"></span>
+    </button>
+    <button ng-if="userAccount.login != null &&
+        userAccount.login!=recipe.user.login && recipe.socialEntity.publicInscription"
+            ui-sref="HomeRecipeEdit({id:recipe.id})">
+        <span class="glyphicon glyphicon-duplicate"></span>
+    </button>
     <h2>
         {{recipe.name}}
-        <small ng-if="recipe.father.id">
-        <span class="label label-success">
-            @{{recipe.user.login}}
-        </span>
-            <span translate="entity.detail.createdfrom">Created from</span>
-            <a  ui-sref="ChefRecipeDisplay({id:recipe.father.id})">{{recipe.father.name}}</a>
-        </small>
     </h2>
+    <h3 ng-if="recipe.father.id">
+        <small>
+            <span translate="entity.detail.createdfrom">Created from</span>:
+            <span class="hand label label-default"
+                  ui-sref="ChefRecipeDisplay({id:recipe.father.id, login:recipe.father.user.login})">
+                <span class="glyphicon glyphicon-cutlery"></span> {{recipe.father.name}}
+            </span>
+            <span style="margin:5px;"></span>
+            <span class="label label-default hand" ui-sref="ChefRecipes({login:recipe.father.user.login})">
+                <span class="glyphicon glyphicon-user"></span> {{recipe.father.user.login}}
+            </span>
+        </small>
+    </h3>
     <div class="thumbnail" ng-if="recipe.socialEntity.socialPicture.src">
         <img class="img-responsive"
              data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"

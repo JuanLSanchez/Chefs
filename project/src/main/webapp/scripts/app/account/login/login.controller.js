@@ -15,7 +15,9 @@ angular.module('chefsApp')
                 rememberMe: $scope.rememberMe
             }).then(function () {
                 $scope.authenticationError = false;
-                if ($rootScope.previousStateName === 'register') {
+                if ($rootScope.previousStateName === 'register' ||
+                    $rootScope.previousStateName === 'login' ||
+                    $rootScope.previousStateName === '') {
                     $state.go('HomeRecipes');
                 } else {
                     $rootScope.back();

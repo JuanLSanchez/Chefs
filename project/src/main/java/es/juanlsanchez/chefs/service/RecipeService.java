@@ -4,6 +4,7 @@ import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
+import es.juanlsanchez.chefs.security.SecurityUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -161,6 +162,22 @@ public class RecipeService {
     }
 
     public Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable) {
-        return recipeRepository.findAllByLoginAndIsVisibility(login, pageable);
+        Page<Recipe> result;
+        if(SecurityUtils.isAuthenticated()){
+            result = recipeRepository.findAllByLoginAndIsVisibility(login, pageable);
+        }else{
+            result = recipeRepository.findAllByLoginAndIsVisibilityForAnonymous(login, pageable);
+        }
+        return result;
+    }
+
+    public Page<Recipe> findAllIsVisibilityAndLikeName(String name, Pageable pageable){
+        Page<Recipe> result;
+        if(SecurityUtils.isAuthenticated()){
+            result = recipeRepository.findAllIsVisibilityAndLikeName(name, pageable);
+        }else{
+            result = recipeRepository.findAllIsVisibilityForAnonymousAndLikeName(name, pageable);
+        }
+        return result;
     }
 }

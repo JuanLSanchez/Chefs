@@ -10,6 +10,8 @@ angular.module('chefsApp')
                 parent: 'entity',
                 abstract: true,
                 url: '/chef/{login}',
+                data: {
+                },
                 views:{
                     'nav_1@': {
                         templateUrl: 'scripts/app/views/user/user-display.html',

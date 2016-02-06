@@ -115,7 +115,7 @@
         "detail": {
             "field": "Field",
             "value": "Value",
-            "createdfrom": "Creada a partir de"
+            "createdfrom": "Creada de"
         },
         "delete": {
             "title": "Confirm delete operation"
