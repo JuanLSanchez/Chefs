@@ -12,6 +12,8 @@ angular.module('chefsApp')
             var q = $scope.search.substr(1);
             if ( diff == '@' ){
                 $state.go('listUser', {q : q});
+            }else if ( diff == '&'){
+                $state.go('listRecipes', {q : q});
             }
         };
 

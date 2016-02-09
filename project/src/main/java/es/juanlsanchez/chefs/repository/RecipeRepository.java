@@ -40,7 +40,8 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
         "               from Request request " +
         "               where request.accepted=true " +
         "               and request.followed.login=?#{ principal.username } " +
-        "               and request.follower.login=?1) is not null))")
+        "               and request.follower.login=?1) is not null))" +
+        "   order by recipe.updateDate desc")
     Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable);
 
     /**
@@ -52,7 +53,8 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     @Query("select recipe from Recipe recipe " +
         "   where recipe.socialEntity.blocked=false " +
         "   and recipe.user.login=?1" +
-        "   and recipe.socialEntity.isPublic=true")
+        "   and recipe.socialEntity.isPublic=true" +
+        "   order by recipe.updateDate desc")
     Page<Recipe> findAllByLoginAndIsVisibilityForAnonymous(String login, Pageable pageable);
 
     /**
@@ -70,7 +72,8 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
         "               from Request request " +
         "               where request.accepted=true " +
         "               and request.followed.login=?#{principal.username} " +
-        "               and request.follower.login=?1) is not null))")
+        "               and request.follower.login=?1) is not null))" +
+        "   order by recipe.updateDate desc")
     Page<Recipe> findAllIsVisibilityAndLikeName(String name, Pageable pageable);
 
     /**
@@ -82,6 +85,7 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     @Query("select recipe from Recipe recipe " +
         "   where recipe.socialEntity.blocked=false " +
         "   and recipe.name like ?1" +
-        "   and recipe.socialEntity.isPublic=true")
+        "   and recipe.socialEntity.isPublic=true" +
+        "   order by recipe.updateDate desc")
     Page<Recipe> findAllIsVisibilityForAnonymousAndLikeName(String name, Pageable pageable);
 }

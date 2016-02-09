@@ -1,15 +1,17 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('RecipeListController', function ($scope, $state, RecipeUser, ParseLinks) {
+    .controller('RecipeListController', function ($scope, $state, $stateParams, Search, ParseLinks) {
         $scope.recipes = [];
         $scope.page = 0;
+        $scope.pageSize = 5;
         $scope.loadAll = function() {
-            RecipeUser.get({page: $scope.page, size: 10}, function(result, headers) {
-                $scope.links = ParseLinks.parse(headers('link'));
-                for (var i = 0; i < result.length; i++) {
-                    $scope.recipes.push(result[i]);
-                }
+            var q = $stateParams.q;
+            Search.recipesList(q, {page: $scope.page, size: $scope.pageSize}).then(function(response){
+                $scope.links = ParseLinks.parse(response.headers('link'));
+                for (var i = 0; i < response.data.length; i++) {
+                    $scope.recipes.push(response.data[i]);
+                };
             });
         };
         $scope.reset = function() {
@@ -27,11 +29,7 @@ angular.module('chefsApp')
             $scope.reset();
             $scope.clear();
         };
-
-        $scope.clear = function () {
-            $scope.recipe = {name: null, description: null, creationDate: null, informationUrl: null, advice: null, sugestedTime: null, updateDate: null, ingredientsInSteps: null, id: null};
-        };
         $scope.showRecipe = function (param) {
-            $state.go("HomeRecipesDisplay", param);
+            $state.go("ChefRecipeDisplay", param);
         };
     });
