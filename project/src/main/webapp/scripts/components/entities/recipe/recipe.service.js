@@ -24,3 +24,10 @@ angular.module('chefsApp')
             'get': { method: 'GET', isArray: true}
         });
     });
+angular.module('chefsApp')
+    .factory('RecipeUserDTO', function ($resource) {
+        return $resource('api/recipes_dto/user/:login', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': { method: 'GET', isArray: true}
+        });
+    });

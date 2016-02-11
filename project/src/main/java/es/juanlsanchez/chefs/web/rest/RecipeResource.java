@@ -5,6 +5,7 @@ import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
 import es.juanlsanchez.chefs.service.RecipeService;
 import es.juanlsanchez.chefs.service.UserService;
+import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Recipe.
@@ -120,7 +122,7 @@ public class RecipeResource {
     public ResponseEntity<List<Recipe>> findAllByLoginAndIsVisibility(@PathVariable String login, Pageable pageable)
         throws URISyntaxException {
         Page<Recipe> page = recipeService.findAllByLoginAndIsVisibility(login, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user/"+login);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user/" + login);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
@@ -152,6 +154,54 @@ public class RecipeResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
             "/recipes/findAllIsVisibilityAndLikeName/"+name);
         ResponseEntity result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return result;
+    }
+
+    /**
+     * GET /recipes_dto/user/{login} -> get all the recipes of the user
+     */
+    @RequestMapping(value = "/recipes_dto/user/{login}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<RecipeMiniDTO>> findAllDTOByLoginAndIsVisibility(@PathVariable String login, Pageable pageable)
+        throws URISyntaxException {
+        Page<Recipe> page = recipeService.findAllByLoginAndIsVisibility(login, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user/"+login);
+        return new ResponseEntity<>(
+            page.getContent().stream().map(RecipeMiniDTO::new).collect(Collectors.toList()), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET /recipes_dto/user -> get all the recipes of the principal
+     */
+    @RequestMapping(value = "/recipes_dto/user",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<RecipeMiniDTO>> findAllDTORecipesPrincipalUser(Pageable pageable)
+        throws URISyntaxException {
+        Page<Recipe> page = recipeService.findByUserIsCurrentUser(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
+        ResponseEntity result = new ResponseEntity<>(
+            page.getContent().stream().map(RecipeMiniDTO::new).collect(Collectors.toList()), headers, HttpStatus.OK);
+        return result;
+    }
+
+    /**
+     * GET /recipes_dto/findAllIsVisibilityAndLikeName/{name} -> get all the recipes like name
+     */
+    @RequestMapping(value = "/recipes_dto/findAllIsVisibilityAndLikeName/{name}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<RecipeMiniDTO>> findAllDTOIsVisibilityAndLikeName(@PathVariable String name, Pageable pageable)
+        throws URISyntaxException {
+        Page<Recipe> page = recipeService.findAllIsVisibilityAndLikeName(name, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+            "/recipes/findAllIsVisibilityAndLikeName/"+name);
+        ResponseEntity result = new ResponseEntity<>(
+            page.getContent().stream().map(RecipeMiniDTO::new).collect(Collectors.toList()), headers, HttpStatus.OK);
         return result;
     }
 }

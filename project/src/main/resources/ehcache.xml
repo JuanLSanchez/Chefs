@@ -112,4 +112,115 @@
     <cache name="es.juanlsanchez.chefs.domain.BackgroundPicture"
            timeToLiveSeconds="3600">
     </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Schedule"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Opinion"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Event.users"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Opinion.scores"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Tag.socialEntitys"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Event.recipes"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.events"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Competition.recipes"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.comments"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.recipes"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Menu.recipes"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.competitions"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Recipe.events"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Recipe.menus"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.makeRequests"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Schedule.menus"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Step.ingredients"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Recipe.steps"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Recipe.sons"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Step.stepPicture"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.votes"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Competition.users"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Competition.opinions"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Vote.scores"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Recipe.competitions"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Recipe.votes"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.makeCompetitions"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.socialEntities"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.SocialEntity.comments"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.acceptRequests"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.assessments"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.schedules"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.Food.ingredients"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.SocialEntity.users"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.SocialEntity.assessments"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.User.makeEvents"
+           timeToLiveSeconds="3600">
+    </cache>
+    <cache name="es.juanlsanchez.chefs.domain.SocialEntity.tags"
+           timeToLiveSeconds="3600">
+    </cache>
 </ehcache>

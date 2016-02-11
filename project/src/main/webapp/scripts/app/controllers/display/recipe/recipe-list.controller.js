@@ -4,7 +4,7 @@ angular.module('chefsApp')
     .controller('RecipeListController', function ($scope, $state, $stateParams, Search, ParseLinks) {
         $scope.recipes = [];
         $scope.page = 0;
-        $scope.pageSize = 5;
+        $scope.pageSize = 4;
         $scope.loadAll = function() {
             var q = $stateParams.q;
             Search.recipesList(q, {page: $scope.page, size: $scope.pageSize}).then(function(response){

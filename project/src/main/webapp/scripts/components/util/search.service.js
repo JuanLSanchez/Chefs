@@ -17,7 +17,7 @@ angular.module('chefsApp')
                 });
             },
             recipesList: function(q, params){
-                return $http.get('api/recipes/findAllIsVisibilityAndLikeName/'+q, {params:params});
+                return $http.get('api/recipes_dto/findAllIsVisibilityAndLikeName/'+q, {params:params});
             }
         };
     });

@@ -5,6 +5,7 @@ import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
+import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -181,4 +182,27 @@ public class RecipeService {
         }
         return result;
     }
+
+    public Page<RecipeMiniDTO> findDTOAllByLoginAndIsVisibility(String login, Pageable pageable) {
+        Page<RecipeMiniDTO> result;
+        if(SecurityUtils.isAuthenticated()){
+            result = recipeRepository.findDTOAllByLoginAndIsVisibility(login, pageable);
+        }else{
+            result = recipeRepository.findDTOAllByLoginAndIsVisibilityForAnonymous(login, pageable);
+        }
+        return result;
+    }
+
+    public Page<RecipeMiniDTO> findDTOAllIsVisibilityAndLikeName(String name, Pageable pageable){
+        Page<RecipeMiniDTO> result;
+        name = "%"+name+"%";
+        if(SecurityUtils.isAuthenticated()){
+            result = recipeRepository.findDTOAllIsVisibilityAndLikeName(name, pageable);
+        }else{
+            result = recipeRepository.findDTOAllIsVisibilityForAnonymousAndLikeName(name, pageable);
+        }
+        return result;
+    }
+
+
 }

@@ -11,7 +11,7 @@ angular.module('chefsApp')
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/views/recipe/recipe-list.html',
+                        templateUrl: 'scripts/app/views/recipe/recipe-list-dto.html',
                         controller: 'ChefRecipeController'
                     },
                     'aside_2@': {
