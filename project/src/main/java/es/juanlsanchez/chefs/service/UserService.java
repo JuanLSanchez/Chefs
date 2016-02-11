@@ -243,4 +243,8 @@ public class UserService {
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAllByAuthority(authorityRepository.findOne("ROLE_USER"), pageable);
     }
+
+    public Optional<User> getUserWithLogin(String login) {
+        return userRepository.findOneByLogin(login);
+    }
 }

@@ -201,12 +201,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
 /* Relationships */
 
-    @OneToMany(mappedBy = "followed")
+    @OneToMany(mappedBy = "follower")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Request> makeRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "follower")
+    @OneToMany(mappedBy = "followed")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Request> acceptRequests = new HashSet<>();

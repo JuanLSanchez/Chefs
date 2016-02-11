@@ -1,0 +1,31 @@
+<div >
+    <div ng-if="request==false || request.ignored">
+        <button class="btn btn-primary" style="width: 100%;" ng-click="updateFollowed()">
+            <span class="glyphicon glyphicon-user"></span>
+            <span class="glyphicon glyphicon-plus"></span>
+            &#32;
+            <span translate="user.action.follow">Follow</span>
+        </button>
+    </div>
+    <div ng-if="request.accepted" ng-click="updateFollowed()">
+        <button class="btn btn-success" style="width: 100%;">
+            <span class="glyphicon glyphicon-ok-circle"></span>
+            &#32;
+            <span translate="user.action.following">Following</span>
+        </button>
+    </div>
+    <div ng-if="request.locked">
+        <button class="btn btn-danger disabled" style="width: 100%;">
+            <span class="glyphicon glyphicon-lock"></span>
+            &#32;
+            <span translate="user.action.locked">Locked</span>
+        </button>
+    </div>
+    <div ng-if="request.ignored==false && request.locked==false && request.accepted==false" ng-click="updateFollowed()">
+        <button class="btn btn-info disable" style="width: 100%;">
+            <span class="glyphicon glyphicon-time"></span>
+            &#32;
+            <span translate="user.action.waiting">Waiting</span>
+        </button>
+    </div>
+</div>

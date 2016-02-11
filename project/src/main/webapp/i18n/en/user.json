@@ -1,0 +1,12 @@
+{
+    "user": {
+        "action": {
+            "follow": "Follow",
+            "following": "Following",
+            "locked": "Locked",
+            "waiting": "Waiting"
+        },
+        "following": "Following",
+        "followers": "Followers"
+    }
+}

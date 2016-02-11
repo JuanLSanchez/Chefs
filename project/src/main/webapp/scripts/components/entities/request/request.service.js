@@ -15,3 +15,17 @@ angular.module('chefsApp')
             'update': { method:'PUT' }
         });
     });
+angular.module('chefsApp')
+    .factory('RequestAPI', function ($http) {
+        return {
+            findRequestWithPrincipalAsFollowerAndFollowed: function(followed, params){
+                return $http.get('api/requests/follower/'+followed, params);
+            },
+            followed: function(followed, params){
+                return $http.put('api/requests/follower/'+followed, params);
+            },
+            requestInfo: function(login, params){
+                return $http.get('api/requests/count/'+login, params);
+            }
+        };
+    });

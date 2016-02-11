@@ -1,0 +1,12 @@
+<div >
+    <ul class="list-inline list-unstyled">
+        <li>
+            <p translate="user.following">Following</p>
+            <p>{{requestInfo.nFollowed}}</p>
+        </li>
+        <li>
+            <p translate="user.followers">Followers</p>
+            <p>{{requestInfo.nFollowers}}<small ng-if="requestInfo.nWaiting>0" class="badge">{{requestInfo.nWaiting}}</small></p>
+        </li>
+    </ul>
+</div>

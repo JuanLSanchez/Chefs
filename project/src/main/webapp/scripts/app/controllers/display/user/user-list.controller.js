@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('UserListController', function ($scope, Search, ParseLinks, $stateParams) {
+    .controller('UserListController', function ($scope, Search, ParseLinks, $stateParams, Principal, RequestAPI) {
         $scope.users = [];
         $scope.page = 0;
         $scope.pageSize = 20;
+        $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.loadAll = function() {
             var q = $stateParams.q;
             Search.usersList(q, {page: $scope.page, size: $scope.pageSize}).then(function(response){
