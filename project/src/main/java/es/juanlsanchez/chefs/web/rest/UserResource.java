@@ -182,4 +182,34 @@ public class UserResource {
                 .map(userDTO -> new ResponseEntity<>(userDTO, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    /**
+     * GET  /users/followers/:followed -> get users who follow the login user.
+     */
+    @RequestMapping(value = "/users/followers/{followed}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<UserDTO>> findAllFollowersByLogin (@PathVariable String followed, Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get the followers: {}", followed);
+        Page<UserDTO> page = userService.findAllFollowersByLogin(followed, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/followers/"+followed);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /users/following/:follower -> get users who the login user following.
+     */
+    @RequestMapping(value = "/users/following/{follower}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<UserDTO>> findAllFollowingByLogin (@PathVariable String follower, Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get the following: {}", follower);
+        Page<UserDTO> page = userService.findAllFollowingByLogin(follower, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/followers/" + follower);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

@@ -14,3 +14,15 @@ angular.module('chefsApp')
                 'update': { method:'PUT' }
             });
         });
+
+angular.module('chefsApp')
+    .factory('UserAPI', function ($http) {
+        return {
+            followers: function(followed, params){
+                return $http.get('api/users/followers/'+followed, {params:params});
+            },
+            following: function(follower, params){
+                return $http.get('api/users/following/'+follower, {params:params});
+            }
+        };
+    });

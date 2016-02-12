@@ -10,5 +10,9 @@ angular.module('chefsApp')
         Principal.identity(true).then(function(account) {
             $scope.user = account;
         });
+// Redirect followers and following
+        $scope.redirect = function(){
+            return 'home';
+        }
 
     });

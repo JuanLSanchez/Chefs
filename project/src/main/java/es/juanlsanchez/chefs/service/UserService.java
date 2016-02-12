@@ -1,12 +1,15 @@
 package es.juanlsanchez.chefs.service;
 
-import es.juanlsanchez.chefs.domain.*;
+import es.juanlsanchez.chefs.domain.Authority;
+import es.juanlsanchez.chefs.domain.BackgroundPicture;
+import es.juanlsanchez.chefs.domain.ProfilePicture;
+import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
-import es.juanlsanchez.chefs.security.AuthoritiesConstants;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.util.RandomUtil;
+import es.juanlsanchez.chefs.web.rest.dto.UserDTO;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -14,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -246,5 +248,13 @@ public class UserService {
 
     public Optional<User> getUserWithLogin(String login) {
         return userRepository.findOneByLogin(login);
+    }
+
+    public Page<UserDTO> findAllFollowersByLogin(String login, Pageable pageable) {
+        return userRepository.findAllFollowersByLogin(login, pageable);
+    }
+
+    public Page<UserDTO> findAllFollowingByLogin(String login, Pageable pageable) {
+        return userRepository.findAllFollowingByLogin(login, pageable);
     }
 }

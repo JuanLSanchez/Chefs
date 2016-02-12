@@ -1,12 +1,16 @@
 <div >
     <ul class="list-inline list-unstyled">
         <li>
-            <p translate="user.following">Following</p>
-            <p>{{requestInfo.nFollowed}}</p>
+            <p class="b" translate="user.recipes">Following</p>
+            <p><a class="b hand" ng-click="showRecipes()">{{requestInfo.nRecipes}}</a></p>
         </li>
         <li>
-            <p translate="user.followers">Followers</p>
-            <p>{{requestInfo.nFollowers}}<small ng-if="requestInfo.nWaiting>0" class="badge">{{requestInfo.nWaiting}}</small></p>
+            <p class="b" translate="user.following">Following</p>
+            <p><a class="b hand" ng-click="showFollowing()">{{requestInfo.nFollowed}}</a></p>
+        </li>
+        <li>
+            <p class="b" translate="user.followers">Followers</p>
+            <p><a class="b hand" ng-click="showFollowers()">{{requestInfo.nFollowers}}<small ng-if="requestInfo.nWaiting>0" class="badge">{{requestInfo.nWaiting}}</small></a></p>
         </li>
     </ul>
 </div>

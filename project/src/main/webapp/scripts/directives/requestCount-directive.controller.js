@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('RequestCountDirectiveController', function ($scope, RequestAPI) {
+    .controller('RequestCountDirectiveController', function ($scope, RequestAPI, $state) {
         $scope.requestInfo=null;
 
         $scope.loadAll = function() {
@@ -22,4 +22,28 @@ angular.module('chefsApp')
             $scope.reset();
             $scope.clear();
         };
+
+        $scope.showFollowing = function(){
+            if ($scope.redirect == 'home'){
+                $state.go('HomeFollowing');
+            }else{
+                $state.go('ChefFollowing', {login:$scope.user});
+            }
+        };
+
+        $scope.showFollowers = function(){
+
+        };
+
+        $scope.showRecipes = function(){
+            if ($scope.redirect == 'home'){
+                $state.go('HomeRecipes');
+            }else{
+                $state.go('ChefRecipes', {login:$scope.user});
+            }
+        };
+
+        $scope.$watch('user', function(){
+            $scope.loadAll();
+        });
     });

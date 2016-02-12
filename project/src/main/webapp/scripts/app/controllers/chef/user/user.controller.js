@@ -41,5 +41,9 @@ angular.module('chefsApp')
                 };
             }
         };
+// Redirect followers and following
+        $scope.redirect = function(){
+            return 'chef';
+        }
 
     });

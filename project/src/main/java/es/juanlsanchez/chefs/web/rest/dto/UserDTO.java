@@ -76,6 +76,15 @@ public class UserDTO {
         this.backgroundPicture = backgroundPicture;
     }
 
+    public UserDTO(String login, String firstName, String biography, byte[] profilePicture, byte[] backgroundPicture, String email) {
+        this.login = login;
+        this.firstName = firstName;
+        this.biography = biography;
+        this.profilePicture = profilePicture;
+        this.backgroundPicture = backgroundPicture;
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
     }

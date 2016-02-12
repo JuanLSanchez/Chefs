@@ -205,4 +205,7 @@ public class RecipeService {
     }
 
 
+    public Long countByUserLoginAndSocialEntityBlocked(String login, boolean blocked) {
+        return recipeRepository.countByUserLoginAndSocialEntityBlocked(login, blocked);
+    }
 }

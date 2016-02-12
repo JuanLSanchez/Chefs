@@ -85,5 +85,9 @@ angular.module('chefsApp')
         $scope.switchMode = function(){
             $scope.editMode = !$scope.editMode;
         };
+// Redirect followers and following
+        $scope.redirect = function(){
+            return 'home';
+        }
 
     });

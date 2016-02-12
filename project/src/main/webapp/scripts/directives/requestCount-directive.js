@@ -7,7 +7,8 @@ angular.module('chefsApp').directive('requestCount', ['RequestAPI',function()
     return {
         restrict: 'E',
         scope: {
-            user:"="
+            user:"=",
+            redirect:"="
         },
         controller: 'RequestCountDirectiveController',
         templateUrl: 'scripts/directives/requestCount-template.html'

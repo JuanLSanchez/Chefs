@@ -2,8 +2,7 @@ package es.juanlsanchez.chefs.repository;
 
 import es.juanlsanchez.chefs.domain.Authority;
 import es.juanlsanchez.chefs.domain.User;
-
-import es.juanlsanchez.chefs.security.AuthoritiesConstants;
+import es.juanlsanchez.chefs.web.rest.dto.UserDTO;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,4 +37,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where size(u.authorities)=1 and ?1 in elements(u.authorities)")
     Page<User> findAllByAuthority(Authority role_user, Pageable pageable);
+
+    @Query("select new es.juanlsanchez.chefs.web.rest.dto.UserDTO(request.follower) " +
+            "   from Request request " +
+            "   where request.followed.login=?1" +
+            "    and request.accepted=true")
+    Page<UserDTO> findAllFollowersByLogin(String login, Pageable page);
+
+    @Query("select new es.juanlsanchez.chefs.web.rest.dto.UserDTO(request.followed) " +
+        "   from Request request " +
+        "   where request.follower.login=?1" +
+        "    and request.accepted=true")
+    Page<UserDTO> findAllFollowingByLogin(String login, Pageable pageable);
 }

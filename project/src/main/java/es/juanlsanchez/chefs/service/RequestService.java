@@ -23,6 +23,9 @@ public class RequestService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RecipeService recipeService;
+
 
     public Request findRequestWithPrincipalAsFollowerAndFollowed(String followed) {
         return requestRepository.findRequestWithPrincipalAsFollowerAndFollowed(followed);
@@ -91,10 +94,11 @@ public class RequestService {
 
     public RequestInfoDTO getCountFollowersAndFollowed(String login) {
         RequestInfoDTO result;
-        Long nFollowers, nFollowed, nWaiting;
+        Long nFollowers, nFollowed, nWaiting, nRecipes;
 
         nFollowers = requestRepository.countByFollowedLoginAndAccepted(login, true);
         nFollowed = requestRepository.countByFollowerLoginAndAccepted(login, true);
+        nRecipes = recipeService.countByUserLoginAndSocialEntityBlocked(login, false);
 
         if(SecurityUtils.isAuthenticated() && SecurityUtils.getCurrentLogin().equals(login)){
             nWaiting = requestRepository.countByFollowedLoginAndAcceptedAndLockedAndIgnored(login, false, false, false);
@@ -102,7 +106,7 @@ public class RequestService {
             nWaiting = -1L;
         }
 
-        result = new RequestInfoDTO(nFollowers, nFollowed, nWaiting);
+        result = new RequestInfoDTO(nFollowers, nFollowed, nWaiting, nRecipes);
 
         return result;
     }

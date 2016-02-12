@@ -154,4 +154,6 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
         "   and recipe.socialEntity.isPublic=true" +
         "   order by recipe.updateDate desc")
     Page<RecipeMiniDTO> findDTOAllIsVisibilityForAnonymousAndLikeName(String name, Pageable pageable);
+
+    Long countByUserLoginAndSocialEntityBlocked(String login, boolean blocked);
 }
