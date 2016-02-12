@@ -15,7 +15,7 @@ angular.module('chefsApp')
                 views:{
                     'nav_1@': {
                         templateUrl: 'scripts/app/views/user/user-display.html',
-                        controller: 'HomeUserController'
+                        controller: 'PrincipalUserController'
                     },
                     'aside_1@': {
                         templateUrl: 'scripts/app/views/creator/creator.html'

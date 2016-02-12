@@ -1,4 +1,4 @@
-<div ng-show="user" class="thumbnail" ng-style="thumbailStyle">
+<div ng-if="user" class="thumbnail" ng-style="thumbailStyle">
     <div class="backgroundPicture" ng-style="{'background-image':
         user.backgroundPicture ? 'url(data:image/png;base64,' + user.backgroundPicture + ')':
                                   'url(\'assets/images/picture-background.png\')',
