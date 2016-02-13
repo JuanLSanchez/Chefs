@@ -7,9 +7,11 @@ import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
+import es.juanlsanchez.chefs.security.AuthoritiesConstants;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.util.RandomUtil;
 import es.juanlsanchez.chefs.web.rest.dto.UserDTO;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -131,14 +133,14 @@ public class UserService {
             //u.getBackgroundPicture().setSrc(backgroundPicture);
             userRepository.save(u);
 
-            if(u.getProfilePicture() == null){
+            if (u.getProfilePicture() == null) {
                 u.setProfilePicture(new ProfilePicture());
                 u.getProfilePicture().setUser(u);
             }
             u.getProfilePicture().setSrc(profilePicture);
             profilePictureService.save(u.getProfilePicture());
 
-            if(u.getBackgroundPicture() == null){
+            if (u.getBackgroundPicture() == null) {
                 u.setBackgroundPicture(new BackgroundPicture());
                 u.getBackgroundPicture().setUser(u);
             }
@@ -150,7 +152,7 @@ public class UserService {
     }
 
     public void changePassword(String password) {
-        userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u-> {
+        userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u -> {
             String encryptedPassword = passwordEncoder.encode(password);
             u.setPassword(encryptedPassword);
             userRepository.save(u);
@@ -160,10 +162,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        return userRepository.findOneByLogin(login).map(u -> {
-            u.getAuthorities().size();
-            return u;
-        });
+        return userRepository.findOneByLogin(login)
+            .filter(u -> u.getAuthorities().equals(1))
+            .filter(u -> u.getAuthorities().contains(AuthoritiesConstants.USER));
     }
 
 

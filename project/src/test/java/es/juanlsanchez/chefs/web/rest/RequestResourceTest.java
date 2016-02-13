@@ -5,6 +5,7 @@ import es.juanlsanchez.chefs.domain.Request;
 import es.juanlsanchez.chefs.repository.RequestRepository;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.hamcrest.Matchers.hasItem;
@@ -43,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest
+@Ignore
 public class RequestResourceTest {
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -188,7 +190,7 @@ public class RequestResourceTest {
         request.setAccepted(UPDATED_ACCEPTED);
         request.setLocked(UPDATED_LOCKED);
         request.setIgnored(UPDATED_IGNORED);
-        
+
 
         restRequestMockMvc.perform(put("/api/requests")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
