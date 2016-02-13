@@ -50,4 +50,11 @@ angular.module('chefsApp')
         $scope.$watch('user', function(){
             $scope.loadAll();
         });
+
+        $scope.$watch(
+            function(){ return RequestAPI.getUpdateCount($scope.user); },
+            function(){
+                $scope.loadAll();
+                RequestAPI.setUpdateCount($scope.user, false);
+            })
     });

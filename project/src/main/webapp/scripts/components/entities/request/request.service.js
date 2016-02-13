@@ -17,6 +17,7 @@ angular.module('chefsApp')
     });
 angular.module('chefsApp')
     .factory('RequestAPI', function ($http) {
+        var updateCount = {};
         return {
             findRequestWithPrincipalAsFollowerAndFollowed: function(followed, params){
                 return $http.get('api/requests/follower/'+followed, params);
@@ -32,6 +33,12 @@ angular.module('chefsApp')
             },
             requestInfo: function(login, params){
                 return $http.get('api/requests/count/'+login, params);
+            },
+            getUpdateCount: function(login){
+                return updateCount[login];
+            },
+            setUpdateCount: function(login, value){
+                updateCount[login]=value;
             }
         };
     });
