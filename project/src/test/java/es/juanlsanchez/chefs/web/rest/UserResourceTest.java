@@ -48,13 +48,13 @@ public class UserResourceTest {
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource).build();
     }
 
-    @Test
+/*    @Test
     @Ignore
     public void testGetExistingUserAndAdministrator() throws Exception {
         restUserMockMvc.perform(get("/api/users/admin")
             .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
-    }
+    }*/
 
     @Test
     public void testGetExistingUser() throws Exception {
