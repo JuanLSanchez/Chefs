@@ -100,8 +100,6 @@ public class UserService {
                                       String langKey) {
 
         User newUser = new User();
-        ProfilePicture profilePicture = new ProfilePicture();
-        BackgroundPicture backgroundPicture = new BackgroundPicture();
         Authority authority = authorityRepository.findOne("ROLE_USER");
         Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
@@ -112,10 +110,8 @@ public class UserService {
         newUser.setLastName(lastName);
         newUser.setEmail(email);
         newUser.setLangKey(langKey);
-        newUser.setProfilePicture(profilePicture);
-        newUser.setBackgroundPicture(backgroundPicture);
-        // new user is not active
-        newUser.setActivated(false);
+        // new user is active
+        newUser.setActivated(true);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);
@@ -135,11 +131,17 @@ public class UserService {
             //u.getBackgroundPicture().setSrc(backgroundPicture);
             userRepository.save(u);
 
-            if(u.getProfilePicture() == null){ u.setProfilePicture(new ProfilePicture()); }
+            if(u.getProfilePicture() == null){
+                u.setProfilePicture(new ProfilePicture());
+                u.getProfilePicture().setUser(u);
+            }
             u.getProfilePicture().setSrc(profilePicture);
             profilePictureService.save(u.getProfilePicture());
 
-            if(u.getBackgroundPicture() == null){ u.setBackgroundPicture(new BackgroundPicture());}
+            if(u.getBackgroundPicture() == null){
+                u.setBackgroundPicture(new BackgroundPicture());
+                u.getBackgroundPicture().setUser(u);
+            }
             u.getBackgroundPicture().setSrc(backgroundPicture);
             backgroundPictureService.save(u.getBackgroundPicture());
 
