@@ -3,8 +3,10 @@
         "action": {
             "follow": "Follow",
             "following": "Following",
+            "followingYou": "Following you",
             "locked": "Locked",
-            "waiting": "Waiting"
+            "waiting": "Waiting",
+            "ignore": "Ignore"
         },
         "following": "Following",
         "followers": "Followers",

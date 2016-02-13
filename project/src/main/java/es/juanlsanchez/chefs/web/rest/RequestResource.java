@@ -44,7 +44,7 @@ public class RequestResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Request> createRequest(@PathVariable String followed) throws URISyntaxException {
-        log.debug("REST request to save Request : {}", followed);
+        log.debug("REST request to save Request as follower: {}", followed);
         if (followed == null) {
             return ResponseEntity.badRequest().header("Failure", "We need a followed").body(null);
         }
@@ -53,6 +53,27 @@ public class RequestResource {
                 .headers(HeaderUtil.createEntityCreationAlert("request", followed))
                 .body(result);
     }
+
+    /**
+     * PUT  /requests/followed/:follower -> Create o update a request as followed.
+     */
+
+    @RequestMapping(value = "/requests/followed/{follower}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Request> updateRequest(@Valid @RequestBody String status, @PathVariable String follower)
+        throws URISyntaxException {
+        log.debug("REST request to save Request as followed: {}", follower);
+        if (follower == null) {
+            return ResponseEntity.badRequest().header("Failure", "We need a follower").body(null);
+        }
+        Request result = requestService.update(follower, status);
+        return ResponseEntity.created(new URI("/api/requests/followed/" + follower))
+            .headers(HeaderUtil.createEntityCreationAlert("request", follower))
+            .body(result);
+    }
+
 /*
 
     */
@@ -111,7 +132,7 @@ public class RequestResource {
 */
 
     /**
-     * GET  /requests/follower/:followed -> get the "id" request.
+     * GET  /requests/follower/:followed -> get the request with the principal as follower and followed.
      */
     @RequestMapping(value = "/requests/follower/{followed}",
         method = RequestMethod.GET,
@@ -120,6 +141,22 @@ public class RequestResource {
     public ResponseEntity<Request> findRequestWithPrincipalAsFollowerAndFollowed(@PathVariable String followed) {
         log.debug("REST request to get Request with principal as follower and followed : {}", followed);
         return Optional.ofNullable(requestService.findRequestWithPrincipalAsFollowerAndFollowed(followed))
+            .map(request -> new ResponseEntity<>(
+                request,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * GET  /requests/followed/:follower -> get the followers of the followed.
+     */
+    @RequestMapping(value = "/requests/followed/{follower}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Request> findRequestWithPrincipalAsFollowedAndFollower(@PathVariable String follower) {
+        log.debug("REST request to get Request with principal as follower and followed : {}", follower);
+        return Optional.ofNullable(requestService.findRequestWithPrincipalAsFollowedAndFollower(follower))
             .map(request -> new ResponseEntity<>(
                 request,
                 HttpStatus.OK))

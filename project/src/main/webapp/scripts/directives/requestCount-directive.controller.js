@@ -32,7 +32,11 @@ angular.module('chefsApp')
         };
 
         $scope.showFollowers = function(){
-
+            if ($scope.redirect == 'home'){
+                $state.go('HomeFollowers');
+            }else{
+                $state.go('ChefFollowers', {login:$scope.user});
+            }
         };
 
         $scope.showRecipes = function(){

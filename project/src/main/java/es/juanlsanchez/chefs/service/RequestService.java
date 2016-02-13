@@ -1,5 +1,6 @@
 package es.juanlsanchez.chefs.service;
 
+import com.google.common.collect.Lists;
 import es.juanlsanchez.chefs.domain.Request;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RequestRepository;
@@ -9,6 +10,8 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by juanlu on 11/02/16.
@@ -29,6 +32,10 @@ public class RequestService {
 
     public Request findRequestWithPrincipalAsFollowerAndFollowed(String followed) {
         return requestRepository.findRequestWithPrincipalAsFollowerAndFollowed(followed);
+    }
+
+    public Request findRequestWithPrincipalAsFollowedAndFollower(String follower) {
+        return requestRepository.findRequestWithPrincipalAsFollowedAndFollower(follower);
     }
 
     public Request update(String followed) {
@@ -107,6 +114,36 @@ public class RequestService {
         }
 
         result = new RequestInfoDTO(nFollowers, nFollowed, nWaiting, nRecipes);
+
+        return result;
+    }
+
+    public Request update(String follower, String status) {
+        Request result;
+        List<String> states;
+        int index;
+
+        result = requestRepository.findRequestWithPrincipalAsFollowedAndFollower(follower);
+
+        states = Lists.newArrayList("accepted", "locked", "ignored");
+        index = states.indexOf(status);
+
+        if (index >= 0){
+            result.setAccepted(false);
+            result.setLocked(false);
+            result.setIgnored(false);
+        }
+        if (index == 0){
+            result.setAccepted(true);
+        }else if(index == 1){
+            result.setLocked(true);
+        }else if(index == 2){
+            result.setIgnored(true);
+        }
+
+        if (index >= 0){
+            result = requestRepository.save(result);
+        }
 
         return result;
     }

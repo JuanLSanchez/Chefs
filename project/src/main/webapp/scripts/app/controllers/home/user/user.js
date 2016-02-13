@@ -21,4 +21,22 @@ angular.module('chefsApp')
                     }]
                 }
             })
+            .state('HomeFollowers', {
+                parent: 'home',
+                url: '/followers',
+                data: {
+                    pageTitle: 'chefsApp.recipe.home.title'
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/views/user/user-list-followers.html',
+                        controller: 'HomeFollowersController'
+                    }
+                },
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                        return $translate.refresh();
+                    }]
+                }
+            })
     });

@@ -21,8 +21,14 @@ angular.module('chefsApp')
             findRequestWithPrincipalAsFollowerAndFollowed: function(followed, params){
                 return $http.get('api/requests/follower/'+followed, params);
             },
+            findRequestWithPrincipalAsFollowedAndFollower: function(follower, params){
+                return $http.get('api/requests/followed/'+follower, params);
+            },
             followed: function(followed, params){
                 return $http.put('api/requests/follower/'+followed, params);
+            },
+            follower: function(follower, params){
+                return $http.put('api/requests/followed/'+follower, params);
             },
             requestInfo: function(login, params){
                 return $http.get('api/requests/count/'+login, params);

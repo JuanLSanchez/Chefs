@@ -1,21 +1,23 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('HomeFollowingController', function ($scope, Search, ParseLinks, $stateParams, Principal, UserAPI) {
+    .controller('HomeFollowersController', function ($scope, Search, ParseLinks, $stateParams, Principal, UserAPI) {
         $scope.users = [];
         $scope.page = -1;
         $scope.pageSize = 20;
         $scope.isAuthenticated = Principal.isAuthenticated;
-        $scope.follower = null;
+        $scope.followed = null;
 
         $scope.loadAll = function() {
-            if($scope.follower==null){
+            if($scope.followed==null){
                 Principal.identity().then(function(account) {
-                    $scope.follower = account.login;
-                    $scope.loadUsers(account.login, $scope.page, $scope.pageSize);
+                    $scope.followed = account.login;
+                    var page=$scope.page;
+                    var pageSize=$scope.pageSize;
+                    $scope.loadUsers(account.login, page, pageSize);
                 });
             }else{
-                $scope.loadUsers($scope.follower, $scope.page, $scope.pageSize);
+                $scope.loadUsers($scope.followed, $scope.page, $scope.pageSize);
             }
 
         };
@@ -26,8 +28,8 @@ angular.module('chefsApp')
             $scope.loadAll();
         };
 
-        $scope.loadUsers = function(follower, page, pageSize){
-            UserAPI.following(follower, {
+        $scope.loadUsers = function(followed, page, pageSize){
+            UserAPI.followers(followed, {
                 page: page,
                 size: pageSize
             }).then(function (response) {

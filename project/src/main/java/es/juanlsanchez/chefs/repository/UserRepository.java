@@ -41,7 +41,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select new es.juanlsanchez.chefs.web.rest.dto.UserDTO(request.follower) " +
             "   from Request request " +
             "   where request.followed.login=?1" +
-            "    and request.accepted=true")
+            "    and (request.accepted=true or (?1=?#{principal.username} and request.ignored=false))")
     Page<UserDTO> findAllFollowersByLogin(String login, Pageable page);
 
     @Query("select new es.juanlsanchez.chefs.web.rest.dto.UserDTO(request.followed) " +

@@ -1,23 +1,17 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('HomeFollowingController', function ($scope, Search, ParseLinks, $stateParams, Principal, UserAPI) {
+    .controller('ChefFollowersController', function ($scope, $stateParams, Search, ParseLinks, Principal, UserAPI) {
         $scope.users = [];
-        $scope.page = -1;
+        $scope.page = 0;
         $scope.pageSize = 20;
         $scope.isAuthenticated = Principal.isAuthenticated;
-        $scope.follower = null;
+        $scope.followed = null;
+
+        $scope.followed = $stateParams.login;
 
         $scope.loadAll = function() {
-            if($scope.follower==null){
-                Principal.identity().then(function(account) {
-                    $scope.follower = account.login;
-                    $scope.loadUsers(account.login, $scope.page, $scope.pageSize);
-                });
-            }else{
-                $scope.loadUsers($scope.follower, $scope.page, $scope.pageSize);
-            }
-
+            $scope.loadUsers($scope.followed);
         };
 
         $scope.reset = function() {
@@ -26,10 +20,10 @@ angular.module('chefsApp')
             $scope.loadAll();
         };
 
-        $scope.loadUsers = function(follower, page, pageSize){
-            UserAPI.following(follower, {
-                page: page,
-                size: pageSize
+        $scope.loadUsers = function(followed){
+            UserAPI.followers(followed, {
+                page: $scope.page,
+                size: $scope.pageSize
             }).then(function (response) {
                 $scope.links = ParseLinks.parse(response.headers('link'));
                 for (var i = 0; i < response.data.length; i++) {
@@ -43,8 +37,14 @@ angular.module('chefsApp')
             $scope.loadAll();
         };
 
+        $scope.loadAll();
+
         $scope.refresh = function () {
             $scope.reset();
             $scope.clear();
         };
+// Redirect followers and following
+        $scope.redirect = function(){
+            return 'chef';
+        }
     });
