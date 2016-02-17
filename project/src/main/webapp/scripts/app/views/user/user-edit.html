@@ -135,9 +135,10 @@
         </div>
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" id="biography" name="biography"
+        <textarea rows="8" class="form-control" id="biography" name="biography"
                title="{{'settings.form.biography' | translate}}"
-               ng-model="user.biography" ng-maxlength=255 maxlength="255">
+               ng-model="user.biography" ng-maxlength=255 maxlength="255"
+                style="resize: vertical;"/>
         <div ng-show="userForm.lastName.$dirty && form.lastName.$invalid">
             <p class="help-block"
                ng-show="userForm.lastName.$error.required" translate="settings.messages.validate.lastname.required">
@@ -154,9 +155,8 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="langKey" translate="settings.form.language">Language</label>
         <select id="langKey" name="langKey" class="form-control" ng-model="user.langKey"
-                ng-controller="LanguageController"
+                title="{{ 'settings.form.language' | translate}}" ng-controller="LanguageController"
                     ng-options="code as (code | findLanguageFromKey) for code in languages"></select>
     </div>
 </div>
