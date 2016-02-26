@@ -2,7 +2,6 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Recipe;
-import es.juanlsanchez.chefs.repository.RecipeRepository;
 import es.juanlsanchez.chefs.service.RecipeService;
 import es.juanlsanchez.chefs.service.UserService;
 import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
@@ -19,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;

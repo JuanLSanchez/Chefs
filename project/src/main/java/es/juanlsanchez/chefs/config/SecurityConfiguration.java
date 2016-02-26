@@ -123,7 +123,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers( HttpMethod.GET, "/api/recipes/user/{.+}").permitAll()
             .antMatchers( HttpMethod.GET, "/api/recipes/{\\d+}").permitAll()
             .antMatchers( HttpMethod.GET, "/api/search/recipes/{.+}").permitAll()
-            .antMatchers( HttpMethod.GET, "/api/recipes/findAllIsVisibilityAndLikeName/{.+}").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/recipes_dto/findAllIsVisibilityAndLikeName/{.+}").permitAll()
             .antMatchers("/api/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/audits/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/**").authenticated()

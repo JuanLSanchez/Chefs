@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -174,8 +173,16 @@ public class RecipeService {
 
     public Page<Recipe> findAllIsVisibilityAndLikeName(String name, Pageable pageable){
         Page<Recipe> result;
-        name = "%"+name+"%";
-        if(SecurityUtils.isAuthenticated()){
+        boolean authenticated;
+
+      name = "%"+name+"%";
+
+        try{
+            authenticated = SecurityUtils.isAuthenticated();
+        }catch (NullPointerException nfe){
+            authenticated = false;
+        }
+        if(authenticated){
             result = recipeRepository.findAllIsVisibilityAndLikeName(name, pageable);
         }else{
             result = recipeRepository.findAllIsVisibilityForAnonymousAndLikeName(name, pageable);

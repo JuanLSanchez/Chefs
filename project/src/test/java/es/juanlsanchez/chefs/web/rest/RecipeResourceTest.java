@@ -39,7 +39,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -137,8 +136,7 @@ public class RecipeResourceTest {
         // Create the Recipe
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(recipe)).with(user(DEFAULT_LOGIN_USER).
-                password(DEFAULT_USER_PASSWORD).roles("USER"));
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
         ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
         resultActions.andExpect(status().isCreated());
 
