@@ -7,8 +7,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 import es.juanlsanchez.chefs.domain.enumeration.Measurement;
@@ -94,9 +92,8 @@ public class Ingredient implements Serializable {
 
         Ingredient ingredient = (Ingredient) o;
 
-        if ( ! Objects.equals(id, ingredient.id)) return false;
+        return Objects.equals(id, ingredient.id);
 
-        return true;
     }
 
     @Override

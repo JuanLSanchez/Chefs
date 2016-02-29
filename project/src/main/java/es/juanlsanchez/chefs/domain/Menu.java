@@ -89,9 +89,8 @@ public class Menu implements Serializable {
 
         Menu menu = (Menu) o;
 
-        if ( ! Objects.equals(id, menu.id)) return false;
+        return Objects.equals(id, menu.id);
 
-        return true;
     }
 
     @Override

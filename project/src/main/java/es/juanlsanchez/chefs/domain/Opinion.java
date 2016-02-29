@@ -103,9 +103,8 @@ public class Opinion implements Serializable {
 
         Opinion opinion = (Opinion) o;
 
-        if ( ! Objects.equals(id, opinion.id)) return false;
+        return Objects.equals(id, opinion.id);
 
-        return true;
     }
 
     @Override

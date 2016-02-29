@@ -1,7 +1,6 @@
 package es.juanlsanchez.chefs.security;
 
 import es.juanlsanchez.chefs.domain.PersistentToken;
-import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
 import org.joda.time.LocalDate;

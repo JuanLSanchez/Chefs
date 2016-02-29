@@ -93,9 +93,8 @@ public class Food implements Serializable {
 
         Food food = (Food) o;
 
-        if ( ! Objects.equals(id, food.id)) return false;
+        return Objects.equals(id, food.id);
 
-        return true;
     }
 
     @Override

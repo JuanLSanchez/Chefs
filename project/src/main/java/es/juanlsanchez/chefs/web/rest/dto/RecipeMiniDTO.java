@@ -1,22 +1,15 @@
 package es.juanlsanchez.chefs.web.rest.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.collect.Sets;
 import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeSerializer;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -143,9 +136,8 @@ public class RecipeMiniDTO implements Serializable {
 
         RecipeMiniDTO recipe = (RecipeMiniDTO) o;
 
-        if ( ! Objects.equals(id, recipe.id)) return false;
+        return Objects.equals(id, recipe.id);
 
-        return true;
     }
 
     @Override

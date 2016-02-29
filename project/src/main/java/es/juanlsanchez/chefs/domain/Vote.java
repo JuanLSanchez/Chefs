@@ -121,9 +121,8 @@ public class Vote implements Serializable {
 
         Vote vote = (Vote) o;
 
-        if ( ! Objects.equals(id, vote.id)) return false;
+        return Objects.equals(id, vote.id);
 
-        return true;
     }
 
     @Override

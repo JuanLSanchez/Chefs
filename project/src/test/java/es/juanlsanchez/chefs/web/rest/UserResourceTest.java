@@ -3,7 +3,6 @@ package es.juanlsanchez.chefs.web.rest;
 import es.juanlsanchez.chefs.Application;
 import es.juanlsanchez.chefs.repository.UserRepository;
 import es.juanlsanchez.chefs.service.UserService;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

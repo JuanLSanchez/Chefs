@@ -34,8 +34,8 @@ public class RecipeServiceTest {
 
     @Inject
     private RecipeService recipeService;
-    
-    @Autowired
+
+    @Inject
     private ApplicationContext context;
 
     @Test

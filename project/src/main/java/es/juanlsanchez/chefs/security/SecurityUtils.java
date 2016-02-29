@@ -23,7 +23,7 @@ public final class SecurityUtils {
     public static String getCurrentLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        UserDetails springSecurityUser = null;
+        UserDetails springSecurityUser;
         String userName = null;
         if(authentication != null) {
             if (authentication.getPrincipal() instanceof UserDetails) {

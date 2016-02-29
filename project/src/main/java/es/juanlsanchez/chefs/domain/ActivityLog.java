@@ -147,9 +147,8 @@ public class ActivityLog implements Serializable {
 
         ActivityLog activityLog = (ActivityLog) o;
 
-        if ( ! Objects.equals(id, activityLog.id)) return false;
+        return Objects.equals(id, activityLog.id);
 
-        return true;
     }
 
     @Override

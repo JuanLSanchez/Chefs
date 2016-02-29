@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
@@ -39,6 +38,7 @@ public class RecipeService {
         DateTime currentTime;
         Set<Step> steps;
         Recipe result, oldRecipe;
+        boolean make = false;
 
         currentTime = new DateTime();
         principal = userService.getPrincipal();
@@ -46,31 +46,39 @@ public class RecipeService {
         if(recipe.getId() == null || recipe.getId() == 0){
             /* Receta nueva */
             recipe.setCreationDate(currentTime);
+            make = true;
         }else{
             /* Receta ya creada */
             oldRecipe = findOne(recipe.getId());
-            if(!oldRecipe.getUser().equals(principal)){
-                isCloneable(recipe, oldRecipe);
-                recipe = recipe.copy();
+            if (oldRecipe != null){
+                make = oldRecipe.getUser().equals(principal);
+                if(!make && isCloneable(oldRecipe)){
+                    recipe = recipe.copy();
+                    make = true;
+                }
             }
-        }
 
-        recipe.setUpdateDate(currentTime);
-        recipe.setUser(principal);
+        }
+        if(make){
+            recipe.setUpdateDate(currentTime);
+            recipe.setUser(principal);
 
         /*Se vacian los pasos*/
-        steps = recipe.getSteps();
-        recipe.setSteps(null);
+            steps = recipe.getSteps();
+            recipe.setSteps(null);
         /* Se crea la entidad social */
-        recipe.setSocialEntity(socialEntityService.save(recipe.getSocialEntity()));
+            recipe.setSocialEntity(socialEntityService.save(recipe.getSocialEntity()));
 
-        result = recipeRepository.save(recipe);
+            result = recipeRepository.save(recipe);
 
         /*Se le asigna la receta a los pasos y se guardan*/
-        if (steps != null && !steps.isEmpty())
-            steps.forEach(step -> step.setRecipe(result));
-        steps = stepService.save(steps);
-        result.setSteps(steps);
+            if (steps != null && !steps.isEmpty())
+                steps.forEach(step -> step.setRecipe(result));
+            steps = stepService.save(steps);
+            result.setSteps(steps);
+        }else{
+            result = null;
+        }
 
         return result;
 
@@ -81,39 +89,58 @@ public class RecipeService {
 
         result = recipeRepository.findOne(id);
 
-        isVisible(result);
+        if(!isVisible(result)){
+            result = null;
+        }
 
         return result;
     }
 
-    private void isVisible(Recipe recipe) {
-        User principal;
-        boolean isVisible;
+    private boolean isVisible(Recipe recipe) {
+        boolean result;
 
-        isVisible = recipe.getSocialEntity().getIsPublic()&&!recipe.getSocialEntity().getBlocked();
-
-        if(!isVisible){
-            principal = userService.getPrincipal();
-            if(!principal.equals(recipe.getUser())){
-        /* Si no es publica se debe de revisar que te tiene como seguidor*/
-                isVisible = recipe.getUser().getAcceptRequests().stream().
-                    filter(request -> request.getFollower().equals(principal)).findFirst().isPresent();
+        // Check is not null
+        if ( recipe != null){
+            // Check is public
+            if( !recipe.getSocialEntity().getIsPublic()
+                || recipe.getSocialEntity().getBlocked()){
+                final User principal = userService.getPrincipal();
+                // Check the principal
+                if ( ! recipe.getUser().equals(principal) ){
+                    if ( recipe.getSocialEntity().getBlocked() ){
+                        // The recipe is blocked
+                        result = false;
+                    }else{
+                        // Check the followed
+                        result = recipe.getUser().getAcceptRequests().stream()
+                            .filter(r -> r.getAccepted())
+                            .filter(r -> r.getFollower().equals(principal))
+                            .findFirst().isPresent();
+                    }
+                }else{
+                    // The principal is the owner
+                    result = true;
+                }
             }else{
-                isVisible=true;
+                // The recipe is public
+                result = true;
             }
+        }else{
+            // Not exist recipe
+            result = false;
         }
 
-        Assert.isTrue(isVisible);
+        return result;
     }
 
-    private void isCloneable(Recipe recipe, Recipe oldRecipe) {
+    private boolean isCloneable(Recipe recipe) {
         boolean isCloneable;
 
         /* Para que se pueda clonar, debe de ser clonable y visible para ese usuario*/
-        isCloneable = oldRecipe.getSocialEntity().getPublicInscription() != null &&
-            oldRecipe.getSocialEntity().getPublicInscription();
+        isCloneable = recipe.getSocialEntity().getPublicInscription() != null &&
+            recipe.getSocialEntity().getPublicInscription();
 
-        Assert.isTrue(isCloneable);
+        return  isCloneable;
     }
 
     public Page<Recipe> findByUserIsCurrentUser(Pageable pageable) {
@@ -124,19 +151,10 @@ public class RecipeService {
         return result;
     }
 
+    public Page<RecipeMiniDTO> findDTOByUserIsCurrentUser(Pageable pageable) {
+        Page<RecipeMiniDTO> result;
 
-    public Page<Recipe> findByUser(Long id, Pageable pageable) {
-        Page<Recipe> result;
-
-        result = recipeRepository.findByUser(id, pageable);
-
-        return result;
-    }
-
-    public Page<Recipe> findAll(Pageable pageable) {
-        Page<Recipe> result;
-
-        result = recipeRepository.findAll(pageable);
+        result = recipeRepository.findDTOByUserIsCurrentUser(pageable);
 
         return result;
     }
@@ -145,47 +163,12 @@ public class RecipeService {
         return recipeRepository.findAll();
     }
 
-    public void saveAndFlush(Recipe recipe) {
-        recipeRepository.saveAndFlush(recipe);
-    }
-
-    public Page<Recipe> findByUserLogin(String login, Pageable pageable) {
-        Page<Recipe> result;
-
-        result =recipeRepository.findByUserLogin(login, pageable);
-
-        return result;
-    }
-
-    public Page<Recipe> findAllByLoginAndVisibility(String login, Pageable pageable){
-        return recipeRepository.findAllByLoginAndIsVisibility(login, pageable);
-    }
-
     public Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable) {
         Page<Recipe> result;
         if(SecurityUtils.isAuthenticated()){
             result = recipeRepository.findAllByLoginAndIsVisibility(login, pageable);
         }else{
             result = recipeRepository.findAllByLoginAndIsVisibilityForAnonymous(login, pageable);
-        }
-        return result;
-    }
-
-    public Page<Recipe> findAllIsVisibilityAndLikeName(String name, Pageable pageable){
-        Page<Recipe> result;
-        boolean authenticated;
-
-      name = "%"+name+"%";
-
-        try{
-            authenticated = SecurityUtils.isAuthenticated();
-        }catch (NullPointerException nfe){
-            authenticated = false;
-        }
-        if(authenticated){
-            result = recipeRepository.findAllIsVisibilityAndLikeName(name, pageable);
-        }else{
-            result = recipeRepository.findAllIsVisibilityForAnonymousAndLikeName(name, pageable);
         }
         return result;
     }
@@ -200,17 +183,43 @@ public class RecipeService {
         return result;
     }
 
+    public Page<Recipe> findAllIsVisibilityAndLikeName(String name, Pageable pageable){
+        Page<Recipe> result;
+        boolean authenticated;
+
+        name = "%"+name+"%";
+
+        try{
+            authenticated = SecurityUtils.isAuthenticated();
+        }catch (NullPointerException nfe){
+            authenticated = false;
+        }
+        if(authenticated){
+            result = recipeRepository.findAllIsVisibilityAndLikeName(name, pageable);
+        }else{
+            result = recipeRepository.findAllIsVisibilityForAnonymousAndLikeName(name, pageable);
+        }
+        return result;
+    }
+
     public Page<RecipeMiniDTO> findDTOAllIsVisibilityAndLikeName(String name, Pageable pageable){
         Page<RecipeMiniDTO> result;
+        boolean authenticated;
+
         name = "%"+name+"%";
-        if(SecurityUtils.isAuthenticated()){
+
+        try{
+            authenticated = SecurityUtils.isAuthenticated();
+        }catch (NullPointerException nfe){
+            authenticated = false;
+        }
+        if(authenticated){
             result = recipeRepository.findDTOAllIsVisibilityAndLikeName(name, pageable);
         }else{
             result = recipeRepository.findDTOAllIsVisibilityForAnonymousAndLikeName(name, pageable);
         }
         return result;
     }
-
 
     public Long countByUserLoginAndSocialEntityBlocked(String login, boolean blocked) {
         return recipeRepository.countByUserLoginAndSocialEntityBlocked(login, blocked);

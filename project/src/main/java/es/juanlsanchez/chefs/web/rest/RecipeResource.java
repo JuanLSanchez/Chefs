@@ -3,7 +3,6 @@ package es.juanlsanchez.chefs.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.service.RecipeService;
-import es.juanlsanchez.chefs.service.UserService;
 import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
@@ -23,7 +22,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Recipe.
@@ -33,9 +31,6 @@ import java.util.stream.Collectors;
 public class RecipeResource {
 
     private final Logger log = LoggerFactory.getLogger(RecipeResource.class);
-
-    @Autowired
-    private UserService userService;
 
     @Autowired RecipeService recipeService;
 
@@ -55,7 +50,6 @@ public class RecipeResource {
         Recipe result;
 
         result = recipeService.save(recipe);
-        System.out.println("Creado");
 
         return ResponseEntity.created(new URI("/api/recipes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("recipe", result.getId().toString()))
@@ -74,24 +68,12 @@ public class RecipeResource {
         if (recipe.getId() == null) {
             return createRecipe(recipe);
         }
-        Recipe result = recipeService.save(recipe);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("recipe", recipe.getId().toString()))
-            .body(result);
-    }
 
-    /**
-     * GET  /recipes -> get all the recipes.
-     */
-    @RequestMapping(value = "/recipes",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<List<Recipe>> getAllRecipes(Pageable pageable)
-        throws URISyntaxException {
-        Page<Recipe> page = recipeService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return Optional.ofNullable(recipeService.save(recipe))
+            .map(r -> ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("recipe", r.getId().toString()))
+                .body(r))
+            .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     /**
@@ -135,8 +117,7 @@ public class RecipeResource {
         throws URISyntaxException {
         Page<Recipe> page = recipeService.findByUserIsCurrentUser(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
-        ResponseEntity result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-        return result;
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -150,9 +131,8 @@ public class RecipeResource {
         throws URISyntaxException {
         Page<Recipe> page = recipeService.findAllIsVisibilityAndLikeName(name, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
-            "/recipes/findAllIsVisibilityAndLikeName/"+name);
-        ResponseEntity result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-        return result;
+            "/api/recipes/findAllIsVisibilityAndLikeName/"+name);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -164,10 +144,9 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<List<RecipeMiniDTO>> findAllDTOByLoginAndIsVisibility(@PathVariable String login, Pageable pageable)
         throws URISyntaxException {
-        Page<Recipe> page = recipeService.findAllByLoginAndIsVisibility(login, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user/"+login);
-        return new ResponseEntity<>(
-            page.getContent().stream().map(RecipeMiniDTO::new).collect(Collectors.toList()), headers, HttpStatus.OK);
+        Page<RecipeMiniDTO> page = recipeService.findDTOAllByLoginAndIsVisibility(login, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes_dto/user/"+login);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -179,11 +158,9 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<List<RecipeMiniDTO>> findAllDTORecipesPrincipalUser(Pageable pageable)
         throws URISyntaxException {
-        Page<Recipe> page = recipeService.findByUserIsCurrentUser(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes/user");
-        ResponseEntity result = new ResponseEntity<>(
-            page.getContent().stream().map(RecipeMiniDTO::new).collect(Collectors.toList()), headers, HttpStatus.OK);
-        return result;
+        Page<RecipeMiniDTO> page = recipeService.findDTOByUserIsCurrentUser(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes_dto/user");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -195,11 +172,9 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<List<RecipeMiniDTO>> findAllDTOIsVisibilityAndLikeName(@PathVariable String name, Pageable pageable)
         throws URISyntaxException {
-        Page<Recipe> page = recipeService.findAllIsVisibilityAndLikeName(name, pageable);
+        Page<RecipeMiniDTO> page = recipeService.findDTOAllIsVisibilityAndLikeName(name, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
-            "/recipes/findAllIsVisibilityAndLikeName/"+name);
-        ResponseEntity result = new ResponseEntity<>(
-            page.getContent().stream().map(RecipeMiniDTO::new).collect(Collectors.toList()), headers, HttpStatus.OK);
-        return result;
+            "/api/recipes_dto/findAllIsVisibilityAndLikeName/"+name);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

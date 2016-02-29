@@ -138,9 +138,8 @@ public class Event implements Serializable {
 
         Event event = (Event) o;
 
-        if ( ! Objects.equals(id, event.id)) return false;
+        return Objects.equals(id, event.id);
 
-        return true;
     }
 
     @Override

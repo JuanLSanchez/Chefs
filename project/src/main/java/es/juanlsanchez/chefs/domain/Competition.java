@@ -229,9 +229,8 @@ public class Competition implements Serializable {
 
         Competition competition = (Competition) o;
 
-        if ( ! Objects.equals(id, competition.id)) return false;
+        return Objects.equals(id, competition.id);
 
-        return true;
     }
 
     @Override

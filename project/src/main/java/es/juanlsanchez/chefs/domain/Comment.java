@@ -13,8 +13,6 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -100,9 +98,8 @@ public class Comment implements Serializable {
 
         Comment comment = (Comment) o;
 
-        if ( ! Objects.equals(id, comment.id)) return false;
+        return Objects.equals(id, comment.id);
 
-        return true;
     }
 
     @Override

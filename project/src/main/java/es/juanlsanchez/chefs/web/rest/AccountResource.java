@@ -1,7 +1,6 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import es.juanlsanchez.chefs.domain.Authority;
 import es.juanlsanchez.chefs.domain.PersistentToken;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
@@ -25,7 +24,6 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing the current user's account.

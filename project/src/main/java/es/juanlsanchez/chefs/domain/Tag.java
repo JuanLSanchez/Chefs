@@ -3,7 +3,6 @@ package es.juanlsanchez.chefs.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -69,9 +68,8 @@ public class Tag implements Serializable {
 
         Tag tag = (Tag) o;
 
-        if ( ! Objects.equals(id, tag.id)) return false;
+        return Objects.equals(id, tag.id);
 
-        return true;
     }
 
     @Override

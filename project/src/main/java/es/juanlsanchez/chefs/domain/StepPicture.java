@@ -1,6 +1,5 @@
 package es.juanlsanchez.chefs.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,8 +7,6 @@ import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -91,9 +88,8 @@ public class StepPicture implements Serializable {
 
         StepPicture stepPicture = (StepPicture) o;
 
-        if ( ! Objects.equals(id, stepPicture.id)) return false;
+        return Objects.equals(id, stepPicture.id);
 
-        return true;
     }
 
     @Override

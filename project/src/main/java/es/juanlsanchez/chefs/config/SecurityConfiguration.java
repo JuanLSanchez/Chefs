@@ -6,18 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import org.springframework.data.repository.query.spi.EvaluationContextExtension;
-import org.springframework.data.repository.query.spi.EvaluationContextExtensionSupport;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -124,6 +119,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers( HttpMethod.GET, "/api/recipes/{\\d+}").permitAll()
             .antMatchers( HttpMethod.GET, "/api/search/recipes/{.+}").permitAll()
             .antMatchers( HttpMethod.GET, "/api/recipes_dto/findAllIsVisibilityAndLikeName/{.+}").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/recipes_dto/user/{.+}").permitAll()
+            .antMatchers( HttpMethod.GET, "/api/requests/count/{.+}").permitAll()
             .antMatchers("/api/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/audits/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/**").authenticated()

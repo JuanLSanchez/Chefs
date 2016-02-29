@@ -6,8 +6,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -76,9 +74,8 @@ public class Score implements Serializable {
 
         Score score = (Score) o;
 
-        if ( ! Objects.equals(id, score.id)) return false;
+        return Objects.equals(id, score.id);
 
-        return true;
     }
 
     @Override

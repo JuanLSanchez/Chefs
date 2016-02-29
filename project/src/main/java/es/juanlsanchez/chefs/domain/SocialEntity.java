@@ -2,7 +2,6 @@ package es.juanlsanchez.chefs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.collect.Sets;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.BeanUtils;
@@ -191,9 +190,8 @@ public class SocialEntity implements Serializable {
 
         SocialEntity socialEntity = (SocialEntity) o;
 
-        if ( ! Objects.equals(id, socialEntity.id)) return false;
+        return Objects.equals(id, socialEntity.id);
 
-        return true;
     }
 
     @Override

@@ -56,7 +56,7 @@ public class FoodService {
     }
 
     public Food findOneByNormalizaedNameAndName(String normalizaedName, String name) {
-        Food result = null;
+        Food result;
 
         result = foodRepository.findOneByNormalizaedNameAndName(normalizaedName, name);
 

@@ -259,9 +259,8 @@ public class Recipe implements Serializable {
 
         Recipe recipe = (Recipe) o;
 
-        if ( ! Objects.equals(id, recipe.id)) return false;
+        return Objects.equals(id, recipe.id);
 
-        return true;
     }
 
     @Override

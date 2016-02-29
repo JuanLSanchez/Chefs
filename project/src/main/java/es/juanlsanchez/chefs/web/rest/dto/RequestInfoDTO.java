@@ -1,15 +1,5 @@
 package es.juanlsanchez.chefs.web.rest.dto;
 
-import es.juanlsanchez.chefs.domain.Authority;
-import es.juanlsanchez.chefs.domain.User;
-import org.hibernate.validator.constraints.Email;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 /**
  * A DTO representing information of requests.
  */

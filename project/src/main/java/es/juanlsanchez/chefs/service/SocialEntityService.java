@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.service;
 
 import es.juanlsanchez.chefs.domain.SocialEntity;
+import es.juanlsanchez.chefs.domain.SocialPicture;
 import es.juanlsanchez.chefs.repository.SocialEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class SocialEntityService {
 
     @Autowired
     private TagService tagService;
+    @Autowired
+    private SocialPictureService socialPictureService;
 
     public SocialEntity save(SocialEntity socialEntity) {
         SocialEntity result;
@@ -27,6 +30,10 @@ public class SocialEntityService {
             if (tag.getId() == null || tag.getId() == 0)
                 tag = tagService.save(tag);
         });
+
+        if (socialEntity.getSocialPicture()==null){
+            socialEntity.setSocialPicture(socialPictureService.save(new SocialPicture()));
+        }
 
         result = socialEntityRepository.save(socialEntity);
 

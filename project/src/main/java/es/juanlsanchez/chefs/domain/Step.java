@@ -6,7 +6,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.BeanUtils;
 
-import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -108,9 +107,8 @@ public class Step implements Serializable {
 
         Step step = (Step) o;
 
-        if ( ! Objects.equals(id, step.id)) return false;
+        return Objects.equals(id, step.id);
 
-        return true;
     }
 
     @Override

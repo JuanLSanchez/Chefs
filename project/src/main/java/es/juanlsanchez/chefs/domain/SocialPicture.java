@@ -7,8 +7,6 @@ import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -89,9 +87,8 @@ public class SocialPicture implements Serializable {
 
         SocialPicture socialPicture = (SocialPicture) o;
 
-        if ( ! Objects.equals(id, socialPicture.id)) return false;
+        return Objects.equals(id, socialPicture.id);
 
-        return true;
     }
 
     @Override

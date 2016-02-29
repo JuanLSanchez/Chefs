@@ -12,8 +12,6 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -118,9 +116,8 @@ public class Request implements Serializable {
 
         Request request = (Request) o;
 
-        if ( ! Objects.equals(id, request.id)) return false;
+        return Objects.equals(id, request.id);
 
-        return true;
     }
 
     @Override

@@ -25,7 +25,6 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * REST controller for managing Food.
@@ -115,7 +114,7 @@ public class FoodResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Set<Food>> searchFood(@PathVariable String name, Pageable pageable)
+    public ResponseEntity searchFood(@PathVariable String name, Pageable pageable)
         throws URISyntaxException, UnsupportedEncodingException {
 
         log.debug("REST request to search Food : {}", name);

@@ -91,9 +91,8 @@ public class Schedule implements Serializable {
 
         Schedule schedule = (Schedule) o;
 
-        if ( ! Objects.equals(id, schedule.id)) return false;
+        return Objects.equals(id, schedule.id);
 
-        return true;
     }
 
     @Override
