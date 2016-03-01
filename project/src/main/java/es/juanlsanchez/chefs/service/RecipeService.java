@@ -165,7 +165,15 @@ public class RecipeService {
 
     public Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable) {
         Page<Recipe> result;
-        if(SecurityUtils.isAuthenticated()){
+        boolean authenticated;
+
+        try{
+            authenticated = SecurityUtils.isAuthenticated();
+        }catch (NullPointerException nfe){
+            authenticated = false;
+        }
+
+        if(authenticated){
             result = recipeRepository.findAllByLoginAndIsVisibility(login, pageable);
         }else{
             result = recipeRepository.findAllByLoginAndIsVisibilityForAnonymous(login, pageable);
@@ -175,7 +183,15 @@ public class RecipeService {
 
     public Page<RecipeMiniDTO> findDTOAllByLoginAndIsVisibility(String login, Pageable pageable) {
         Page<RecipeMiniDTO> result;
-        if(SecurityUtils.isAuthenticated()){
+        boolean authenticated;
+
+        try{
+            authenticated = SecurityUtils.isAuthenticated();
+        }catch (NullPointerException nfe){
+            authenticated = false;
+        }
+
+        if(authenticated){
             result = recipeRepository.findDTOAllByLoginAndIsVisibility(login, pageable);
         }else{
             result = recipeRepository.findDTOAllByLoginAndIsVisibilityForAnonymous(login, pageable);

@@ -20,15 +20,15 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
 
 
     String FIND_ALL_BY_LOGIN_AND_IS_VISIBILITY = " from Recipe recipe " +
-        "   where recipe.socialEntity.blocked=false " +
-        "   and recipe.user.login=?1" +
+        "   where recipe.user.login=?1" +
         "   and ( recipe.user.login=?#{ principal.username }" +
-        "       or (recipe.socialEntity.isPublic=true" +
-        "           or (select request " +
-        "               from Request request " +
-        "               where request.accepted=true " +
-        "               and request.followed.login=?#{ principal.username } " +
-        "               and request.follower.login=?1) is not null))" +
+        "       or recipe.socialEntity.blocked=false " +
+        "           and (recipe.socialEntity.isPublic=true" +
+        "               or (select request " +
+        "                   from Request request " +
+        "                  where request.accepted=true " +
+        "                   and request.followed.login= ?1" +
+        "                   and request.follower.login=?#{ principal.username }) is not null))" +
         "   order by recipe.updateDate desc";
     @Query("select recipe"+FIND_ALL_BY_LOGIN_AND_IS_VISIBILITY )
     Page<Recipe> findAllByLoginAndIsVisibility(String login, Pageable pageable);
@@ -47,15 +47,15 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     Page<RecipeMiniDTO> findDTOAllByLoginAndIsVisibilityForAnonymous(String login, Pageable pageable);
 
     String FIND_ALL_IS_VISIBILITY_AND_LIKE_NAME = " from Recipe recipe " +
-        "   where recipe.socialEntity.blocked=false " +
-        "   and recipe.name like ?1" +
-        "   and ( recipe.user.login=?#{principal.username}" +
-        "       or (recipe.socialEntity.isPublic=true" +
-        "           or (select request " +
-        "               from Request request " +
-        "               where request.accepted=true " +
-        "               and request.followed.login=?#{principal.username} " +
-        "               and request.follower.login=?1) is not null))" +
+        "   where recipe.name like ?1" +
+        "   and ( recipe.user.login=?#{ principal.username }" +
+        "       or recipe.socialEntity.blocked=false " +
+        "           and (recipe.socialEntity.isPublic=true" +
+        "               or (select request " +
+        "                   from Request request " +
+        "                  where request.accepted=true " +
+        "                   and request.followed.login= recipe.user.login" +
+        "                   and request.follower.login=?#{ principal.username }) is not null))" +
         "   order by recipe.updateDate desc";
     @Query("select recipe"+FIND_ALL_IS_VISIBILITY_AND_LIKE_NAME)
     Page<Recipe> findAllIsVisibilityAndLikeName(String name, Pageable pageable);

@@ -4,6 +4,7 @@ import es.juanlsanchez.chefs.Application;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.service.RecipeService;
+import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -49,7 +51,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class RecipeResourceTest {
 
-    private static final String DEFAULT_NAME = "SAMPLE_TEXT";
+    private static final String DEFAULT_SEARCH = "recipe";
+
+    private static final String DEFAULT_NAME = DEFAULT_SEARCH+"SAMPLE_TEXT";
     private static final String UPDATED_NAME = "UPDATED_TEXT";
     private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
     private static final String UPDATED_DESCRIPTION = "UPDATED_TEXT";
@@ -385,6 +389,55 @@ public class RecipeResourceTest {
 
     @Test
     @Transactional
+    public void getRecipeAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        // Get the recipe as other user
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes/{id}", recipe.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id").value(recipe.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.informationUrl").value(DEFAULT_INFORMATION_URL))
+            .andExpect(jsonPath("$.advice").value(DEFAULT_ADVICE))
+            .andExpect(jsonPath("$.sugestedTime").value(DEFAULT_SUGESTED_TIME))
+            .andExpect(jsonPath("$.ingredientsInSteps").value(DEFAULT_INGREDIENTS_IN_STEPS));
+    }
+
+    @Test
+    @Transactional
+    public void getRecipeNotPublicAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipe as other user
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes/{id}", recipe.getId()))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void getRecipeBlockedAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipe as other user
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes/{id}", recipe.getId()))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
     public void getRecipeAsBlockedUser() throws Exception {
         // Initialize the database
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
@@ -546,6 +599,790 @@ public class RecipeResourceTest {
         // Get the recipe
         restRecipeMockMvc.perform(get("/api/recipes/{id}", Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByPrincipal() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByPrincipalNotClonable() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByPrincipalAndNotPublic() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByPrincipalAndBlocked() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLogin() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginNotClonable() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndNotPublic() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndBlocked() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginNotClonableAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndNotPublicAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue()+1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndBlockedAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginNotClonableAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndNotPublicAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndBlockedAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAsAnonymousUser() throws Exception {
+        // Initialize the database
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginNotClonableAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.clearContext();
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndNotPublicAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.clearContext();
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesByLoginAndBlockedAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.clearContext();
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllByLoginAndIsVisibility(DEFAULT_LOGIN_USER, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/user/{login}", DEFAULT_LOGIN_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeName() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameNotClonable() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndNotPublic() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndBlocked() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameNotClonableAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndNotPublicAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue()+1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndBlockedAsFriendUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameNotClonableAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndNotPublicAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndBlockedAsBlockedUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.getContext().setAuthentication(this.blockedAuthentication);
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.clearContext();
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameNotClonableAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.clearContext();
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setPublicInscription(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue() + 1)))
+            .andExpect(jsonPath("$[0].id").value(recipe.getId().intValue()));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndNotPublicAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.clearContext();
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setIsPublic(false);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
+    }
+
+    @Test
+    @Transactional
+    public void findAllRecipesLikeNameAndBlockedAsAnonymousUser() throws Exception {
+        // Initialize the database
+        SecurityContextHolder.clearContext();
+        Long databaseSizeBeforeUpdate = recipeService
+            .findDTOAllIsVisibilityAndLikeName(DEFAULT_SEARCH, new PageRequest(0, 1))
+            .getTotalElements();
+
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipe.getSocialEntity().setBlocked(true);
+        recipeService.save(recipe);
+
+        // Get the recipes
+        SecurityContextHolder.clearContext();
+        restRecipeMockMvc.perform(get("/api/recipes_dto/findAllIsVisibilityAndLikeName/{name}", DEFAULT_SEARCH))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(databaseSizeBeforeUpdate.intValue())));
     }
 
     @Test
