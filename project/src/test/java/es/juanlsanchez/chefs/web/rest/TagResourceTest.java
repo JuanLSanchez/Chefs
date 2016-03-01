@@ -1,25 +1,35 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
-import es.juanlsanchez.chefs.TestConstants;
+import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.domain.Tag;
-import es.juanlsanchez.chefs.repository.TagRepository;
-
+import es.juanlsanchez.chefs.service.RecipeService;
+import es.juanlsanchez.chefs.service.TagService;
+import org.hamcrest.Matchers;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +38,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -43,11 +54,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class TagResourceTest {
 
-    private static final String DEFAULT_NAME = "SAMPLE_TEXT";
     private static final String UPDATED_NAME = "UPDATED_TEXT";
 
+    private static final String DEFAULT_NAME = "SAMPLE_TEXT";
+    private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
+
+    private static final String DEFAULT_INFORMATION_URL = "SAMPLE_TEXT";
+    private static final String DEFAULT_ADVICE = "SAMPLE_TEXT";
+    private static final String DEFAULT_SUGESTED_TIME = "SAMPLE_TEXT";
+
+    private static final Boolean DEFAULT_INGREDIENTS_IN_STEPS = false;
+
+    private static final String DEFAULT_LOGIN_USER = "user002";
+    private static final String DEFAULT_USER_PASSWORD = "user";
+
+    private static final Boolean DEFAULT_SOCIAL_ENTITY_BLOCKED = false;
+    private static final Boolean DEFAULT_SOCIAL_ENTITY_IS_PUBLIC = true;
+    private static final Boolean DEFAULT_SOCIAL_ENTITY_PUBLIC_INSCRIPTION = true;
+
     @Inject
-    private TagRepository tagRepository;
+    private TagService tagService;
+
+    @Inject
+    private RecipeService recipeService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -55,16 +84,27 @@ public class TagResourceTest {
     @Inject
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
-    private MockMvc restTagMockMvc;
+    @Inject
+    private ApplicationContext context;
+
+    private MockMvc restTagMockMvc, restRecipeMockMvc;
 
     private Tag tag;
+    private Recipe recipe;
+
+    private Authentication authentication;
 
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
         TagResource tagResource = new TagResource();
-        ReflectionTestUtils.setField(tagResource, "tagRepository", tagRepository);
+        ReflectionTestUtils.setField(tagResource, "tagService", tagService);
         this.restTagMockMvc = MockMvcBuilders.standaloneSetup(tagResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setMessageConverters(jacksonMessageConverter).build();
+        RecipeResource recipeResource = new RecipeResource();
+        ReflectionTestUtils.setField(recipeResource, "recipeService", recipeService);
+        this.restRecipeMockMvc = MockMvcBuilders.standaloneSetup(recipeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
     }
@@ -73,105 +113,68 @@ public class TagResourceTest {
     public void initTest() {
         tag = new Tag();
         tag.setName(DEFAULT_NAME);
+
+        SocialEntity socialEntity = new SocialEntity();
+        socialEntity.setBlocked(DEFAULT_SOCIAL_ENTITY_BLOCKED);
+        socialEntity.setIsPublic(DEFAULT_SOCIAL_ENTITY_IS_PUBLIC);
+        socialEntity.setPublicInscription(DEFAULT_SOCIAL_ENTITY_PUBLIC_INSCRIPTION);
+        socialEntity.getTags().add(tag);
+
+        recipe = new Recipe();
+        recipe.setName(DEFAULT_NAME);
+        recipe.setDescription(DEFAULT_DESCRIPTION);
+        recipe.setInformationUrl(DEFAULT_INFORMATION_URL);
+        recipe.setAdvice(DEFAULT_ADVICE);
+        recipe.setSugestedTime(DEFAULT_SUGESTED_TIME);
+        recipe.setIngredientsInSteps(DEFAULT_INGREDIENTS_IN_STEPS);
+        recipe.setSocialEntity(socialEntity);
+        recipe.setCreationDate(new DateTime());
+
+        AuthenticationManager authenticationManager = this.context
+            .getBean(AuthenticationManager.class);
+        this.authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(DEFAULT_LOGIN_USER, DEFAULT_USER_PASSWORD));
     }
 
     @Test
     @Transactional
-    public void createTag() throws Exception {
-        int databaseSizeBeforeCreate = tagRepository.findAll().size();
+    public void createRecipeWithTag() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
+        Long tagsSizeBeforeCreate = tagService
+            .findAllByNameContains(DEFAULT_NAME, new PageRequest(0, 1))
+            .getTotalElements();
 
-        // Create the Tag
+        // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$socialEntity.tags[0].name").value(tag.getName()))
+            .andExpect(jsonPath("$name").value(recipe.getName()));
 
-        restTagMockMvc.perform(post("/api/tags")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(tag)))
-                .andExpect(status().isCreated());
-
-        // Validate the Tag in the database
-        List<Tag> tags = tagRepository.findAll();
-        assertThat(tags).hasSize(databaseSizeBeforeCreate + 1);
-        Tag testTag = tags.get(tags.size() - 1);
-        assertThat(testTag.getName()).isEqualTo(DEFAULT_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTags() throws Exception {
-        // Initialize the database
-        tagRepository.saveAndFlush(tag);
-
-        // Set pageable
-        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+        // Validate the Recipe in the database
+        List<Recipe> recipes = recipeService.findAll();
+        assertThat(recipes).hasSize(databaseSizeBeforeCreate + 1);
+        Recipe testRecipe = recipes.get(recipes.size() - 1);
+        assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
+        assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
+        assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
+        assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
 
         // Get all the tags
-        restTagMockMvc.perform(get("/api/tags"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
-    }
-
-    @Test
-    @Transactional
-    public void getTag() throws Exception {
-        // Initialize the database
-        tagRepository.saveAndFlush(tag);
-
-        // Get the tag
-        restTagMockMvc.perform(get("/api/tags/{id}", tag.getId()))
+        restTagMockMvc.perform(get("/api/tags/byNameContains/{name}", tag.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(tag.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getNonExistingTag() throws Exception {
-        // Get the tag
-        restTagMockMvc.perform(get("/api/tags/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @Transactional
-    public void updateTag() throws Exception {
-        // Initialize the database
-        tagRepository.saveAndFlush(tag);
-
-		int databaseSizeBeforeUpdate = tagRepository.findAll().size();
-
-        // Update the tag
-        tag.setName(UPDATED_NAME);
-
-
-        restTagMockMvc.perform(put("/api/tags")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(tag)))
-                .andExpect(status().isOk());
-
-        // Validate the Tag in the database
-        List<Tag> tags = tagRepository.findAll();
-        assertThat(tags).hasSize(databaseSizeBeforeUpdate);
-        Tag testTag = tags.get(tags.size() - 1);
-        assertThat(testTag.getName()).isEqualTo(UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void deleteTag() throws Exception {
-        // Initialize the database
-        tagRepository.saveAndFlush(tag);
-
-		int databaseSizeBeforeDelete = tagRepository.findAll().size();
-
-        // Get the tag
-        restTagMockMvc.perform(delete("/api/tags/{id}", tag.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
-
-        // Validate the database is empty
-        List<Tag> tags = tagRepository.findAll();
-        assertThat(tags).hasSize(databaseSizeBeforeDelete - 1);
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(tagsSizeBeforeCreate.intValue() + 1)));
     }
 }
