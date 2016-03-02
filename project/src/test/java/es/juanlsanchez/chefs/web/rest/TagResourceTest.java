@@ -4,6 +4,8 @@ import es.juanlsanchez.chefs.Application;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.domain.Tag;
+import es.juanlsanchez.chefs.repository.RecipeRepository;
+import es.juanlsanchez.chefs.repository.TagRepository;
 import es.juanlsanchez.chefs.service.RecipeService;
 import es.juanlsanchez.chefs.service.TagService;
 import org.hamcrest.Matchers;
@@ -40,6 +42,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -68,6 +71,9 @@ public class TagResourceTest {
     private static final String DEFAULT_LOGIN_USER = "user002";
     private static final String DEFAULT_USER_PASSWORD = "user";
 
+    private static final String FRIEND_LOGIN_USER = "user001";
+    private static final String FRIEND_USER_PASSWORD = "user";
+
     private static final Boolean DEFAULT_SOCIAL_ENTITY_BLOCKED = false;
     private static final Boolean DEFAULT_SOCIAL_ENTITY_IS_PUBLIC = true;
     private static final Boolean DEFAULT_SOCIAL_ENTITY_PUBLIC_INSCRIPTION = true;
@@ -76,7 +82,13 @@ public class TagResourceTest {
     private TagService tagService;
 
     @Inject
+    private TagRepository tagRepository;
+
+    @Inject
     private RecipeService recipeService;
+
+    @Inject
+    private RecipeRepository recipeRepository;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -89,10 +101,10 @@ public class TagResourceTest {
 
     private MockMvc restTagMockMvc, restRecipeMockMvc;
 
-    private Tag tag;
+    private Tag tag, updateTag;
     private Recipe recipe;
 
-    private Authentication authentication;
+    private Authentication authentication, friendAuthentication;
 
     @PostConstruct
     public void setup() {
@@ -114,6 +126,9 @@ public class TagResourceTest {
         tag = new Tag();
         tag.setName(DEFAULT_NAME);
 
+        updateTag = new Tag();
+        updateTag.setName(UPDATED_NAME);
+
         SocialEntity socialEntity = new SocialEntity();
         socialEntity.setBlocked(DEFAULT_SOCIAL_ENTITY_BLOCKED);
         socialEntity.setIsPublic(DEFAULT_SOCIAL_ENTITY_IS_PUBLIC);
@@ -134,6 +149,8 @@ public class TagResourceTest {
             .getBean(AuthenticationManager.class);
         this.authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(DEFAULT_LOGIN_USER, DEFAULT_USER_PASSWORD));
+        this.friendAuthentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(FRIEND_LOGIN_USER, FRIEND_USER_PASSWORD));
     }
 
     @Test
@@ -152,7 +169,9 @@ public class TagResourceTest {
         ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
         resultActions
             .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$socialEntity.tags[0].name").value(tag.getName()))
+            .andExpect(jsonPath("$socialEntity.tags", Matchers.hasSize(1)))
             .andExpect(jsonPath("$name").value(recipe.getName()));
 
         // Validate the Recipe in the database
@@ -172,6 +191,87 @@ public class TagResourceTest {
 
         // Get all the tags
         restTagMockMvc.perform(get("/api/tags/byNameContains/{name}", tag.getName()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(tagsSizeBeforeCreate.intValue() + 1)));
+    }
+
+    @Test
+    @Transactional
+    public void updateRecipeWithTag() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
+        Long tagsSizeBeforeCreate = tagService
+            .findAllByNameContains(UPDATED_NAME, new PageRequest(0, 1))
+            .getTotalElements();
+
+        // Create the Recipe
+        recipe.getSocialEntity().getTags().clear();
+        recipe.getSocialEntity().getTags().add(updateTag);
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = put("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$socialEntity.tags[0].name").value(updateTag.getName()))
+            .andExpect(jsonPath("$socialEntity.tags", Matchers.hasSize(1)))
+            .andExpect(jsonPath("$name").value(recipe.getName()));
+
+        // Validate the Recipe in the database
+        List<Recipe> recipes = recipeService.findAll();
+        assertThat(recipes).hasSize(databaseSizeBeforeCreate);
+        Recipe testRecipe = recipes.get(recipes.size() - 1);
+        assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
+        assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
+        assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
+        assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(testRecipe.getCreationDate()).isLessThan(testRecipe.getUpdateDate());
+
+        // Get all the tags
+        restTagMockMvc.perform(get("/api/tags/byNameContains/{name}", updateTag.getName()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", Matchers.hasSize(tagsSizeBeforeCreate.intValue() + 1)));
+    }
+
+    @Test
+    @Transactional
+    public void cloneRecipeWithTag() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        recipeService.save(recipe);
+
+        SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
+        Long tagsSizeBeforeCreate = tagService
+            .findAllByNameContains(UPDATED_NAME, new PageRequest(0, 1))
+            .getTotalElements();
+
+        // Create the Recipe
+        recipe.getSocialEntity().getTags().clear();
+        recipe.getSocialEntity().getTags().add(updateTag);
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = put("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$socialEntity.tags[0].name").value(updateTag.getName()))
+            .andExpect(jsonPath("$socialEntity.tags", Matchers.hasSize(1)))
+            .andExpect(jsonPath("$name").value(recipe.getName()));
+
+        // Get all the tags
+        restTagMockMvc.perform(get("/api/tags/byNameContains/{name}", updateTag.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$").isArray())
