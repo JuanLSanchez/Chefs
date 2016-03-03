@@ -38,7 +38,7 @@
 
             <p>{{recipe.description}}</p>
     <h3 translate="chefsApp.recipe.steps"></h3>
-    <div ng-repeat="step in recipe.steps">
+    <div ng-repeat="step in recipe.steps | orderBy: '+position'">
         <h4><span translate="global.menu.entities.step">Step</span> {{$index + 1}}</h4>
         <p><span translate="global.menu.entities.ingredients">Ingredients</span>: </p>
         <ul>

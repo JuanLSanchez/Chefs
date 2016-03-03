@@ -57,8 +57,8 @@ angular.module('chefsApp').controller('RecipeEditController',
             $scope.recipe.steps.push(angular.copy($scope.step));
             $scope.step = {position: null, section: null, id: null, stepPicture:[], ingredients:[]};
         };
-        $scope.deleteStep = function(position){
-            $scope.recipe.steps.splice(position,1);
+        $scope.deleteStep = function(element){
+            $scope.recipe.steps.splice($scope.recipe.steps.indexOf(element),1);
         };
         $scope.sortableOptions = {
             stop: function(e, ui) {

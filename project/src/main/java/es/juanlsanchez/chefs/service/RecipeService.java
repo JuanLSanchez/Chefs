@@ -1,5 +1,7 @@
 package es.juanlsanchez.chefs.service;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
@@ -37,7 +39,8 @@ public class RecipeService {
         User principal;
         DateTime currentTime;
         Set<Step> steps;
-        Recipe result, oldRecipe;
+        List<Step> toRemove = Lists.newArrayList();
+        Recipe result, oldRecipe=null;
         boolean make = false;
 
         currentTime = new DateTime();
@@ -60,6 +63,13 @@ public class RecipeService {
 
         }
         if(make){
+        /*Se  borran las sobrantes */
+            if( oldRecipe !=null ){
+                toRemove.addAll(oldRecipe.getSteps());
+                toRemove.removeAll(recipe.getSteps());
+                toRemove.removeIf(step -> step.getId()==null);
+                stepService.remove(toRemove);
+            }
             recipe.setUpdateDate(currentTime);
             recipe.setUser(principal);
 

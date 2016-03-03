@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -76,4 +77,15 @@ public class StepService {
         return result;
     }
 
+    public List<Step> findAll() {
+        return stepRepository.findAll();
+    }
+
+    public void remove(Step step) {
+        stepRepository.delete(step);
+    }
+
+    public void remove(List<Step> toRemove) {
+        stepRepository.delete(toRemove);
+    }
 }
