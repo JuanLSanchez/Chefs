@@ -35,12 +35,16 @@ public class StepService {
         if(step.getId()!=null){
             oldStep = stepRepository.findOne(step.getId());
             /* Remove old ingredients */
-            oldIngredientsToRemove = Sets.newHashSet(oldStep.getIngredients());
+            oldIngredientsToRemove = Sets.newHashSet();
+            oldIngredientsToRemove.addAll(oldStep.getIngredients());
             oldIngredientsToRemove.removeAll(ingredients);
+            oldIngredientsToRemove.removeIf(ingredient -> ingredient.getId()==null);
             ingredientService.delete(oldIngredientsToRemove);
             /* Remove old pictures */
-            oldStepPicturesToRemove = Sets.newHashSet(oldStep.getStepPicture());
+            oldStepPicturesToRemove = Sets.newHashSet();
+            oldStepPicturesToRemove.addAll(oldStep.getStepPicture());
             oldStepPicturesToRemove.removeAll(stepPictures);
+            oldStepPicturesToRemove.removeIf(stepPicture -> stepPicture.getId()==null);
             stepPictureService.delete(oldStepPicturesToRemove);
         }
 
