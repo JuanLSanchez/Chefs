@@ -64,7 +64,7 @@ public class RecipeService {
         }
         if(make){
         /*Se  borran las sobrantes */
-            if( oldRecipe !=null ){
+            if( oldRecipe !=null && recipe.getId() != null ){
                 toRemove.addAll(oldRecipe.getSteps());
                 toRemove.removeAll(recipe.getSteps());
                 toRemove.removeIf(step -> step.getId()==null);

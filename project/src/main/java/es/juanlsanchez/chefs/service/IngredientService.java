@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,6 +51,10 @@ public class IngredientService {
     }
 
     public void delete(Set<Ingredient> oldIngredientsToRemove) {
-        ingredientRepository.deleteInBatch(oldIngredientsToRemove);
+        ingredientRepository.delete(oldIngredientsToRemove);
+    }
+
+    public List<Ingredient> findAll() {
+        return ingredientRepository.findAll();
     }
 }

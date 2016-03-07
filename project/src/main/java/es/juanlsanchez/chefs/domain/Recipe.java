@@ -101,6 +101,7 @@ public class Recipe implements Serializable {
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @OrderBy(value = "position asc")
     private Set<Step> steps = new HashSet<>();
 
     public Long getId() {
