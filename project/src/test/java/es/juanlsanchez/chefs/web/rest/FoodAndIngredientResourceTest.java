@@ -8,6 +8,7 @@ import es.juanlsanchez.chefs.domain.enumeration.Measurement;
 import es.juanlsanchez.chefs.service.FoodService;
 import es.juanlsanchez.chefs.service.IngredientService;
 import es.juanlsanchez.chefs.service.RecipeService;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.StrictAssertions;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
@@ -37,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.net.URLEncoder;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -406,18 +408,17 @@ public class FoodAndIngredientResourceTest {
 
     @Test
     @Transactional
-    public void searchAFood() throws Exception {
+    public void searchAFoplod() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
 
         recipeService.save(recipe);
 
         // Search the Food
-        restFoodMockMvc.perform(get("/api/foods/search/{name}", food02.getName()))
+        restFoodMockMvc.perform(get("/api/foods/search/{name}", StringUtils.stripAccents(food02.getName())))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$[0].normalizaedName").value(DEFAULT_NORMALIZED_NAME_02))
-            .andExpect(jsonPath("$", Matchers.hasSize(1)))
-            .andExpect(jsonPath("$[0].name").value(food02.getName()));
+            .andExpect(jsonPath("$", Matchers.hasSize(1)));
 
     }
 
