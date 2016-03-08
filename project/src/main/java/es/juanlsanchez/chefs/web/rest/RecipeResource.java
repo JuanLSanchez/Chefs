@@ -43,17 +43,34 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<Recipe> createRecipe(@Valid @RequestBody Recipe recipe) throws URISyntaxException {
         log.debug("REST request to save Recipe : {}", recipe);
+        ResponseEntity<Recipe> result;
+        Recipe recipeResult;
         if (recipe.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new recipe cannot already have an ID").body(null);
+            result = ResponseEntity
+                        .badRequest()
+                        .header("Failure", "A new recipe cannot already have an ID")
+                        .body(null);
+        }else{
+            try{
+                recipeResult = recipeService.save(recipe);
+                log.debug("REST response recipe save : {}", recipe);
+                result = ResponseEntity
+                    .created(new URI("/api/recipes/" + recipeResult.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert("recipe", recipeResult.getId().toString()))
+                    .body(recipeResult);
+            }catch (IllegalArgumentException e){
+                log.debug("IllegalArgumentException: {}", e.getMessage());
+                result = ResponseEntity
+                            .badRequest()
+                            .header("Failure", "A recipe cannot already have an social entity")
+                            .body(null);
+            }catch (Exception e){
+                log.debug("Exception: {}", e);
+                result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
 
-        Recipe result;
-
-        result = recipeService.save(recipe);
-
-        return ResponseEntity.created(new URI("/api/recipes/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("recipe", result.getId().toString()))
-            .body(result);
+        return result;
     }
 
     /**

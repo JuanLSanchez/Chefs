@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
@@ -45,6 +46,8 @@ public class RecipeService {
 
         currentTime = new DateTime();
         principal = userService.getPrincipal();
+
+        Assert.notNull(recipe.getSocialEntity(), "The social entity cannot be null");
 
         if(recipe.getId() == null || recipe.getId() == 0){
             /* Receta nueva */

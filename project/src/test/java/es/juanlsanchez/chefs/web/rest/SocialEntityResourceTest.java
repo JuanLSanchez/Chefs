@@ -1,25 +1,31 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
-import es.juanlsanchez.chefs.TestConstants;
+import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.SocialEntity;
-import es.juanlsanchez.chefs.repository.SocialEntityRepository;
-
+import es.juanlsanchez.chefs.service.RecipeService;
+import es.juanlsanchez.chefs.service.SocialEntityService;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +34,9 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 /**
@@ -43,21 +50,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class SocialEntityResourceTest {
 
+    private static final String DEFAULT_SEARCH = "recipe";
 
-    private static final Integer DEFAULT_SUM_RATING = 1;
-    private static final Integer UPDATED_SUM_RATING = 2;
+    private static final String DEFAULT_NAME = DEFAULT_SEARCH+"SAMPLE_TEXT";
+    private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
 
-    private static final Boolean DEFAULT_IS_PUBLIC = false;
-    private static final Boolean UPDATED_IS_PUBLIC = true;
+    private static final String DEFAULT_INFORMATION_URL = "SAMPLE_TEXT";
+    private static final String DEFAULT_ADVICE = "SAMPLE_TEXT";
+    private static final String DEFAULT_SUGESTED_TIME = "SAMPLE_TEXT";
 
-    private static final Boolean DEFAULT_PUBLIC_INSCRIPTION = false;
-    private static final Boolean UPDATED_PUBLIC_INSCRIPTION = true;
+    private static final Boolean DEFAULT_INGREDIENTS_IN_STEPS = false;
 
-    private static final Boolean DEFAULT_BLOCKED = false;
-    private static final Boolean UPDATED_BLOCKED = true;
+    private static final String DEFAULT_LOGIN_USER = "user002";
+    private static final String DEFAULT_USER_PASSWORD = "user";
+
+    private static final Boolean DEFAULT_SOCIAL_ENTITY_BLOCKED = false;
+    private static final Boolean DEFAULT_SOCIAL_ENTITY_IS_PUBLIC = true;
+    private static final Boolean DEFAULT_SOCIAL_ENTITY_PUBLIC_INSCRIPTION = true;
+    private static final Integer MODIFIED_SUM_RATING = 22;
 
     @Inject
-    private SocialEntityRepository socialEntityRepository;
+    private RecipeService recipeService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -65,141 +78,244 @@ public class SocialEntityResourceTest {
     @Inject
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
-    private MockMvc restSocialEntityMockMvc;
+    private MockMvc restRecipeMockMvc;
 
-    private SocialEntity socialEntity;
+    private Recipe recipe;
+
+    private Authentication authentication;
+
+    @Inject
+    private ApplicationContext context;
 
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        SocialEntityResource socialEntityResource = new SocialEntityResource();
-        ReflectionTestUtils.setField(socialEntityResource, "socialEntityRepository", socialEntityRepository);
-        this.restSocialEntityMockMvc = MockMvcBuilders.standaloneSetup(socialEntityResource)
+        RecipeResource recipeResource = new RecipeResource();
+        ReflectionTestUtils.setField(recipeResource, "recipeService", recipeService);
+        this.restRecipeMockMvc = MockMvcBuilders.standaloneSetup(recipeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
     }
 
     @Before
     public void initTest() {
-        socialEntity = new SocialEntity();
-        socialEntity.setSumRating(DEFAULT_SUM_RATING);
-        socialEntity.setIsPublic(DEFAULT_IS_PUBLIC);
-        socialEntity.setPublicInscription(DEFAULT_PUBLIC_INSCRIPTION);
-        socialEntity.setBlocked(DEFAULT_BLOCKED);
+
+        SocialEntity socialEntity = new SocialEntity();
+        socialEntity.setBlocked(DEFAULT_SOCIAL_ENTITY_BLOCKED);
+        socialEntity.setIsPublic(DEFAULT_SOCIAL_ENTITY_IS_PUBLIC);
+        socialEntity.setPublicInscription(DEFAULT_SOCIAL_ENTITY_PUBLIC_INSCRIPTION);
+
+        recipe = new Recipe();
+        recipe.setName(DEFAULT_NAME);
+        recipe.setDescription(DEFAULT_DESCRIPTION);
+        recipe.setInformationUrl(DEFAULT_INFORMATION_URL);
+        recipe.setAdvice(DEFAULT_ADVICE);
+        recipe.setSugestedTime(DEFAULT_SUGESTED_TIME);
+        recipe.setIngredientsInSteps(DEFAULT_INGREDIENTS_IN_STEPS);
+        recipe.setSocialEntity(socialEntity);
+        recipe.setCreationDate(new DateTime());
+
+        SocialEntity secondSocialEntity = new SocialEntity();
+        secondSocialEntity.setBlocked(DEFAULT_SOCIAL_ENTITY_BLOCKED);
+        secondSocialEntity.setIsPublic(DEFAULT_SOCIAL_ENTITY_IS_PUBLIC);
+        secondSocialEntity.setPublicInscription(DEFAULT_SOCIAL_ENTITY_PUBLIC_INSCRIPTION);
+
+        AuthenticationManager authenticationManager = this.context
+            .getBean(AuthenticationManager.class);
+        this.authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(DEFAULT_LOGIN_USER, DEFAULT_USER_PASSWORD));
     }
 
     @Test
     @Transactional
-    public void createSocialEntity() throws Exception {
-        int databaseSizeBeforeCreate = socialEntityRepository.findAll().size();
+    public void createRecipeWithoutSumRating() throws Exception{
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
 
-        // Create the SocialEntity
+        // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions.andExpect(status().isCreated());
 
-        restSocialEntityMockMvc.perform(post("/api/socialEntitys")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(socialEntity)))
-                .andExpect(status().isCreated());
-
-        // Validate the SocialEntity in the database
-        List<SocialEntity> socialEntitys = socialEntityRepository.findAll();
-        assertThat(socialEntitys).hasSize(databaseSizeBeforeCreate + 1);
-        SocialEntity testSocialEntity = socialEntitys.get(socialEntitys.size() - 1);
-        assertThat(testSocialEntity.getSumRating()).isEqualTo(DEFAULT_SUM_RATING);
-        assertThat(testSocialEntity.getIsPublic()).isEqualTo(DEFAULT_IS_PUBLIC);
-        assertThat(testSocialEntity.getPublicInscription()).isEqualTo(DEFAULT_PUBLIC_INSCRIPTION);
-        assertThat(testSocialEntity.getBlocked()).isEqualTo(DEFAULT_BLOCKED);
+        // Validate the Recipe in the database
+        List<Recipe> recipes = recipeService.findAll();
+        assertThat(recipes).hasSize(databaseSizeBeforeCreate + 1);
+        Recipe testRecipe = recipes.get(recipes.size() - 1);
+        assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
+        assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
+        assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
+        assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
+        assertThat(testRecipe.getSocialEntity().getSumRating()).isEqualTo(0);
     }
 
     @Test
     @Transactional
-    public void getAllSocialEntitys() throws Exception {
-        // Initialize the database
-        socialEntityRepository.saveAndFlush(socialEntity);
+    public void createRecipeWithModifiedtSumRating() throws Exception{
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
+        recipe.getSocialEntity().setSumRating(MODIFIED_SUM_RATING);
 
-        // Set pageable
-        pageableArgumentResolver.setFallbackPageable(new PageRequest(0, TestConstants.MAX_PAGE_SIZE));
+        // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$socialEntity.sumRating").value(0));
 
-        // Get all the socialEntitys
-        restSocialEntityMockMvc.perform(get("/api/socialEntitys"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(socialEntity.getId().intValue())))
-                .andExpect(jsonPath("$.[*].sumRating").value(hasItem(DEFAULT_SUM_RATING)))
-                .andExpect(jsonPath("$.[*].isPublic").value(hasItem(DEFAULT_IS_PUBLIC.booleanValue())))
-                .andExpect(jsonPath("$.[*].publicInscription").value(hasItem(DEFAULT_PUBLIC_INSCRIPTION.booleanValue())))
-                .andExpect(jsonPath("$.[*].blocked").value(hasItem(DEFAULT_BLOCKED.booleanValue())));
+        // Validate the Recipe in the database
+        List<Recipe> recipes = recipeService.findAll();
+        assertThat(recipes).hasSize(databaseSizeBeforeCreate + 1);
+        Recipe testRecipe = recipes.get(recipes.size() - 1);
+        assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
+        assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
+        assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
+        assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
+        assertThat(testRecipe.getSocialEntity().getSumRating()).isEqualTo(0);
     }
 
     @Test
     @Transactional
-    public void getSocialEntity() throws Exception {
-        // Initialize the database
-        socialEntityRepository.saveAndFlush(socialEntity);
+    public void createRecipeWithoutSocialEntity() throws Exception{
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
 
-        // Get the socialEntity
-        restSocialEntityMockMvc.perform(get("/api/socialEntitys/{id}", socialEntity.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(socialEntity.getId().intValue()))
-            .andExpect(jsonPath("$.sumRating").value(DEFAULT_SUM_RATING))
-            .andExpect(jsonPath("$.isPublic").value(DEFAULT_IS_PUBLIC.booleanValue()))
-            .andExpect(jsonPath("$.publicInscription").value(DEFAULT_PUBLIC_INSCRIPTION.booleanValue()))
-            .andExpect(jsonPath("$.blocked").value(DEFAULT_BLOCKED.booleanValue()));
+        recipe.setSocialEntity(null);
+
+        // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions.andExpect(status().isBadRequest());
     }
 
     @Test
     @Transactional
-    public void getNonExistingSocialEntity() throws Exception {
-        // Get the socialEntity
-        restSocialEntityMockMvc.perform(get("/api/socialEntitys/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+    public void createRecipeWithoutSocialEntitySecurity() throws Exception{
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
+
+        recipe.getSocialEntity().setPublicInscription(null);
+        recipe.getSocialEntity().setBlocked(null);
+        recipe.getSocialEntity().setIsPublic(null);
+
+        // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions.andExpect(status().isCreated());
+
+        // Validate the Recipe in the database
+        List<Recipe> recipes = recipeService.findAll();
+        assertThat(recipes).hasSize(databaseSizeBeforeCreate + 1);
+        Recipe testRecipe = recipes.get(recipes.size() - 1);
+        assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
+        assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
+        assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
+        assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
+        // Validate the security
+        assertThat(testRecipe.getSocialEntity().getIsPublic()).isEqualTo(SocialEntityService.DEFAULT_IS_PUBLIC);
+        assertThat(testRecipe.getSocialEntity().getBlocked()).isEqualTo(SocialEntityService.DEFAULT_BLOCKED);
+        assertThat(testRecipe.getSocialEntity().getPublicInscription())
+            .isEqualTo(SocialEntityService.DEFAULT_PUBLIC_INSCRIPTION);
     }
 
     @Test
     @Transactional
-    public void updateSocialEntity() throws Exception {
-        // Initialize the database
-        socialEntityRepository.saveAndFlush(socialEntity);
+    public void createRecipeWithSocialEntitySecurityToFalse() throws Exception{
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        final boolean SECURITY_VALUE = false;
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
 
-		int databaseSizeBeforeUpdate = socialEntityRepository.findAll().size();
+        recipe.getSocialEntity().setPublicInscription(SECURITY_VALUE);
+        recipe.getSocialEntity().setBlocked(SECURITY_VALUE);
+        recipe.getSocialEntity().setIsPublic(SECURITY_VALUE);
 
-        // Update the socialEntity
-        socialEntity.setSumRating(UPDATED_SUM_RATING);
-        socialEntity.setIsPublic(UPDATED_IS_PUBLIC);
-        socialEntity.setPublicInscription(UPDATED_PUBLIC_INSCRIPTION);
-        socialEntity.setBlocked(UPDATED_BLOCKED);
+        // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions.andExpect(status().isCreated());
 
-
-        restSocialEntityMockMvc.perform(put("/api/socialEntitys")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(socialEntity)))
-                .andExpect(status().isOk());
-
-        // Validate the SocialEntity in the database
-        List<SocialEntity> socialEntitys = socialEntityRepository.findAll();
-        assertThat(socialEntitys).hasSize(databaseSizeBeforeUpdate);
-        SocialEntity testSocialEntity = socialEntitys.get(socialEntitys.size() - 1);
-        assertThat(testSocialEntity.getSumRating()).isEqualTo(UPDATED_SUM_RATING);
-        assertThat(testSocialEntity.getIsPublic()).isEqualTo(UPDATED_IS_PUBLIC);
-        assertThat(testSocialEntity.getPublicInscription()).isEqualTo(UPDATED_PUBLIC_INSCRIPTION);
-        assertThat(testSocialEntity.getBlocked()).isEqualTo(UPDATED_BLOCKED);
+        // Validate the Recipe in the database
+        List<Recipe> recipes = recipeService.findAll();
+        assertThat(recipes).hasSize(databaseSizeBeforeCreate + 1);
+        Recipe testRecipe = recipes.get(recipes.size() - 1);
+        assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
+        assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
+        assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
+        assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
+        // Validate the security
+        assertThat(testRecipe.getSocialEntity().getIsPublic()).isEqualTo(SECURITY_VALUE);
+        assertThat(testRecipe.getSocialEntity().getBlocked()).isEqualTo(SECURITY_VALUE);
+        assertThat(testRecipe.getSocialEntity().getPublicInscription()).isEqualTo(SECURITY_VALUE);
     }
 
     @Test
     @Transactional
-    public void deleteSocialEntity() throws Exception {
-        // Initialize the database
-        socialEntityRepository.saveAndFlush(socialEntity);
+    public void createRecipeWithSocialEntitySecurityToTrue() throws Exception{
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        final boolean SECURITY_VALUE = true;
+        int databaseSizeBeforeCreate = recipeService.findAll().size();
 
-		int databaseSizeBeforeDelete = socialEntityRepository.findAll().size();
+        recipe.getSocialEntity().setPublicInscription(SECURITY_VALUE);
+        recipe.getSocialEntity().setBlocked(SECURITY_VALUE);
+        recipe.getSocialEntity().setIsPublic(SECURITY_VALUE);
 
-        // Get the socialEntity
-        restSocialEntityMockMvc.perform(delete("/api/socialEntitys/{id}", socialEntity.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        // Create the Recipe
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(recipe));
+        ResultActions resultActions = restRecipeMockMvc.perform(mockHttpServletRequestBuilder);
+        resultActions.andExpect(status().isCreated());
 
-        // Validate the database is empty
-        List<SocialEntity> socialEntitys = socialEntityRepository.findAll();
-        assertThat(socialEntitys).hasSize(databaseSizeBeforeDelete - 1);
+        // Validate the Recipe in the database
+        List<Recipe> recipes = recipeService.findAll();
+        assertThat(recipes).hasSize(databaseSizeBeforeCreate + 1);
+        Recipe testRecipe = recipes.get(recipes.size() - 1);
+        assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testRecipe.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testRecipe.getCreationDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getInformationUrl()).isEqualTo(DEFAULT_INFORMATION_URL);
+        assertThat(testRecipe.getAdvice()).isEqualTo(DEFAULT_ADVICE);
+        assertThat(testRecipe.getSugestedTime()).isEqualTo(DEFAULT_SUGESTED_TIME);
+        assertThat(testRecipe.getUpdateDate().toDateTime(DateTimeZone.UTC)).isLessThanOrEqualTo(new DateTime());
+        assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
+        assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
+        // Validate the security
+        assertThat(testRecipe.getSocialEntity().getIsPublic()).isEqualTo(SECURITY_VALUE);
+        assertThat(testRecipe.getSocialEntity().getBlocked()).isEqualTo(SECURITY_VALUE);
+        assertThat(testRecipe.getSocialEntity().getPublicInscription()).isEqualTo(SECURITY_VALUE);
     }
+
 }
