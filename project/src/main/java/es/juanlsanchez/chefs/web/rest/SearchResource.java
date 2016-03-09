@@ -91,7 +91,7 @@ public class SearchResource {
     @Transactional(readOnly = true)
     public ResponseEntity<List<SearchDTO>> getAllUsersByLoginAndFirstName(Pageable pageable)
         throws URISyntaxException {
-        Page<User> users = userService.findAll(pageable);
+        Page<User> users = userService.findAllUsers(pageable);
         List<SearchDTO> searchDTO = users.getContent().stream()
             .map(user -> new SearchDTO(user))
             .collect(Collectors.toList());

@@ -6,7 +6,6 @@ import es.juanlsanchez.chefs.domain.BackgroundPicture;
 import es.juanlsanchez.chefs.domain.ProfilePicture;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
-import es.juanlsanchez.chefs.repository.UserRepository;
 import es.juanlsanchez.chefs.security.AuthoritiesConstants;
 import es.juanlsanchez.chefs.service.UserService;
 import es.juanlsanchez.chefs.web.rest.dto.ManagedUserDTO;
@@ -28,7 +27,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -62,9 +63,6 @@ public class UserResource {
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
     @Inject
-    private UserRepository userRepository;
-
-    @Inject
     private AuthorityRepository authorityRepository;
 
     @Inject
@@ -83,7 +81,7 @@ public class UserResource {
         if (user.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new user cannot already have an ID").body(null);
         }
-        User result = userRepository.save(user);
+        User result = userService.save(user);
         return ResponseEntity.created(new URI("/api/users/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert("user", result.getId().toString()))
                 .body(result);
@@ -109,7 +107,7 @@ public class UserResource {
         backgroundPicture = new BackgroundPicture();
         backgroundPicture.setSrc(managedUserDTO.getBackgroundPicture());
 
-        return Optional.of(userRepository
+        return Optional.of(userService
             .findOne(managedUserDTO.getId()))
             .map(user -> {
                 user.setLogin(managedUserDTO.getLogin());
@@ -127,7 +125,7 @@ public class UserResource {
                 user.setBackgroundPicture(backgroundPicture);
                 return ResponseEntity.ok()
                     .headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDTO.getLogin()))
-                    .body(new ManagedUserDTO(userRepository
+                    .body(new ManagedUserDTO(userService
                         .findOne(managedUserDTO.getId())));
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -143,15 +141,13 @@ public class UserResource {
     @Transactional(readOnly = true)
     public ResponseEntity<List<ManagedUserDTO>> getAllUsers(Pageable pageable)
         throws URISyntaxException {
-        Page<User> page = userRepository.findAll(pageable);
-        List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
-            .map(user -> new ManagedUserDTO(user))
-            .collect(Collectors.toList());
+        Page<ManagedUserDTO> page;
+        page = userService.findAllUsersConvertToManagedUserDto(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
-        return new ResponseEntity<>(managedUserDTOs, headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     /**
-     * GET  /users/likeLoginOrLikeFirstName/{login} -> get all users by login.
+     * GET  /users/likeLoginOrLikeFirstName/:q -> get all users by login.
      */
     @RequestMapping(value = "/users/likeLoginOrLikeFirstName/{q}",
         method = RequestMethod.GET,
@@ -160,12 +156,10 @@ public class UserResource {
     @Transactional(readOnly = true)
     public ResponseEntity<List<ManagedUserDTO>> getAllUsersByLogin(@PathVariable String q, Pageable pageable)
         throws URISyntaxException {
-        Page<User> page = userService.findAllLikeLoginOrLikeFirstName(q, pageable);
-        List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
-            .map(user -> new ManagedUserDTO(user))
-            .collect(Collectors.toList());
+        Page<ManagedUserDTO> page;
+        page = userService.findAllLikeLoginOrLikeFirstNameConvertToManagedUserDto(q, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
-        return new ResponseEntity<>(managedUserDTOs, headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -177,8 +171,8 @@ public class UserResource {
     @Timed
     public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
-        return userService.getUserWithAuthoritiesByLogin(login)
-                .map(user -> new ManagedUserDTO(user))
+        return userService
+                .findOneUser(login)
                 .map(userDTO -> new ResponseEntity<>(userDTO, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -193,7 +187,8 @@ public class UserResource {
     public ResponseEntity<List<UserDTO>> findAllFollowersByLogin (@PathVariable String followed, Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get the followers: {}", followed);
-        Page<UserDTO> page = userService.findAllFollowersByLogin(followed, pageable);
+        Page<UserDTO> page;
+        page = userService.findAllFollowersByLogin(followed, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/followers/"+followed);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -208,7 +203,8 @@ public class UserResource {
     public ResponseEntity<List<UserDTO>> findAllFollowingByLogin (@PathVariable String follower, Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get the following: {}", follower);
-        Page<UserDTO> page = userService.findAllFollowingByLogin(follower, pageable);
+        Page<UserDTO> page;
+        page = userService.findAllFollowingByLogin(follower, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/followers/" + follower);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
