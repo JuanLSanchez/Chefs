@@ -3,35 +3,37 @@ package es.juanlsanchez.chefs.web.rest;
 import es.juanlsanchez.chefs.Application;
 import es.juanlsanchez.chefs.domain.Request;
 import es.juanlsanchez.chefs.repository.RequestRepository;
-
+import es.juanlsanchez.chefs.service.RequestService;
+import org.assertj.core.api.StrictAssertions;
+import org.hamcrest.Matchers;
+import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -44,24 +46,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest
-@Ignore
 public class RequestResourceTest {
 
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final String DEFAULT_LOGIN_USER = "user012";
+    private static final String DEFAULT_USER_PASSWORD = "user";
+    private static final String DEFAULT_FOLLOWED_USER = "user002";
+    private static final String DEFAULT_FOLLOWER_USER = "user003";
 
-
-    private static final DateTime DEFAULT_CREATION_DATE = new DateTime(0L, DateTimeZone.UTC);
-    private static final DateTime UPDATED_CREATION_DATE = new DateTime(DateTimeZone.UTC).withMillisOfSecond(0);
-    private static final String DEFAULT_CREATION_DATE_STR = dateTimeFormatter.print(DEFAULT_CREATION_DATE);
-
-    private static final Boolean DEFAULT_ACCEPTED = false;
-    private static final Boolean UPDATED_ACCEPTED = true;
-
-    private static final Boolean DEFAULT_LOCKED = false;
-    private static final Boolean UPDATED_LOCKED = true;
-
-    private static final Boolean DEFAULT_IGNORED = false;
-    private static final Boolean UPDATED_IGNORED = true;
+    @Inject
+    private RequestService requestService;
 
     @Inject
     private RequestRepository requestRepository;
@@ -74,13 +67,16 @@ public class RequestResourceTest {
 
     private MockMvc restRequestMockMvc;
 
-    private Request request;
+    private Authentication defaultAuthentication, followedAuthentication, followerAuthentication;
+
+    @Inject
+    private ApplicationContext context;
 
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
         RequestResource requestResource = new RequestResource();
-        ReflectionTestUtils.setField(requestResource, "requestRepository", requestRepository);
+        ReflectionTestUtils.setField(requestResource, "requestService", requestService);
         this.restRequestMockMvc = MockMvcBuilders.standaloneSetup(requestResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -88,140 +84,397 @@ public class RequestResourceTest {
 
     @Before
     public void initTest() {
-        request = new Request();
-        request.setCreationDate(DEFAULT_CREATION_DATE);
-        request.setAccepted(DEFAULT_ACCEPTED);
-        request.setLocked(DEFAULT_LOCKED);
-        request.setIgnored(DEFAULT_IGNORED);
+
+        AuthenticationManager authenticationManager = this.context
+            .getBean(AuthenticationManager.class);
+        this.defaultAuthentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(DEFAULT_LOGIN_USER, DEFAULT_USER_PASSWORD));
+        this.followedAuthentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(DEFAULT_FOLLOWED_USER, DEFAULT_USER_PASSWORD));
+        this.followerAuthentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(DEFAULT_FOLLOWER_USER, DEFAULT_USER_PASSWORD));
     }
 
     @Test
     @Transactional
-    public void createRequest() throws Exception {
-        int databaseSizeBeforeCreate = requestRepository.findAll().size();
+    public void followAUser() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.defaultAuthentication);
+        Integer requestInDBBefor;
+        String followed;
+        Request request;
 
-        // Create the Request
+        requestInDBBefor = requestRepository.findAll().size();
+        followed = "user002";
 
-        restRequestMockMvc.perform(post("/api/requests")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(request)))
-                .andExpect(status().isCreated());
-
-        // Validate the Request in the database
-        List<Request> requests = requestRepository.findAll();
-        assertThat(requests).hasSize(databaseSizeBeforeCreate + 1);
-        Request testRequest = requests.get(requests.size() - 1);
-        assertThat(testRequest.getCreationDate().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_CREATION_DATE);
-        assertThat(testRequest.getAccepted()).isEqualTo(DEFAULT_ACCEPTED);
-        assertThat(testRequest.getLocked()).isEqualTo(DEFAULT_LOCKED);
-        assertThat(testRequest.getIgnored()).isEqualTo(DEFAULT_IGNORED);
-    }
-
-    @Test
-    @Transactional
-    public void checkCreationDateIsRequired() throws Exception {
-        int databaseSizeBeforeTest = requestRepository.findAll().size();
-        // set the field null
-        request.setCreationDate(null);
-
-        // Create the Request, which fails.
-
-        restRequestMockMvc.perform(post("/api/requests")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(request)))
-                .andExpect(status().isBadRequest());
-
-        List<Request> requests = requestRepository.findAll();
-        assertThat(requests).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRequests() throws Exception {
-        // Initialize the database
-        requestRepository.saveAndFlush(request);
-
-        // Get all the requests
-        restRequestMockMvc.perform(get("/api/requests"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(request.getId().intValue())))
-                .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE_STR)))
-                .andExpect(jsonPath("$.[*].accepted").value(hasItem(DEFAULT_ACCEPTED.booleanValue())))
-                .andExpect(jsonPath("$.[*].locked").value(hasItem(DEFAULT_LOCKED.booleanValue())))
-                .andExpect(jsonPath("$.[*].ignored").value(hasItem(DEFAULT_IGNORED.booleanValue())));
-    }
-
-    @Test
-    @Transactional
-    public void getRequest() throws Exception {
-        // Initialize the database
-        requestRepository.saveAndFlush(request);
-
-        // Get the request
-        restRequestMockMvc.perform(get("/api/requests/{id}", request.getId()))
-            .andExpect(status().isOk())
+        ResultActions result =restRequestMockMvc.perform(put("/api/requests/follower/{followed}", followed));
+        result
+            .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(request.getId().intValue()))
-            .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE_STR))
-            .andExpect(jsonPath("$.accepted").value(DEFAULT_ACCEPTED.booleanValue()))
-            .andExpect(jsonPath("$.locked").value(DEFAULT_LOCKED.booleanValue()))
-            .andExpect(jsonPath("$.ignored").value(DEFAULT_IGNORED.booleanValue()));
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(DEFAULT_LOGIN_USER))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
+
+        assertThat(requestRepository.findAll()).hasSize(requestInDBBefor + 1);
+
+        request = requestRepository.findAll().get(requestInDBBefor);
+
+        assertThat(request.getCreationDate()).isNotNull();
+        assertThat(request.getCreationDate()).isLessThan(new DateTime());
+
+        assertThat(request.getAccepted()).isFalse();
+        assertThat(request.getIgnored()).isFalse();
+        assertThat(request.getLocked()).isFalse();
+
+        assertThat(request.getFollowed().getLogin()).isEqualTo(followed);
+        assertThat(request.getFollower().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
     }
 
     @Test
     @Transactional
-    public void getNonExistingRequest() throws Exception {
-        // Get the request
-        restRequestMockMvc.perform(get("/api/requests/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+    public void followAUserYouBlockYour() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.followerAuthentication);
+        Integer requestInDBBefor;
+        String followed;
+
+        requestInDBBefor = requestRepository.findAll().size();
+        followed = "user002";
+
+        ResultActions result =restRequestMockMvc.perform(put("/api/requests/follower/{followed}", followed));
+        result
+            .andExpect(status().isBadRequest());
+
+        assertThat(requestRepository.findAll()).hasSize(requestInDBBefor);
     }
 
     @Test
     @Transactional
-    public void updateRequest() throws Exception {
-        // Initialize the database
-        requestRepository.saveAndFlush(request);
+    public void followAUserYouIgnoreYour() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.followerAuthentication);
+        Integer requestInDBBefor;
+        String followed, follower;
 
-		int databaseSizeBeforeUpdate = requestRepository.findAll().size();
+        requestInDBBefor = requestRepository.findAll().size();
+        followed = "user004";
+        follower = DEFAULT_FOLLOWER_USER;
 
-        // Update the request
-        request.setCreationDate(UPDATED_CREATION_DATE);
-        request.setAccepted(UPDATED_ACCEPTED);
-        request.setLocked(UPDATED_LOCKED);
-        request.setIgnored(UPDATED_IGNORED);
+        ResultActions result =restRequestMockMvc.perform(put("/api/requests/follower/{followed}", followed));
+        result
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(follower))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
 
-
-        restRequestMockMvc.perform(put("/api/requests")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(request)))
-                .andExpect(status().isOk());
-
-        // Validate the Request in the database
-        List<Request> requests = requestRepository.findAll();
-        assertThat(requests).hasSize(databaseSizeBeforeUpdate);
-        Request testRequest = requests.get(requests.size() - 1);
-        assertThat(testRequest.getCreationDate().toDateTime(DateTimeZone.UTC)).isEqualTo(UPDATED_CREATION_DATE);
-        assertThat(testRequest.getAccepted()).isEqualTo(UPDATED_ACCEPTED);
-        assertThat(testRequest.getLocked()).isEqualTo(UPDATED_LOCKED);
-        assertThat(testRequest.getIgnored()).isEqualTo(UPDATED_IGNORED);
+        assertThat(requestRepository.findAll()).hasSize(requestInDBBefor);
     }
 
     @Test
     @Transactional
-    public void deleteRequest() throws Exception {
-        // Initialize the database
-        requestRepository.saveAndFlush(request);
+    public void unfollowAUser() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.followerAuthentication);
+        Integer requestInDBAfter;
+        String followed;
 
-		int databaseSizeBeforeDelete = requestRepository.findAll().size();
+        requestInDBAfter = requestRepository.findAll().size()-1;
+        followed = "user005";
 
-        // Get the request
-        restRequestMockMvc.perform(delete("/api/requests/{id}", request.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        ResultActions result =restRequestMockMvc.perform(put("/api/requests/follower/{followed}", followed));
+        result
+            .andExpect(status().isCreated());
 
-        // Validate the database is empty
-        List<Request> requests = requestRepository.findAll();
-        assertThat(requests).hasSize(databaseSizeBeforeDelete - 1);
+        assertThat(requestRepository.findAll()).hasSize(requestInDBAfter);
+    }
+
+    @Test
+    @Transactional
+    public void acceptFollower() throws Exception {
+        Integer requestInDBAfter;
+        String follower,followed;
+        String requestBody;
+        Request request;
+
+        follower = DEFAULT_LOGIN_USER;
+        followed = DEFAULT_FOLLOWED_USER;
+        requestBody =  RequestService.ACCEPTED_STATUS;
+
+        SecurityContextHolder.getContext().setAuthentication(this.defaultAuthentication);
+        requestService.update(followed);
+
+        SecurityContextHolder.getContext().setAuthentication(this.followedAuthentication);
+
+        requestInDBAfter = requestRepository.findAll().size();
+
+        ResultActions result = restRequestMockMvc.perform(put("/api/requests/followed/{follower}", follower)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(requestBody)));
+        result
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(follower))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
+
+        assertThat(requestRepository.findAll()).hasSize(requestInDBAfter);
+
+        request = requestRepository.findAll().get(requestRepository.findAll().size()-1);
+
+        assertThat(request.getCreationDate()).isNotNull();
+        assertThat(request.getCreationDate()).isLessThan(new DateTime());
+
+        StrictAssertions.assertThat(request.getAccepted()).isTrue();
+        StrictAssertions.assertThat(request.getIgnored()).isFalse();
+        StrictAssertions.assertThat(request.getLocked()).isFalse();
+
+        StrictAssertions.assertThat(request.getFollowed().getLogin()).isEqualTo(followed);
+        StrictAssertions.assertThat(request.getFollower().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+
+    }
+
+    @Test
+    @Transactional
+    public void blockFollower() throws Exception {
+        Integer requestInDBAfter;
+        String follower,followed;
+        String requestBody;
+        Request request;
+
+        follower = DEFAULT_LOGIN_USER;
+        followed = DEFAULT_FOLLOWED_USER;
+        requestBody =  RequestService.LOCKED_STATUS;
+
+        SecurityContextHolder.getContext().setAuthentication(this.defaultAuthentication);
+        requestService.update(followed);
+
+        SecurityContextHolder.getContext().setAuthentication(this.followedAuthentication);
+
+        requestInDBAfter = requestRepository.findAll().size();
+
+        ResultActions result = restRequestMockMvc.perform(put("/api/requests/followed/{follower}", follower)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(requestBody)));
+        result
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(follower))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
+
+        requestRepository.flush();
+        assertThat(requestRepository.findAll()).hasSize(requestInDBAfter);
+
+        request = requestRepository.findAll().stream()
+            .filter(r -> r.getFollowed().getLogin().equals(followed) && r.getFollower().getLogin().equals(follower))
+            .findFirst().get();
+
+        assertThat(request.getCreationDate()).isNotNull();
+        assertThat(request.getCreationDate()).isLessThan(new DateTime());
+
+        StrictAssertions.assertThat(request.getAccepted()).isFalse();
+        StrictAssertions.assertThat(request.getIgnored()).isFalse();
+        StrictAssertions.assertThat(request.getLocked()).isTrue();
+
+        StrictAssertions.assertThat(request.getFollowed().getLogin()).isEqualTo(followed);
+        StrictAssertions.assertThat(request.getFollower().getLogin()).isEqualTo(follower);
+
+    }
+
+    @Test
+    @Transactional
+    public void ignoreFollower() throws Exception {
+        Integer requestInDBAfter;
+        String follower,followed;
+        String requestBody;
+        Request request;
+
+        follower = DEFAULT_LOGIN_USER;
+        followed = DEFAULT_FOLLOWED_USER;
+        requestBody =  RequestService.IGNORED_STATUS;
+
+        SecurityContextHolder.getContext().setAuthentication(this.defaultAuthentication);
+        requestService.update(followed);
+
+        SecurityContextHolder.getContext().setAuthentication(this.followedAuthentication);
+
+        requestInDBAfter = requestRepository.findAll().size();
+
+        ResultActions result = restRequestMockMvc.perform(put("/api/requests/followed/{follower}", follower)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(requestBody)));
+        result
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(follower))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
+
+        requestRepository.flush();
+        assertThat(requestRepository.findAll()).hasSize(requestInDBAfter);
+
+        request = requestRepository.findAll().stream()
+            .filter(r -> r.getFollowed().getLogin().equals(followed) && r.getFollower().getLogin().equals(follower))
+            .findFirst().get();
+
+        assertThat(request.getCreationDate()).isNotNull();
+        assertThat(request.getCreationDate()).isLessThan(new DateTime());
+
+        StrictAssertions.assertThat(request.getAccepted()).isFalse();
+        StrictAssertions.assertThat(request.getIgnored()).isTrue();
+        StrictAssertions.assertThat(request.getLocked()).isFalse();
+
+        StrictAssertions.assertThat(request.getFollowed().getLogin()).isEqualTo(followed);
+        StrictAssertions.assertThat(request.getFollower().getLogin()).isEqualTo(follower);
+
+    }
+
+    @Test
+    @Transactional
+    public void acceptBlockFollower() throws Exception {
+        Integer requestInDBAfter;
+        Long requestId;
+        final String followed;
+        String requestBody, follower;
+        Request request;
+
+        followed = DEFAULT_FOLLOWED_USER;
+        request = requestRepository.findAll().stream()
+            .filter(r -> !r.getAccepted() && !r.getIgnored() && r.getLocked()
+                && r.getFollowed().getLogin().equals(followed))
+            .findFirst().get();
+        follower = request.getFollower().getLogin();
+        requestId = request.getId();
+
+        requestBody = RequestService.ACCEPTED_STATUS;
+
+        SecurityContextHolder.getContext().setAuthentication(this.followedAuthentication);
+
+        requestInDBAfter = requestRepository.findAll().size();
+
+        ResultActions result = restRequestMockMvc.perform(put("/api/requests/followed/{follower}", follower)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(requestBody)));
+        result
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(follower))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
+
+        assertThat(requestRepository.findAll()).hasSize(requestInDBAfter);
+
+        request = requestRepository.getOne(requestId);
+
+        assertThat(request.getCreationDate()).isNotNull();
+        assertThat(request.getCreationDate()).isLessThan(new DateTime());
+
+        StrictAssertions.assertThat(request.getAccepted()).isTrue();
+        StrictAssertions.assertThat(request.getIgnored()).isFalse();
+        StrictAssertions.assertThat(request.getLocked()).isFalse();
+
+        StrictAssertions.assertThat(request.getFollowed().getLogin()).isEqualTo(followed);
+        StrictAssertions.assertThat(request.getFollower().getLogin()).isEqualTo(follower);
+    }
+
+    @Test
+    @Transactional
+    public void blockAcceptFollower() throws Exception {
+        Integer requestInDBAfter;
+        Long requestId;
+        final String followed;
+        String requestBody, follower;
+        Request request;
+
+        followed = DEFAULT_FOLLOWED_USER;
+        request = requestRepository.findAll().stream()
+            .filter(r -> r.getAccepted() && !r.getIgnored() && !r.getLocked()
+                && r.getFollowed().getLogin().equals(followed))
+            .findFirst().get();
+        follower = request.getFollower().getLogin();
+        requestId = request.getId();
+
+        requestBody = RequestService.LOCKED_STATUS;
+
+        SecurityContextHolder.getContext().setAuthentication(this.followedAuthentication);
+
+        requestInDBAfter = requestRepository.findAll().size();
+
+        ResultActions result = restRequestMockMvc.perform(put("/api/requests/followed/{follower}", follower)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(requestBody)));
+        result
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(follower))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
+
+        assertThat(requestRepository.findAll()).hasSize(requestInDBAfter);
+
+        request = requestRepository.getOne(requestId);
+
+        assertThat(request.getCreationDate()).isNotNull();
+        assertThat(request.getCreationDate()).isLessThan(new DateTime());
+
+        StrictAssertions.assertThat(request.getAccepted()).isFalse();
+        StrictAssertions.assertThat(request.getIgnored()).isFalse();
+        StrictAssertions.assertThat(request.getLocked()).isTrue();
+
+        StrictAssertions.assertThat(request.getFollowed().getLogin()).isEqualTo(followed);
+        StrictAssertions.assertThat(request.getFollower().getLogin()).isEqualTo(follower);
+    }
+
+    @Test
+    @Transactional
+    public void ignoreAcceptFollower() throws Exception {
+        Integer requestInDBAfter;
+        Long requestId;
+        final String followed;
+        String requestBody, follower;
+        Request request;
+
+        followed = DEFAULT_FOLLOWED_USER;
+        request = requestRepository.findAll().stream()
+            .filter(r -> r.getAccepted() && !r.getIgnored() && !r.getLocked()
+                && r.getFollowed().getLogin().equals(followed))
+            .findFirst().get();
+        follower = request.getFollower().getLogin();
+        requestId = request.getId();
+
+        requestBody = RequestService.IGNORED_STATUS;
+
+        SecurityContextHolder.getContext().setAuthentication(this.followedAuthentication);
+
+        requestInDBAfter = requestRepository.findAll().size();
+
+        ResultActions result = restRequestMockMvc.perform(put("/api/requests/followed/{follower}", follower)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(requestBody)));
+        result
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.followed.login").value(followed))
+            .andExpect(jsonPath("$.followed.password", Matchers.isEmptyOrNullString()))
+            .andExpect(jsonPath("$.follower.login").value(follower))
+            .andExpect(jsonPath("$.follower.password", Matchers.isEmptyOrNullString()));
+
+        assertThat(requestRepository.findAll()).hasSize(requestInDBAfter);
+
+        request = requestRepository.getOne(requestId);
+
+        assertThat(request.getCreationDate()).isNotNull();
+        assertThat(request.getCreationDate()).isLessThan(new DateTime());
+
+        StrictAssertions.assertThat(request.getAccepted()).isFalse();
+        StrictAssertions.assertThat(request.getIgnored()).isTrue();
+        StrictAssertions.assertThat(request.getLocked()).isFalse();
+
+        StrictAssertions.assertThat(request.getFollowed().getLogin()).isEqualTo(followed);
+        StrictAssertions.assertThat(request.getFollower().getLogin()).isEqualTo(follower);
     }
 }

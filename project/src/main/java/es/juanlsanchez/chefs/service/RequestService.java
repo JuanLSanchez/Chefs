@@ -10,16 +10,21 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
 /**
- * Created by juanlu on 11/02/16.
+ * chefs
+ * Created by juanlu on 10-mar-2016.
  */
 @Service
 @Transactional
 public class RequestService {
 
+    public static final String ACCEPTED_STATUS = "accepted";
+    public static final String LOCKED_STATUS = "locked";
+    public static final String IGNORED_STATUS = "ignored";
     @Autowired
     private RequestRepository requestRepository;
 
@@ -52,19 +57,17 @@ public class RequestService {
         return result;
     }
 
-    private Request updateByFollower(Request request) {
+    private Request updateByFollower (Request request) {
         Request result;
 
-        if(!request.getLocked()){
-            if(request.getIgnored()){
-                request.setIgnored(false);
-                result = requestRepository.save(request);
-            }else{
-                requestRepository.delete(request);
-                result = null;
-            }
+        Assert.isTrue(!request.getLocked(), "The follower can not modify a locked request");
+
+        if(request.getIgnored()){
+            request.setIgnored(false);
+            result = requestRepository.save(request);
         }else{
-            throw new IllegalArgumentException("The follower can not modify a locked request");
+            requestRepository.delete(request);
+            result = null;
         }
 
         return result;
@@ -125,7 +128,7 @@ public class RequestService {
 
         result = requestRepository.findRequestWithPrincipalAsFollowedAndFollower(follower);
 
-        states = Lists.newArrayList("accepted", "locked", "ignored");
+        states = Lists.newArrayList(ACCEPTED_STATUS, LOCKED_STATUS, IGNORED_STATUS);
         index = states.indexOf(status);
 
         if (index >= 0){

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -39,17 +40,23 @@ public class RequestResource {
     @Timed
     public ResponseEntity<Request> createRequest(@PathVariable String followed) throws URISyntaxException {
         log.debug("REST request to save Request as follower: {}", followed);
-        if (followed == null) {
-            return ResponseEntity.badRequest().header("Failure", "We need a followed").body(null);
-        }
-        Request result = requestService.update(followed);
-        return ResponseEntity.created(new URI("/api/requests/follower/" + followed))
+        ResponseEntity<Request> result;
+        try{
+            Assert.notNull(followed);
+            Request request = requestService.update(followed);
+            result = ResponseEntity.created(new URI("/api/requests/follower/" + followed))
                 .headers(HeaderUtil.createEntityCreationAlert("request", followed))
-                .body(result);
+                .body(request);
+        }catch (IllegalArgumentException e){
+            result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return result;
     }
 
     /**
-     * PUT  /requests/followed/:follower -> Create o update a request as followed.
+     * PUT  /requests/followed/:follower -> Update a request as followed.
      */
 
     @RequestMapping(value = "/requests/followed/{follower}",
@@ -59,71 +66,20 @@ public class RequestResource {
     public ResponseEntity<Request> updateRequest(@Valid @RequestBody String status, @PathVariable String follower)
         throws URISyntaxException {
         log.debug("REST request to save Request as followed: {}", follower);
-        if (follower == null) {
-            return ResponseEntity.badRequest().header("Failure", "We need a follower").body(null);
+        ResponseEntity<Request> result;
+        try{
+            Assert.notNull(follower);
+            Request request = requestService.update(follower, status);
+            result = ResponseEntity.created(new URI("/api/requests/followed/" + follower))
+                .headers(HeaderUtil.createEntityCreationAlert("request", follower))
+                .body(request);
+        }catch (IllegalArgumentException e){
+            result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Request result = requestService.update(follower, status);
-        return ResponseEntity.created(new URI("/api/requests/followed/" + follower))
-            .headers(HeaderUtil.createEntityCreationAlert("request", follower))
-            .body(result);
+        return result;
     }
-
-/*
-
-    */
-/**
-     * PUT  /requests -> Updates an existing request.
-     *//*
-
-    @RequestMapping(value = "/requests",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Request> updateRequest(@Valid @RequestBody Request request) throws URISyntaxException {
-        log.debug("REST request to update Request : {}", request);
-        if (request.getId() == null) {
-            return createRequest(request);
-        }
-        Request result = requestRepository.save(request);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("request", request.getId().toString()))
-                .body(result);
-    }
-
-    */
-/**
-     * GET  /requests -> get all the requests.
-     *//*
-
-    @RequestMapping(value = "/requests",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<List<Request>> getAllRequests(Pageable pageable)
-        throws URISyntaxException {
-        Page<Request> page = requestRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/requests");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
-
-    */
-/**
-     * GET  /requests/:id -> get the "id" request.
-     *//*
-
-    @RequestMapping(value = "/requests/{id}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Request> getRequest(@PathVariable Long id) {
-        log.debug("REST request to get Request : {}", id);
-        return Optional.ofNullable(requestRepository.findOne(id))
-            .map(request -> new ResponseEntity<>(
-                request,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-*/
 
     /**
      * GET  /requests/follower/:followed -> get the request with the principal as follower and followed.
@@ -172,17 +128,4 @@ public class RequestResource {
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-/*
-    *//**
-     * DELETE  /requests/:id -> delete the "id" request.
-     *//*
-    @RequestMapping(value = "/requests/{id}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
-        log.debug("REST request to delete Request : {}", id);
-        requestRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("request", id.toString())).build();
-    }*/
 }
