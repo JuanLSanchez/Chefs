@@ -11,6 +11,9 @@ import javax.validation.constraints.Size;
  */
 public class SearchDTO {
 
+    public static final String TYPE_USER = "user";
+    public static final String TYPE_RECIPE = "recipe";
+
     @NotNull
     @Size(min = 1, max = 50)
     private String firstField;
@@ -25,15 +28,12 @@ public class SearchDTO {
     @Size(max = 50)
     private String type;
 
-    public SearchDTO() {
-    }
-
     public SearchDTO(User user) {
-        this(user.getLogin(), user.getFirstName(), "user", user.getLogin());
+        this(user.getLogin(), user.getFirstName(), TYPE_USER, user.getLogin());
     }
 
     public SearchDTO(Recipe recipe) {
-        this(recipe.getId().toString(), recipe.getName(), "recipe", recipe.getUser().getLogin());
+        this(recipe.getId().toString(), recipe.getName(), TYPE_RECIPE, recipe.getUser().getLogin());
     }
 
     public SearchDTO(String firstField, String secondField, String type, String login) {
