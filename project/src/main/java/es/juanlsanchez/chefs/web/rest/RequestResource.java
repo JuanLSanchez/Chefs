@@ -98,7 +98,7 @@ public class RequestResource {
     }
 
     /**
-     * GET  /requests/followed/:follower -> get the followers of the followed.
+     * GET  /requests/followed/:follower -> get the request with principal as followed and follower.
      */
     @RequestMapping(value = "/requests/followed/{follower}",
         method = RequestMethod.GET,

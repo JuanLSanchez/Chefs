@@ -105,12 +105,19 @@ public class RequestService {
     public RequestInfoDTO getCountFollowersAndFollowed(String login) {
         RequestInfoDTO result;
         Long nFollowers, nFollowed, nWaiting, nRecipes;
+        boolean isPrincipal;
 
         nFollowers = requestRepository.countByFollowedLoginAndAccepted(login, true);
         nFollowed = requestRepository.countByFollowerLoginAndAccepted(login, true);
         nRecipes = recipeService.countByUserLoginAndSocialEntityBlocked(login, false);
 
-        if(SecurityUtils.isAuthenticated() && SecurityUtils.getCurrentLogin().equals(login)){
+        try {
+            isPrincipal = SecurityUtils.getCurrentLogin().equals(login);
+        }catch(Exception e){
+            isPrincipal = false;
+        }
+
+        if(isPrincipal){
             nWaiting = requestRepository.countByFollowedLoginAndAcceptedAndLockedAndIgnored(login, false, false, false);
         }else{
             nWaiting = -1L;
