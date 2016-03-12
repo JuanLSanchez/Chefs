@@ -1,7 +1,6 @@
 package es.juanlsanchez.chefs.service;
 
 import es.juanlsanchez.chefs.domain.BackgroundPicture;
-import es.juanlsanchez.chefs.domain.ProfilePicture;
 import es.juanlsanchez.chefs.repository.BackgroundPictureRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import org.springframework.stereotype.Service;

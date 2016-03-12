@@ -5,8 +5,6 @@ import es.juanlsanchez.chefs.repository.ProfilePictureRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-import sun.java2d.cmm.Profile;
 
 import javax.inject.Inject;
 import java.util.Optional;
