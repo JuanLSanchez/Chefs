@@ -36,7 +36,7 @@ import java.util.Set;
 @Transactional
 public class UserService {
 
-    public static final boolean DEFAULT_ACTIVATE_STATE = true;
+    public static final boolean DEFAULT_ACTIVATE_STATE = false;
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Inject
@@ -120,6 +120,13 @@ public class UserService {
         authorities.add(authority);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+        // new user add pictures
+        newUser.setBackgroundPicture(new BackgroundPicture());
+        newUser.getBackgroundPicture().setUser(newUser);
+        backgroundPictureService.save(newUser.getBackgroundPicture());
+        newUser.setProfilePicture(new ProfilePicture());
+        newUser.getProfilePicture().setUser(newUser);
+        profilePictureService.save(newUser.getProfilePicture());
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }

@@ -107,6 +107,11 @@
                         </p>
                     </div>
                 </div>
+                <div class="form-group">
+                    <select id="langKey" name="langKey" class="form-control" ng-model="registerAccount.langKey"
+                            title="{{ 'settings.form.language' | translate}}" ng-controller="LanguageController"
+                            ng-options="code as (code | findLanguageFromKey) for code in languages" required></select>
+                </div>
 
                 <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="register.form.button">Register</button>
             </form>

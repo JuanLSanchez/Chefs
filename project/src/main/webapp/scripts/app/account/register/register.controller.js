@@ -13,7 +13,9 @@ angular.module('chefsApp')
             if ($scope.registerAccount.password !== $scope.confirmPassword) {
                 $scope.doNotMatch = 'ERROR';
             } else {
-                $scope.registerAccount.langKey = $translate.use();
+                if($scope.registerAccount.langKey==null){
+                    $scope.registerAccount.langKey = $translate.use();
+                }
                 $scope.doNotMatch = null;
                 $scope.error = null;
                 $scope.errorUserExists = null;

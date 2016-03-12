@@ -120,7 +120,8 @@ public class AccountResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> saveAccount(@RequestBody UserDTO userDTO) {
-        return userRepository.findOneByEmail(userDTO.getEmail()).
+        ResponseEntity<String> result;
+        result = userRepository.findOneByEmail(userDTO.getEmail()).
             filter(u -> !u.getLogin().equals(SecurityUtils.getCurrentLogin())).
             map(u ->  new ResponseEntity<String>(HttpStatus.BAD_REQUEST)).
             orElseGet(() ->
@@ -134,6 +135,8 @@ public class AccountResource {
                     })
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR))
             );
+
+        return result;
     }
 
     /**

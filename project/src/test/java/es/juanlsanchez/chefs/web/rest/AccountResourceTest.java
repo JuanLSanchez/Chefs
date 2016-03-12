@@ -167,6 +167,8 @@ public class AccountResourceTest {
 
         Optional<User> user = userRepository.findOneByLogin("joe");
         assertThat(user.isPresent()).isTrue();
+        assertThat(user.get().getBackgroundPicture()).isNotNull();
+        assertThat(user.get().getProfilePicture()).isNotNull();
     }
 
     @Test

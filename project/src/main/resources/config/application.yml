@@ -14,14 +14,14 @@ async:
     queueCapacity: 10000
 
 mail:
-    host: localhost
-    port: 25
-    username:
+    host: smtp.gmail.com
+    port: 587
+    username: chefs.noreply@gmail.com
     password:
     protocol: smtp
-    tls: false
-    auth: false
-    from: Chefs@localhost
+    tls: true
+    auth: true
+    from: chefs.noreply@gmail.com
 
 
 spring:
