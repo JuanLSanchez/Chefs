@@ -2,7 +2,7 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Schedule;
-import es.juanlsanchez.chefs.repository.ScheduleRepository;
+import es.juanlsanchez.chefs.service.ScheduleService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing Schedule.
@@ -32,7 +31,7 @@ public class ScheduleResource {
     private final Logger log = LoggerFactory.getLogger(ScheduleResource.class);
 
     @Inject
-    private ScheduleRepository scheduleRepository;
+    private ScheduleService scheduleService;
 
     /**
      * POST  /schedules -> Create a new schedule.
@@ -43,13 +42,25 @@ public class ScheduleResource {
     @Timed
     public ResponseEntity<Schedule> createSchedule(@Valid @RequestBody Schedule schedule) throws URISyntaxException {
         log.debug("REST request to save Schedule : {}", schedule);
+        ResponseEntity<Schedule> result;
+        Schedule scheduleResult;
         if (schedule.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new schedule cannot already have an ID").body(null);
+            result = ResponseEntity.badRequest().header("Failure", "A new schedule cannot already have an ID").body(null);
+        }else{
+            try{
+                scheduleResult = scheduleService.create(schedule);
+                result = ResponseEntity.created(new URI("/api/schedules/" + scheduleResult.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert("schedule", scheduleResult.getId().toString()))
+                    .body(scheduleResult);
+            }catch (IllegalArgumentException e){
+                result = ResponseEntity.badRequest()
+                    .header("Illegal argument exception:" + e.getMessage()).body(null);
+            }catch (Throwable e ){
+                result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-        Schedule result = scheduleRepository.save(schedule);
-        return ResponseEntity.created(new URI("/api/schedules/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("schedule", result.getId().toString()))
-                .body(result);
+
+        return result;
     }
 
     /**
@@ -61,13 +72,25 @@ public class ScheduleResource {
     @Timed
     public ResponseEntity<Schedule> updateSchedule(@Valid @RequestBody Schedule schedule) throws URISyntaxException {
         log.debug("REST request to update Schedule : {}", schedule);
+        Schedule scheduleResult;
+        ResponseEntity<Schedule> result;
         if (schedule.getId() == null) {
-            return createSchedule(schedule);
+            result = createSchedule(schedule);
+        }else {
+            try {
+                scheduleResult = scheduleService.update(schedule);
+                result = ResponseEntity.ok()
+                        .headers(HeaderUtil.createEntityUpdateAlert("schedule", schedule.getId().toString()))
+                        .body(scheduleResult);
+            }catch (IllegalArgumentException e){
+                result = ResponseEntity.badRequest()
+                    .header("Illegal argument exception:" + e.getMessage()).body(null);
+            }catch (Throwable e){
+                result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
         }
-        Schedule result = scheduleRepository.save(schedule);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("schedule", schedule.getId().toString()))
-                .body(result);
+        return  result;
     }
 
     /**
@@ -79,9 +102,21 @@ public class ScheduleResource {
     @Timed
     public ResponseEntity<List<Schedule>> getAllSchedules(Pageable pageable)
         throws URISyntaxException {
-        Page<Schedule> page = scheduleRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/schedules");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        ResponseEntity<List<Schedule>> result;
+        Page<Schedule> page;
+        HttpHeaders headers;
+        try{
+            page = scheduleService.findAllByUserIsCurrentUser(pageable);
+            headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/schedules");
+            result =  new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception: " + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
     }
 
     /**
@@ -93,7 +128,7 @@ public class ScheduleResource {
     @Timed
     public ResponseEntity<Schedule> getSchedule(@PathVariable Long id) {
         log.debug("REST request to get Schedule : {}", id);
-        return Optional.ofNullable(scheduleRepository.findOne(id))
+        return scheduleService.findOne(id)
             .map(schedule -> new ResponseEntity<>(
                 schedule,
                 HttpStatus.OK))
@@ -109,7 +144,16 @@ public class ScheduleResource {
     @Timed
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
         log.debug("REST request to delete Schedule : {}", id);
-        scheduleRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("schedule", id.toString())).build();
+        ResponseEntity<Void> result;
+        try{
+            scheduleService.delete(id);
+            result = ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("schedule", id.toString())).build();
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception: " + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return result;
     }
 }
