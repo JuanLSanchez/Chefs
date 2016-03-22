@@ -13,12 +13,12 @@
                 "socialPicture": "SocialPicture",
                 "food": "Alimento",
                 "socialEntity": "SocialEntity",
-                "recipe": "Receta",
+                "recipe": "Recetas",
                 "step": "Paso",
                 "ingredient": "Ingrediente",
                 "ingredients": "Ingredientes",
                 "stepPicture": "StepPicture",
-                "schedule": "Schedule",
+                "schedule": "Calendarios",
                 "menu": "Menu",
                 "event": "Event",
                 "vote": "Vote",
@@ -138,7 +138,7 @@
         "recipe": "Crear Receta",
         "competition": "Crear Competición",
         "event": "Crear Evento",
-        "schedule": "Crear Dieta"
+        "schedule": "Crear Calendario"
     },
     "name": "Nombre"
 }

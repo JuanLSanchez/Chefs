@@ -1,6 +1,7 @@
 {
     "chefsApp": {
         "schedule" : {
+            "start":"Start schedule",
             "home": {
                 "title": "Schedules",
                 "createLabel": "Create a new Schedule",

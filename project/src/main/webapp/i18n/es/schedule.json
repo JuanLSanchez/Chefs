@@ -1,21 +1,25 @@
 {
     "chefsApp": {
         "schedule" : {
+            "start":"Iniciar calendario",
             "home": {
-                "title": "Schedules",
-                "createLabel": "Create a new Schedule",
-                "createOrEditLabel": "Create or edit a Schedule"
+                "title": "Calendario",
+                "createLabel": "Crear nuevo calendario",
+                "createOrEditLabel": "Crear o editar un calendario"
             },
+            "created": "Se ha creado correctamente el calendario",
+            "updated": "Se ha actualizado correctamente el calendario",
+            "deleted": "Se ha eliminado correctamente el calendario",
             "delete": {
-                "question": "Are you sure you want to delete Schedule {{ id }}?"
+                "question": "Esta seguro de que desea eliminar el calendario {{ id }}?"
             },
             "detail": {
-                "title": "Schedule"
+                "title": "Calendario"
             },
-            "name": "Name",
-            "description": "Description",
-            "user": "User",
-            "menu": "Menu"
+            "name": "Nombre",
+            "description": "Descripción",
+            "user": "Usuario",
+            "menu": "Menú"
         }
     }
 }

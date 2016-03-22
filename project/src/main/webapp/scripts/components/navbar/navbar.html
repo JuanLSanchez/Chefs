@@ -11,66 +11,21 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
             <ul class="nav navbar-nav navbar-left">
-                <li ng-switch-when="true" ng-class="{active: $state.indexOf('home') != -1}">
-                    <a ui-sref="HomeRecipes">
+                <li ng-switch-when="true" ng-class="{active: $state.indexOf('home') != -1}" class="dropdown pointer">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="" data-hover="dropdown">
                         <span class="glyphicon glyphicon-home"></span>
                         <span translate="global.menu.home">Home</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active" ng-switch-when="true" class="dropdown pointer">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                                <span>
-                                    <span class="glyphicon glyphicon-th-list"></span>
-                                    <span class="hidden-tablet" translate="global.menu.entities.main">
-                                        Entities
-                                    </span>
-                                    <b class="caret"></b>
-                                </span>
+                        <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li ui-sref-active="active" ><a ui-sref="profilePicture"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.profilePicture">profilePicture</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="request"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.request">request</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="tag"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.tag">tag</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="socialPicture"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.socialPicture">socialPicture</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="food"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.food">food</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="socialEntity"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.socialEntity">socialEntity</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="recipe"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.recipe">recipe</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="step"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.step">step</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="ingredient"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.ingredient">ingredient</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="stepPicture"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.stepPicture">stepPicture</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="schedule"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.schedule">schedule</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="menu"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.menu">menu</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="event"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.event">event</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="vote"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.vote">vote</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="comment"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.comment">comment</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="assessment"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.assessment">assessment</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="competition"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.competition">competition</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="opinion"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.opinion">opinion</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="score"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.score">score</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="activityLog"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.activityLog">activityLog</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="backgroundPicture"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.backgroundPicture">backgroundPicture</span></a></li>
-                        <!-- JHipster will add entities to the menu here -->
+                        <li ui-sref-active="active" ><a ui-sref="HomeRecipes">
+                            <span class="glyphicon glyphicon-cutlery"></span>
+                            &#xA0;<span translate="global.menu.entities.recipe">Recipes</span>
+                        </a></li>
+                        <li ui-sref-active="active" ><a ui-sref="HomeSchedules">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            &#xA0;<span translate="global.menu.entities.schedule">Schedules</span>
+                        </a></li>
                     </ul>
                 </li>
                 <li ng-class="{active: $state.includes('account')}"  ng-switch-when="true" class="dropdown pointer">
@@ -84,8 +39,6 @@
                                 </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li ui-sref-active="active" ><a ui-sref="settings"><span class="glyphicon glyphicon-wrench"></span>
-                            &#xA0;<span translate="global.menu.account.settings">Settings</span></a></li>
                         <li ui-sref-active="active" ><a ui-sref="password"><span class="glyphicon glyphicon-lock"></span>
                             &#xA0;<span translate="global.menu.account.password">Password</span></a></li>
                         <li ui-sref-active="active" ><a ui-sref="sessions"><span class="glyphicon glyphicon-cloud"></span>

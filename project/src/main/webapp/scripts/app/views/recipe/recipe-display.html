@@ -2,11 +2,10 @@
 <div>
     <jh-alert-error></jh-alert-error>
     <back-button></back-button>
-    <p></p>
-    <button ng-if="userAccount.login==recipe.user.login" ui-sref="HomeRecipeEdit({id:recipe.id})">
+    <button class="btn btn-default" ng-if="userAccount.login==recipe.user.login" ui-sref="HomeRecipeEdit({id:recipe.id})">
         <span class="glyphicon glyphicon-cog"></span>
     </button>
-    <button ng-if="userAccount.login != null &&
+    <button class="btn btn-default" ng-if="userAccount.login != null &&
         userAccount.login!=recipe.user.login && recipe.socialEntity.publicInscription"
             ui-sref="HomeRecipeEdit({id:recipe.id})">
         <span class="glyphicon glyphicon-duplicate"></span>
