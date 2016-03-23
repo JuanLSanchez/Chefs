@@ -6,5 +6,7 @@ package es.juanlsanchez.chefs.service.util;
  */
 public class ErrorMessageService {
 
-    public static String PRINCIPAL_IS_REQUIRED = "The principal is required";
+    public static final String ILLEGAL_RECIPE = "Illegal recipe";
+    public static final String PRINCIPAL_IS_REQUIRED = "The principal is required";
+    public static final String ILLEGAL_MENU = "Illegal menu";
 }

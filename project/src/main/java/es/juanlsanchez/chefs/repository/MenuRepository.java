@@ -17,4 +17,5 @@ public interface MenuRepository extends JpaRepository<Menu,Long> {
     @Query("select menu from Menu menu left join fetch menu.recipes where menu.id =:id")
     Menu findOneWithEagerRelationships(@Param("id") Long id);
 
+    List<Menu> findAllByScheduleId(Long scheduleId);
 }
