@@ -68,7 +68,7 @@ public class MenuResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<MenuDTO> updateMenu(@Valid @RequestBody Menu menu,
-                                           @PathVariable Long scheduleId) throws URISyntaxException {
+                                              @PathVariable Long scheduleId) throws URISyntaxException {
         log.debug("REST request to update Menu : {}", menu);
         ResponseEntity<MenuDTO> result;
         MenuDTO menuResult;
@@ -86,6 +86,60 @@ public class MenuResource {
             }catch (Throwable e ){
                 result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        }
+        return result;
+    }
+
+    /**
+     * PUT  /menus/addRecipe/{menuId}/{recipeId} -> Add one recipe an existing menu
+     */
+    @RequestMapping(value = "/menus/addRecipe/{menuId}/{recipeId}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<MenuDTO> addRecipe(@PathVariable Long menuId, @PathVariable Long recipeId)
+        throws URISyntaxException {
+
+        log.debug("REST request to add recipe {} to menu {}", recipeId, menuId);
+        ResponseEntity<MenuDTO> result;
+        MenuDTO menuResult;
+        try{
+            menuResult = menuService.addRecipeToMenu(menuId, recipeId);
+            result = ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("menu", menuResult.getId().toString()))
+                .body(menuResult);
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e ){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return result;
+    }
+
+    /**
+     * PUT  /menus/removeRecipe/{menuId}/{recipeId} -> Remove one recipe an existing menu
+     */
+    @RequestMapping(value = "/menus/removeRecipe/{menuId}/{recipeId}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<MenuDTO> removeRecipe(@PathVariable Long menuId, @PathVariable Long recipeId)
+        throws URISyntaxException {
+
+        log.debug("REST request to add recipe {} to menu {}", recipeId, menuId);
+        ResponseEntity<MenuDTO> result;
+        MenuDTO menuResult;
+        try{
+            menuResult = menuService.removeRecipeToMenu(menuId, recipeId);
+            result = ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("menu", menuResult.getId().toString()))
+                .body(menuResult);
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e ){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return result;
     }

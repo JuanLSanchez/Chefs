@@ -2,18 +2,19 @@ package es.juanlsanchez.chefs.web.rest.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import es.juanlsanchez.chefs.domain.Menu;
-import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.Schedule;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeSerializer;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +34,7 @@ public class MenuDTO {
 
     private Schedule schedule;
 
-    private Set<Long> recipes = new HashSet<>();
+    private Map<Long, List<String>> recipes = Maps.newHashMap();
 
 
     public Long getId() {
@@ -61,11 +62,11 @@ public class MenuDTO {
         this.schedule = schedule;
     }
 
-    public Set<Long> getRecipes() {
+    public Map<Long, List<String>> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(Set<Long> recipes) {
+    public void setRecipes(Map<Long, List<String>> recipes) {
         this.recipes = recipes;
     }
 
@@ -74,8 +75,12 @@ public class MenuDTO {
         this.time = menu.getTime();
         this.schedule = menu.getSchedule();
         this.recipes = menu.getRecipes().stream()
-            .map(Recipe::getId)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toMap(recipe -> recipe.getId(), recipe1 -> {
+                List<String> list = Lists.newArrayList();
+                list.add(recipe1.getName());
+                list.add(recipe1.getUser().getLogin());
+                return list;
+            }));
     }
 
     @Override

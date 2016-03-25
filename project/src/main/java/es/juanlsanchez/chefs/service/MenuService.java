@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.service;
 
 import es.juanlsanchez.chefs.domain.Menu;
+import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.repository.MenuRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.util.ErrorMessageService;
@@ -25,6 +26,8 @@ public class MenuService {
     private MenuRepository menuRepository;
     @Autowired
     private ScheduleService scheduleService;
+    @Autowired
+    private RecipeService recipeService;
 
     /* CRUD */
     public MenuDTO create(Menu menu, Long scheduleId) {
@@ -64,5 +67,43 @@ public class MenuService {
 
         scheduleService.findOne(scheduleId)
             .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_MENU));
+    }
+    private Menu getMenu(Long menuId){
+        Optional<Menu> result = Optional.ofNullable(menuRepository.findOne(menuId))
+            .filter(menu -> menu.getSchedule().getUser().getLogin().equals(SecurityUtils.getCurrentLogin()));
+
+        return result.orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_MENU));
+    }
+
+    public MenuDTO addRecipeToMenu(Long menuId, Long recipeId) {
+        MenuDTO result;
+        Recipe recipe;
+        Menu menu;
+
+        menu = getMenu(menuId);
+        recipe = recipeService.findOne(recipeId);
+
+        recipe.getMenus().add(menu);
+        menu.getRecipes().add(recipe);
+
+        result = new MenuDTO(menuRepository.save(menu));
+
+        return result;
+    }
+
+    public MenuDTO removeRecipeToMenu(Long menuId, Long recipeId) {
+        MenuDTO result;
+        Recipe recipe;
+        Menu menu;
+
+        menu = getMenu(menuId);
+        recipe = recipeService.findOne(recipeId);
+
+        menu.getRecipes().remove(recipe);
+        recipe.getMenus().remove(recipe);
+
+        result = new MenuDTO(menuRepository.save(menu));
+
+        return result;
     }
 }

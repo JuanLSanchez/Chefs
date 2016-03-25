@@ -4,6 +4,7 @@ import es.juanlsanchez.chefs.Application;
 import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.Schedule;
 import es.juanlsanchez.chefs.domain.User;
+import es.juanlsanchez.chefs.repository.MenuRepository;
 import es.juanlsanchez.chefs.repository.ScheduleRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
 import es.juanlsanchez.chefs.service.ScheduleService;
@@ -58,7 +59,7 @@ public class ScheduleResourceTest {
     private static final String DEFAULT_DESCRIPTION = "SAMPLE_TEXT";
     private static final String UPDATED_DESCRIPTION = "UPDATED_TEXT";
 
-    private static final String DEFAULT_LOGIN_USER = "user002";
+    private static final String DEFAULT_LOGIN_USER = "user008";
     private static final String DEFAULT_USER_PASSWORD = "user";
 
     @Inject
@@ -66,6 +67,9 @@ public class ScheduleResourceTest {
 
     @Inject
     private ScheduleRepository scheduleRepository;
+
+    @Inject
+    private MenuRepository menuRepository;
 
     @Inject
     private UserRepository userRepository;
@@ -372,9 +376,11 @@ public class ScheduleResourceTest {
     public void deleteSchedule() throws Exception {
         // Initialize the database
         int databaseSizeBeforeDelete =scheduleRepository.findAll().size();
+        int databaseSizeOfMenuBeforeDelete = menuRepository.findAll().size();
         schedule = scheduleRepository.findAll().stream()
             .filter(s -> s.getUser().getLogin().equals(DEFAULT_LOGIN_USER))
             .findFirst().get();
+        int numbersOfMenu = schedule.getMenus().size();
 
         // Get the schedule
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
@@ -385,6 +391,7 @@ public class ScheduleResourceTest {
         // Validate the database is empty
         List<Schedule> schedules = scheduleService.findAll();
         assertThat(schedules).hasSize(databaseSizeBeforeDelete - 1);
+        assertThat(menuRepository.findAll()).hasSize(databaseSizeOfMenuBeforeDelete-numbersOfMenu);
     }
 
     @Test

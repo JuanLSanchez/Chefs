@@ -3,8 +3,11 @@ package es.juanlsanchez.chefs.web.rest;
 import es.juanlsanchez.chefs.Application;
 import es.juanlsanchez.chefs.TestConstants;
 import es.juanlsanchez.chefs.domain.Menu;
+import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.Schedule;
 import es.juanlsanchez.chefs.repository.MenuRepository;
 import es.juanlsanchez.chefs.service.MenuService;
+import es.juanlsanchez.chefs.service.RecipeService;
 import es.juanlsanchez.chefs.service.ScheduleService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -74,6 +77,9 @@ public class MenuResourceTest {
 
     @Inject
     private ScheduleService scheduleService;
+
+    @Inject
+    private RecipeService recipeService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -331,5 +337,81 @@ public class MenuResourceTest {
         // Validate the database is empty
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(databaseSizeBeforeDelete);
+    }
+
+    @Test
+    @Transactional
+    public void addRecipeToMenu() throws  Exception {
+        // Initialize the database
+        Long scheduleId;
+        ResultActions result;
+        Recipe recipe;
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+
+        scheduleId = scheduleService.findAllByUserIsCurrentUser(new PageRequest(0, 1)).getContent().get(0).getId();
+        recipe = recipeService.findAllIsVisibilityAndLikeName("r", new PageRequest(0, 1)).getContent().get(0);
+
+        menuService.create(menu, scheduleId);
+
+        int databaseSizeBeforeAdd = menuRepository.findAll().size();
+        int databaseSizeMenuInRecipeBeforeAdd = recipe.getMenus().size();
+        int databaseSizeRecipeInMenuBeforeAdd = menu.getRecipes().size();
+
+        // Update the menu
+
+        result = restMenuMockMvc.perform(put("/api/menus/addRecipe/{menuId}/{recipeId}", menu.getId(), recipe.getId())
+            .contentType(TestUtil.APPLICATION_JSON_UTF8));
+        result
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.time").value(DEFAULT_TIME_STR))
+            .andExpect(jsonPath("$.schedule.id").value(scheduleId.intValue()))
+            .andExpect(jsonPath("$.recipes." + recipe.getId()).exists());
+
+        // Validate the Menu in the database
+        List<Menu> menus = menuRepository.findAll();
+        assertThat(menus).hasSize(databaseSizeBeforeAdd);
+        Menu testMenu = menus.get(menus.size() - 1);
+        assertThat(testMenu.getTime().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_TIME);
+        assertThat(recipeService.findOne(recipe.getId()).getMenus()).hasSize(databaseSizeMenuInRecipeBeforeAdd + 1);
+        assertThat(menuRepository.findOne(menu.getId()).getRecipes()).hasSize(databaseSizeRecipeInMenuBeforeAdd+1);
+
+    }
+
+    @Test
+    @Transactional
+    public void removeRecipeToMenu() throws  Exception {
+        // Initialize the database
+        Long scheduleId;
+        Schedule schedule;
+        ResultActions result;
+        Recipe recipe;
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+
+        schedule = scheduleService.findAllByUserIsCurrentUser(new PageRequest(0, 1)).getContent().get(0);
+        scheduleId = schedule.getId();
+        menu = schedule.getMenus().stream().findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("No ha fallado la prueba si no el test, ya que no se han encontrado ningún menú"));
+        recipe = menu.getRecipes().stream().findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("No ha fallado la prueba si no el test, ya que no se han encontrado ninguna receta"));
+
+        menuService.create(menu, scheduleId);
+
+        int databaseSizeBeforeAdd = menuRepository.findAll().size();
+        int databaseSizeRecipeInMenuBeforeAdd = menu.getRecipes().size();
+
+        // Update the menu
+
+        result = restMenuMockMvc.perform(put("/api/menus/removeRecipe/{menuId}/{recipeId}", menu.getId(), recipe.getId())
+            .contentType(TestUtil.APPLICATION_JSON_UTF8));
+        result
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.schedule.id").value(scheduleId.intValue()))
+            .andExpect(jsonPath("$.recipes."+recipe.getId()).doesNotExist());
+
+        // Validate the Menu in the database
+        List<Menu> menus = menuRepository.findAll();
+        assertThat(menus).hasSize(databaseSizeBeforeAdd);
+        assertThat(menuRepository.findOne(menu.getId()).getRecipes()).hasSize(databaseSizeRecipeInMenuBeforeAdd-1);
+
     }
 }
