@@ -66,7 +66,7 @@ angular.module('chefsApp').controller('RecipeEditController',
             }
         };
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 //Add Picture to Step
         $scope.addImg = function(step) {

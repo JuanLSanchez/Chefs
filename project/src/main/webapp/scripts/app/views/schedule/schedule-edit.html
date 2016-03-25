@@ -1,6 +1,28 @@
 <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
-
+    <div class="modal-header">
+        <back-button></back-button>
+    </div>
     <div class="modal-body">
+
+        <script type="text/ng-template" id="deleteScheduleConfirmation">
+            <form name="deleteForm" ng-submit="confirmDelete()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="chefsApp.schedule.delete.question" translate-values="{id: '{{schedule.id}}'}">Are you sure you want to delete this Schedule?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </script>
         <jh-alert-error></jh-alert-error>
         <div class="form-group">
             <!--<label translate="chefsApp.recipe.name" for="field_name">Name</label>-->
@@ -26,6 +48,7 @@
                 </p>
             </div>
         </div>
+        <div ng-include="'scripts/app/views/menu/calendar-menu-edit.html'"></div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" onclick="window.history.back()" data-dismiss="modal" ng-click="clear()">
@@ -33,6 +56,12 @@
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
             <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+        <button type="button"
+                ng-click="delete()"
+                class="btn btn-danger"
+                ng-if="schedule.id">
+            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
         </button>
     </div>
 </form>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('IngredientDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Ingredient', 'Step', 'Food',
-        function($scope, $stateParams, $modalInstance, entity, Ingredient, Step, Food) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Ingredient', 'Step', 'Food',
+        function($scope, $stateParams, $uibModalInstance, entity, Ingredient, Step, Food) {
 
         $scope.ingredient = entity;
         $scope.steps = Step.query();
@@ -15,7 +15,7 @@ angular.module('chefsApp').controller('IngredientDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:ingredientUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -27,6 +27,6 @@ angular.module('chefsApp').controller('IngredientDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('TagDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Tag', 'SocialEntity',
-        function($scope, $stateParams, $modalInstance, entity, Tag, SocialEntity) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Tag', 'SocialEntity',
+        function($scope, $stateParams, $uibModalInstance, entity, Tag, SocialEntity) {
 
         $scope.tag = entity;
         $scope.socialentitys = SocialEntity.query();
@@ -14,7 +14,7 @@ angular.module('chefsApp').controller('TagDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:tagUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -26,6 +26,6 @@ angular.module('chefsApp').controller('TagDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

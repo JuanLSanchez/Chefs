@@ -5,9 +5,9 @@ angular.module('chefsApp')
 		return {
             restrict: 'E',
             template: '<div class="alerts" ng-cloak="">' +
-			                '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>' +
+			                '<uib-alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></uib-alert>' +
 			            '</div>',
-			controller: ['$scope', 
+			controller: ['$scope',
 	            function($scope) {
 	                $scope.alerts = AlertService.get();
 	                $scope.$on('$destroy', function () {
@@ -21,9 +21,9 @@ angular.module('chefsApp')
 		return {
             restrict: 'E',
             template: '<div class="alerts" ng-cloak="">' +
-			                '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>' +
+			                '<uib-alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></uib-alert>' +
 			            '</div>',
-			controller: ['$scope', 
+			controller: ['$scope',
 	            function($scope) {
 	                $scope.alerts = AlertService.get();
 
@@ -68,10 +68,10 @@ angular.module('chefsApp')
 					});
 
 					var addErrorAlert = function (message, key, data) {
-						
+
 						key = key && key != null ? key : message;
-						AlertService.error(key, data); 
-						
+						AlertService.error(key, data);
+
 					}
 
 	            }

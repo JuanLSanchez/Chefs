@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('SocialEntityDialogController',
-    ['$scope', '$stateParams', '$modalInstance', '$q', 'entity', 'SocialEntity', 'Event', 'Recipe', 'SocialPicture', 'Tag', 'Competition', 'Assessment', 'Comment', 'User',
-        function($scope, $stateParams, $modalInstance, $q, entity, SocialEntity, Event, Recipe, SocialPicture, Tag, Competition, Assessment, Comment, User) {
+    ['$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'SocialEntity', 'Event', 'Recipe', 'SocialPicture', 'Tag', 'Competition', 'Assessment', 'Comment', 'User',
+        function($scope, $stateParams, $uibModalInstance, $q, entity, SocialEntity, Event, Recipe, SocialPicture, Tag, Competition, Assessment, Comment, User) {
 
         $scope.socialEntity = entity;
         $scope.events = Event.query();
@@ -29,7 +29,7 @@ angular.module('chefsApp').controller('SocialEntityDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:socialEntityUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -41,6 +41,6 @@ angular.module('chefsApp').controller('SocialEntityDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

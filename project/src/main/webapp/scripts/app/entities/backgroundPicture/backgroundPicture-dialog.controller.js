@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('BackgroundPictureDialogController',
-    ['$scope', '$stateParams', '$modalInstance', '$q', 'entity', 'BackgroundPicture', 'User',
-        function($scope, $stateParams, $modalInstance, $q, entity, BackgroundPicture, User) {
+    ['$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'BackgroundPicture', 'User',
+        function($scope, $stateParams, $uibModalInstance, $q, entity, BackgroundPicture, User) {
 
         $scope.backgroundPicture = entity;
         $scope.users = User.query();
@@ -14,7 +14,7 @@ angular.module('chefsApp').controller('BackgroundPictureDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:backgroundPictureUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -26,7 +26,7 @@ angular.module('chefsApp').controller('BackgroundPictureDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 
         $scope.abbreviate = function (text) {

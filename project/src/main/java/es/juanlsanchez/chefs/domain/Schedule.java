@@ -34,7 +34,7 @@ public class Schedule implements Serializable {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Menu> menus = new HashSet<>();

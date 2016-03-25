@@ -2,7 +2,7 @@
 
 angular.module('chefsApp')
     .controller('RecipePicturesController', function ($state, $timeout, $scope, $stateParams, RecipeUser,
-                                                      ParseLinks, $modal, site) {
+                                                      ParseLinks, $uibModal, site) {
         $scope.pictures = [];
         $scope.pictureDetails = {};
         $scope.pictureIndex = 0;
@@ -51,7 +51,7 @@ angular.module('chefsApp')
 
         $scope.open = function (picture) {
 
-            $modal.open({
+            $uibModal.open({
                 templateUrl: 'scripts/templates/picture.html',
                 controller: 'ModalInstanceController',
                 size: 'lg',

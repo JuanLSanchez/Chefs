@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('StepPictureDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'StepPicture', 'Step',
-        function($scope, $stateParams, $modalInstance, entity, StepPicture, Step) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'StepPicture', 'Step',
+        function($scope, $stateParams, $uibModalInstance, entity, StepPicture, Step) {
 
         $scope.stepPicture = entity;
         $scope.steps = Step.query();
@@ -14,7 +14,7 @@ angular.module('chefsApp').controller('StepPictureDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:stepPictureUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -26,7 +26,7 @@ angular.module('chefsApp').controller('StepPictureDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 
         $scope.abbreviate = function (text) {

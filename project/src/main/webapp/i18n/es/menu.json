@@ -6,8 +6,11 @@
                 "createLabel": "Create a new Menu",
                 "createOrEditLabel": "Create or edit a Menu"
             },
+            "created": "Un Menú se ha creado",
+            "updated": "Un Menú se ha actualizado",
+            "deleted": "Un Menú se ha eliminado",
             "delete": {
-                "question": "Are you sure you want to delete Menu {{ id }}?"
+                "question": "¿Desea eliminar el Menú?"
             },
             "detail": {
                 "title": "Menu"

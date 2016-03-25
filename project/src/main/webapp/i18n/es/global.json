@@ -109,6 +109,7 @@
             "edit": "Editar",
             "save": "Guardar",
             "view": "Ver",
+            "add": "Añadir",
             "addordropimage": "Selecciona o arrastra una imagen",
             "showfather": "Ver padre"
         },
@@ -140,5 +141,10 @@
         "event": "Crear Evento",
         "schedule": "Crear Calendario"
     },
-    "name": "Nombre"
+    "name": "Nombre",
+    "week":{
+        "week":"Semana",
+        "first":"Lunes", "second": "Martes", "third": "Miércoles", "fourth":"Jueves", "fifth":"Viernes", "sixth":"Sábado", "seventh":"Domingo",
+        "1":"Lunes", "2": "Martes", "3": "Miércoles", "4":"Jueves", "5":"Viernes", "6":"Sábado", "7":"Domingo"
+    }
 }

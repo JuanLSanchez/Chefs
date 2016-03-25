@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('SocialPictureDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'SocialPicture', 'SocialEntity',
-        function($scope, $stateParams, $modalInstance, entity, SocialPicture, SocialEntity) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'SocialPicture', 'SocialEntity',
+        function($scope, $stateParams, $uibModalInstance, entity, SocialPicture, SocialEntity) {
 
         $scope.socialPicture = entity;
         $scope.socialentitys = SocialEntity.query();
@@ -14,7 +14,7 @@ angular.module('chefsApp').controller('SocialPictureDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:socialPictureUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -26,7 +26,7 @@ angular.module('chefsApp').controller('SocialPictureDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 
         $scope.abbreviate = function (text) {

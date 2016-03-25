@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('AssessmentDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Assessment', 'User', 'SocialEntity',
-        function($scope, $stateParams, $modalInstance, entity, Assessment, User, SocialEntity) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Assessment', 'User', 'SocialEntity',
+        function($scope, $stateParams, $uibModalInstance, entity, Assessment, User, SocialEntity) {
 
         $scope.assessment = entity;
         $scope.users = User.query();
@@ -15,7 +15,7 @@ angular.module('chefsApp').controller('AssessmentDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:assessmentUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -27,6 +27,6 @@ angular.module('chefsApp').controller('AssessmentDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

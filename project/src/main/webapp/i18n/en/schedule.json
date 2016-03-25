@@ -7,11 +7,11 @@
                 "createLabel": "Create a new Schedule",
                 "createOrEditLabel": "Create or edit a Schedule"
             },
-            "created": "A new Schedule is created with identifier {{ param }}",
-            "updated": "A Schedule is updated with identifier {{ param }}",
-            "deleted": "A Schedule is deleted with identifier {{ param }}",
+            "created": "A new Schedule is created",
+            "updated": "A Schedule is updated",
+            "deleted": "A Schedule is deleted",
             "delete": {
-                "question": "Are you sure you want to delete Schedule {{ id }}?"
+                "question": "Are you sure you want to delete the Schedule?"
             },
             "detail": {
                 "title": "Schedule"
@@ -19,7 +19,8 @@
             "name": "Name",
             "description": "Description",
             "user": "User",
-            "menu": "Menu"
+            "menu": "Menu",
+            "addMenu": "Add menu"
         }
     }
 }

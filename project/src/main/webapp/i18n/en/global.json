@@ -110,6 +110,7 @@
             "edit": "Edit",
             "save": "Save",
             "view": "View",
+            "add": "Add",
             "addordropimage": "Add or Drop Image",
             "showfather": "Show father"
         },
@@ -145,5 +146,10 @@
         "event": "Create event",
         "schedule": "Create schedule"
     },
-    "name": "Name"
+    "name": "Name",
+    "week":{
+        "week":"Week",
+        "first":"Sunday", "second": "Monday", "third": "Tuesday", "fourth":"Wednesday", "fifth":"Thursday", "sixth":"Friday", "seventh":"Saturday",
+        "1":"Sunday", "2": "Monday", "3": "Tuesday", "4":"Wednesday", "5":"Thursday", "6":"Friday", "7":"Saturday"
+    }
 }

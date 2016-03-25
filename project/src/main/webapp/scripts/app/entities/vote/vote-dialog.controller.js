@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('VoteDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Vote', 'Recipe', 'User', 'Score',
-        function($scope, $stateParams, $modalInstance, entity, Vote, Recipe, User, Score) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Vote', 'Recipe', 'User', 'Score',
+        function($scope, $stateParams, $uibModalInstance, entity, Vote, Recipe, User, Score) {
 
         $scope.vote = entity;
         $scope.recipes = Recipe.query();
@@ -16,7 +16,7 @@ angular.module('chefsApp').controller('VoteDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:voteUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -28,6 +28,6 @@ angular.module('chefsApp').controller('VoteDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

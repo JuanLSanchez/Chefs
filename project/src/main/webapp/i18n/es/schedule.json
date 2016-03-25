@@ -11,7 +11,7 @@
             "updated": "Se ha actualizado correctamente el calendario",
             "deleted": "Se ha eliminado correctamente el calendario",
             "delete": {
-                "question": "Esta seguro de que desea eliminar el calendario {{ id }}?"
+                "question": "¿Desea eliminar el calendario?"
             },
             "detail": {
                 "title": "Calendario"
@@ -19,7 +19,8 @@
             "name": "Nombre",
             "description": "Descripción",
             "user": "Usuario",
-            "menu": "Menú"
+            "menu": "Menú",
+            "addMenu": "Añadir menú"
         }
     }
 }

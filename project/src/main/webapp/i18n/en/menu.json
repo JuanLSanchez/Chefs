@@ -6,11 +6,11 @@
                 "createLabel": "Create a new Menu",
                 "createOrEditLabel": "Create or edit a Menu"
             },
-            "created": "A new Menu is created with identifier {{ param }}",
-            "updated": "A Menu is updated with identifier {{ param }}",
-            "deleted": "A Menu is deleted with identifier {{ param }}",
+            "created": "A new Menu is created",
+            "updated": "A Menu is updated",
+            "deleted": "A Menu is deleted",
             "delete": {
-                "question": "Are you sure you want to delete Menu {{ id }}?"
+                "question": "Are you sure you want to delete the Menu?"
             },
             "detail": {
                 "title": "Menu"

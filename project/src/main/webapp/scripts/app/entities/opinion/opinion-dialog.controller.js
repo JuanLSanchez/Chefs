@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('OpinionDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Opinion', 'Score', 'Competition',
-        function($scope, $stateParams, $modalInstance, entity, Opinion, Score, Competition) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Opinion', 'Score', 'Competition',
+        function($scope, $stateParams, $uibModalInstance, entity, Opinion, Score, Competition) {
 
         $scope.opinion = entity;
         $scope.scores = Score.query();
@@ -15,7 +15,7 @@ angular.module('chefsApp').controller('OpinionDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:opinionUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -27,6 +27,6 @@ angular.module('chefsApp').controller('OpinionDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('ActivityLogDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'ActivityLog',
-        function($scope, $stateParams, $modalInstance, entity, ActivityLog) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'ActivityLog',
+        function($scope, $stateParams, $uibModalInstance, entity, ActivityLog) {
 
         $scope.activityLog = entity;
         $scope.load = function(id) {
@@ -13,7 +13,7 @@ angular.module('chefsApp').controller('ActivityLogDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:activityLogUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -25,6 +25,6 @@ angular.module('chefsApp').controller('ActivityLogDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

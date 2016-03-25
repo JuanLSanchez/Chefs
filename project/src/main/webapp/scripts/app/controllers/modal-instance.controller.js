@@ -3,21 +3,21 @@
  */
 
 angular.module('chefsApp')
-    .controller('ModalInstanceController', function ($scope, $state, $modalInstance, picture, pictures, site) {
+    .controller('ModalInstanceController', function ($scope, $state, $uibModalInstance, picture, pictures, site) {
 
     $scope.picture = picture;
     $scope.pictures = pictures;
 
     $scope.ok = function () {
-        $modalInstance.close($scope.pictureDetails);
+        $uibModalInstance.close($scope.pictureDetails);
     };
 
     $scope.close = function() {
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 
     $scope.nextPicture = function(){
@@ -33,7 +33,7 @@ angular.module('chefsApp')
     };
 
     $scope.displayRecipe = function(){
-        $modalInstance.close(function (){
+        $uibModalInstance.close(function (){
             if (site == 'home'){
                 $state.go('HomeRecipesDisplay',{id:pictures[picture].recipe});
             }else{

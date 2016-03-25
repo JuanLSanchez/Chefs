@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('CommentDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Comment', 'User', 'SocialEntity',
-        function($scope, $stateParams, $modalInstance, entity, Comment, User, SocialEntity) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Comment', 'User', 'SocialEntity',
+        function($scope, $stateParams, $uibModalInstance, entity, Comment, User, SocialEntity) {
 
         $scope.comment = entity;
         $scope.users = User.query();
@@ -15,7 +15,7 @@ angular.module('chefsApp').controller('CommentDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:commentUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -27,6 +27,6 @@ angular.module('chefsApp').controller('CommentDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

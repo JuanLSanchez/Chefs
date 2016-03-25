@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('ProfilePictureDialogController',
-    ['$scope', '$stateParams', '$modalInstance', '$q', 'entity', 'ProfilePicture', 'User',
-        function($scope, $stateParams, $modalInstance, $q, entity, ProfilePicture, User) {
+    ['$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'ProfilePicture', 'User',
+        function($scope, $stateParams, $uibModalInstance, $q, entity, ProfilePicture, User) {
 
         $scope.profilePicture = entity;
         $scope.users = User.query();
@@ -14,7 +14,7 @@ angular.module('chefsApp').controller('ProfilePictureDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:profilePictureUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -26,7 +26,7 @@ angular.module('chefsApp').controller('ProfilePictureDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 
         $scope.abbreviate = function (text) {

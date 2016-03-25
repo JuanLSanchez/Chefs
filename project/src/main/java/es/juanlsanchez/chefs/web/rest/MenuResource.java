@@ -91,7 +91,7 @@ public class MenuResource {
     }
 
     /**
-     * GET  /menus/{scheduleId} -> get all the menus.
+     * GET  /menus/{scheduleId} -> get all the menus of a schedule.
      */
     @RequestMapping(value = "/menus/{scheduleId}",
             method = RequestMethod.GET,

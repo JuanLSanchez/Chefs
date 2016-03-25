@@ -19,6 +19,7 @@ angular.module('chefsApp')
                     translatePartialLoader: ['$translate', '$translatePartialLoader',
                         function ($translate, $translatePartialLoader) {
                             $translatePartialLoader.addPart('schedule');
+                            $translatePartialLoader.addPart('menu');
                             return $translate.refresh();
                     }]
                 }
@@ -39,6 +40,7 @@ angular.module('chefsApp')
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('schedule');
+                        $translatePartialLoader.addPart('menu');
                         return $translate.refresh();
                     }],
                     entity: ['$stateParams', 'Schedule', function($stateParams, Schedule) {
@@ -67,6 +69,7 @@ angular.module('chefsApp')
                     translatePartialLoader: ['$translate', '$translatePartialLoader',
                         function ($translate, $translatePartialLoader){
                             $translatePartialLoader.addPart('schedule');
+                            $translatePartialLoader.addPart('menu');
                             return $translate.refresh();
                     }]
                 }
@@ -89,6 +92,7 @@ angular.module('chefsApp')
                     },
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('schedule');
+                        $translatePartialLoader.addPart('menu');
                         return $translate.refresh();
                     }]
                 }

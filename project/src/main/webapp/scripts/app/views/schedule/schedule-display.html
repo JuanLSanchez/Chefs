@@ -11,4 +11,9 @@
     </h2>
 
     <h4>{{schedule.description}}</h4>
+    <div class="hand" ng-click="switchView()">
+        <span class="glyphicon glyphicon-th" ng-if="!isTable"></span>
+        <span class="glyphicon glyphicon-th-list" ng-if="isTable"></span>
+    </div>
+    <div ng-include="'scripts/app/views/menu/calendar-menu-display.html'"></div>
 </div>

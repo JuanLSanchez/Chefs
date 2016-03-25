@@ -53,8 +53,8 @@ angular.module('chefsApp')
                 data: {
                     authorities: ['ROLE_USER'],
                 },
-                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
-                    $modal.open({
+                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                    $uibModal.open({
                         templateUrl: 'scripts/app/entities/socialPicture/socialPicture-dialog.html',
                         controller: 'SocialPictureDialogController',
                         size: 'lg',
@@ -76,8 +76,8 @@ angular.module('chefsApp')
                 data: {
                     authorities: ['ROLE_USER'],
                 },
-                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
-                    $modal.open({
+                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                    $uibModal.open({
                         templateUrl: 'scripts/app/entities/socialPicture/socialPicture-dialog.html',
                         controller: 'SocialPictureDialogController',
                         size: 'lg',

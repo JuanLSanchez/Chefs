@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('CompetitionDialogController',
-    ['$scope', '$stateParams', '$modalInstance', '$q', 'entity', 'Competition', 'Recipe', 'Opinion', 'User', 'SocialEntity',
-        function($scope, $stateParams, $modalInstance, $q, entity, Competition, Recipe, Opinion, User, SocialEntity) {
+    ['$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Competition', 'Recipe', 'Opinion', 'User', 'SocialEntity',
+        function($scope, $stateParams, $uibModalInstance, $q, entity, Competition, Recipe, Opinion, User, SocialEntity) {
 
         $scope.competition = entity;
         $scope.recipes = Recipe.query();
@@ -25,7 +25,7 @@ angular.module('chefsApp').controller('CompetitionDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:competitionUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -37,6 +37,6 @@ angular.module('chefsApp').controller('CompetitionDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);

@@ -1,0 +1,50 @@
+<div class="table-responsive" ng-if="isTable">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>{{'week.week'|translate}}</th>
+            <th>{{'week.first'|translate}}</th>
+            <th>{{'week.second'|translate}}</th>
+            <th>{{'week.third'|translate}}</th>
+            <th>{{'week.fourth'|translate}}</th>
+            <th>{{'week.fifth'|translate}}</th>
+            <th>{{'week.sixth'|translate}}</th>
+            <th>{{'week.seventh'|translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="week in calendar">
+            <td>
+                <span>{{$index+1}}</span>
+            </td>
+            <td ng-repeat="day in [0,1,2,3,4,5,6]" class="text-center">
+                <div ng-repeat="menu in week[day]">
+                    <span>{{menuToString(menu)}}</span>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="table-responsive" ng-if="!isTable">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>{{'week.week'|translate}}</th>
+                <th ng-repeat="week in calendar" class="text-center">
+                    <span>{{$index+1}}</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="day in [0,1,2,3,4,5,6]">
+                <td class="b">{{'week.'+(day+1)|translate}}</td>
+                <td ng-repeat="week in calendar" class="text-center">
+                    <div ng-repeat="menu in week[day]">
+                        <span>{{menuToString(menu)}}</span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

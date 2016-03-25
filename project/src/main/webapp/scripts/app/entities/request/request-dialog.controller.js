@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chefsApp').controller('RequestDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Request', 'User',
-        function($scope, $stateParams, $modalInstance, entity, Request, User) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Request', 'User',
+        function($scope, $stateParams, $uibModalInstance, entity, Request, User) {
 
         $scope.request = entity;
         $scope.users = User.query();
@@ -14,7 +14,7 @@ angular.module('chefsApp').controller('RequestDialogController',
 
         var onSaveFinished = function (result) {
             $scope.$emit('chefsApp:requestUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
         };
 
         $scope.save = function () {
@@ -26,6 +26,6 @@ angular.module('chefsApp').controller('RequestDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);
