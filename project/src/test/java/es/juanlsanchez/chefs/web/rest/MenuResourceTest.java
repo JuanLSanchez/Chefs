@@ -379,6 +379,43 @@ public class MenuResourceTest {
 
     @Test
     @Transactional
+    public void addRecipeToMenuOfOtherUser() throws  Exception {
+        // Initialize the database
+        Long scheduleId;
+        ResultActions result;
+        Recipe recipe;
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+
+        scheduleId = scheduleService.findAllByUserIsCurrentUser(new PageRequest(0, 1)).getContent().get(0).getId();
+
+        menuService.create(menu, scheduleId);
+
+        SecurityContextHolder.getContext().setAuthentication(this.secondAuthentication);
+        recipe = recipeService.findAllIsVisibilityAndLikeName("r", new PageRequest(0, 1)).getContent().get(0);
+
+        int databaseSizeBeforeAdd = menuRepository.findAll().size();
+        int databaseSizeMenuInRecipeBeforeAdd = recipe.getMenus().size();
+        int databaseSizeRecipeInMenuBeforeAdd = menu.getRecipes().size();
+
+        // Update the menu
+
+        result = restMenuMockMvc.perform(put("/api/menus/addRecipe/{menuId}/{recipeId}", menu.getId(), recipe.getId())
+            .contentType(TestUtil.APPLICATION_JSON_UTF8));
+        result
+            .andExpect(status().isBadRequest());
+
+        // Validate the Menu in the database
+        List<Menu> menus = menuRepository.findAll();
+        assertThat(menus).hasSize(databaseSizeBeforeAdd);
+        Menu testMenu = menus.get(menus.size() - 1);
+        assertThat(testMenu.getTime().toDateTime(DateTimeZone.UTC)).isEqualTo(DEFAULT_TIME);
+        assertThat(recipeService.findOne(recipe.getId()).getMenus()).hasSize(databaseSizeMenuInRecipeBeforeAdd);
+        assertThat(menuRepository.findOne(menu.getId()).getRecipes()).hasSize(databaseSizeRecipeInMenuBeforeAdd);
+
+    }
+
+    @Test
+    @Transactional
     public void removeRecipeToMenu() throws  Exception {
         // Initialize the database
         Long scheduleId;
@@ -394,8 +431,6 @@ public class MenuResourceTest {
         recipe = menu.getRecipes().stream().findFirst()
             .orElseThrow(() -> new IllegalArgumentException("No ha fallado la prueba si no el test, ya que no se han encontrado ninguna receta"));
 
-        menuService.create(menu, scheduleId);
-
         int databaseSizeBeforeAdd = menuRepository.findAll().size();
         int databaseSizeRecipeInMenuBeforeAdd = menu.getRecipes().size();
 
@@ -406,12 +441,46 @@ public class MenuResourceTest {
         result
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.schedule.id").value(scheduleId.intValue()))
-            .andExpect(jsonPath("$.recipes."+recipe.getId()).doesNotExist());
+            .andExpect(jsonPath("$.recipes." + recipe.getId()).doesNotExist());
 
         // Validate the Menu in the database
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(databaseSizeBeforeAdd);
-        assertThat(menuRepository.findOne(menu.getId()).getRecipes()).hasSize(databaseSizeRecipeInMenuBeforeAdd-1);
+        assertThat(menuRepository.findOne(menu.getId()).getRecipes()).hasSize(databaseSizeRecipeInMenuBeforeAdd - 1);
+
+    }
+
+    @Test
+    @Transactional
+    public void removeRecipeToMenuOfOtherUser() throws  Exception {
+        // Initialize the database
+        Schedule schedule;
+        ResultActions result;
+        Recipe recipe;
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+
+        schedule = scheduleService.findAllByUserIsCurrentUser(new PageRequest(0, 1)).getContent().get(0);
+        menu = schedule.getMenus().stream().findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("No ha fallado la prueba si no el test, ya que no se han encontrado ningún menú"));
+        recipe = menu.getRecipes().stream().findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("No ha fallado la prueba si no el test, ya que no se han encontrado ninguna receta"));
+
+        int databaseSizeBeforeAdd = menuRepository.findAll().size();
+        int databaseSizeRecipeInMenuBeforeAdd = menu.getRecipes().size();
+
+        SecurityContextHolder.getContext().setAuthentication(this.secondAuthentication);
+
+        // Update the menu
+
+        result = restMenuMockMvc.perform(put("/api/menus/removeRecipe/{menuId}/{recipeId}", menu.getId(), recipe.getId())
+            .contentType(TestUtil.APPLICATION_JSON_UTF8));
+        result
+            .andExpect(status().isBadRequest());
+
+        // Validate the Menu in the database
+        List<Menu> menus = menuRepository.findAll();
+        assertThat(menus).hasSize(databaseSizeBeforeAdd);
+        assertThat(menuRepository.findOne(menu.getId()).getRecipes()).hasSize(databaseSizeRecipeInMenuBeforeAdd);
 
     }
 }
