@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive" ng-if="isTable">
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -19,13 +19,16 @@
                     <span ng-click="removeWeek($index)" class="glyphicon glyphicon-trash hand"></span>
                 </td>
                 <td ng-repeat="day in [0,1,2,3,4,5,6]" class="text-center">
-                    <div ng-repeat="menu in week[day]">
-                        <span class="glyphicon glyphicon-trash hand" ng-click="removeMenu(menu)"></span>
-                        <span class="glyphicon glyphicon-cog hand" ng-click="editMenu(menu)"></span>
-                        <span>{{menuToString(menu)}}</span>
-                    </div>
                     <div class="btn btn-primary btn-xs" ng-click="addMenu($parent.$index, day)">
                         <span class="glyphicon glyphicon-plus hand"></span>
+                    </div>
+                    <div ng-repeat="menu in week[day]" class="menu">
+                        <p>
+                            <span class="glyphicon glyphicon-trash hand" ng-click="removeMenu(menu)"></span>
+                            <span class="glyphicon glyphicon-cog hand" ng-click="editMenu(menu)"></span>
+                        </p>
+                        <span>{{menuToString(menu)}}</span>
+                        <p ng-repeat="(k,v) in menu.recipes">{{v[0]}}</p>
                     </div>
                 </td>
             </tr>
@@ -39,6 +42,42 @@
         </tbody>
     </table>
 </div>
+<div class="table-responsive" ng-if="!isTable">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>{{'week.week'|translate}}</th>
+            <th ng-repeat="week in calendar" class="text-center">
+                <span ng-click="removeWeek($index)" class="glyphicon glyphicon-trash hand"></span>
+                <span>{{$index+1}}</span>
+            </th>
+            <td rowspan="8">
+                <div class="btn btn-warning" ng-click="addWeek()" style="width: 100%; height: 100%;">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </div>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="day in [0,1,2,3,4,5,6]">
+            <td class="b">{{'week.'+(day+1)|translate}}</td>
+            <td ng-repeat="week in calendar" class="text-center">
+                <div class="btn btn-primary btn-xs" ng-click="addMenu($parent.$index, day)">
+                    <span class="glyphicon glyphicon-plus hand"></span>
+                </div>
+                <div ng-repeat="menu in week[day]" class="menu">
+                    <p>
+                        <span class="glyphicon glyphicon-trash hand" ng-click="removeMenu(menu)"></span>
+                        <span class="glyphicon glyphicon-cog hand" ng-click="editMenu(menu)"></span>
+                    </p>
+                    <span>{{menuToString(menu)}}</span>
+                    <p ng-repeat="(k,v) in menu.recipes">{{v[0]}}</p>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <script type="text/ng-template" id="addMenuModal">
     <form name="addMenuForm" ng-submit="confirmMenu()">
@@ -46,13 +85,43 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
             <h4 class="modal-title" translate="chefsApp.schedule.addMenu">Add menu</h4>
         </div>
-        <div class="modal-body">
+        <div class="modal-body row">
+            <div class="col-sm-4">
             <uib-timepicker ng-model="menu.time" min="1"
                             hour-step="1" minute-step="5"
                             show-meridian="false"></uib-timepicker>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <input class="form-control" ng-model="search"
+                           ng-change="prev()"
+                           uib-typeahead="result as result.firstField for result in searchResult"
+                           typeahead-template-url="scripts/templates/searchResult.html"
+                           ng-model-options='{ debounce: 300 }'
+                           typeahead-min-length="2"
+                           typeahead-select-on-exact="true"
+                           typeahead-on-select="goSearch($item)"
+                           data-typeahead-wait-ms="300">
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="addRecipe()" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div ng-repeat="(r,v) in menu.recipes">
+                    <h4>
+                        <span class="glyphicon glyphicon-remove text-danger" ng-click="removeRecipe(r)"></span>
+                        <span class="glyphicon glyphicon-cutlery"></span>&#32;
+                        <b>{{v[0]}}</b>&#32;
+                        <small>(@{{v[1]}})</small>
+                    </h4>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" ng-disabled="addMenuForm.$invalid" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Delete</span>
             </button>
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">

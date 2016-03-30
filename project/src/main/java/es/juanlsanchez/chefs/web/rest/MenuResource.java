@@ -76,7 +76,7 @@ public class MenuResource {
             return createMenu(menu, scheduleId);
         }else{
             try{
-                menuResult = menuService.update(menu, scheduleId);
+                menuResult = menuService.update(menu.getId(), menu.getTime());
                 result = ResponseEntity.ok()
                     .headers(HeaderUtil.createEntityUpdateAlert("menu", menuResult.getId().toString()))
                     .body(menuResult);

@@ -1,36 +1,36 @@
 'use strict';
 
 angular.module('chefsApp').controller('ScheduleEditController',
-        function($state, $scope, $stateParams, entity, Schedule, $uibModal, Menu, CalendarUtilities) {
+        function($state, $scope, $stateParams, $rootScope, entity, Schedule, $uibModal, Menu, CalendarUtilities, AlertUtilities) {
 
         $scope.schedule = entity;
         $scope.calendar = [[[],[],[],[],[],[],[]]];
         $scope.menusToDelete = [];
         $scope.menu = null;
         $scope.oldMenu = null;
+        $scope.isTable = true;
+        $scope.recipesToRemove = {};
+        var name=entity.name, description=entity.name;
 
-        var clearMenu = function(){
-            $scope.menu = {time:new Date(0), recipes:[], id:null};
-        };
-        var onSaveFinished = function (result) {
-            for(var week =$scope.calendar.length-1; week > -1; week--){
-                for(var day = $scope.calendar[week].length-1; day > -1; day--){
-                    for(var menu = $scope.calendar[week][day].length-1; menu > -1; menu--){
-                        Menu.update(result.id, $scope.calendar[week][day][menu]);
-                    }
-                }
-            }
-            for(var i = $scope.menusToDelete.length-1; i>-1;i--){
-                Menu.delete($scope.menusToDelete[i].id);
-            }
-            $state.go('HomeSchedulesDisplay', {id:result.id, message:result});
+        $scope.switchView = function(){
+            $scope.isTable = !$scope.isTable;
         };
 
-        $scope.save = function () {
-            if ($scope.schedule.id != null) {
-                Schedule.update($scope.schedule, onSaveFinished);
-            } else {
-                Schedule.save($scope.schedule, onSaveFinished);
+        $scope.start = function(){
+            Schedule.save($scope.schedule, function(result){
+                $scope.schedule = result;
+                name=result.name;
+                description = result.description;
+            });
+        };
+
+        $scope.update = function(){
+            if(name!=$scope.schedule.name||description!=$scope.schedule.description){
+                Schedule.update($scope.schedule, function(result){
+                    $scope.schedule = result;
+                    name=result.name;
+                    description = result.description;
+                });
             }
         };
 
@@ -62,6 +62,34 @@ angular.module('chefsApp').controller('ScheduleEditController',
                 });
         };
 
+        $scope.openMenuModal = function(){
+            $scope.modal = $uibModal.open({
+                templateUrl:'addMenuModal',
+                controller: 'MenuModalEditController',
+                resolve:{
+                    menu: function(){return $scope.menu;},
+                    calendar: function(){return $scope.calendar;},
+                    oldMenu: function(){return $scope.oldMenu;},
+                    schedule: function(){return $scope.schedule;}
+                }
+            }).result.then(function(result) {
+                    $scope.menu.id = result().id;
+                    $scope.menu.time = result().time;
+                    $scope.menu.recipes = result().recipes;
+                });
+        };
+
+        $scope.removeMenu = function(menu){
+            var week, dayOfWeek, index;
+            week = getWeek(menu.time);
+            dayOfWeek = getDay(menu.time);
+            index = $scope.calendar[week][dayOfWeek].indexOf(menu);
+            if(index>-1){
+                Menu.delete(menu.id);
+                $scope.calendar[week][dayOfWeek].splice(index,1);
+            }
+        };
+
         /* Menu Functions */
         $scope.loadMenus = function(){
             if($stateParams.id!=null){
@@ -80,57 +108,10 @@ angular.module('chefsApp').controller('ScheduleEditController',
             $scope.openMenuModal();
 
         };
-        $scope.removeMenu = function(menu){
-            var week, dayOfWeek, index;
-            week = getWeek(menu.time);
-            dayOfWeek = getDay(menu.time);
-            index = $scope.calendar[week][dayOfWeek].indexOf(menu);
-            if(index>-1){
-                if(menu.id != null){
-                    $scope.menusToDelete.push(menu);
-                }
-                $scope.calendar[week][dayOfWeek].splice(index,1);
-            }
-        };
         $scope.editMenu = function(menu){
             $scope.menu = menu;
             $scope.oldMenu = jQuery.extend(true, {}, menu);
             $scope.openMenuModal();
-        };
-
-        $scope.openMenuModal = function(){
-            $scope.modal = $uibModal.open({
-                templateUrl:'addMenuModal',
-                controller: function ($scope, $state, $uibModalInstance, menu, calendar, oldMenu) {
-                    $scope.mytime = new Date();
-                    $scope.calendar = calendar;
-                    $scope.menu = menu;
-                    $scope.oldMenu = oldMenu;
-
-                    $scope.close = function() {
-                        $uibModalInstance.close(function(){
-                            if(getOldMenu()!=null){
-                                restartToOldMenu(oldMenu);
-                            }
-                        });
-                    };
-
-                    $scope.confirmMenu = function () {
-                        $uibModalInstance.close(function(){
-                            if(getOldMenu()==null){
-                                addToCalendar($scope.menu, $scope.calendar);
-                            }
-                        });
-                    };
-                },
-                resolve:{
-                    menu: function(){return $scope.menu;},
-                    calendar: function(){return $scope.calendar;},
-                    oldMenu: function(){return $scope.oldMenu;}
-                }
-            }).result.then(function(result) {
-                    result();
-                });
         };
 
         /* Week functions */
@@ -156,14 +137,8 @@ angular.module('chefsApp').controller('ScheduleEditController',
             }
         };
 
-        /* Functions to restart menu */
-        var getOldMenu = function(){
-            return $scope.oldMenu;
-        };
-
-        var restartToOldMenu = function(oldMenu){
-            $scope.removeMenu($scope.menu);
-            addToCalendar(oldMenu, $scope.calendar);
+        var clearMenu = function(){
+            $scope.menu = {time:new Date(0), recipes:{}, id:null};
         };
 
         /* Add menu to calendar */
@@ -172,7 +147,6 @@ angular.module('chefsApp').controller('ScheduleEditController',
         var getWeek = CalendarUtilities.getWeek;
         var getDay = CalendarUtilities.getDay;
         var getMiliseconds = CalendarUtilities.getMiliseconds;
-
 
         /* Execute */
         clearMenu();

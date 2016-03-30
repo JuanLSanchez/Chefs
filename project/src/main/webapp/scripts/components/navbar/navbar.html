@@ -99,7 +99,7 @@
                 <div class="input-group">
                     <input class="form-control" ng-model="search"
                            ng-change="prev()" required
-                           typeahead="result as result.firstField for result in searchResult"
+                           uib-typeahead="result as result.firstField for result in searchResult"
                            typeahead-template-url="scripts/templates/searchResult.html"
                            ng-model-options='{ debounce: 500 }'
                            typeahead-focus-first="false"

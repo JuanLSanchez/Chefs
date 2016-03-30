@@ -1,4 +1,4 @@
-<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+<form name="editForm" role="form" novalidate show-validation>
     <div class="modal-header">
         <back-button></back-button>
     </div>
@@ -23,10 +23,11 @@
                 </div>
             </form>
         </script>
+
         <jh-alert-error></jh-alert-error>
         <div class="form-group">
             <!--<label translate="chefsApp.recipe.name" for="field_name">Name</label>-->
-            <input type="text" class="form-control" name="name" id="field_name"
+            <input ng-blur="update()" type="text" class="form-control" name="name" id="field_name"
                    ng-model="schedule.name" placeholder="{{'chefsApp.schedule.name' | translate}}..."
                    required>
             <div ng-show="editForm.name.$invalid">
@@ -38,7 +39,7 @@
         </div>
         <div class="form-group">
             <!--<label translate="chefsApp.recipe.description" for="field_description">Description</label>-->
-            <textarea class="form-control" name="description" id="field_description"
+            <textarea ng-blur="update()" class="form-control" name="description" id="field_description"
                       ng-model="schedule.description" placeholder="{{'chefsApp.schedule.description' | translate}}..."
                       required/>
             <div ng-show="editForm.description.$invalid">
@@ -48,14 +49,16 @@
                 </p>
             </div>
         </div>
-        <div ng-include="'scripts/app/views/menu/calendar-menu-edit.html'"></div>
+        <div class="hand" ng-click="switchView()">
+            <span class="glyphicon glyphicon-th" ng-if="!isTable"></span>
+            <span class="glyphicon glyphicon-th-list" ng-if="isTable"></span>
+        </div>
+        <div ng-include="'scripts/app/views/menu/calendar-menu-edit.html'" ng-show="schedule.id!=null"></div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="window.history.back()" data-dismiss="modal" ng-click="clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        <button type="button" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary"
+                ng-if="schedule.id==null" ng-click="start()">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;<span translate="entity.action.start">Start</span>
         </button>
         <button type="button"
                 ng-click="delete()"

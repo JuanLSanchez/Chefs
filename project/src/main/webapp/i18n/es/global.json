@@ -6,6 +6,7 @@
         "menu": {
             "home": "Inicio",
             "entities": {
+                "notifications":"Notificaciones",
                 "main": "Entidades",
                 "profilePicture": "ProfilePicture",
                 "request": "Request",
@@ -110,6 +111,7 @@
             "save": "Guardar",
             "view": "Ver",
             "add": "Añadir",
+            "start":"Iniciar",
             "addordropimage": "Selecciona o arrastra una imagen",
             "showfather": "Ver padre"
         },

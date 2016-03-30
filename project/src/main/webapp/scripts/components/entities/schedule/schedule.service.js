@@ -17,6 +17,13 @@ angular.module('chefsApp')
 
 angular.module('chefsApp')
     .factory('CalendarUtilities', function () {
+        var calendar;
+        var newCalendar = function(newCalendar){
+            calendar = newCalendar;
+        };
+        var getCalendar = function(){
+            return calendar;
+        };
         var getWeek = function(date){
             return Math.floor(date.getTime()/(604800000));
         };
@@ -37,12 +44,14 @@ angular.module('chefsApp')
         };
         var getMiliseconds = function(week, day){
             return (week*7+day)*86400000;
-        }
+        };
         return {
             menuToString: menuToString,
             addToCalendar: addToCalendar,
             getWeek:getWeek,
             getDay:getDay,
-            getMiliseconds:getMiliseconds
+            getMiliseconds:getMiliseconds,
+            newCalendar:newCalendar,
+            getCalendar:getCalendar
         };
     });

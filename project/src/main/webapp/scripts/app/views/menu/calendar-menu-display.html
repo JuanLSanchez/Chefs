@@ -18,8 +18,9 @@
                 <span>{{$index+1}}</span>
             </td>
             <td ng-repeat="day in [0,1,2,3,4,5,6]" class="text-center">
-                <div ng-repeat="menu in week[day]">
+                <div ng-repeat="menu in week[day]" class="menu">
                     <span>{{menuToString(menu)}}</span>
+                    <p ng-repeat="(k,v) in menu.recipes"><a ui-sref="ChefRecipeDisplay({id:k})">{{v[0]}}</a></p>
                 </div>
             </td>
         </tr>
@@ -40,8 +41,9 @@
             <tr ng-repeat="day in [0,1,2,3,4,5,6]">
                 <td class="b">{{'week.'+(day+1)|translate}}</td>
                 <td ng-repeat="week in calendar" class="text-center">
-                    <div ng-repeat="menu in week[day]">
+                    <div ng-repeat="menu in week[day]" class="menu">
                         <span>{{menuToString(menu)}}</span>
+                        <p ng-repeat="(k,v) in menu.recipes"><a ui-sref="ChefRecipeDisplay({id:k})">{{v[0]}}</a></p>
                     </div>
                 </td>
             </tr>

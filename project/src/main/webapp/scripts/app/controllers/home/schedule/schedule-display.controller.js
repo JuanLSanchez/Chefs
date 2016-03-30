@@ -6,24 +6,37 @@ angular.module('chefsApp')
         $scope.schedule = entity;
         $scope.calendar = [];
         $scope.isTable = true;
-        Principal.identity(true).then(function(account) {
-            $scope.userAccount = account;
-        });
-        $scope.load = function (id) {
-            Schedule.get({id: id}, function(result) {
-                $scope.schedule = result;
-            });
-            if($stateParams.message!=null){
-                $scope.$emit('chefsApp:scheduleUpdate', $stateParams.message);
-            }
-        };
+
         $scope.switchView = function(){
             $scope.isTable = !$scope.isTable;
+        };
+
+
+        var oneTime = {
+            remind: function() {
+                loadMenus();
+                this.timeoutID = undefined;
+            },
+
+            setup: function() {
+                if (typeof this.timeoutID === "number") {
+                    this.cancel();
+                }
+                this.timeoutID = window.setTimeout(function() {
+                    this.remind();
+                }.bind(this), 500);
+            },
+
+            cancel: function() {
+                window.clearTimeout(this.timeoutID);
+                this.timeoutID = undefined;
+            }
         };
 
         /* Menu Functions */
         var loadMenus = function(){
             if($stateParams.id!=null){
+                $scope.calendar = [];
                 Menu.findAllByScheduleId($stateParams.id).then(function(result){
                     for (var i = 0; i < result.data.length; i++) {
                         addToCalendar(result.data[i], $scope.calendar);
@@ -31,17 +44,19 @@ angular.module('chefsApp')
                 });
             }
         };
+
         $scope.menuToString = CalendarUtilities.menuToString;
         /* Add menu to calendar */
         var addToCalendar = CalendarUtilities.addToCalendar;
-        /* Functions to the days */
-        var getWeek = CalendarUtilities.getWeek;
-        var getDay = CalendarUtilities.getDay;
-        var getMiliseconds = CalendarUtilities.getMiliseconds;
 
 
         $rootScope.$on('chefsApp:scheduleUpdate', function(event, result) {
             $scope.schedule = result;
+        });
+        $rootScope.$on('chefsApp:menuUpdate', function(event, result) {
+            if(result.schedule.id==$stateParams.id){
+                oneTime.setup();
+            }
         });
 
         /* Execute */

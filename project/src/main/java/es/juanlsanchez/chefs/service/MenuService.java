@@ -6,6 +6,7 @@ import es.juanlsanchez.chefs.repository.MenuRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.util.ErrorMessageService;
 import es.juanlsanchez.chefs.web.rest.dto.MenuDTO;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,15 +36,18 @@ public class MenuService {
 
         checkSchedule(scheduleId);
         menu.setSchedule(scheduleService.findOne(scheduleId).get());
-        result = new MenuDTO(menuRepository.save(menu));
+        result = new MenuDTO(menuRepository.saveAndFlush(menu));
 
         return result;
     }
 
-    public MenuDTO update(Menu menu, Long scheduleId) {
+    public MenuDTO update(Long menuId, DateTime time) {
         MenuDTO result;
+        Menu menu;
 
-        checkSchedule(scheduleId);
+        menu = getMenu(menuId);
+        menu.setTime(time);
+
         result = new MenuDTO(menuRepository.save(menu));
 
         return result;
