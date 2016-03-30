@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chefsApp').controller('ScheduleEditController',
-        function($state, $scope, $stateParams, $rootScope, entity, Schedule, $uibModal, Menu, CalendarUtilities, AlertUtilities) {
+        function($state, $scope, $stateParams, $rootScope, entity, Schedule, $uibModal, Menu, CalendarUtilities) {
 
         $scope.schedule = entity;
         $scope.calendar = [[[],[],[],[],[],[],[]]];
@@ -24,14 +24,18 @@ angular.module('chefsApp').controller('ScheduleEditController',
             });
         };
 
-        $scope.update = function(){
-            if(name!=$scope.schedule.name||description!=$scope.schedule.description){
+        $scope.update = function(invalid){
+            if(!invalid && $scope.schedule.id!=null&&(name!=$scope.schedule.name||description!=$scope.schedule.description)){
                 Schedule.update($scope.schedule, function(result){
                     $scope.schedule = result;
                     name=result.name;
                     description = result.description;
                 });
             }
+        };
+
+        $scope.finish = function(){
+            $state.go('HomeSchedulesDisplay',{id:$scope.schedule.id});
         };
 
         /* Modal delete confirmation*/
