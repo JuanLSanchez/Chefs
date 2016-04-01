@@ -142,7 +142,8 @@
         "recipe": "Crear Receta",
         "competition": "Crear Competición",
         "event": "Crear Evento",
-        "schedule": "Crear Calendario"
+        "schedule": "Crear Calendario",
+        "pdf":"Crear PDF"
     },
     "name": "Nombre",
     "week":{

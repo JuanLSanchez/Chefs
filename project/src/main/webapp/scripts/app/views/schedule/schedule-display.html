@@ -10,9 +10,16 @@
     </h2>
 
     <h4>{{schedule.description}}</h4>
-    <div class="hand" ng-click="switchView()">
-        <span class="glyphicon glyphicon-th" ng-if="!isTable"></span>
-        <span class="glyphicon glyphicon-th-list" ng-if="isTable"></span>
+    <div>
+        <span class="bottom-left hand" ng-click="switchView()">
+            <span class="glyphicon glyphicon-th" ng-if="!isTable"></span>
+            <span class="glyphicon glyphicon-th-list" ng-if="isTable"></span>
+        </span>
+        <button type="button" class="btn btn-danger pull-right" ng-click="getPDF()">
+            <span class="glyphicon glyphicon-file"></span>
+            <span translate="create.pdf">Create PDF</span>
+        </button>
     </div>
-    <div ng-include="'scripts/app/views/menu/calendar-menu-display.html'"></div>
+    <p class="clearfix"></p>
+    <div ng-include="'scripts/app/views/menu/calendar-menu-display.html'" id="schedule_table"></div>
 </div>

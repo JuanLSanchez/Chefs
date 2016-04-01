@@ -33,6 +33,8 @@ module.exports = function (config) {
             'main/webapp/bower_components/angular-ui-sortable/sortable.js',
             'main/webapp/bower_components/bootstrap/dist/js/bootstrap.js',
             'main/webapp/bower_components/json3/lib/json3.js',
+            'main/webapp/bower_components/jspdf/dist/jspdf.min.js',
+            'main/webapp/bower_components/jspdf-autotable/dist/jspdf.plugin.autotable.js',
             'main/webapp/bower_components/ng-file-upload/ng-file-upload.js',
             'main/webapp/bower_components/ng-tags-input/ng-tags-input.min.js',
             'main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
