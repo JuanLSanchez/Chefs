@@ -11,7 +11,7 @@
 
     <groupId>es.juanlsanchez.chefs</groupId>
     <artifactId>chefs</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <packaging>war</packaging>
 
     <name>Chefs</name>
