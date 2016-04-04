@@ -62,7 +62,6 @@ angular.module('chefsApp')
         $scope.getPDF = function(){
             var text = 'Chefs';
 
-
             // Only pt supported (not mm or in)
             var doc = new jsPDF('p', 'pt');
 
@@ -78,12 +77,7 @@ angular.module('chefsApp')
                 doc = verticalTable(doc);
             }
 
-            /*doc.setFontSize(40);
-            var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-            var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
-            doc.text(textOffset, doc.autoTableEndPosY() + 50, text);*/
-
-            doc.save('table.pdf');
+            doc.save($scope.schedule.name.replace(' ', '_')+'.pdf');
         };
 
         var horizontalTable = function(doc){

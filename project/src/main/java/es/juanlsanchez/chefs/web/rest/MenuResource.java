@@ -156,7 +156,7 @@ public class MenuResource {
         List<MenuDTO> list;
         ResponseEntity<List<MenuDTO>> result;
         try{
-            list = menuService.findAllByScheduleId(scheduleId);
+            list = menuService.findAllByScheduleIdOrderByTime(scheduleId);
             result = new ResponseEntity<>(list, HttpStatus.OK);
         }catch (IllegalArgumentException e){
             result = ResponseEntity.badRequest()

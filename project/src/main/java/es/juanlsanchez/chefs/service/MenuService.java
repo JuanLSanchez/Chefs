@@ -53,9 +53,9 @@ public class MenuService {
         return result;
     }
 
-    public List<MenuDTO> findAllByScheduleId(Long scheduleId) {
+    public List<MenuDTO> findAllByScheduleIdOrderByTime(Long scheduleId) {
         checkSchedule(scheduleId);
-        return menuRepository.findAllByScheduleId(scheduleId)
+        return menuRepository.findAllByScheduleIdOrderByTimeAsc(scheduleId)
             .stream().map(MenuDTO::new)
             .collect(Collectors.toList());
     }
