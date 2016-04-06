@@ -4,6 +4,6 @@ angular.module('chefsApp')
 
 .constant('ENV', 'dev')
 
-.constant('VERSION', '0.4.0')
+.constant('VERSION', '0.5.0')
 
 ;
