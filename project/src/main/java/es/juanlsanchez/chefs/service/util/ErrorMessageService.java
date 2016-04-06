@@ -9,4 +9,6 @@ public class ErrorMessageService {
     public static final String ILLEGAL_RECIPE = "Illegal recipe";
     public static final String PRINCIPAL_IS_REQUIRED = "The principal is required";
     public static final String ILLEGAL_MENU = "Illegal menu";
+    public static final String ILLEGAL_SOCIAL_ENTITY = "Illegal social entity";
+    public static final String ILLEGAL_COMMENT = "Illegal comment";
 }

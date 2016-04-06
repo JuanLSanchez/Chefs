@@ -2,7 +2,7 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Comment;
-import es.juanlsanchez.chefs.repository.CommentRepository;
+import es.juanlsanchez.chefs.service.CommentService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -16,11 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing Comment.
@@ -32,72 +30,87 @@ public class CommentResource {
     private final Logger log = LoggerFactory.getLogger(CommentResource.class);
 
     @Inject
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
     /**
-     * POST  /comments -> Create a new comment.
+     * POST  /comments/{recipeId} -> Create a new comment.
      */
-    @RequestMapping(value = "/comments",
+    @RequestMapping(value = "/comments/{socialEntityId}",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Comment> createComment(@Valid @RequestBody Comment comment) throws URISyntaxException {
-        log.debug("REST request to save Comment : {}", comment);
-        if (comment.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new comment cannot already have an ID").body(null);
+    public ResponseEntity<Comment> createComment(@RequestBody String body,
+                                                 @PathVariable Long socialEntityId) throws URISyntaxException {
+        log.debug("REST request to save body : {}, socialentityId {}", body, socialEntityId);
+        ResponseEntity<Comment> result;
+        try{
+            Comment comment = commentService.create(body, socialEntityId);
+            result = ResponseEntity.created(new URI("/api/comments/" + comment.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert("comment", comment.getId().toString()))
+                .body(comment);
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Comment result = commentRepository.save(comment);
-        return ResponseEntity.created(new URI("/api/comments/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("comment", result.getId().toString()))
-                .body(result);
+        return result;
     }
 
     /**
-     * PUT  /comments -> Updates an existing comment.
+     * PUT  /comments/{commentId} -> Updates an existing comment.
      */
-    @RequestMapping(value = "/comments",
+    @RequestMapping(value = "/comments/{commentId}",
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Comment> updateComment(@Valid @RequestBody Comment comment) throws URISyntaxException {
-        log.debug("REST request to update Comment : {}", comment);
-        if (comment.getId() == null) {
-            return createComment(comment);
-        }
-        Comment result = commentRepository.save(comment);
-        return ResponseEntity.ok()
+    public ResponseEntity<Comment> updateComment(@RequestBody String body,
+                                                 @PathVariable Long commentId) throws URISyntaxException {
+        log.debug("REST request to update body : {}, commentId {}",
+            body, commentId);
+        ResponseEntity<Comment> result;
+        Comment comment;
+        try{
+            comment = commentService.update(commentId, body);
+            result = ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert("comment", comment.getId().toString()))
-                .body(result);
+                .body(comment);
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
     }
 
     /**
-     * GET  /comments -> get all the comments.
+     * GET  /comments/{socialEntityId} -> get the comments of a recipe.
      */
-    @RequestMapping(value = "/comments",
+    @RequestMapping(value = "/comments/{socialEntityId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Comment>> getAllComments(Pageable pageable)
+    public ResponseEntity<List<Comment>> listComments(@PathVariable Long socialEntityId, Pageable pageable)
         throws URISyntaxException {
-        Page<Comment> page = commentRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/comments");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
+        log.debug("REST request to get Comments in socialEntityId: {}", socialEntityId);
+        ResponseEntity<List<Comment>> result;
+        Page<Comment> page;
+        HttpHeaders headers;
 
-    /**
-     * GET  /comments/:id -> get the "id" comment.
-     */
-    @RequestMapping(value = "/comments/{id}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Comment> getComment(@PathVariable Long id) {
-        log.debug("REST request to get Comment : {}", id);
-        return Optional.ofNullable(commentRepository.findOne(id))
-            .map(comment -> new ResponseEntity<>(
-                comment,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try{
+            page = commentService.findAllBySocialEntityId(socialEntityId, pageable);
+            headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/comments");
+            result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
     }
 
     /**
@@ -109,7 +122,18 @@ public class CommentResource {
     @Timed
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         log.debug("REST request to delete Comment : {}", id);
-        commentRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("comment", id.toString())).build();
+        ResponseEntity<Void> result;
+
+        try {
+            commentService.delete(id);
+            result = ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("comment", id.toString())).build();
+        }catch (IllegalArgumentException e){
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
     }
 }
