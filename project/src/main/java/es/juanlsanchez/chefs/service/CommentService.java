@@ -44,7 +44,7 @@ public class CommentService {
         SocialEntity socialEntity;
         User user;
 
-        Assert.notNull(body);
+        Assert.hasLength(body, ErrorMessageService.ILLEGAL_COMMENT);
 
         socialEntity = Optional.ofNullable(socialEntityRepository.findOne(socialEntityId))
             .filter(this::socialEntityIsVisible)
@@ -80,25 +80,13 @@ public class CommentService {
         return result;
     }
 
-    /* Others */
-
-    /* Utilities */
-    private boolean socialEntityIsVisible(SocialEntity s) {
-        boolean result;
-
-        result = s.getIsPublic() && !s.getBlocked();
-
-        if(!result){
-            if(s.getRecipe() != null){
-                result = recipeService.findOne(s.getRecipe().getId()) != null;
-            }
-        }
-
-        return result;
-    }
-
     public Page<Comment> findAllBySocialEntityId(Long socialEntityId, Pageable pageable) {
-        if (!socialEntityIsVisible(socialEntityRepository.findOne(socialEntityId))){
+        SocialEntity socialEntity;
+
+        socialEntity = Optional.ofNullable(socialEntityRepository.findOne(socialEntityId))
+            .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY));
+
+        if (!socialEntityIsVisible(socialEntity)){
             throw new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY);
         }
         Page<Comment> result;
@@ -115,9 +103,26 @@ public class CommentService {
 
         Optional.ofNullable(commentRepository.findOne(id))
             .filter(c -> c.getUser().getLogin().equals(principalLogin))
-            .orElseThrow(()->new IllegalArgumentException(ErrorMessageService.ILLEGAL_COMMENT));
+            .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_COMMENT));
 
         commentRepository.delete(id);
 
+    }
+
+    /* Others */
+
+    /* Utilities */
+    private boolean socialEntityIsVisible(SocialEntity s) {
+        boolean result;
+
+        result = s.getIsPublic() && !s.getBlocked();
+
+        if(!result){
+            if(s.getRecipe() != null){
+                result = recipeService.findOne(s.getRecipe().getId()) != null;
+            }
+        }
+
+        return result;
     }
 }

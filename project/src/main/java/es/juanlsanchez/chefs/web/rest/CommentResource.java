@@ -49,6 +49,7 @@ public class CommentResource {
                 .headers(HeaderUtil.createEntityCreationAlert("comment", comment.getId().toString()))
                 .body(comment);
         }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
             result = ResponseEntity.badRequest()
                 .header("Illegal argument exception:" + e.getMessage()).body(null);
         }catch (Throwable e){

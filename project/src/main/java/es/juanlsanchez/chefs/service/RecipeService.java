@@ -1,8 +1,8 @@
 package es.juanlsanchez.chefs.service;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.Request;
 import es.juanlsanchez.chefs.domain.Step;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
@@ -126,7 +126,7 @@ public class RecipeService {
                     }else{
                         // Check the followed
                         result = recipe.getUser().getAcceptRequests().stream()
-                            .filter(r -> r.getAccepted())
+                            .filter(Request::getAccepted)
                             .filter(r -> r.getFollower().equals(principal))
                             .findFirst().isPresent();
                     }
