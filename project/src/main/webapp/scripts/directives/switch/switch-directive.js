@@ -5,7 +5,7 @@ angular.module('chefsApp').directive('switch', function()
 {
     return {
         restrict: 'E',
-        templateUrl: 'scripts/directives/switch-template.html',
+        templateUrl: 'scripts/directives/switch/switch-template.html',
         scope: {
             id:'=',
             object:'=',

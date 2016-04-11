@@ -50,3 +50,18 @@ footer {
     min-height: 20px;
     padding: 5px;
 }
+.popover-example .popover {
+    position: relative;
+    display: block;
+    margin: 20px;
+}
+.img-comments{
+    max-width: 100px;
+    display: inline-block;
+}
+.comment{
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+    width:100%;
+}

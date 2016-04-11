@@ -6,7 +6,7 @@ angular.module('chefsApp').directive('tags', function()
 {
     return {
         restrict: 'A',
-        templateUrl: 'scripts/directives/tags-template.html',
+        templateUrl: 'scripts/directives/tags/tags-template.html',
         scope: {
             tags:"=tagsList"
         }

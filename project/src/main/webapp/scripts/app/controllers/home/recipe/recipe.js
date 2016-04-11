@@ -47,6 +47,7 @@ angular.module('chefsApp')
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');
+                        $translatePartialLoader.addPart('comment');
                         return $translate.refresh();
                     }],
                     entity: ['$stateParams', 'Recipe', function($stateParams, Recipe) {

@@ -1,16 +1,18 @@
 {
     "chefsApp": {
         "comment" : {
+            "title":"Coments",
+            "placeholde": "Comment..." ,
             "home": {
                 "title": "Comments",
                 "createLabel": "Create a new Comment",
                 "createOrEditLabel": "Create or edit a Comment"
             },
-            "created": "A new Comment is created with identifier {{ param }}",
-            "updated": "A Comment is updated with identifier {{ param }}",
-            "deleted": "A Comment is deleted with identifier {{ param }}",
+            "created": "A new Comment is created",
+            "updated": "A Comment is updated",
+            "deleted": "A Comment is deleted",
             "delete": {
-                "question": "Are you sure you want to delete Comment {{ id }}?"
+                "question": "Are you sure you want to delete Comment?"
             },
             "detail": {
                 "title": "Comment"

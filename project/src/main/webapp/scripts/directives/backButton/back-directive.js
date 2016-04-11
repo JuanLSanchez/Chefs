@@ -6,6 +6,6 @@ angular.module('chefsApp').directive('backButton', function()
 {
     return {
         restrict: 'E',
-        templateUrl: 'scripts/directives/back-button-template.html'
+        templateUrl: 'scripts/directives/backButton/back-button-template.html'
     }
 });

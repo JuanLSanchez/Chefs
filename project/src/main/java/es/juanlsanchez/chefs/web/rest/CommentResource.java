@@ -3,6 +3,7 @@ package es.juanlsanchez.chefs.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Comment;
 import es.juanlsanchez.chefs.service.CommentService;
+import es.juanlsanchez.chefs.web.rest.dto.CommentDTO;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -39,12 +40,12 @@ public class CommentResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Comment> createComment(@RequestBody String body,
+    public ResponseEntity<CommentDTO> createComment(@RequestBody String body,
                                                  @PathVariable Long socialEntityId) throws URISyntaxException {
         log.debug("REST request to save body : {}, socialentityId {}", body, socialEntityId);
-        ResponseEntity<Comment> result;
+        ResponseEntity<CommentDTO> result;
         try{
-            Comment comment = commentService.create(body, socialEntityId);
+            CommentDTO comment = commentService.create(body, socialEntityId);
             result = ResponseEntity.created(new URI("/api/comments/" + comment.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert("comment", comment.getId().toString()))
                 .body(comment);
@@ -65,12 +66,12 @@ public class CommentResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Comment> updateComment(@RequestBody String body,
+    public ResponseEntity<CommentDTO> updateComment(@RequestBody String body,
                                                  @PathVariable Long commentId) throws URISyntaxException {
         log.debug("REST request to update body : {}, commentId {}",
             body, commentId);
-        ResponseEntity<Comment> result;
-        Comment comment;
+        ResponseEntity<CommentDTO> result;
+        CommentDTO comment;
         try{
             comment = commentService.update(commentId, body);
             result = ResponseEntity.ok()
@@ -93,11 +94,11 @@ public class CommentResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Comment>> listComments(@PathVariable Long socialEntityId, Pageable pageable)
+    public ResponseEntity<List<CommentDTO>> listComments(@PathVariable Long socialEntityId, Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get Comments in socialEntityId: {}", socialEntityId);
-        ResponseEntity<List<Comment>> result;
-        Page<Comment> page;
+        ResponseEntity<List<CommentDTO>> result;
+        Page<CommentDTO> page;
         HttpHeaders headers;
 
         try{

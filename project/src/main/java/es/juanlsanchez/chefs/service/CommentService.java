@@ -1,5 +1,6 @@
 package es.juanlsanchez.chefs.service;
 
+import com.google.common.collect.Lists;
 import es.juanlsanchez.chefs.domain.Comment;
 import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.domain.User;
@@ -7,14 +8,18 @@ import es.juanlsanchez.chefs.repository.CommentRepository;
 import es.juanlsanchez.chefs.repository.SocialEntityRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.util.ErrorMessageService;
+import es.juanlsanchez.chefs.web.rest.dto.CommentDTO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -39,7 +44,7 @@ public class CommentService {
     private UserService userService;
 
     /* Simple CRUD*/
-    public Comment create(String body, Long socialEntityId) {
+    public CommentDTO create(String body, Long socialEntityId) {
         Comment result;
         SocialEntity socialEntity;
         User user;
@@ -60,10 +65,10 @@ public class CommentService {
 
         result = commentRepository.save(result);
 
-        return result;
+        return new CommentDTO(result);
     }
 
-    public Comment update(Long commentId, String body) {
+    public CommentDTO update(Long commentId, String body) {
         Comment result;
         String principalLogin;
 
@@ -77,10 +82,10 @@ public class CommentService {
 
         result = commentRepository.save(result);
 
-        return result;
+        return new CommentDTO(result);
     }
 
-    public Page<Comment> findAllBySocialEntityId(Long socialEntityId, Pageable pageable) {
+    public Page<CommentDTO> findAllBySocialEntityId(Long socialEntityId, Pageable pageable) {
         SocialEntity socialEntity;
 
         socialEntity = Optional.ofNullable(socialEntityRepository.findOne(socialEntityId))
@@ -89,9 +94,21 @@ public class CommentService {
         if (!socialEntityIsVisible(socialEntity)){
             throw new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY);
         }
-        Page<Comment> result;
+        Page<CommentDTO> result;
+        List<CommentDTO> commentDTOList;
+        Page<Comment> comments;
 
-        result = commentRepository.findAllBySocialEntityIdOrderByCreationMomentDesc(socialEntityId, pageable);
+        comments = commentRepository.findAllBySocialEntityIdOrderByCreationMomentDesc(socialEntityId, pageable);
+
+        commentDTOList = Lists.newArrayList();
+
+        for(Comment comment:comments){
+            commentDTOList.add(new CommentDTO(comment));
+        }
+
+        result = new PageImpl<CommentDTO>(commentDTOList,
+            new PageRequest(comments.getNumber(),comments.getSize(),comments.getSort()),
+            comments.getTotalElements() );
 
         return result;
     }

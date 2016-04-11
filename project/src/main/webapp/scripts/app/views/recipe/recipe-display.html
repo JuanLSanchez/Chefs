@@ -1,5 +1,5 @@
 
-<div>
+<div >
     <jh-alert-error></jh-alert-error>
     <back-button></back-button>
     <button class="btn btn-default" ng-if="userAccount.login==recipe.user.login" ui-sref="HomeRecipeEdit({id:recipe.id})">
@@ -68,5 +68,10 @@
     <div>
         <p tags tags-list="recipe.socialEntity.tags"></p>
     </div>
+
+    <div ng-if="recipe.socialEntity.id">
+        <comments social-entity-id="recipe.socialEntity.id"></comments>
+    </div>
+
     <back-button></back-button>
 </div>

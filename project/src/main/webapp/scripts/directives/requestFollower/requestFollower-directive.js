@@ -10,6 +10,6 @@ angular.module('chefsApp').directive('requestFollower', ['RequestAPI',function()
             user:"="
         },
         controller: 'RequestFollowerDirectiveController',
-        templateUrl: 'scripts/directives/requestFollower-template.html'
+        templateUrl: 'scripts/directives/requestFollower/requestFollower-template.html'
     }
 }]);

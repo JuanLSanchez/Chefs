@@ -115,7 +115,8 @@
             "add": "Add",
             "start":"Start",
             "addordropimage": "Add or Drop Image",
-            "showfather": "Show father"
+            "showfather": "Show father",
+            "send":"Send"
         },
         "detail": {
             "field": "Field",

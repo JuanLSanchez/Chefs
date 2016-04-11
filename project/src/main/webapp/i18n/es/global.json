@@ -114,7 +114,8 @@
             "add": "Añadir",
             "start":"Iniciar",
             "addordropimage": "Selecciona o arrastra una imagen",
-            "showfather": "Ver padre"
+            "showfather": "Ver padre",
+            "send":"Enviar"
         },
         "detail": {
             "field": "Field",

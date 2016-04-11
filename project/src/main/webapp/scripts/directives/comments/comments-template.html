@@ -1,0 +1,61 @@
+<div >
+    <h3 class="text-center"><span translate="chefsApp.comment.title"></span></h3>
+    <form name="commentForm" role="form" ng-submit="save()" show-validation>
+        <div class="form-group">
+            <!--<label translate="chefsApp.recipe.name" for="field_name">Name</label>-->
+            <textarea type="text" class="form-control" name="body" id="comment_body"
+                   ng-model="comment.body" placeholder="{{'chefsApp.comment.placeholde' | translate}}..."
+                   required/>
+            <div ng-show="commentForm.body.$invalid">
+                <p class="help-block"
+                   ng-show="commentForm.body.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <button type="submit" ng-disabled="commentForm.$invalid" class="btn btn-primary bottom-right pull-right">
+            <span class="glyphicon glyphicon-send"></span>&nbsp;<span translate="entity.action.send">Send</span>
+        </button>
+        <div class="clearfix"></div>
+    </form>
+
+    <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
+        <div ng-repeat="comment in comments | orderBy:'-creationMoment'" >
+            <hr>
+            <div class="row">
+                <div class="img-comments text-center col-sm-2 hand" ui-sref="ChefRecipes({login:comment.user.login})">
+                    <img ng-show="comment.user.profilePicture"
+                         class="img-responsive img-circle"
+                         data-ng-src="{{'data:image/*;base64,' + comment.user.profilePicture}}"/>
+                    <img ng-show="!comment.user.profilePicture"
+                         class="img-responsive img-circle"
+                         src="assets/images/picture-profile.png"
+                         ng-style="{'background-color':'#9999ff'}"/>
+                    <p>{{comment.user.firstName}}<small>@{{comment.user.login}}</small></p>
+                </div>
+                <div class="col-sm-9">
+                    <div class="comment">
+                        <div class="popover-example text-left">
+                            <div class="popover right">
+                                <div class="arrow"></div>
+                                <h3 class="popover-title">
+                                    {{comment.creationMoment | date:'dd MM yyyy'}}
+                                    <div ng-if="user.login==comment.user.login" style="display: inline-block" class="pull-right">
+                                        <span class="glyphicon glyphicon-trash hand"
+                                              ng-click="delete(comment)"></span>
+                                        <span class="glyphicon glyphicon-cog hand"
+                                              ng-click="edit(comment)"></span>
+                                    </div>
+                                </h3>
+                                <div class="popover-content">
+                                    <p>{{comment.body}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
