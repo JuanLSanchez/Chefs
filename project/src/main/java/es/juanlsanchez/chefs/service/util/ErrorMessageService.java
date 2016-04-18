@@ -11,4 +11,5 @@ public class ErrorMessageService {
     public static final String ILLEGAL_MENU = "Illegal menu";
     public static final String ILLEGAL_SOCIAL_ENTITY = "Illegal social entity";
     public static final String ILLEGAL_COMMENT = "Illegal comment";
+    public static final String ILLEGAL_TODO = "Function not created";
 }

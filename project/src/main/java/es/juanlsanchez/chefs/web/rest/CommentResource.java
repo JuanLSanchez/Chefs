@@ -1,7 +1,6 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import es.juanlsanchez.chefs.domain.Comment;
 import es.juanlsanchez.chefs.service.CommentService;
 import es.juanlsanchez.chefs.web.rest.dto.CommentDTO;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;

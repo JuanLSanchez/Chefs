@@ -3,9 +3,13 @@ package es.juanlsanchez.chefs.service;
 import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.domain.SocialPicture;
 import es.juanlsanchez.chefs.repository.SocialEntityRepository;
+import es.juanlsanchez.chefs.service.util.ErrorMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 /**
  * Created by juanlu on 5/12/15.
@@ -24,6 +28,8 @@ public class SocialEntityService {
     private TagService tagService;
     @Autowired
     private SocialPictureService socialPictureService;
+    @Autowired
+    private RecipeService recipeService;
 
     public SocialEntity save(SocialEntity socialEntity) {
         SocialEntity result;
@@ -48,6 +54,21 @@ public class SocialEntityService {
         if( socialEntity.getBlocked() == null ){ socialEntity.setBlocked( DEFAULT_BLOCKED ); }
 
         result = socialEntityRepository.save(socialEntity);
+
+        return result;
+    }
+
+    public SocialEntity findOne(Long socialEntityId) {
+        SocialEntity result;
+
+        result = Optional.ofNullable(socialEntityRepository.findOne(socialEntityId))
+            .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY));
+
+        if(result.getRecipe()!=null){
+            Assert.notNull(recipeService.findOne(result.getId()), ErrorMessageService.ILLEGAL_SOCIAL_ENTITY);
+        }else{
+            throw new IllegalArgumentException(ErrorMessageService.ILLEGAL_TODO);
+        }
 
         return result;
     }

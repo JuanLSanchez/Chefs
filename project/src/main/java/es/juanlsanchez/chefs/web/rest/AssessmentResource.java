@@ -1,15 +1,10 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import es.juanlsanchez.chefs.domain.Assessment;
-import es.juanlsanchez.chefs.repository.AssessmentRepository;
+import es.juanlsanchez.chefs.service.AssessmentService;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
-import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing Assessment.
@@ -32,84 +24,114 @@ public class AssessmentResource {
     private final Logger log = LoggerFactory.getLogger(AssessmentResource.class);
 
     @Inject
-    private AssessmentRepository assessmentRepository;
+    private AssessmentService assessmentService;
 
     /**
-     * POST  /assessments -> Create a new assessment.
+     * PUT  /assessments/{socialEntityId} -> Updates an existing assessment.
      */
-    @RequestMapping(value = "/assessments",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Assessment> createAssessment(@Valid @RequestBody Assessment assessment) throws URISyntaxException {
-        log.debug("REST request to save Assessment : {}", assessment);
-        if (assessment.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new assessment cannot already have an ID").body(null);
-        }
-        Assessment result = assessmentRepository.save(assessment);
-        return ResponseEntity.created(new URI("/api/assessments/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("assessment", result.getId().toString()))
-                .body(result);
-    }
-
-    /**
-     * PUT  /assessments -> Updates an existing assessment.
-     */
-    @RequestMapping(value = "/assessments",
+    @RequestMapping(value = "/assessments/{socialEntityId}",
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Assessment> updateAssessment(@Valid @RequestBody Assessment assessment) throws URISyntaxException {
+    public ResponseEntity<Double> updateAssessment(@Valid @RequestBody Integer assessment,
+                                                    @PathVariable Long socialEntityId) throws URISyntaxException {
         log.debug("REST request to update Assessment : {}", assessment);
-        if (assessment.getId() == null) {
-            return createAssessment(assessment);
+        ResponseEntity<Double> result;
+        Double assessmentValue;
+
+        try{
+            assessmentValue = assessmentService.save(socialEntityId, assessment);
+            result = ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("assessment", assessmentValue.toString()))
+                .body(assessmentValue);
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Assessment result = assessmentRepository.save(assessment);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("assessment", assessment.getId().toString()))
-                .body(result);
+
+        return result;
     }
 
     /**
-     * GET  /assessments -> get all the assessments.
+     * GET  /assessments/{socialEntityId} -> get the avg of rating for a socialentity.
      */
-    @RequestMapping(value = "/assessments",
+    @RequestMapping(value = "/assessments/{socialEntityId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Assessment>> getAllAssessments(Pageable pageable)
+    public ResponseEntity<Double> getAllAssessments(@PathVariable Long socialEntityId)
         throws URISyntaxException {
-        Page<Assessment> page = assessmentRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/assessments");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        log.debug("REST request to get Assessment of social entity: {}", socialEntityId);
+        ResponseEntity<Double> result;
+        Double rating;
+
+        try{
+            rating = assessmentService.findRatingBySocialEntityId(socialEntityId);
+            result = new ResponseEntity<>(rating, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
     }
 
     /**
-     * GET  /assessments/:id -> get the "id" assessment.
+     * GET  /assessments/user/{socialEntityId} -> get the "rating" assessment in a social entity by principal.
      */
-    @RequestMapping(value = "/assessments/{id}",
+    @RequestMapping(value = "/assessments/user/{socialEntityId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Assessment> getAssessment(@PathVariable Long id) {
-        log.debug("REST request to get Assessment : {}", id);
-        return Optional.ofNullable(assessmentRepository.findOne(id))
-            .map(assessment -> new ResponseEntity<>(
-                assessment,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<Integer> getAssessment(@PathVariable Long socialEntityId) {
+        log.debug("REST request to get Assessment of user: {}", socialEntityId);
+        ResponseEntity<Integer> result;
+        Integer rating;
+
+        try{
+            rating = assessmentService.findRatingOfUserBySocialEntityId(socialEntityId);
+            result = new ResponseEntity<>(rating, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
     }
 
     /**
-     * DELETE  /assessments/:id -> delete the "id" assessment.
+     * DELETE  /assessments/user/{socialEntityId} -> delete the assessment in a social entity by principal.
      */
-    @RequestMapping(value = "/assessments/{id}",
+    @RequestMapping(value = "/assessments/user/{socialEntityId}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> deleteAssessment(@PathVariable Long id) {
-        log.debug("REST request to delete Assessment : {}", id);
-        assessmentRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("assessment", id.toString())).build();
+    public ResponseEntity<Void> deleteAssessment(@PathVariable Long socialEntityId) {
+        log.debug("REST request to delete Assessment of social entity: {}", socialEntityId);
+        ResponseEntity<Void> result;
+
+        try{
+            assessmentService.deleteBySocialEntityId(socialEntityId);
+            result = ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityDeletionAlert("assessment", socialEntityId.toString()))
+                .build();
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
     }
 }

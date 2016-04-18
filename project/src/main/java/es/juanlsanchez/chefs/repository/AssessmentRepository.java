@@ -10,7 +10,5 @@ import java.util.List;
  */
 public interface AssessmentRepository extends JpaRepository<Assessment,Long> {
 
-    @Query("select assessment from Assessment assessment where assessment.user.login = ?#{principal.username}")
-    List<Assessment> findByUserIsCurrentUser();
-
+    Assessment findOneByUserLoginAndSocialEntityId(String login, Long socialEntityId);
 }
