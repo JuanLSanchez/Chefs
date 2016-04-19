@@ -2,7 +2,9 @@ package es.juanlsanchez.chefs.service;
 
 import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.domain.SocialPicture;
+import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.SocialEntityRepository;
+import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.service.util.ErrorMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 /**
  * Created by juanlu on 5/12/15.
+ * Service to Social entities
  */
 @Service
 @Transactional
@@ -30,6 +33,8 @@ public class SocialEntityService {
     private SocialPictureService socialPictureService;
     @Autowired
     private RecipeService recipeService;
+    @Autowired
+    private UserService userService;
 
     public SocialEntity save(SocialEntity socialEntity) {
         SocialEntity result;
@@ -71,5 +76,48 @@ public class SocialEntityService {
         }
 
         return result;
+    }
+
+    public Integer findRatingBySocialEntityId(Long socialEntityId) {
+        Integer result;
+        SocialEntity socialEntity;
+
+        socialEntity = findOne(socialEntityId);
+
+        result = socialEntity.getUsers().size();
+
+        return result;
+    }
+
+    public Boolean findRatingOfUserBySocialEntityId(Long socialEntityId) {
+        boolean like;
+        User principal;
+
+        principal = userService.getPrincipal();
+
+        like = findOne(socialEntityId).getUsers().contains(principal);
+
+        return like;
+    }
+
+    public Boolean update(Long socialEntityId) {
+        boolean like;
+        SocialEntity socialEntity;
+        User principal;
+
+        socialEntity = findOne(socialEntityId);
+        principal = userService.getPrincipal();
+
+        like = !socialEntity.getUsers().contains(principal);
+
+        if(like){
+            socialEntity.getUsers().add(principal);
+        }else{
+            socialEntity.getUsers().remove(principal);
+        }
+
+        socialEntityRepository.save(socialEntity);
+
+        return like;
     }
 }

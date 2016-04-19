@@ -1,0 +1,11 @@
+<div>
+    <span class="btn btn-info" ng-click="updateLike()">
+        <span ng-if="user" ng-switch="like">
+            <span ng-switch-when="true" class="glyphicon glyphicon-heart glyphicon-like"></span>
+            <span ng-switch-when="false" class="glyphicon glyphicon-heart"></span>
+        </span>
+        <span>
+            {{totalLikes}}
+        </span>
+    </span>
+</div>

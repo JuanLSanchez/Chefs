@@ -17,4 +17,5 @@ public interface SocialEntityRepository extends JpaRepository<SocialEntity,Long>
     @Query("select socialEntity from SocialEntity socialEntity left join fetch socialEntity.tags left join fetch socialEntity.users where socialEntity.id =:id")
     SocialEntity findOneWithEagerRelationships(@Param("id") Long id);
 
+    
 }

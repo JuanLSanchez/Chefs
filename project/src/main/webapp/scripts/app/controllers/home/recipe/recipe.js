@@ -43,6 +43,10 @@ angular.module('chefsApp')
                         templateUrl: 'scripts/directives/assessments/assessments-template.html',
                         controller: 'AssessmentsDirectiveController'
                     },
+                    'nav_3@': {
+                        templateUrl: 'scripts/directives/likes/likes-template.html',
+                        controller: 'LikesDirectiveController'
+                    },
                     'content@': {
                         templateUrl: 'scripts/app/views/recipe/recipe-display.html',
                         controller: 'RecipeDisplayController'
