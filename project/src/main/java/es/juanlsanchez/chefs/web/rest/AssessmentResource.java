@@ -96,6 +96,7 @@ public class AssessmentResource {
 
         try{
             rating = assessmentService.findRatingOfUserBySocialEntityId(socialEntityId);
+            if(rating==null)rating=-1;
             result = new ResponseEntity<>(rating, HttpStatus.OK);
         }catch (IllegalArgumentException e){
             log.debug("Illegal argument exception: {}", e.getMessage());
@@ -115,15 +116,16 @@ public class AssessmentResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> deleteAssessment(@PathVariable Long socialEntityId) {
+    public ResponseEntity<Double> deleteAssessment(@PathVariable Long socialEntityId) {
         log.debug("REST request to delete Assessment of social entity: {}", socialEntityId);
-        ResponseEntity<Void> result;
+        ResponseEntity<Double> result;
+        Double sumRating;
 
         try{
-            assessmentService.deleteBySocialEntityId(socialEntityId);
+            sumRating = assessmentService.deleteBySocialEntityId(socialEntityId);
             result = ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityDeletionAlert("assessment", socialEntityId.toString()))
-                .build();
+                .body(sumRating);
         }catch (IllegalArgumentException e){
             log.debug("Illegal argument exception: {}", e.getMessage());
             result = ResponseEntity.badRequest()

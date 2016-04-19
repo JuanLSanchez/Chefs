@@ -1,0 +1,9 @@
+<div>
+    <h2 class="text-center"><span translate="chefsApp.assessment.rating"></span> </h2>
+    <h3 class="text-center" ng-switch="totalRating >= 0">
+        <span ng-switch-when="true">{{totalRating | number : 2}}</span><span ng-switch-when="false">-</span>
+        <small>/10</small></h3>
+    <p class="text-center">
+        <uib-rating ng-model="rate" max="10" on-leave="assess()"></uib-rating>
+    </p>
+</div>

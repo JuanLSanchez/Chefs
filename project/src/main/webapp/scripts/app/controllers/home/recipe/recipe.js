@@ -39,6 +39,10 @@ angular.module('chefsApp')
                     pageTitle: 'chefsApp.recipe.detail.title'
                 },
                 views: {
+                    'nav_2@': {
+                        templateUrl: 'scripts/directives/assessments/assessments-template.html',
+                        controller: 'AssessmentsDirectiveController'
+                    },
                     'content@': {
                         templateUrl: 'scripts/app/views/recipe/recipe-display.html',
                         controller: 'RecipeDisplayController'
@@ -48,6 +52,7 @@ angular.module('chefsApp')
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('recipe');
                         $translatePartialLoader.addPart('comment');
+                        $translatePartialLoader.addPart('assessment');
                         return $translate.refresh();
                     }],
                     entity: ['$stateParams', 'Recipe', function($stateParams, Recipe) {

@@ -6,13 +6,16 @@
                 "createLabel": "Create a new Assessment",
                 "createOrEditLabel": "Create or edit a Assessment"
             },
+            "created": "Creada valoración",
+            "updated": "Actualizada valoración",
+            "deleted": "Eliminada valoración",
             "delete": {
                 "question": "Are you sure you want to delete Assessment {{ id }}?"
             },
             "detail": {
                 "title": "Assessment"
             },
-            "rating": "Rating",
+            "rating": "Puntuación",
             "user": "User",
             "socialEntity": "SocialEntity"
         }

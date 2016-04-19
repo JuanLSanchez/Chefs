@@ -6,9 +6,9 @@
                 "createLabel": "Create a new Assessment",
                 "createOrEditLabel": "Create or edit a Assessment"
             },
-            "created": "A new Assessment is created with identifier {{ param }}",
-            "updated": "A Assessment is updated with identifier {{ param }}",
-            "deleted": "A Assessment is deleted with identifier {{ param }}",
+            "created": "A new Assessment is created",
+            "updated": "A Assessment is updated",
+            "deleted": "A Assessment is deleted",
             "delete": {
                 "question": "Are you sure you want to delete Assessment {{ id }}?"
             },

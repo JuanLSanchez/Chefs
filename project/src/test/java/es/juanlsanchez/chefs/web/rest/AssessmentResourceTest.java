@@ -321,7 +321,8 @@ public class AssessmentResourceTest {
 
         // Get the assessment
         restAssessmentMockMvc.perform(get("/api/assessments/user/{socialEntityId}", socialEntityId))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").value(-1));
     }
 
     @Test

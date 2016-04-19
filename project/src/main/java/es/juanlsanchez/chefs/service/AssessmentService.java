@@ -4,6 +4,7 @@ import es.juanlsanchez.chefs.domain.Assessment;
 import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.repository.AssessmentRepository;
+import es.juanlsanchez.chefs.repository.SocialEntityRepository;
 import es.juanlsanchez.chefs.service.util.ErrorMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class AssessmentService {
 
     @Autowired
     private AssessmentRepository assessmentRepository;
+    @Autowired
+    private SocialEntityRepository socialEntityRepository;
 
     @Autowired
     private UserService userService;
@@ -32,21 +35,24 @@ public class AssessmentService {
         SocialEntity socialEntity;
         Assessment assessment;
         User principal;
+        Double result;
 
         socialEntity = Optional.ofNullable(socialEntityService.findOne(socialEntityId))
             .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY));
+
         principal = userService.getPrincipal();
         size = socialEntity.getAssessments().size();
         sumRating = socialEntity.getSumRating();
 
+        /* Check if the user has assessment */
         assessment = Optional
             .ofNullable(assessmentRepository.findOneByUserLoginAndSocialEntityId(principal.getLogin(), socialEntityId))
             .orElseGet(() -> {
-            Assessment a = new Assessment();
-            a.setSocialEntity(socialEntity);
-            a.setUser(principal);
-            return a;
-        });
+                Assessment a = new Assessment();
+                a.setSocialEntity(socialEntity);
+                a.setUser(principal);
+                return a;
+            });
 
         if(assessment.getId()==null){
             size++;
@@ -56,19 +62,30 @@ public class AssessmentService {
 
         sumRating += rating;
 
+        /* Modified entities */
         assessment.setRating(rating);
+        socialEntity.setSumRating(sumRating);
 
+        /* Save entities */
         assessmentRepository.save(assessment);
+        socialEntityRepository.save(socialEntity);
 
-        return sumRating.doubleValue()/size.doubleValue();
+        result = sumRating.doubleValue()/size.doubleValue();
+
+        return result;
     }
 
     public Double findRatingBySocialEntityId(Long socialEntityId) {
         SocialEntity socialEntity;
+        Double sumRating, size, result;
 
         socialEntity = socialEntityService.findOne(socialEntityId);
+        sumRating = socialEntity.getSumRating().doubleValue();
+        size = new Double(socialEntity.getAssessments().size());
 
-        return socialEntity.getSumRating().doubleValue() / socialEntity.getAssessments().size();
+        result = size>0?(sumRating/size):-1;
+
+        return result;
     }
 
     public Integer findRatingOfUserBySocialEntityId(Long socialEntityId) {
@@ -77,7 +94,7 @@ public class AssessmentService {
 
         principal = userService.getPrincipal();
         assessment = findOneByUserLoginAndSocialEntityId(principal.getLogin(), socialEntityId)
-            .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY));
+            .orElse(new Assessment());
 
         return assessment.getRating();
     }
@@ -92,18 +109,31 @@ public class AssessmentService {
         return result;
     }
 
-    public void deleteBySocialEntityId(Long socialEntityId) {
+    public Double deleteBySocialEntityId(Long socialEntityId) {
         Assessment assessment;
         SocialEntity socialEntity;
         User principal;
+        Double sumRating, size, result;
 
+        /* Check principal */
         principal = userService.getPrincipal();
         assessment = findOneByUserLoginAndSocialEntityId(principal.getLogin(), socialEntityId)
             .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY));
 
+        /* Modified social entity */
         socialEntity = socialEntityService.findOne(socialEntityId);
+        sumRating = socialEntity.getSumRating().doubleValue();
+        size = new Double(socialEntity.getAssessments().size());
         socialEntity.setSumRating(socialEntity.getSumRating() - assessment.getRating());
 
+        /* Create result */
+        size --;
+        sumRating -= assessment.getRating();
+        result = sumRating/size;
+
+        /* Delete assessment */
         assessmentRepository.delete(assessment);
+
+        return result;
     }
 }
