@@ -3,7 +3,6 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.service.SocialEntityService;
-import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,6 @@ public class LikeResource {
         try{
             likes = socialEntityService.update(socialEntityId);
             result = ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("socialEntity", socialEntityId.toString()))
                 .body(likes);
         }catch (IllegalArgumentException e){
             log.debug("Illegal argument exception: {}", e.getMessage());

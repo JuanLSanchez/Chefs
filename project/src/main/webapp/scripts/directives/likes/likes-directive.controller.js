@@ -1,18 +1,13 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('LikesDirectiveController', function ($scope, Like, $state, ParseLinks, Principal, entity) {
+    .controller('LikesDirectiveController', function ($scope, Like, $state, ParseLinks, Principal) {
         $scope.totalLikes = "-";
         $scope.like = false;
         var socialEntityId;
 
-        if(entity){
-            entity.$promise.then(function(response){
-                socialEntityId = response.socialEntity.id;
-                loadTotalLikes(socialEntityId);
-                loadLike(socialEntityId);
-            });
-        }
+        socialEntityId = $scope.socialEntityId;
+
 
         var loadTotalLikes = function(socialEntityId){
             Like.likesOfSocialEntity(socialEntityId).then(function(result){
@@ -41,5 +36,8 @@ angular.module('chefsApp')
                 }
             });
         };
+
+        loadTotalLikes(socialEntityId);
+        loadLike(socialEntityId);
 
     });

@@ -10,7 +10,7 @@ angular.module('chefsApp')
                 return $http.get('api/likes/user/'+socialEntityId);
             },
             update: function(socialEntityId){
-                return $http.put('api/assessments/'+socialEntityId, null);
+                return $http.put('api/likes/'+socialEntityId);
             }
         };
     });

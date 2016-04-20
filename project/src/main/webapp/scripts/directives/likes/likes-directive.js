@@ -2,14 +2,14 @@
  * Created by juanlu on 11/02/16.
  */
 
-angular.module('chefsApp').directive('assessments', ['Assessment',function()
+angular.module('chefsApp').directive('like', ['Like',function()
 {
     return {
         restrict: 'E',
         scope: {
             socialEntityId:"="
         },
-        controller: 'AssessmentsDirectiveController',
-        templateUrl: 'scripts/directives/comments/assessments-template.html'
+        controller: 'LikesDirectiveController',
+        templateUrl: 'scripts/directives/likes/likes-template.html'
     }
 }]);

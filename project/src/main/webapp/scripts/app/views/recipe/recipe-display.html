@@ -12,6 +12,9 @@
     </button>
     <h2>
         {{recipe.name}}
+        <div ng-if="recipe.socialEntity.id" style="display: inline-block;">
+            <like social-entity-id="recipe.socialEntity.id"></like>
+        </div>
     </h2>
     <h3 ng-if="recipe.father.id">
         <small>

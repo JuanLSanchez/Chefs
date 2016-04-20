@@ -10,6 +10,6 @@ angular.module('chefsApp').directive('assessments', ['Assessment',function()
             socialEntityId:"="
         },
         controller: 'AssessmentsDirectiveController',
-        templateUrl: 'scripts/directives/comments/assessments-template.html'
+        templateUrl: 'scripts/directives/assessments/assessments-template.html'
     }
 }]);

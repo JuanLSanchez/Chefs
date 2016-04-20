@@ -1,18 +1,13 @@
 'use strict';
 
 angular.module('chefsApp')
-    .controller('AssessmentsDirectiveController', function ($scope, Assessment, $state, ParseLinks, Principal, entity) {
+    .controller('AssessmentsDirectiveController', function ($scope, Assessment, $state, ParseLinks, Principal) {
         $scope.totalRating = "-";
         $scope.rate=null;
         var socialEntityId;
 
-        if(entity){
-            entity.$promise.then(function(response){
-                socialEntityId = response.socialEntity.id;
-                loadTotalRating(socialEntityId);
-                loadRating(socialEntityId);
-            });
-        }
+        socialEntityId = $scope.socialEntityId;
+
 
         var loadTotalRating = function(socialEntityId){
             Assessment.assessmentOfSocialEntity(socialEntityId).then(function(result){
@@ -51,5 +46,8 @@ angular.module('chefsApp')
                 });
             }
         };
+
+        loadTotalRating(socialEntityId);
+        loadRating(socialEntityId);
 
     });

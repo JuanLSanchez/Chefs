@@ -11,6 +11,10 @@ angular.module('chefsApp')
                     pageTitle: 'chefsApp.recipe.detail.title'
                 },
                 views: {
+                    'nav_2@': {
+                        templateUrl: 'scripts/app/views/assessment/assessment.html',
+                        controller: 'AssessmentDisplayController'
+                    },
                     'content@': {
                         templateUrl: 'scripts/app/views/recipe/recipe-list-dto.html',
                         controller: 'RecipeListController'
