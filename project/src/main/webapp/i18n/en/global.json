@@ -11,6 +11,9 @@
         "menu": {
             "notifications":"Notifications",
             "home": "Home",
+            "activities":{
+                "likes":"Favourite recipes"
+            },
             "entities": {
                 "main": "Entities",
                 "profilePicture": "ProfilePicture",

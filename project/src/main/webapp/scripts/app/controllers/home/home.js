@@ -18,6 +18,9 @@ angular.module('chefsApp')
                         templateUrl: 'scripts/app/views/user/user-edit.html',
                         controller: 'HomeUserController'
                     },
+                    'nav_2@': {
+                        templateUrl: 'scripts/app/views/utilities/activities.html'
+                    },
                     'aside_1@': {
                         templateUrl: 'scripts/app/views/creator/creator.html'
                     }
