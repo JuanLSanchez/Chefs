@@ -101,4 +101,8 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     @Query("select new es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO(recipe) from Recipe recipe " +
         "where ?1 in elements(recipe.socialEntity.users)")
     Page<RecipeMiniDTO> findAllBySocialEntityUserIn(User principal, Pageable pageable);
+
+    @Query("select new es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO(recipe) from Recipe recipe " +
+        "where exists (select assessment from Assessment assessment where assessment.user = ?1 and assessment.socialEntity=recipe.socialEntity)")
+    Page<RecipeMiniDTO> findAllBySocialEntityAssessmentUser(User principal, Pageable pageable);
 }

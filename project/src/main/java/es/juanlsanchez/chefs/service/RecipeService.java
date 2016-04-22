@@ -286,4 +286,15 @@ public class RecipeService {
         return result;
 
     }
+
+    public Page<RecipeMiniDTO> findAllAssessed(Pageable pageable) {
+        Page<RecipeMiniDTO> result;
+        User principal;
+
+        principal = userService.getPrincipal();
+
+        result = recipeRepository.findAllBySocialEntityAssessmentUser(principal, pageable);
+
+        return result;
+    }
 }

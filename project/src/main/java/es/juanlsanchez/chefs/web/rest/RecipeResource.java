@@ -255,5 +255,34 @@ public class RecipeResource {
         return result;
     }
 
+    /**
+     * GET  /recipes_dto/assessed -> get all recipes that the user assess
+     */
+    @RequestMapping(value = "/recipes_dto/assessed",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<RecipeMiniDTO>> getAllRecipesAssessed(Pageable pageable)
+        throws URISyntaxException {
+        Page<RecipeMiniDTO> recipes;
+        HttpHeaders headers;
+        ResponseEntity<List<RecipeMiniDTO>> result;
+
+        try{
+            recipes = recipeService.findAllAssessed(pageable);
+            headers = PaginationUtil.generatePaginationHttpHeaders(recipes, "/api/recipes_dto/likes");
+            result = new ResponseEntity<>(recipes.getContent(), headers, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
+    }
+
 
 }
