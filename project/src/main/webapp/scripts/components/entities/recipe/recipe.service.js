@@ -31,3 +31,11 @@ angular.module('chefsApp')
             'get': { method: 'GET', isArray: true}
         });
     });
+angular.module('chefsApp')
+    .factory('RecipeSearch', function ($http) {
+        return {
+            recipeLikes: function(q,params){
+                return $http.get('api/recipes_dto/likes', {params:params});
+            }
+        };
+    });

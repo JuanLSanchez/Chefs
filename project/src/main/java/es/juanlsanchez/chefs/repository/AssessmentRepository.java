@@ -11,4 +11,6 @@ import java.util.List;
 public interface AssessmentRepository extends JpaRepository<Assessment,Long> {
 
     Assessment findOneByUserLoginAndSocialEntityId(String login, Long socialEntityId);
+
+    public List<Assessment> findAllBySocialEntityId(Long socialEntityId);
 }

@@ -66,5 +66,27 @@ footer {
     width:100%;
 }
 .glyphicon-like{
-    color: darkred;
+    color: #b33c38;
+}
+.search-link{
+    color: #105cb6;
+    font-weight: bold;
+}
+.search-link:hover{
+    color: #ffffff;
+    font-weight: bold;
+}
+.search-line{
+    display:inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.label-custom{
+    font-size: 90%;
+}
+.label-container{
+    margin-bottom: 10px;
+    margin-right: 5px;
+    display: inline-block;
 }

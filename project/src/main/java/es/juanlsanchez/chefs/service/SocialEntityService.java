@@ -58,6 +58,12 @@ public class SocialEntityService {
         }
         if( socialEntity.getBlocked() == null ){ socialEntity.setBlocked( DEFAULT_BLOCKED ); }
 
+        if(socialEntity.getId()!=null){
+            socialEntity.setUsers(socialEntityRepository.findOne(socialEntity.getId()).getUsers());
+        }
+
+        socialEntity.setUsers(socialEntity.getUsers());
+
         result = socialEntityRepository.save(socialEntity);
 
         return result;
@@ -70,7 +76,7 @@ public class SocialEntityService {
             .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY));
 
         if(result.getRecipe()!=null){
-            Assert.notNull(recipeService.findOne(result.getId()), ErrorMessageService.ILLEGAL_SOCIAL_ENTITY);
+            Assert.notNull(recipeService.findOne(result.getRecipe().getId()), ErrorMessageService.ILLEGAL_SOCIAL_ENTITY);
         }else{
             throw new IllegalArgumentException(ErrorMessageService.ILLEGAL_TODO);
         }

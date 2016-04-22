@@ -3,6 +3,6 @@
         <span ng-switch-when="true">{{totalRating | number : 2}}</span><span ng-switch-when="false">-</span>
         <small>/10</small></h3>
     <p class="text-center">
-        <uib-rating ng-model="rate" max="10" on-leave="assess()"></uib-rating>
+        <uib-rating ng-model="rate" max="10" on-leave="assess()" titles="[1,2,3,4,5,6,7,8,9,10]"></uib-rating>
     </p>
 </div>

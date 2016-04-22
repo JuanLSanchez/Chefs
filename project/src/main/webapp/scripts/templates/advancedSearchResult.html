@@ -1,0 +1,15 @@
+<a>
+    <p ng-if="match.model.type != 'search'">
+        <span ng-show="match.model.type == 'user'" class="glyphicon glyphicon-user"></span>&#32;
+        <span ng-show="match.model.type == 'recipe'" class="glyphicon glyphicon-cutlery"></span>&#32;
+        <span ng-show="match.model.type == 'tag'" class="glyphicon glyphicon-tag"></span>&#32;
+        <!--<b>{{match.model.secondField | limitTo:15}}{{match.model.secondField.length>15?'...':''}}</b>&#32;-->
+        <span class="search-line" data-toggle="tooltip" title="{{match.model.secondField}} (@{{match.model.login}})">
+            <b>{{match.model.secondField}}</b>&#32;
+            <small ng-show="match.model.type != 'tag'">(@{{match.model.login}})</small>
+        </span>
+    </p>
+    <p ng-if="match.model.type == 'search'" class="text-center search-link">
+        <span translate="{{match.model.text}}"></span>
+    </p>
+</a>

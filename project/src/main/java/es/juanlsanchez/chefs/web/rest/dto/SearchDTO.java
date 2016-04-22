@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.web.rest.dto;
 
 import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.Tag;
 import es.juanlsanchez.chefs.domain.User;
 
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ public class SearchDTO {
 
     public static final String TYPE_USER = "user";
     public static final String TYPE_RECIPE = "recipe";
+    private static final String TYPE_TAG = "tag";
 
     @NotNull
     @Size(min = 1, max = 50)
@@ -34,6 +36,10 @@ public class SearchDTO {
 
     public SearchDTO(Recipe recipe) {
         this(recipe.getId().toString(), recipe.getName(), TYPE_RECIPE, recipe.getUser().getLogin());
+    }
+
+    public SearchDTO(Tag tag) {
+        this(tag.getId().toString(), tag.getName(), TYPE_TAG, tag.getName());
     }
 
     public SearchDTO(String firstField, String secondField, String type, String login) {

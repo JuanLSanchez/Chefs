@@ -1,10 +1,13 @@
 package es.juanlsanchez.chefs.repository;
 
 import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.Tag;
+import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * Spring Data JPA repository for the Recipe entity.
@@ -73,4 +76,29 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     Page<RecipeMiniDTO> findDTOAllIsVisibilityForAnonymousAndLikeName(String name, Pageable pageable);
 
     Long countByUserLoginAndSocialEntityBlocked(String login, boolean blocked);
+
+
+    @Query("select new es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO(recipe) from Recipe recipe " +
+        "   where ?1 in elements(recipe.socialEntity.tags)" +
+        "   and ( recipe.user.login=?#{ principal.username }" +
+        "       or recipe.socialEntity.blocked=false " +
+        "           and (recipe.socialEntity.isPublic=true" +
+        "               or (select request " +
+        "                   from Request request " +
+        "                  where request.accepted=true " +
+        "                   and request.followed.login= recipe.user.login" +
+        "                   and request.follower.login=?#{ principal.username }) is not null))" +
+        "   order by recipe.updateDate desc")
+    Page<RecipeMiniDTO> findAllIsVisibilityAndSocialEntityTagId(Tag tag, Pageable pageable);
+    @Query("select new es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO(recipe) from Recipe recipe " +
+        "   where recipe.socialEntity.blocked=false " +
+        "   and recipe.socialEntity.isPublic=true" +
+        "   and ?1 in elements(recipe.socialEntity.tags)" +
+        "   order by recipe.updateDate desc")
+    Page<RecipeMiniDTO> findAllIsVisibilityForAnonymousAndSocialEntityTagId(Tag tag, Pageable pageable);
+
+
+    @Query("select new es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO(recipe) from Recipe recipe " +
+        "where ?1 in elements(recipe.socialEntity.users)")
+    Page<RecipeMiniDTO> findAllBySocialEntityUserIn(User principal, Pageable pageable);
 }

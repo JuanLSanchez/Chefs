@@ -1,2 +1,7 @@
-<span ng-repeat="tag in tags">{{tag.name}}{{$last ? '' : ', '}}</span>
-
+<div>
+    <div ng-repeat="tag in tags" class="label-container">
+        <span class="label label-primary label-custom hand" ui-sref="listRecipesByTag({tag:tag.id})">
+            <span class="glyphicon glyphicon-tag"><b>{{tag.name}}</b></span>
+        </span>
+    </div>
+</div>

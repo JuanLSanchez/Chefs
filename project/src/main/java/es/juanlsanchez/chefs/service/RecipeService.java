@@ -1,11 +1,9 @@
 package es.juanlsanchez.chefs.service;
 
 import com.google.common.collect.Lists;
-import es.juanlsanchez.chefs.domain.Recipe;
-import es.juanlsanchez.chefs.domain.Request;
-import es.juanlsanchez.chefs.domain.Step;
-import es.juanlsanchez.chefs.domain.User;
+import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
+import es.juanlsanchez.chefs.repository.TagRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
 import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
 import org.joda.time.DateTime;
@@ -35,6 +33,8 @@ public class RecipeService {
     private StepService stepService;
     @Autowired
     private SocialEntityService socialEntityService;
+    @Autowired
+    private TagRepository tagRepository;
 
     public Recipe save(Recipe recipe){
         User principal;
@@ -252,5 +252,38 @@ public class RecipeService {
 
     public Long countByUserLoginAndSocialEntityBlocked(String login, boolean blocked) {
         return recipeRepository.countByUserLoginAndSocialEntityBlocked(login, blocked);
+    }
+
+    public Page<RecipeMiniDTO> findAllIsVisibilityAndSocialEntityTagId(Long tagId, Pageable pageable) {
+        Page<RecipeMiniDTO> result;
+        boolean authenticated;
+        Tag tag;
+
+        tag = tagRepository.findOne(tagId);
+        Assert.notNull(tag);
+
+        try{
+            authenticated = SecurityUtils.isAuthenticated();
+        }catch (NullPointerException nfe){
+            authenticated = false;
+        }
+        if(authenticated){
+            result = recipeRepository.findAllIsVisibilityAndSocialEntityTagId(tag, pageable);
+        }else{
+            result = recipeRepository.findAllIsVisibilityForAnonymousAndSocialEntityTagId(tag, pageable);
+        }
+        return result;
+    }
+
+    public Page<RecipeMiniDTO> findAllLikes(Pageable pageable) {
+        Page<RecipeMiniDTO> result;
+        User principal;
+
+        principal = userService.getPrincipal();
+
+        result = recipeRepository.findAllBySocialEntityUserIn(principal, pageable);
+
+        return result;
+
     }
 }

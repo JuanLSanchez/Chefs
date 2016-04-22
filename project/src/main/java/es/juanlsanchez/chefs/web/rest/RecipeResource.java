@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Recipe.
@@ -194,4 +196,64 @@ public class RecipeResource {
             "/api/recipes_dto/findAllIsVisibilityAndLikeName/"+name);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    /**
+     * GET  /recipes_dto/withTag/{tag} -> get all recipes filter by name.
+     */
+    @RequestMapping(value = "/recipes_dto/withTag/{tag}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<RecipeMiniDTO>> getAllRecipesIsVisibilityByTag(@PathVariable Long tag, Pageable pageable)
+        throws URISyntaxException {
+        Page<RecipeMiniDTO> recipes;
+        HttpHeaders headers;
+        ResponseEntity<List<RecipeMiniDTO>> result;
+
+        try{
+            recipes = recipeService.findAllIsVisibilityAndSocialEntityTagId(tag, pageable);
+            headers = PaginationUtil.generatePaginationHttpHeaders(recipes, "/api/recipes_dto/withTag/" + tag);
+            result = new ResponseEntity<>(recipes.getContent(), headers, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
+    }
+
+    /**
+     * GET  /recipes_dto/likes -> get all recipes that like to the user
+     */
+    @RequestMapping(value = "/recipes_dto/likes",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<RecipeMiniDTO>> getAllRecipesLike(Pageable pageable)
+        throws URISyntaxException {
+        Page<RecipeMiniDTO> recipes;
+        HttpHeaders headers;
+        ResponseEntity<List<RecipeMiniDTO>> result;
+
+        try{
+            recipes = recipeService.findAllLikes(pageable);
+            headers = PaginationUtil.generatePaginationHttpHeaders(recipes, "/api/recipes_dto/likes");
+            result = new ResponseEntity<>(recipes.getContent(), headers, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
+    }
+
+
 }

@@ -1,0 +1,23 @@
+<a ng-click="showRecipe({id:recipe.id, login:recipe.user})" class="thumbnail">
+    <div class="row">
+        <div class="col-lg-3">
+            <img class="img-responsive"
+                 data-ng-src="{{'data:image/*;base64,' + recipe.picture}}"
+                 ng-if="recipe.picture"/>
+        </div>
+        <div class="col-lg-9">
+            <h3>{{recipe.name}}</h3>
+
+            <p>
+                <span translate="chefsApp.recipe.steps">Steps</span>: {{ recipe.nSteps }},
+                Likes: {{recipe.nLike}},
+                <span translate="chefsApp.recipe.comments">Comments</span>: {{ recipe.nComments }},
+                <span translate="chefsApp.recipe.assessment">Assessment</span>: {{ recipe.avgAssessment }}
+            </p>
+
+            <p>{{recipe.description}}</p>
+
+            <p>{{recipe.tags}}</p>
+        </div>
+    </div>
+</a>

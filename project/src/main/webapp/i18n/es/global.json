@@ -1,5 +1,10 @@
 {
     "global": {
+        "search":{
+            "recipes":"Más recetas",
+            "users":"Más usuarios",
+            "notFound":"No se han encontrado resultados"
+        },
         "add": "Añadir",
         "title": "Chefs",
         "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",

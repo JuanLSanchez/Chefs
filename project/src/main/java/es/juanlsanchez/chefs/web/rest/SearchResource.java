@@ -2,12 +2,17 @@ package es.juanlsanchez.chefs.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.Tag;
 import es.juanlsanchez.chefs.domain.User;
 import es.juanlsanchez.chefs.service.RecipeService;
+import es.juanlsanchez.chefs.service.TagService;
 import es.juanlsanchez.chefs.service.UserService;
+import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
 import es.juanlsanchez.chefs.web.rest.dto.SearchDTO;
+import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +37,9 @@ public class SearchResource {
     @Inject
     private RecipeService recipeService;
 
+    @Inject
+    private TagService tagService;
+
     /**
      * GET  /users/:q -> get all users filter by first name and login.
      */
@@ -46,7 +54,8 @@ public class SearchResource {
         List<SearchDTO> searchDTO = users.getContent().stream()
             .map(SearchDTO::new)
             .collect(Collectors.toList());
-        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(users, "/api/search/users/" + q);
+        return new ResponseEntity<>(searchDTO, headers, HttpStatus.OK);
     }
 
     /**
@@ -63,7 +72,8 @@ public class SearchResource {
         List<SearchDTO> searchDTO = users.getContent().stream()
             .map(SearchDTO::new)
             .collect(Collectors.toList());
-        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(users, "/api/search/users");
+        return new ResponseEntity<>(searchDTO, headers, HttpStatus.OK);
     }
 
     /**
@@ -80,7 +90,26 @@ public class SearchResource {
         List<SearchDTO> searchDTO = recipes.getContent().stream()
             .map(SearchDTO::new)
             .collect(Collectors.toList());
-        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(recipes, "/api/search/recipes/" + q);
+        return new ResponseEntity<>(searchDTO, headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /tags/:q -> get all recipes filter by name.
+     */
+    @RequestMapping(value = "/tags/{q}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<SearchDTO>> getAllTagsLikeName(@PathVariable String q, Pageable pageable)
+        throws URISyntaxException {
+        Page<Tag> tags = tagService.findAllByNameContains(q, pageable);
+        List<SearchDTO> searchDTO = tags.getContent().stream()
+            .map(SearchDTO::new)
+            .collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(tags, "/api/search/tags/" + q);
+        return new ResponseEntity<>(searchDTO, headers, HttpStatus.OK);
     }
 
 
