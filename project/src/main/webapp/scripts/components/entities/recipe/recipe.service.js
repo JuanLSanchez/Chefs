@@ -36,6 +36,9 @@ angular.module('chefsApp')
         return {
             recipeLikes: function(q,params){
                 return $http.get('api/recipes_dto/likes', {params:params});
+            },
+            recipeAssessed: function(q,params){
+                return $http.get('api/recipes_dto/assessed', {params:params});
             }
         };
     });

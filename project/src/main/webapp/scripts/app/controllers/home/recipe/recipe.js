@@ -51,6 +51,26 @@ angular.module('chefsApp')
                     SearchRecipe: function(RecipeSearch){return RecipeSearch.recipeLikes;}
                 }
             })
+            .state('HomeRecipesAssessed', {
+                parent: 'home',
+                url: '/recipe/assessed',
+                data: {
+                    pageTitle: 'chefsApp.recipe.home.title'
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/views/recipe/recipe-list-dto.html',
+                        controller: 'RecipeListController'
+                    }
+                },
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('recipe');
+                        return $translate.refresh();
+                    }],
+                    SearchRecipe: function(RecipeSearch){return RecipeSearch.recipeAssessed;}
+                }
+            })
             .state('HomeRecipesDisplay', {
                 parent: 'home',
                 url: '/recipe/{id}',

@@ -12,7 +12,8 @@
             "notifications":"Notifications",
             "home": "Home",
             "activities":{
-                "likes":"Favourite recipes"
+                "likes":"Favourite recipes",
+                "assessed":"Assessed recipes"
             },
             "entities": {
                 "main": "Entities",
