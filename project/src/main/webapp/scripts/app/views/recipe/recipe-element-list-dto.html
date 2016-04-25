@@ -1,23 +1,23 @@
-<a ng-click="showRecipe({id:recipe.id, login:recipe.user})" class="thumbnail">
-    <div class="row">
-        <div class="col-lg-3">
-            <img class="img-responsive"
-                 data-ng-src="{{'data:image/*;base64,' + recipe.picture}}"
-                 ng-if="recipe.picture"/>
-        </div>
-        <div class="col-lg-9">
-            <h3>{{recipe.name}}</h3>
+<div class="thumbnail">
+    <img class="img-responsive hand img-rounded"
+         data-ng-src="{{'data:image/*;base64,' + recipe.picture}}"
+         ng-if="recipe.picture"
+         ng-click="showRecipe({id:recipe.id, login:recipe.user})"/>
 
-            <p>
-                <span translate="chefsApp.recipe.steps">Steps</span>: {{ recipe.nSteps }},
-                Likes: {{recipe.nLike}},
-                <span translate="chefsApp.recipe.comments">Comments</span>: {{ recipe.nComments }},
-                <span translate="chefsApp.recipe.assessment">Assessment</span>: {{ recipe.avgAssessment }}
-            </p>
+    <div class="caption">
+        <h3>
+            <span ng-click="showRecipe({id:recipe.id, login:recipe.user})" class="hand">{{recipe.name}}</span>
+            <like social-entity-id="recipe.socialEntityId" style="display:inline-block;"></like>
+        </h3>
 
-            <p>{{recipe.description}}</p>
+        <p>{{recipe.description}}</p>
 
-            <p>{{recipe.tags}}</p>
-        </div>
+        <p>
+            <span translate="chefsApp.recipe.steps">Steps</span>: {{ recipe.nSteps }}
+            <span translate="chefsApp.recipe.comments">Comments</span>: {{ recipe.nComments }}
+        </p>
+
+        <p tags tags-list="recipe.tags"></p>
+        <assessments social-entity-id="recipe.socialEntityId" class="text-center"></assessments>
     </div>
-</a>
+</div>

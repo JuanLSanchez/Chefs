@@ -1,11 +1,11 @@
 <div>
     <back-button></back-button>
     <jh-alert></jh-alert>
-
-    <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
-        <div ng-repeat="recipe in recipes| orderBy:'-updateDate'">
-            <hr>
-            <div ng-include="'scripts/app/views/recipe/recipe-element-list-dto.html'"></div>
+    <hr>
+    <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" class="row">
+        <div ng-repeat="recipe in recipes| orderBy:'-updateDate'" >
+            <div ng-if="$index % 2 == 0" class="clearfix"></div>
+            <div ng-include="'scripts/app/views/recipe/recipe-element-list-dto.html'" class="col-sm-6"></div>
         </div>
     </div>
 </div>

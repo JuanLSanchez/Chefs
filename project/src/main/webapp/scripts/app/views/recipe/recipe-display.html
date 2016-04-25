@@ -19,30 +19,39 @@
     <h3 ng-if="recipe.father.id">
         <small>
             <span translate="entity.detail.createdfrom">Created from</span>:
-            <span class="hand label label-default"
+            <span class="hand label label-warning"
                   ui-sref="ChefRecipeDisplay({id:recipe.father.id, login:recipe.father.user.login})">
                 <span class="glyphicon glyphicon-cutlery"></span> {{recipe.father.name}}
             </span>
             <span style="margin:5px;"></span>
-            <span class="label label-default hand" ui-sref="ChefRecipes({login:recipe.father.user.login})">
-                <span class="glyphicon glyphicon-user"></span> {{recipe.father.user.login}}
+            <span class="label label-warning hand" ui-sref="ChefRecipes({login:recipe.father.user.login})">
+                <span class="glyphicon glyphicon-user"></span> {{recipe.father.user.firstName}} (@{{recipe.father.user.login}})
             </span>
         </small>
     </h3>
-    <div class="thumbnail" ng-if="recipe.socialEntity.socialPicture.src">
-        <img class="img-responsive"
-             data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"
-             ng-if="recipe.socialEntity.socialPicture.src"/>
-        <div class="caption" ng-if="recipe.socialEntity.socialPicture.title">
-            <p class="text-center">{{recipe.socialEntity.socialPicture.title}}</p>
+    <div class="row">
+        <div class="thumbnail col-sm-8" ng-if="recipe.socialEntity.socialPicture.src">
+            <img class="img-responsive"
+                 data-ng-src="{{'data:image/*;base64,' + recipe.socialEntity.socialPicture.src}}"
+                 ng-if="recipe.socialEntity.socialPicture.src"/>
+            <div class="caption" ng-if="recipe.socialEntity.socialPicture.title">
+                <p class="text-center">{{recipe.socialEntity.socialPicture.title}}</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h4 ng-if="ingredients.length>0"><span translate="global.menu.entities.ingredients">Ingredients</span>: </h4>
+            <ul>
+                <li ng-repeat="ingredient in ingredients"> {{ingredient.food.name}} {{ingredient.amount}}{{ingredient.measurement}}</li>
+            </ul>
         </div>
     </div>
 
-            <p>{{recipe.description}}</p>
+
+    <p>{{recipe.description}}</p>
     <h3 translate="chefsApp.recipe.steps"></h3>
     <div ng-repeat="step in recipe.steps | orderBy: '+position'">
         <h4><span translate="global.menu.entities.step">Step</span> {{$index + 1}}</h4>
-        <p><span translate="global.menu.entities.ingredients">Ingredients</span>: </p>
+        <p ng-if="step.ingredients.length>0"><span translate="global.menu.entities.ingredients">Ingredients</span>: </p>
         <ul>
             <li ng-repeat="ingredient in step.ingredients"> {{ingredient.food.name}} {{ingredient.amount}}{{ingredient.measurement}}</li>
         </ul>

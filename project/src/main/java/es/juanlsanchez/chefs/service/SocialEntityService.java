@@ -111,12 +111,13 @@ public class SocialEntityService {
         SocialEntity socialEntity;
         User principal;
 
-        socialEntity = findOne(socialEntityId);
+        socialEntity = socialEntityRepository.findOne(socialEntityId);
         principal = userService.getPrincipal();
 
         like = !socialEntity.getUsers().contains(principal);
 
         if(like){
+            findOne(socialEntityId);
             socialEntity.getUsers().add(principal);
         }else{
             socialEntity.getUsers().remove(principal);

@@ -2,13 +2,14 @@ package es.juanlsanchez.chefs.web.rest.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import es.juanlsanchez.chefs.domain.*;
+import es.juanlsanchez.chefs.domain.Recipe;
+import es.juanlsanchez.chefs.domain.Tag;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeDeserializer;
 import es.juanlsanchez.chefs.domain.util.CustomDateTimeSerializer;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -39,11 +40,13 @@ public class RecipeMiniDTO implements Serializable {
 
     private Double avgAssessment;
 
-    private String tags;
+    private Set<Tag> tags;
 
     private String user;
 
     private Long fatherId;
+
+    private Long socialEntityId;
 
     private byte[] picture;
 
@@ -79,7 +82,7 @@ public class RecipeMiniDTO implements Serializable {
         return avgAssessment;
     }
 
-    public String getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
@@ -87,8 +90,12 @@ public class RecipeMiniDTO implements Serializable {
         return user;
     }
 
-    public Long getFather() {
+    public Long getFatherId() {
         return fatherId;
+    }
+
+    public Long getSocialEntityId() {
+        return socialEntityId;
     }
 
     public byte[] getPicture() {
@@ -97,7 +104,7 @@ public class RecipeMiniDTO implements Serializable {
 
     public RecipeMiniDTO(Long id, String name, String description, DateTime updateDate, int nSteps,
                          int nLike, int nComments, double avgAssessment, Set<Tag> tags,
-                         String userLogin, Long fatherId, byte[] picture) {
+                         String userLogin, Long fatherId, byte[] picture, Long socialEntityId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -106,10 +113,11 @@ public class RecipeMiniDTO implements Serializable {
         this.nLike = nLike;
         this.nComments = nComments;
         this.avgAssessment = avgAssessment;
-        this.tags = tags.stream().limit(10).map(Tag::getName).collect(Collectors.joining(", "));
+        this.tags = tags.stream().limit(10).collect(Collectors.toSet());
         this.user = userLogin;
         this.fatherId = fatherId;
         this.picture = picture;
+        this.socialEntityId = socialEntityId;
     }
 
     public RecipeMiniDTO(Recipe recipe){
@@ -121,7 +129,8 @@ public class RecipeMiniDTO implements Serializable {
                 :-1,
             recipe.getSocialEntity().getTags(), recipe.getUser().getLogin(),
             recipe.getFather()==null?null:recipe.getFather().getId(),
-            recipe.getSocialEntity().getSocialPicture().getSrc());
+            recipe.getSocialEntity().getSocialPicture().getSrc(),
+            recipe.getSocialEntity().getId());
     }
 
     @Override
