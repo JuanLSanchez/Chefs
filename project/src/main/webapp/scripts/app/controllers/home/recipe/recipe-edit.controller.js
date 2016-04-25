@@ -46,6 +46,16 @@ angular.module('chefsApp').controller('RecipeEditController',
                 Recipe.save($scope.recipe, onSaveFinished);
             }
         };
+
+        $scope.delete = function (id) {
+            Recipe.get({id: id}, function(result) {
+                $scope.recipe = result;
+                Recipe.delete({id: id},
+                    function () {
+                        $state.go('HomeRecipes');
+                    });
+            });
+        };
 //Tags
 
         $scope.loadTags = function(query) {

@@ -58,11 +58,11 @@ public class SocialEntity implements Serializable {
     @JsonIgnore
     private Competition competition;
 
-    @OneToMany(mappedBy = "socialEntity", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "socialEntity", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Assessment> assessments = new HashSet<>();
 
-    @OneToMany(mappedBy = "socialEntity", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "socialEntity", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
 

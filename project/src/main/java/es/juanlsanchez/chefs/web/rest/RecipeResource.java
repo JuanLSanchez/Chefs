@@ -284,5 +284,30 @@ public class RecipeResource {
         return result;
     }
 
+    /**
+     * DELETE  /recipes/{id} -> delete the "id" competition.
+     */
+    @RequestMapping(value = "/recipes/{id}",
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> deleteCompetition(@PathVariable Long id) {
+        log.debug("REST request to delete Recipe : {}", id);
+        ResponseEntity<Void> result;
+
+        try{
+            recipeService.delete(id);
+            result = ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityDeletionAlert("recipe", id.toString())).build();
+        }catch (IllegalArgumentException e){
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        }catch (Throwable e){
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
+    }
 
 }

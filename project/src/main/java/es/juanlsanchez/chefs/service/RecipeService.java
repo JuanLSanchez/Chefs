@@ -5,6 +5,7 @@ import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.repository.RecipeRepository;
 import es.juanlsanchez.chefs.repository.TagRepository;
 import es.juanlsanchez.chefs.security.SecurityUtils;
+import es.juanlsanchez.chefs.service.util.ErrorMessageService;
 import es.juanlsanchez.chefs.web.rest.dto.RecipeMiniDTO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -296,5 +297,17 @@ public class RecipeService {
         result = recipeRepository.findAllBySocialEntityAssessmentUser(principal, pageable);
 
         return result;
+    }
+
+    public void delete(Long id) {
+        Recipe recipe;
+        String principal;
+
+        recipe = recipeRepository.findOne(id);
+        principal = SecurityUtils.getCurrentLogin();
+
+        Assert.isTrue(recipe.getUser().getLogin().equals(principal), ErrorMessageService.ILLEGAL_OBJECT_OWNER);
+
+        recipeRepository.delete(id);
     }
 }
