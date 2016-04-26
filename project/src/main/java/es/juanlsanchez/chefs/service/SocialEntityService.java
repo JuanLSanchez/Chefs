@@ -35,6 +35,8 @@ public class SocialEntityService {
     private RecipeService recipeService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ActivityLogService activityLogService;
 
     public SocialEntity save(SocialEntity socialEntity) {
         SocialEntity result;
@@ -119,8 +121,10 @@ public class SocialEntityService {
         if(like){
             findOne(socialEntityId);
             socialEntity.getUsers().add(principal);
+            activityLogService.createLike(socialEntity, principal);
         }else{
             socialEntity.getUsers().remove(principal);
+            activityLogService.deleteLike(socialEntity, principal);
         }
 
         socialEntityRepository.save(socialEntity);

@@ -97,9 +97,9 @@ public class RecipeService {
         }
 
         if(create){
-            activityLogService.create(recipe);
+            activityLogService.createRecipe(recipe);
         }else {
-            activityLogService.update(recipe);
+            activityLogService.updateRecipe(recipe);
         }
         return result;
 
@@ -314,7 +314,7 @@ public class RecipeService {
         principal = SecurityUtils.getCurrentLogin();
 
         Assert.isTrue(recipe.getUser().getLogin().equals(principal), ErrorMessageService.ILLEGAL_OBJECT_OWNER);
-        activityLogService.delete(recipe);
+        activityLogService.deleteRecipe(recipe);
         recipeRepository.delete(id);
     }
 }

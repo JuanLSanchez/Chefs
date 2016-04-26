@@ -5,5 +5,5 @@ package es.juanlsanchez.chefs.domain.enumeration;
  * Created by juanlu on 26-abr-2016.
  */
 public enum ActivityLogTypeEnum {
-    RECIPE, COMMENT, ASSESSMENT
+    RECIPE, COMMENT, COMMENT_RECIPE, COMMENT_COMPETITION, COMMENT_EVENT, LIKE_RECIPE, LIKE_COMPETITION, LIKE_EVENT, ASSESSMENT
 }

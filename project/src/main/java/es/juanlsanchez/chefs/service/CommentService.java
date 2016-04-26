@@ -43,6 +43,9 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ActivityLogService activityLogService;
+
     /* Simple CRUD*/
     public CommentDTO create(String body, Long socialEntityId) {
         Comment result;
@@ -65,6 +68,8 @@ public class CommentService {
 
         result = commentRepository.save(result);
 
+        activityLogService.createComment(result);
+
         return new CommentDTO(result);
     }
 
@@ -81,6 +86,8 @@ public class CommentService {
         result.setBody(body);
 
         result = commentRepository.save(result);
+
+        activityLogService.updateComment(result);
 
         return new CommentDTO(result);
     }
