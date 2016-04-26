@@ -25,8 +25,8 @@ public class ActivityLog implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "id_of_customer")
-    private Integer idOfCustomer;
+    @Column(name = "login")
+    private String login;
 
     @Column(name = "name_of_customer")
     private String nameOfCustomer;
@@ -36,6 +36,9 @@ public class ActivityLog implements Serializable {
 
     @Column(name = "object_type")
     private String objectType;
+
+    @Column(name = "object_id")
+    private Long objectId;
 
     @Column(name = "verb")
     private String verb;
@@ -63,12 +66,12 @@ public class ActivityLog implements Serializable {
         this.id = id;
     }
 
-    public Integer getIdOfCustomer() {
-        return idOfCustomer;
+    public String getLogin() {
+        return login;
     }
 
-    public void setIdOfCustomer(Integer idOfCustomer) {
-        this.idOfCustomer = idOfCustomer;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getNameOfCustomer() {
@@ -135,6 +138,14 @@ public class ActivityLog implements Serializable {
         this.tags = tags;
     }
 
+    public Long getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (id == null){return false;}
@@ -160,10 +171,11 @@ public class ActivityLog implements Serializable {
     public String toString() {
         return "ActivityLog{" +
                 "id=" + id +
-                ", idOfCustomer='" + idOfCustomer + "'" +
+                ", login='" + login + "'" +
                 ", nameOfCustomer='" + nameOfCustomer + "'" +
                 ", pictureUrl='" + pictureUrl + "'" +
                 ", objectType='" + objectType + "'" +
+                ", objectId='" + objectId + "'" +
                 ", verb='" + verb + "'" +
                 ", moment='" + moment + "'" +
                 ", name='" + name + "'" +

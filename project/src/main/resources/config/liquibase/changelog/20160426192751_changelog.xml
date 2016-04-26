@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+   <changeSet author="juanlu" id="1461691676098-1">
+
+       <delete tableName="ACTIVITY_LOG">
+       </delete>
+       <dropColumn columnName="id_of_customer"
+                   tableName="ACTIVITY_LOG"/>
+       <addColumn tableName="ACTIVITY_LOG">
+           <column name="login" type="varchar(50)"/>
+       </addColumn>
+       <addColumn tableName="ACTIVITY_LOG">
+           <column name="object_id" type="bigint"/>
+       </addColumn>
+
+       <loadData encoding="UTF-8"
+                 file="config/liquibase/populate/activity_log2.csv"
+                 separator=";"
+                 tableName="activity_log"/>
+
+   </changeSet>
+
+</databaseChangeLog>

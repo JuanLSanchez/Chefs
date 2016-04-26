@@ -35,5 +35,6 @@
     <!-- Modified populate -->
     <include file="classpath:config/liquibase/changelog/20160229000000_changelog.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160309000000_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160426192751_changelog.xml" relativeToChangelogFile="false"/>
     <!-- JHipster will add liquibase changelogs here -->
 </databaseChangeLog>

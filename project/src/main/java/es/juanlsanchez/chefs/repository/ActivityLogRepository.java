@@ -8,4 +8,7 @@ import org.springframework.data.jpa.repository.*;
  */
 public interface ActivityLogRepository extends JpaRepository<ActivityLog,Long> {
 
+    @Modifying
+    @Query("update ActivityLog activity set activity.objectId = NULL where activity.objectId=?1 AND activity.objectType=?2")
+    void dropObjectId(Long id, String objectType);
 }

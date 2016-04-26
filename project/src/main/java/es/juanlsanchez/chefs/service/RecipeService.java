@@ -36,6 +36,8 @@ public class RecipeService {
     private SocialEntityService socialEntityService;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private ActivityLogService activityLogService;
 
     public Recipe save(Recipe recipe){
         User principal;
@@ -43,14 +45,14 @@ public class RecipeService {
         Set<Step> steps;
         List<Step> toRemove = Lists.newArrayList();
         Recipe result, oldRecipe=null;
-        boolean make = false;
+        boolean make = false, create = recipe.getId() == null || recipe.getId() == 0;
 
         currentTime = new DateTime();
         principal = userService.getPrincipal();
 
         Assert.notNull(recipe.getSocialEntity(), "The social entity cannot be null");
 
-        if(recipe.getId() == null || recipe.getId() == 0){
+        if(create){
             /* Receta nueva */
             recipe.setCreationDate(currentTime);
             make = true;
@@ -94,6 +96,11 @@ public class RecipeService {
             result = null;
         }
 
+        if(create){
+            activityLogService.create(recipe);
+        }else {
+            activityLogService.update(recipe);
+        }
         return result;
 
     }
@@ -307,7 +314,7 @@ public class RecipeService {
         principal = SecurityUtils.getCurrentLogin();
 
         Assert.isTrue(recipe.getUser().getLogin().equals(principal), ErrorMessageService.ILLEGAL_OBJECT_OWNER);
-
+        activityLogService.delete(recipe);
         recipeRepository.delete(id);
     }
 }
