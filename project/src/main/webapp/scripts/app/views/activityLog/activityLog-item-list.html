@@ -1,7 +1,16 @@
 <p>
-    <b>{{activityLog.nameOfCustomer}}</b>
+    <strong>{{activityLog.nameOfCustomer}}</strong>
     <small>(@{{activityLog.login}})</small>
-    {{calculateMoment(activityLog.moment)}} </p>
-<p><span translate="global.activity.{{activityLog.verb}}.{{activityLog.objectType}}"></span> {{activityLog.name}}{{activityLog.objectId}}</p>
-<p>{{activityLog.description}}</p>
+    <em class="pull-right">{{calculateMoment(activityLog.moment)}}</em>
+</p>
+<p>
+    <span translate="global.activity.{{activityLog.verb}}.{{activityLog.objectType}}"></span>
+    <a ng-click="redirect()" class="hand">{{activityLog.name}}</a>
+</p>
+<p ng-show="activityLog.objectType != 'ASSESSMENT_RECIPE'">
+    {{activityLog.description}}
+</p>
+<p ng-show="activityLog.objectType == 'ASSESSMENT_RECIPE'">
+    <uib-rating ng-model="activityLog.description" max="10" read-only="true" titles="[1,2,3,4,5,6,7,8,9,10]" aria-labelledby="default-rating"></uib-rating>
+</p>
 <p tags tags-list="activityLog.tags"></p>

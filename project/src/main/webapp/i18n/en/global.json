@@ -3,36 +3,42 @@
         "activity":{
             "CREATE":{
                 "LIKE_RECIPE": "Likes the recipe",
-                "RECIPE":"",
-                "COMMENT":"",
-                "COMMENT_RECIPE":"",
-                "COMMENT_COMPETITION":"",
-                "COMMENT_EVENT":"",
-                "LIKE_COMPETITION":"",
-                "LIKE_EVENT":"",
-                "ASSESSMENT":""
+                "RECIPE":"Create the recipe",
+                "COMMENT":"Comment",
+                "COMMENT_RECIPE":"Comment the recipe",
+                "COMMENT_COMPETITION":"Comment the competitión",
+                "COMMENT_EVENT":"Comment the event",
+                "LIKE_COMPETITION":"Likes the competition",
+                "LIKE_EVENT":"Likes the event",
+                "ASSESSMENT":"Assess",
+                "ASSESSMENT_RECIPE":"Assess the recipe",
+                "ASSESSMENT_COMPETITION":"Assess the competition",
+                "ASSESSMENT_EVENT":"Assess the event"
             },
             "UPDATE":{
-                "RECIPE":"",
-                "COMMENT":"",
-                "COMMENT_RECIPE":"",
-                "COMMENT_COMPETITION":"",
-                "COMMENT_EVENT":"",
-                "LIKE_RECIPE":"",
-                "LIKE_COMPETITION":"",
-                "LIKE_EVENT":"",
-                "ASSESSMENT":""
+                "RECIPE":"Update the recipe",
+                "COMMENT":"Update the comment",
+                "COMMENT_RECIPE":"Update the recipe's comment",
+                "COMMENT_COMPETITION":"Update the competition's comment",
+                "COMMENT_EVENT":"Update the event's comment",
+                "ASSESSMENT":"Update the assessment",
+                "ASSESSMENT_RECIPE":"Update the recipe's assessment",
+                "ASSESSMENT_COMPETITION":"Update the competition's assessment",
+                "ASSESSMENT_EVENT":"Update the event's assessment"
             },
             "DELETE":{
                 "LIKE_RECIPE": "Stopped liking the recipe",
-                "RECIPE":"",
-                "COMMENT":"",
-                "COMMENT_RECIPE":"",
-                "COMMENT_COMPETITION":"",
-                "COMMENT_EVENT":"",
-                "LIKE_COMPETITION":"",
-                "LIKE_EVENT":"",
-                "ASSESSMENT":""
+                "RECIPE":"Remove the recipe",
+                "COMMENT":"Remove the comment",
+                "COMMENT_RECIPE":"Remove the recipe's comment",
+                "COMMENT_COMPETITION":"Remove the competition's comment",
+                "COMMENT_EVENT":"Remove the event's comment",
+                "LIKE_COMPETITION":"Stopped liking the competition",
+                "LIKE_EVENT":"Stopped liking the event",
+                "ASSESSMENT":"Update the assessment",
+                "ASSESSMENT_RECIPE":"Update the recipe's assessment",
+                "ASSESSMENT_COMPETITION":"Update the competition's assessment",
+                "ASSESSMENT_EVENT":"Update the event's assessment"
             }
         },
         "search":{

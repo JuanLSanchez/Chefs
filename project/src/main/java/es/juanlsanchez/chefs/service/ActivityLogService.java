@@ -208,7 +208,7 @@ public class ActivityLogService {
 
     /* Utilities */
     private String tagsToString(SocialEntity socialEntity) {
-        return socialEntity.getTags().stream().map(t -> tagToString(t))
+        return socialEntity.getTags().stream().limit(10).map(t -> tagToString(t))
             .collect(Collectors.joining(SEPARATOR + SEPARATOR));
     }
 

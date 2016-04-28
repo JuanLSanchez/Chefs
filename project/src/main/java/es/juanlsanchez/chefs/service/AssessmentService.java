@@ -39,6 +39,7 @@ public class AssessmentService {
         Assessment assessment;
         User principal;
         Double result;
+        boolean create;
 
         socialEntity = Optional.ofNullable(socialEntityService.findOne(socialEntityId))
             .orElseThrow(() -> new IllegalArgumentException(ErrorMessageService.ILLEGAL_SOCIAL_ENTITY));
@@ -57,12 +58,12 @@ public class AssessmentService {
                 return a;
             });
 
-        if(assessment.getId()==null){
+        create = assessment.getId()==null;
+
+        if(create){
             size++;
-            activityLogService.createAssessment(assessment);
         }else {
             sumRating -= assessment.getRating();
-            activityLogService.updateAssessment(assessment);
         }
 
         sumRating += rating;
@@ -76,6 +77,12 @@ public class AssessmentService {
         socialEntityRepository.save(socialEntity);
 
         result = sumRating.doubleValue()/size.doubleValue();
+
+        if(create){
+            activityLogService.createAssessment(assessment);
+        }else {
+            activityLogService.updateAssessment(assessment);
+        }
 
         return result;
     }

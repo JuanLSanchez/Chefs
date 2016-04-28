@@ -9,30 +9,36 @@
                 "COMMENT_COMPETITION": "Comento la competición",
                 "COMMENT_EVENT": "Comento el evento",
                 "LIKE_COMPETITION": "Le gusta la competición",
-                "LIKE_EVENT": "Le gusta ",
-                "ASSESSMENT": ""
+                "LIKE_EVENT": "Le gusta el evento",
+                "ASSESSMENT": "Valoró",
+                "ASSESSMENT_RECIPE":"Valoró la receta",
+                "ASSESSMENT_COMPETITION":"Valoró la competición",
+                "ASSESSMENT_EVENT":"Valoró el evento"
             },
             "UPDATE":{
-                "RECIPE":"",
-                "COMMENT":"",
-                "COMMENT_RECIPE":"",
-                "COMMENT_COMPETITION":"",
-                "COMMENT_EVENT":"",
-                "LIKE_RECIPE":"",
-                "LIKE_COMPETITION":"",
-                "LIKE_EVENT":"",
-                "ASSESSMENT":""
+                "RECIPE":"Actualizó la receta",
+                "COMMENT":"Actualizó el comentario",
+                "COMMENT_RECIPE":"Actualizó el comentario de la receta",
+                "COMMENT_COMPETITION":"Actualizó el comentario de la competición",
+                "COMMENT_EVENT":"Actualizó el comentario del evento",
+                "ASSESSMENT":"Actualizó la valoración",
+                "ASSESSMENT_RECIPE":"Actualizó la valoración de la receta",
+                "ASSESSMENT_COMPETITION":"Actualizó la valoración de la competición",
+                "ASSESSMENT_EVENT":"Actualizó la valoración del evento"
             },
             "DELETE":{
-                "LIKE_RECIPE": "Dejo de gustarle la receta"
-                "RECIPE":"",
-                "COMMENT":"",
-                "COMMENT_RECIPE":"",
-                "COMMENT_COMPETITION":"",
-                "COMMENT_EVENT":"",
-                "LIKE_COMPETITION":"",
-                "LIKE_EVENT":"",
-                "ASSESSMENT":""
+                "LIKE_RECIPE": "Dejo de gustarle la receta",
+                "RECIPE":"Eliminó la receta",
+                "COMMENT":"Eliminó el comentario",
+                "COMMENT_RECIPE":"Eliminó el comentario de la receta",
+                "COMMENT_COMPETITION":"Eliminó el comentario de la competición",
+                "COMMENT_EVENT":"Eliminó el comentario del evento",
+                "LIKE_COMPETITION":"Dejo de gustarle la competición",
+                "LIKE_EVENT":"Dejo de gustarle el vento",
+                "ASSESSMENT":"Eliminó la valoración",
+                "ASSESSMENT_RECIPE":"Eliminó la valoración de la receta",
+                "ASSESSMENT_COMPETITION":"Eliminó la valoración de la competición",
+                "ASSESSMENT_EVENT":"Eliminó la valoración del evento"
             }
         },
         "search":{

@@ -6,6 +6,7 @@ angular.module('chefsApp')
         $scope.page = 0;
         $scope.pageSize = 15;
         $scope.links = null;
+        $scope.assessments = ['ASSESSMENT_RECIPE', 'ASSESSMENT_COMPETITION', 'ASSESSMENT_EVENT', 'ASSESSMENT'];
         $scope.loadAll = function() {
             ActivityLog.activityLogs({page: $scope.page, size: $scope.pageSize}).then(function(result) {
                 $scope.links = ParseLinks.parse(result.headers('link'));
