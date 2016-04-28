@@ -1,0 +1,5 @@
+<div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" class="row">
+    <div ng-repeat="activityLog in activityLogs | orderBy:'-moment'" class="list-group-item">
+        <div ng-include="'scripts/app/views/activityLog/activityLog-item-list.html'"></div>
+    </div>
+</div>

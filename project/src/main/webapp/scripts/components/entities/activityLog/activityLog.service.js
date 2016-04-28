@@ -1,17 +1,22 @@
 'use strict';
 
 angular.module('chefsApp')
-    .factory('ActivityLog', function ($resource, DateUtils) {
-        return $resource('api/activityLogs/:id', {}, {
-            'query': { method: 'GET', isArray: true},
-            'get': {
-                method: 'GET',
-                transformResponse: function (data) {
-                    data = angular.fromJson(data);
-                    data.moment = DateUtils.convertDateTimeFromServer(data.moment);
-                    return data;
-                }
-            },
-            'update': { method:'PUT' }
-        });
+    .factory('ActivityLog', function ($http, DateUtils) {
+        return {
+            activityLogs: function(params){
+                return $http({
+                    url : "api/activityLogs",
+                    params : params,
+                    methor : 'GET',
+                    transformResponse: function (data) {
+                        data = angular.fromJson(data);
+                        for(var i in data){
+                            data[i].moment = DateUtils.convertDateTimeFromServer(data[i].moment);
+                        }
+                        return data;
+                    }
+
+                });
+            }
+        };
     });

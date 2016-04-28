@@ -1,6 +1,7 @@
 package es.juanlsanchez.chefs.repository;
 
 import es.juanlsanchez.chefs.domain.Request;
+import es.juanlsanchez.chefs.domain.User;
 import org.springframework.data.jpa.repository.*;
 
 import java.util.List;
@@ -32,4 +33,7 @@ public interface RequestRepository extends JpaRepository<Request,Long> {
 
     Long countByFollowedLoginAndAcceptedAndLockedAndIgnored(String login, boolean accepted, boolean locked, boolean ignored);
 
+    @Query("select request from Request request " +
+        " where request.follower.login = ?#{principal.username} ")
+    List<Request> findRequestWithPrincipalAsFollower();
 }

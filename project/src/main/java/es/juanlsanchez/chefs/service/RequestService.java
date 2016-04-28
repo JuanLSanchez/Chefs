@@ -157,4 +157,8 @@ public class RequestService {
 
         return result;
     }
+
+    public List<Request> findRequestWithPrincipalAsFollower() {
+        return requestRepository.findRequestWithPrincipalAsFollower();
+    }
 }

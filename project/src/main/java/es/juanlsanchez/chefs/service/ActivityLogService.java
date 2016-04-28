@@ -6,9 +6,12 @@ import es.juanlsanchez.chefs.domain.enumeration.ActivityLogVerbEnum;
 import es.juanlsanchez.chefs.repository.ActivityLogRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +26,10 @@ public class ActivityLogService {
     private static final String GELD = "\\";
     @Autowired
     private ActivityLogRepository activityLogRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RequestService requestService;
 
     /* CRUD */
     private void save(String description, String login, DateTime moment, String name, String nameOfCustomer,
@@ -41,6 +48,23 @@ public class ActivityLogService {
         activityLog.setObjectId(objcetId);
 
         activityLogRepository.save(activityLog);
+    }
+
+    public Page<ActivityLog> getPrincipalActivityLog(Pageable pageable) {
+        Page<ActivityLog> result;
+        List<Request> requests;
+        List<String> logins;
+
+        requests = requestService.findRequestWithPrincipalAsFollower();
+
+        logins = requests.stream()
+            .filter(r -> r.getAccepted())
+            .map(r -> r.getFollowed().getLogin())
+            .collect(Collectors.toList());
+
+        result = activityLogRepository.getActivityLogByLogin(logins, pageable);
+
+        return result;
     }
 
     /* Recipe activity log*/
