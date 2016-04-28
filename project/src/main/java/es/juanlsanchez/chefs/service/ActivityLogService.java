@@ -1,9 +1,11 @@
 package es.juanlsanchez.chefs.service;
 
+import com.google.common.collect.Lists;
 import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.domain.enumeration.ActivityLogTypeEnum;
 import es.juanlsanchez.chefs.domain.enumeration.ActivityLogVerbEnum;
 import es.juanlsanchez.chefs.repository.ActivityLogRepository;
+import es.juanlsanchez.chefs.web.rest.dto.ActivityLogDTO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +26,7 @@ import java.util.stream.Collectors;
 public class ActivityLogService {
 
     private static final String SEPARATOR = ",";
-    private static final String GELD = "\\";
+    private static final String GELD = "/";
     @Autowired
     private ActivityLogRepository activityLogRepository;
     @Autowired
@@ -50,8 +53,8 @@ public class ActivityLogService {
         activityLogRepository.save(activityLog);
     }
 
-    public Page<ActivityLog> getPrincipalActivityLog(Pageable pageable) {
-        Page<ActivityLog> result;
+    public Page<ActivityLogDTO> getPrincipalActivityLog(Pageable pageable) {
+        Page<ActivityLogDTO> result;
         List<Request> requests;
         List<String> logins;
 
@@ -88,7 +91,7 @@ public class ActivityLogService {
 
         description = recipe.getDescription();
         name = recipe.getName();
-        tags = tagToString(recipe.getSocialEntity());
+        tags = tagsToString(recipe.getSocialEntity());
         objcetId = recipe.getId();
 
         save(description, login, new DateTime(), name, nameOfCustomer, ActivityLogTypeEnum.RECIPE,
@@ -127,7 +130,7 @@ public class ActivityLogService {
         }
 
         save(comment.getBody(), comment.getUser().getLogin(), new DateTime(), name, comment.getUser().getFirstName(),
-            activityLogTypeEnum, tagToString(comment.getSocialEntity()), verb, objcetId);
+            activityLogTypeEnum, tagsToString(comment.getSocialEntity()), verb, objcetId);
     }
 
     /* Like activity log*/
@@ -161,17 +164,87 @@ public class ActivityLogService {
         }
 
         save(description, user.getLogin(), new DateTime(), name, user.getFirstName(),
-            activityLogTypeEnum, tagToString(socialEntity), verb, objcetId);
+            activityLogTypeEnum, tagsToString(socialEntity), verb, objcetId);
+    }
+
+    /* Assessment activity log */
+    public void createAssessment(Assessment assessment){
+        saveAssessment(assessment, ActivityLogVerbEnum.CREATE);
+
+    }
+
+    public void updateAssessment(Assessment assessment) {
+        saveAssessment(assessment, ActivityLogVerbEnum.UPDATE);
+    }
+
+    public void deleteAssessment(Assessment assessment){
+        saveAssessment(assessment, ActivityLogVerbEnum.DELETE);
+    }
+
+    private void saveAssessment(Assessment assessment, ActivityLogVerbEnum verb){
+        String name = "";
+        Long objcetId = -1L;
+        ActivityLogTypeEnum activityLogTypeEnum = ActivityLogTypeEnum.COMMENT;
+
+        if(assessment.getSocialEntity().getRecipe()!=null){
+            name = assessment.getSocialEntity().getRecipe().getName();
+            objcetId = assessment.getSocialEntity().getRecipe().getId();
+            activityLogTypeEnum = ActivityLogTypeEnum.ASSESSMENT_RECIPE;
+        }else if(assessment.getSocialEntity().getCompetition()!=null){
+            name = assessment.getSocialEntity().getCompetition().getName();
+            objcetId = assessment.getSocialEntity().getCompetition().getId();
+            activityLogTypeEnum = ActivityLogTypeEnum.ASSESSMENT_COMPETITION;
+        }else if(assessment.getSocialEntity().getEvent()!=null){
+            name = assessment.getSocialEntity().getEvent().getName();
+            objcetId = assessment.getSocialEntity().getEvent().getId();
+            activityLogTypeEnum = ActivityLogTypeEnum.ASSESSMENT_EVENT;
+        }
+
+        save(assessment.getRating().toString(), assessment.getUser().getLogin(), new DateTime(), name,
+            assessment.getUser().getFirstName(), activityLogTypeEnum, tagsToString(assessment.getSocialEntity()),
+            verb, objcetId);
     }
 
 
     /* Utilities */
-    private String tagToString(SocialEntity socialEntity) {
-        return socialEntity.getTags().stream().map(t -> withoutComme(t.getName()))
+    private String tagsToString(SocialEntity socialEntity) {
+        return socialEntity.getTags().stream().map(t -> tagToString(t))
             .collect(Collectors.joining(SEPARATOR + SEPARATOR));
     }
+
+    public static List<Tag> stringToTags(String tags){
+        if(tags != null && !tags.isEmpty()){
+            return Arrays.asList(tags.split(SEPARATOR + SEPARATOR)).stream()
+                .map(s -> stringToTag(reverseWithoutComme(s)))
+                .collect(Collectors.toList());
+        }else {
+            return Lists.newArrayList();
+        }
+    }
+
+    private static Tag stringToTag(String s) {
+        Tag result;
+        String[] array;
+
+        array = s.split( SEPARATOR + SEPARATOR);
+
+        result = new Tag();
+        result.setId(new Long(array[0]));
+        result.setName(reverseWithoutComme(array[1]));
+
+        return result;
+    }
+
+    private String tagToString(Tag t) {
+        return withoutComme(t.getId() + SEPARATOR + SEPARATOR + withoutComme(t.getName()));
+    }
+
     private String withoutComme(String name) {
         return name.replaceAll(SEPARATOR, GELD + SEPARATOR);
+    }
+
+    private static String reverseWithoutComme(String name) {
+        return name.replaceAll(GELD + SEPARATOR, SEPARATOR);
     }
 
 }

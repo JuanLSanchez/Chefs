@@ -1,5 +1,40 @@
 {
     "global": {
+        "activity":{
+            "CREATE":{
+                "LIKE_RECIPE": "Likes the recipe",
+                "RECIPE":"",
+                "COMMENT":"",
+                "COMMENT_RECIPE":"",
+                "COMMENT_COMPETITION":"",
+                "COMMENT_EVENT":"",
+                "LIKE_COMPETITION":"",
+                "LIKE_EVENT":"",
+                "ASSESSMENT":""
+            },
+            "UPDATE":{
+                "RECIPE":"",
+                "COMMENT":"",
+                "COMMENT_RECIPE":"",
+                "COMMENT_COMPETITION":"",
+                "COMMENT_EVENT":"",
+                "LIKE_RECIPE":"",
+                "LIKE_COMPETITION":"",
+                "LIKE_EVENT":"",
+                "ASSESSMENT":""
+            },
+            "DELETE":{
+                "LIKE_RECIPE": "Stopped liking the recipe",
+                "RECIPE":"",
+                "COMMENT":"",
+                "COMMENT_RECIPE":"",
+                "COMMENT_COMPETITION":"",
+                "COMMENT_EVENT":"",
+                "LIKE_COMPETITION":"",
+                "LIKE_EVENT":"",
+                "ASSESSMENT":""
+            }
+        },
         "search":{
             "recipes":"More recipes",
             "users":"More users",

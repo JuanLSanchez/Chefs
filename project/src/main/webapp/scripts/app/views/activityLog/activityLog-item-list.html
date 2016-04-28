@@ -2,6 +2,6 @@
     <b>{{activityLog.nameOfCustomer}}</b>
     <small>(@{{activityLog.login}})</small>
     {{calculateMoment(activityLog.moment)}} </p>
-<p>{{activityLog.verb}} {{activityLog.objectType}} {{activityLog.name}}{{activityLog.objectId}}</p>
+<p><span translate="global.activity.{{activityLog.verb}}.{{activityLog.objectType}}"></span> {{activityLog.name}}{{activityLog.objectId}}</p>
 <p>{{activityLog.description}}</p>
-<p>{{activityLog.tags}}</p>
+<p tags tags-list="activityLog.tags"></p>

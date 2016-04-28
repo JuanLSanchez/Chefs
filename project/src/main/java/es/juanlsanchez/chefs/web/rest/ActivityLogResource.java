@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import es.juanlsanchez.chefs.domain.ActivityLog;
 import es.juanlsanchez.chefs.repository.ActivityLogRepository;
 import es.juanlsanchez.chefs.service.ActivityLogService;
+import es.juanlsanchez.chefs.web.rest.dto.ActivityLogDTO;
 import es.juanlsanchez.chefs.web.rest.util.HeaderUtil;
 import es.juanlsanchez.chefs.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -41,11 +42,11 @@ public class ActivityLogResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<ActivityLog>> getAllActivityLogs(Pageable pageable)
+    public ResponseEntity<List<ActivityLogDTO>> getAllActivityLogs(Pageable pageable)
         throws URISyntaxException {
-        ResponseEntity<List<ActivityLog>> result;
+        ResponseEntity<List<ActivityLogDTO>> result;
         HttpHeaders headers;
-        Page<ActivityLog> page;
+        Page<ActivityLogDTO> page;
 
         try {
             page = activityLogService.getPrincipalActivityLog(pageable);

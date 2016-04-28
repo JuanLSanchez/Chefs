@@ -1,5 +1,6 @@
 package es.juanlsanchez.chefs.service;
 
+import es.juanlsanchez.chefs.domain.ActivityLog;
 import es.juanlsanchez.chefs.domain.Assessment;
 import es.juanlsanchez.chefs.domain.SocialEntity;
 import es.juanlsanchez.chefs.domain.User;
@@ -29,6 +30,8 @@ public class AssessmentService {
     private UserService userService;
     @Autowired
     private SocialEntityService socialEntityService;
+    @Autowired
+    private ActivityLogService activityLogService;
 
     public Double save(Long socialEntityId, Integer rating) {
         Integer size, sumRating;
@@ -56,8 +59,10 @@ public class AssessmentService {
 
         if(assessment.getId()==null){
             size++;
+            activityLogService.createAssessment(assessment);
         }else {
             sumRating -= assessment.getRating();
+            activityLogService.updateAssessment(assessment);
         }
 
         sumRating += rating;
@@ -130,6 +135,8 @@ public class AssessmentService {
         size --;
         sumRating -= assessment.getRating();
         result = sumRating/size;
+
+        activityLogService.deleteAssessment(assessment);
 
         /* Delete assessment */
         assessmentRepository.delete(assessment);
