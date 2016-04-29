@@ -14,7 +14,7 @@ angular.module('chefsApp')
                 },
                 views:{
                     'nav_1@': {
-                        templateUrl: 'scripts/app/views/user/user-display.html',
+                        templateUrl: 'scripts/app/views/user/user-display-follower.html',
                         controller: 'ChefUserController'
                     },
                     'aside_1@': {

@@ -6,6 +6,9 @@ angular.module('chefsApp')
         $scope.searchResult=[];
         $scope.page=0;
         $scope.pageSize=10;
+        $scope.recipes = [];
+        $scope.users = [];
+
 
         $scope.save = function () {
             var diff = $scope.search.substr(0,1);
@@ -17,7 +20,13 @@ angular.module('chefsApp')
             }else if ( diff == '&'){
                 $state.go('listRecipes', {q : q});
             }else{
-                $state.go('search', {q : diff+q});
+                if($scope.recipes.length>0 && $scope.users.length==0){
+                    $state.go('listRecipes', {q : q});
+                }else if($scope.recipes.length==0 && $scope.users.length>0){
+                    $state.go('listUser', {q : q});
+                }else{
+                    $state.go('search', {q : diff+q});
+                }
             }
         };
 
@@ -42,9 +51,11 @@ angular.module('chefsApp')
                 var nRecipes, nUsers, nTags, totalSum, totalShow=10;
                 Search.searchRecipes($scope.search,{page: $scope.page, size: $scope.pageSize}).then(function(recipes){
                     var recipeLinks = ParseLinks.parse(recipes.headers('link'));
+                    $scope.recipes = recipes.data;
 
                     Search.searchUsers($scope.search,{page: $scope.page, size: $scope.pageSize}).then(function(users){
                         var usersLinks = ParseLinks.parse(users.headers('link'));
+                        $scope.users = users.data;
 
                         Search.searchTags($scope.search,{page: $scope.page, size: $scope.pageSize}).then(function(tags){
                             var tagsLinks = ParseLinks.parse(tags.headers('link'));

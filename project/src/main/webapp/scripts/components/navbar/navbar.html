@@ -11,51 +11,30 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
             <ul class="nav navbar-nav navbar-left">
-                <li ng-switch-when="true" ng-class="{active: $state.indexOf('home') != -1}" class="dropdown pointer">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="" data-hover="dropdown">
-                        <span class="glyphicon glyphicon-home"></span>
-                        <span translate="global.menu.home">Home</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li ui-sref-active="active" ><a ui-sref="HomeActivityLog">
-                            <span class="glyphicon glyphicon-time"></span>
-                            &#xA0;<span translate="global.menu.entities.activityLog">Recipes</span>
-                        </a></li>
-                        <li ui-sref-active="active" ><a ui-sref="HomeRecipes">
-                            <span class="glyphicon glyphicon-cutlery"></span>
-                            &#xA0;<span translate="global.menu.entities.recipe">Recipes</span>
-                        </a></li>
-                        <li ui-sref-active="active" ><a ui-sref="HomeSchedules">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                            &#xA0;<span translate="global.menu.entities.schedule">Schedules</span>
-                        </a></li>
-                    </ul>
-                </li>
-                <li ng-class="{active: $state.includes('account')}"  ng-switch-when="true" class="dropdown pointer">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                                <span>
-                                    <span class="glyphicon glyphicon-user"></span>
-                                    <span class="hidden-tablet" translate="global.menu.account.main">
-                                        Account
-                                    </span>
-                                    <b class="caret"></b>
-                                </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li ui-sref-active="active" ><a ui-sref="password"><span class="glyphicon glyphicon-lock"></span>
-                            &#xA0;<span translate="global.menu.account.password">Password</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="sessions"><span class="glyphicon glyphicon-cloud"></span>
-                            &#xA0;<span translate="global.menu.account.sessions">Sessions</span></a></li>
-                        <li ui-sref-active="active" ><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>
-                            &#xA0;<span translate="global.menu.account.logout">Log out</span></a></li>
-                        <li ui-sref-active="active" ng-switch-when="false"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span>
-                            &#xA0;<span translate="global.menu.account.login">Authenticate</span></a></li>
-
-                        <li ui-sref-active="active" ng-switch-when="false"><a ui-sref="register"><span class="glyphicon glyphicon-plus-sign"></span>
-                            &#xA0;<span translate="global.menu.account.register">Register</span></a></li>
-                    </ul>
-                </li>
+                <li ng-switch-when="true" ui-sref-active="active" ><a ui-sref="HomeActivityLog">
+                    <span class="glyphicon glyphicon-time"
+                          title="{{'global.menu.entities.activityLog'|translate}}"></span>
+                </a></li>
+                <li ng-switch-when="true" ui-sref-active="active" ><a ui-sref="HomeRecipes">
+                    <span class="glyphicon glyphicon-cutlery"
+                          title="{{'global.menu.entities.recipe'|translate}}"></span>
+                </a></li>
+                <li ng-switch-when="true" ui-sref-active="active" ><a ui-sref="HomeSchedules">
+                    <span class="glyphicon glyphicon-calendar"
+                          title="{{'global.menu.entities.schedule'|translate}}"></span>
+                </a></li>
+                <li ng-switch-when="true" ui-sref-active="active" ><a ui-sref="password">
+                    <span class="glyphicon glyphicon-lock" title="{{'global.menu.account.password'|translate}}"></span>
+                </a></li>
+                <li ng-switch-when="true" ui-sref-active="active" ><a ui-sref="sessions">
+                    <span class="glyphicon glyphicon-cloud" title="{{'global.menu.account.sessions'|translate}}"></span>
+                </a></li>
+                <li ng-switch-when="true" ui-sref-active="active" ><a href="" ng-click="logout()">
+                    <span class="glyphicon glyphicon glyphicon-off" title="{{'global.menu.account.logout'|translate}}"></span>
+                </a></li>
+                <li ng-switch-when="false" ui-sref-active="hidden" ng-switch-when="false"><a ui-sref="login">
+                    <span class="glyphicon glyphicon-log-in" title="{{'global.menu.account.login'|translate}}"></span>
+                </a></li>
                 <li ng-class="{active: $state.includes('admin')}"  ng-switch-when="true" has-authority="ROLE_ADMIN" class="dropdown pointer">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
                                 <span>

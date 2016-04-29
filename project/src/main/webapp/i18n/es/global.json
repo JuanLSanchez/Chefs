@@ -2,7 +2,7 @@
     "global": {
         "activity":{
             "CREATE":{
-                "LIKE_RECIPE": "Le gusta la receta"
+                "LIKE_RECIPE": "Le gusta la receta",
                 "RECIPE": "Creo la receta",
                 "COMMENT": "Comento",
                 "COMMENT_RECIPE": "Comento la receta",
@@ -56,11 +56,12 @@
             },
             "home": "Inicio",
             "entities": {
+                "user":"Usuarios",
                 "notifications":"Notificaciones",
                 "main": "Entidades",
                 "profilePicture": "ProfilePicture",
                 "request": "Request",
-                "tag": "Etiqueta",
+                "tag": "Etiquetas",
                 "socialPicture": "SocialPicture",
                 "food": "Alimento",
                 "socialEntity": "SocialEntity",
@@ -78,7 +79,7 @@
                 "competition": "Competition",
                 "opinion": "Opinion",
                 "score": "Score",
-                "activityLog": "ActivityLog",
+                "activityLog": "Actividad",
                 "backgroundPicture": "BackgroundPicture",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
@@ -168,6 +169,7 @@
             "send":"Enviar"
         },
         "detail": {
+            "author":"Autor",
             "field": "Field",
             "value": "Value",
             "createdfrom": "Creada de"

@@ -29,6 +29,14 @@
             </span>
         </small>
     </h3>
+    <h3>
+        <small>
+            <span translate="entity.detail.author">Author</span>:
+            <span class="label label-warning hand" ui-sref="ChefRecipes({login:recipe.user.login})">
+                <span class="glyphicon glyphicon-user"></span> {{recipe.user.firstName}} (@{{recipe.user.login}})
+            </span>
+        </small>
+    </h3>
     <div class="row">
         <div class="thumbnail col-sm-8" ng-if="recipe.socialEntity.socialPicture.src">
             <img class="img-responsive"

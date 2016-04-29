@@ -62,4 +62,32 @@ public class ActivityLogResource {
 
         return result;
     }
+
+    /**
+     * GET  /activityLogs/{login} -> get all the activityLogs of a user.
+     */
+    @RequestMapping(value = "/activityLogs/{login}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<ActivityLogDTO>> getAllActivityLogs(@PathVariable String login, Pageable pageable)
+        throws URISyntaxException {
+        ResponseEntity<List<ActivityLogDTO>> result;
+        HttpHeaders headers;
+        Page<ActivityLogDTO> page;
+
+        try {
+            page = activityLogService.getActivityLog(login, pageable);
+            headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/activityLogs");
+            result = new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            log.debug("Illegal argument exception: {}", e.getMessage());
+            result = ResponseEntity.badRequest()
+                .header("Illegal argument exception:" + e.getMessage()).body(null);
+        } catch (Throwable e) {
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
+    }
 }

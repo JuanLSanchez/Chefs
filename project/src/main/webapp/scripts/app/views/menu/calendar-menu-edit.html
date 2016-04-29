@@ -62,7 +62,7 @@
         <tr ng-repeat="day in [0,1,2,3,4,5,6]">
             <td class="b">{{'week.'+(day+1)|translate}}</td>
             <td ng-repeat="week in calendar" class="text-center">
-                <div class="btn btn-primary btn-xs" ng-click="addMenu($parent.$index, day)">
+                <div class="btn btn-primary btn-xs" ng-click="addMenu($index, day)">
                     <span class="glyphicon glyphicon-plus hand"></span>
                 </div>
                 <div ng-repeat="menu in week[day]" class="menu">

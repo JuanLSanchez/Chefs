@@ -13,4 +13,5 @@ public class ErrorMessageService {
     public static final String ILLEGAL_COMMENT = "Illegal comment";
     public static final String ILLEGAL_TODO = "Function not created";
     public static final String ILLEGAL_OBJECT_OWNER = "The principal is not the owner";
+    public static final String ILLEGAL_USER_LOGIN = "Illegal login user";
 }

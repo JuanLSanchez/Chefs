@@ -57,10 +57,11 @@
                 "assessed":"Assessed recipes"
             },
             "entities": {
+                "user":"Users",
                 "main": "Entities",
                 "profilePicture": "ProfilePicture",
                 "request": "Request",
-                "tag": "Tag",
+                "tag": "Tags",
                 "socialPicture": "Pictures",
                 "food": "Food",
                 "socialEntity": "SocialEntity",
@@ -78,7 +79,7 @@
                 "competition": "Competition",
                 "opinion": "Opinion",
                 "score": "Score",
-                "activityLog": "ActivityLog",
+                "activityLog": "Timeline",
                 "backgroundPicture": "BackgroundPicture",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
@@ -169,6 +170,7 @@
             "send":"Send"
         },
         "detail": {
+            "author":"Author",
             "field": "Field",
             "value": "Value",
             "createdfrom": "Created from"

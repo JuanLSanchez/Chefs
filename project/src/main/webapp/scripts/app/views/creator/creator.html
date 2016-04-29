@@ -7,24 +7,14 @@
     </div>
     <div class="modal-footer">
         <div class="row">
-        <div class="col-xs-3">
-            <button type="button" class="btn btn-primary" ui-sref="HomeRecipeCreate({name:name})" title="{{'create.recipe' | translate}}">
+        <div class="col-xs-6">
+            <button type="button" class="btn btn-primary" ui-sref="HomeRecipeCreate({name:name})" title="{{'create.recipe' | translate}}" style="width: 100%;">
                 <span class="glyphicon glyphicon-cutlery"></span>
             </button>
         </div>
-        <div class="col-xs-3">
-            <button type="button" class="btn btn-primary" ui-sref="HomeSchedulesCreate({name:name})" title="{{'create.schedule' | translate}}">
+        <div class="col-xs-6">
+            <button type="button" class="btn btn-primary" ui-sref="HomeSchedulesCreate({name:name})" title="{{'create.schedule' | translate}}" style="width: 100%;">
                 <span class="glyphicon glyphicon-calendar"></span>
-            </button>
-        </div>
-        <div class="col-xs-3">
-            <button type="button" class="btn btn-primary" ng-click="user.event({name:name})" title="{{'create.event' | translate}}">
-                <span class="glyphicon glyphicon-bullhorn"></span>
-            </button>
-        </div>
-        <div class="col-xs-3">
-            <button type="button" class="btn btn-primary" ng-click="user.competition({name:name})" title="{{'create.competition' | translate}}">
-                <span class="glyphicon glyphicon-equalizer"></span>
             </button>
         </div>
         </div>

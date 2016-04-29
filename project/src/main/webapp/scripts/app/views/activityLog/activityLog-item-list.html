@@ -1,11 +1,13 @@
 <p>
-    <strong>{{activityLog.nameOfCustomer}}</strong>
-    <small>(@{{activityLog.login}})</small>
+        <strong>{{activityLog.nameOfCustomer}}</strong>
+    <a ui-sref="ChefActivityLog({login:activityLog.login})">
+        <small>(@{{activityLog.login}})</small>
+    </a>
     <em class="pull-right">{{calculateMoment(activityLog.moment)}}</em>
 </p>
 <p>
     <span translate="global.activity.{{activityLog.verb}}.{{activityLog.objectType}}"></span>
-    <a ng-click="redirect()" class="hand">{{activityLog.name}}</a>
+    <a ng-click="redirect(activityLog)" class="hand">{{activityLog.name}}</a>
 </p>
 <p ng-show="activityLog.objectType != 'ASSESSMENT_RECIPE'">
     {{activityLog.description}}

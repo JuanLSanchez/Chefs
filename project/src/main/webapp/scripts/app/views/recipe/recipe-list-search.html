@@ -1,3 +1,4 @@
+<h2 class="text-center"><u  translate="global.menu.entities.recipe"></u></h2>
 <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" class="row">
     <div ng-repeat="recipe in recipes| orderBy:'-updateDate'" >
         <div ng-if="$index % 2 == 0" class="clearfix"></div>

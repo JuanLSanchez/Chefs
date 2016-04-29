@@ -1,11 +1,9 @@
 package es.juanlsanchez.chefs.service;
 
-import es.juanlsanchez.chefs.domain.Authority;
-import es.juanlsanchez.chefs.domain.BackgroundPicture;
-import es.juanlsanchez.chefs.domain.ProfilePicture;
-import es.juanlsanchez.chefs.domain.User;
+import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.repository.AuthorityRepository;
 import es.juanlsanchez.chefs.repository.PersistentTokenRepository;
+import es.juanlsanchez.chefs.repository.RequestRepository;
 import es.juanlsanchez.chefs.repository.UserRepository;
 import es.juanlsanchez.chefs.security.AuthoritiesConstants;
 import es.juanlsanchez.chefs.security.SecurityUtils;
@@ -16,6 +14,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -56,6 +55,9 @@ public class UserService {
 
     @Inject
     private BackgroundPictureService backgroundPictureService;
+
+    @Autowired
+    private RequestRepository requestRepository;
 
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -119,7 +121,7 @@ public class UserService {
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);
         newUser.setAuthorities(authorities);
-        userRepository.save(newUser);
+        newUser = userRepository.save(newUser);
         // new user add pictures
         newUser.setBackgroundPicture(new BackgroundPicture());
         newUser.getBackgroundPicture().setUser(newUser);
@@ -128,6 +130,15 @@ public class UserService {
         newUser.getProfilePicture().setUser(newUser);
         profilePictureService.save(newUser.getProfilePicture());
         log.debug("Created Information for User: {}", newUser);
+
+        Request request;
+        request = new Request();
+        request.setAccepted(true);
+        request.setFollowed(newUser);
+        request.setFollower(newUser);
+        request.setCreationDate(new DateTime());
+        requestRepository.save(request);
+
         return newUser;
     }
 

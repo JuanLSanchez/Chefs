@@ -19,4 +19,7 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog,Long> {
 
     @Query("select new es.juanlsanchez.chefs.web.rest.dto.ActivityLogDTO(a) from ActivityLog a where a.login in ?1 order by moment desc ")
     Page<ActivityLogDTO> getActivityLogByLogin(List<String> logins, Pageable pageable);
+
+    @Query("select new es.juanlsanchez.chefs.web.rest.dto.ActivityLogDTO(a) from ActivityLog a where a.login = ?1 order by moment desc ")
+    Page<ActivityLogDTO> findAllByLoginOrderByMomentDesc(String login, Pageable pageable);
 }

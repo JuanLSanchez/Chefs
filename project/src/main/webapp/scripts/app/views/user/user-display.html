@@ -12,10 +12,10 @@
              ng-style="{'background-color':'#9999ff'}"/>
     </div>
     <div class="row caption text-center user-description">
-
         <p><b>&#64;{{user.login}}</b></p>
         <p>{{user.firstName}}</p>
         <p>{{user.biography}}</p>
         <request-count user="user.login" redirect="redirect()"></request-count>
+        <p><span class="glyphicon glyphicon-time hand text-primary" ui-sref="ChefActivityLog({login:user.login})" title="{{'global.menu.entities.activityLog'|translate}}"></span></p>
     </div>
 </div>

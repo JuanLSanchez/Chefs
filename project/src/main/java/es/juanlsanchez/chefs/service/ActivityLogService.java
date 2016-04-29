@@ -5,6 +5,7 @@ import es.juanlsanchez.chefs.domain.*;
 import es.juanlsanchez.chefs.domain.enumeration.ActivityLogTypeEnum;
 import es.juanlsanchez.chefs.domain.enumeration.ActivityLogVerbEnum;
 import es.juanlsanchez.chefs.repository.ActivityLogRepository;
+import es.juanlsanchez.chefs.service.util.ErrorMessageService;
 import es.juanlsanchez.chefs.web.rest.dto.ActivityLogDTO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,11 @@ public class ActivityLogService {
         result = activityLogRepository.getActivityLogByLogin(logins, pageable);
 
         return result;
+    }
+
+
+    public Page<ActivityLogDTO> getActivityLog(String login, Pageable pageable) {
+        return activityLogRepository.findAllByLoginOrderByMomentDesc(login, pageable);
     }
 
     /* Recipe activity log*/
