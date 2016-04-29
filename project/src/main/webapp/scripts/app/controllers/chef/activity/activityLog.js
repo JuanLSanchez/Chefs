@@ -10,7 +10,7 @@ angular.module('chefsApp')
                     pageTitle: 'chefsApp.schedule.home.title'
                 },
                 views: {
-                    'content@': {
+                    'content_2@': {
                         templateUrl: 'scripts/app/views/activityLog/activityLog-list.html',
                         controller: 'ChefActivityLog'
                     }

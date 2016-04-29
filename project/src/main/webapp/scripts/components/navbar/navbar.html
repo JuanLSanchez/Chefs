@@ -87,6 +87,7 @@
                            ng-model-options='{ debounce: 300 }'
                            typeahead-focus-first="false"
                            typeahead-on-select="goSearch($item)"
+                           typeahead-append-to-body="true"
                            data-typeahead-wait-ms="300">
                     <span class="input-group-btn">
                         <button ng-click="save()" class="btn btn-default">
