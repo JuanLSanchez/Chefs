@@ -18,6 +18,8 @@ footer {
     bottom: 0;
     position: fixed;
     text-align:center;
+    border-top: 1px solid #888888;
+    z-index: 51;
 }
 .nopadding {
     padding: 0 !important;

@@ -191,7 +191,7 @@
             "datetimelocal": "Este campo es una fecha y hora."
         }
     },
-    "footer": "pie de página",
+    "footer": "Copyright &copy; 2016 Chefs",
     "create":{
         "recipe": "Crear Receta",
         "competition": "Crear Competición",

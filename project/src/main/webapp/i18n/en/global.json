@@ -196,7 +196,7 @@
         "serverNotReachable": "Server not reachable",
         "NotNull": "Field {{fieldName}} cannot be empty!"
     },
-    "footer": "Copyright &copy; 2015 Chefs",
+    "footer": "Copyright &copy; 2016 Chefs",
     "create":{
         "recipe": "Create recipe",
         "competition": "Create competition",
