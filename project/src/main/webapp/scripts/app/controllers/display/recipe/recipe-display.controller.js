@@ -25,6 +25,10 @@ angular.module('chefsApp')
             createListOfIngredients();
         });
 
+        $rootScope.$on('chefsApp:recipeNotFound', function(event, result){
+            $scope.recipe = -1;
+        });
+
         entity.$promise.then(function(){
             createListOfIngredients();
         });

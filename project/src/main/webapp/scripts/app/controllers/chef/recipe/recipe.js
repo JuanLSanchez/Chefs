@@ -56,8 +56,10 @@ angular.module('chefsApp')
                         $translatePartialLoader.addPart('socialEntity');
                         return $translate.refresh();
                     }],
-                    entity: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
-                        return Recipe.get({id : $stateParams.id});
+                    entity: ['$stateParams', 'Recipe', '$rootScope', function($stateParams, Recipe, $rootScope) {
+                        return Recipe.get({id : $stateParams.id},
+                            function(result){return result;},
+                            function(response){$rootScope.$emit('chefsApp:recipeNotFound', response);});
                     }]
                 }
             });

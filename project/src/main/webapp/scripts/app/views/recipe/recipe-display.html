@@ -1,5 +1,8 @@
-
-<div >
+<div ng-show="recipe==-1">
+    <back-button></back-button>
+    <not-found-item></not-found-item>
+</div>
+<div ng-show="recipe!=-1">
     <jh-alert-error></jh-alert-error>
     <back-button></back-button>
     <button class="btn btn-default" ng-if="userAccount.login==recipe.user.login" ui-sref="HomeRecipeEdit({id:recipe.id})">

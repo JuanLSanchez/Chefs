@@ -44,7 +44,8 @@
         "search":{
             "recipes":"Más recetas",
             "users":"Más usuarios",
-            "notFound":"No se han encontrado resultados"
+            "notFound":"No se han encontrado resultados",
+            "notFoundItem":"No se puede mostrar resultados"
         },
         "add": "Añadir",
         "title": "Chefs",
