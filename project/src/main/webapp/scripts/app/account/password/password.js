@@ -4,7 +4,7 @@ angular.module('chefsApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('password', {
-                parent: 'account',
+                parent: 'home',
                 url: '/password',
                 data: {
                     authorities: ['ROLE_USER'],
