@@ -6,6 +6,8 @@ angular.module('chefsApp')
         $scope.page = 0;
         $scope.pageSize = 4;
         $rootScope.pictures = [];
+        $scope.message="chefsApp.recipe.notFound";
+        $scope.glyphicon="glyphicon glyphicon-cutlery"
         $scope.loadAll = function() {
             RecipeUserDTO.get({page: $scope.page, size: 4}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));

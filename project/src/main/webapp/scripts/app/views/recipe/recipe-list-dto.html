@@ -8,4 +8,10 @@
             <div ng-include="'scripts/app/views/recipe/recipe-element-list-dto.html'" class="col-sm-6"></div>
         </div>
     </div>
+    <div ng-if="message">
+        <not-found results="recipes" message="message" glyphicon="glyphicon"></not-found>
+    </div>
+    <div ng-if="!message">
+        <not-found results="recipes"></not-found>
+    </div>
 </div>

@@ -18,6 +18,7 @@ angular.module('chefsApp')
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader',
                         function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('activityLog');
                             return $translate.refresh();
                     }]
                 }

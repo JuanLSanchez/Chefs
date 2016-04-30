@@ -1,6 +1,7 @@
 {
     "chefsApp": {
         "recipe" : {
+            "notFound":"Crea tu primera receta",
             "home": {
                 "title": "Receta",
                 "createLabel": "Crear una receta",

@@ -20,7 +20,8 @@
             "description": "Descripción",
             "user": "Usuario",
             "menu": "Menú",
-            "addMenu": "Añadir menú"
+            "addMenu": "Añadir menú",
+            "notFound": "Crea tu primer calendario"
         }
     }
 }

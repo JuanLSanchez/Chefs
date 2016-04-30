@@ -20,7 +20,8 @@
             "description": "Description",
             "user": "User",
             "menu": "Menu",
-            "addMenu": "Add menu"
+            "addMenu": "Add menu",
+            "notFound": "Create your first Schedule"
         }
     }
 }

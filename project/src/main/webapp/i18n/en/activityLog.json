@@ -1,6 +1,7 @@
 {
     "chefsApp": {
         "activityLog" : {
+            "notFound":"Still you have done anything?",
             "home": {
                 "title": "ActivityLogs",
                 "createLabel": "Create a new ActivityLog",
