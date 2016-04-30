@@ -1,8 +1,12 @@
 package es.juanlsanchez.chefs.web.rest;
 
 import es.juanlsanchez.chefs.Application;
+import es.juanlsanchez.chefs.domain.ActivityLog;
 import es.juanlsanchez.chefs.domain.Recipe;
 import es.juanlsanchez.chefs.domain.SocialEntity;
+import es.juanlsanchez.chefs.domain.enumeration.ActivityLogTypeEnum;
+import es.juanlsanchez.chefs.domain.enumeration.ActivityLogVerbEnum;
+import es.juanlsanchez.chefs.repository.ActivityLogRepository;
 import es.juanlsanchez.chefs.service.RecipeService;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
@@ -99,6 +103,8 @@ public class RecipeResourceTest {
 
     private Authentication authentication, friendAuthentication, secondAuthentication,
         blockedAuthentication, ignoredAtuhtentication;
+    @Inject
+    private ActivityLogRepository activityLogRepository;
 
     @Inject
     private ApplicationContext context;
@@ -166,6 +172,7 @@ public class RecipeResourceTest {
     public void createRecipe() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         int databaseSizeBeforeCreate = recipeService.findAll().size();
+        int numberOfActivityLogBefore = activityLogRepository.findAll().size();
 
         // Create the Recipe
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/recipes")
@@ -176,6 +183,7 @@ public class RecipeResourceTest {
 
         // Validate the Recipe in the database
         List<Recipe> recipes = recipeService.findAll();
+        // Check recipes
         assertThat(recipes).hasSize(databaseSizeBeforeCreate + 1);
         Recipe testRecipe = recipes.get(recipes.size() - 1);
         assertThat(testRecipe.getName()).isEqualTo(DEFAULT_NAME);
@@ -188,6 +196,16 @@ public class RecipeResourceTest {
         assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
         assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
         assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
+        // Check activity log
+        List<ActivityLog> activityLogList = activityLogRepository.findAll();
+        assertThat(activityLogList).hasSize(numberOfActivityLogBefore + 1);
+        ActivityLog activityLog = activityLogList.get(numberOfActivityLogBefore);
+        assertThat(activityLog.getDescription()).isEqualTo(testRecipe.getDescription());
+        assertThat(activityLog.getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
+        assertThat(activityLog.getName()).isEqualTo(testRecipe.getName());
+        assertThat(activityLog.getObjectId()).isEqualTo(testRecipe.getId());
+        assertThat(activityLog.getObjectType()).isEqualTo(ActivityLogTypeEnum.RECIPE.toString());
+        assertThat(activityLog.getVerb()).isEqualTo(ActivityLogVerbEnum.CREATE.toString());
     }
 
     @Test
@@ -196,6 +214,7 @@ public class RecipeResourceTest {
         // Create the Recipe with the default user
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         secondRecipe.setUser(recipeService.save(recipe).getUser());
+        int numberOfActivityLogBefore = activityLogRepository.findAll().size();
 
         // Try to create the recipe with the second user as default user
         int databaseSizeBeforeCreate = recipeService.findAll().size();
@@ -220,6 +239,16 @@ public class RecipeResourceTest {
         assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(DEFAULT_INGREDIENTS_IN_STEPS);
         assertThat(testRecipe.getUser().getLogin()).isEqualTo(SECOND_LOGIN_USER);
         assertThat(testRecipe.getCreationDate()).isEqualTo(testRecipe.getUpdateDate());
+        // Check activity log
+        List<ActivityLog> activityLogList = activityLogRepository.findAll();
+        assertThat(activityLogList).hasSize(numberOfActivityLogBefore + 1);
+        ActivityLog activityLog = activityLogList.get(numberOfActivityLogBefore);
+        assertThat(activityLog.getDescription()).isEqualTo(testRecipe.getDescription());
+        assertThat(activityLog.getLogin()).isEqualTo(testRecipe.getUser().getLogin());
+        assertThat(activityLog.getName()).isEqualTo(testRecipe.getName());
+        assertThat(activityLog.getObjectId()).isEqualTo(testRecipe.getId());
+        assertThat(activityLog.getObjectType()).isEqualTo(ActivityLogTypeEnum.RECIPE.toString());
+        assertThat(activityLog.getVerb()).isEqualTo(ActivityLogVerbEnum.CREATE.toString());
     }
 
     @Test
@@ -1393,6 +1422,7 @@ public class RecipeResourceTest {
         recipeService.save(recipe);
 
         int databaseSizeBeforeUpdate = recipeService.findAll().size();
+        int numberOfActivityLogBefore = activityLogRepository.findAll().size();
 
         // Update the recipe
         recipe.setName(UPDATED_NAME);
@@ -1423,6 +1453,16 @@ public class RecipeResourceTest {
         assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(UPDATED_INGREDIENTS_IN_STEPS);
         assertThat(testRecipe.getUser().getLogin()).isEqualTo(DEFAULT_LOGIN_USER);
         assertThat(testRecipe.getCreationDate()).isLessThan(testRecipe.getUpdateDate());
+        // Check activity log
+        List<ActivityLog> activityLogList = activityLogRepository.findAll();
+        assertThat(activityLogList).hasSize(numberOfActivityLogBefore + 1);
+        ActivityLog activityLog = activityLogList.get(numberOfActivityLogBefore);
+        assertThat(activityLog.getDescription()).isEqualTo(testRecipe.getDescription());
+        assertThat(activityLog.getLogin()).isEqualTo(testRecipe.getUser().getLogin());
+        assertThat(activityLog.getName()).isEqualTo(testRecipe.getName());
+        assertThat(activityLog.getObjectId()).isEqualTo(testRecipe.getId());
+        assertThat(activityLog.getObjectType()).isEqualTo(ActivityLogTypeEnum.RECIPE.toString());
+        assertThat(activityLog.getVerb()).isEqualTo(ActivityLogVerbEnum.UPDATE.toString());
     }
 
     @Test
@@ -1558,6 +1598,7 @@ public class RecipeResourceTest {
         long fatherId = recipeService.save(recipe).getId();
 
         int databaseSizeBeforeUpdate = recipeService.findAll().size();
+        int numberOfActivityLogBefore = activityLogRepository.findAll().size();
 
         // Update the recipe with other user
         SecurityContextHolder.getContext().setAuthentication(this.secondAuthentication);
@@ -1588,6 +1629,16 @@ public class RecipeResourceTest {
         assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(UPDATED_INGREDIENTS_IN_STEPS);
         assertThat(testRecipe.getUser().getLogin()).isEqualTo(SECOND_LOGIN_USER);
         assertThat(testRecipe.getFather().getId()).isEqualTo(fatherId);
+        // Check activity log
+        List<ActivityLog> activityLogList = activityLogRepository.findAll();
+        assertThat(activityLogList).hasSize(numberOfActivityLogBefore + 1);
+        ActivityLog activityLog = activityLogList.get(numberOfActivityLogBefore);
+        assertThat(activityLog.getDescription()).isEqualTo(testRecipe.getDescription());
+        assertThat(activityLog.getLogin()).isEqualTo(testRecipe.getUser().getLogin());
+        assertThat(activityLog.getName()).isEqualTo(testRecipe.getName());
+        assertThat(activityLog.getObjectId()).isEqualTo(testRecipe.getId());
+        assertThat(activityLog.getObjectType()).isEqualTo(ActivityLogTypeEnum.RECIPE.toString());
+        assertThat(activityLog.getVerb()).isEqualTo(ActivityLogVerbEnum.UPDATE.toString());
     }
 
     @Test
@@ -1600,6 +1651,7 @@ public class RecipeResourceTest {
         long fatherId = recipeService.save(recipe).getId();
 
         int databaseSizeBeforeUpdate = recipeService.findAll().size();
+        int numberOfActivityLogBefore = activityLogRepository.findAll().size();
 
         // Update the recipe with other user
         SecurityContextHolder.getContext().setAuthentication(this.friendAuthentication);
@@ -1630,6 +1682,16 @@ public class RecipeResourceTest {
         assertThat(testRecipe.getIngredientsInSteps()).isEqualTo(UPDATED_INGREDIENTS_IN_STEPS);
         assertThat(testRecipe.getUser().getLogin()).isEqualTo(FRIEND_LOGIN_USER);
         assertThat(testRecipe.getFather().getId()).isEqualTo(fatherId);
+        // Check activity log
+        List<ActivityLog> activityLogList = activityLogRepository.findAll();
+        assertThat(activityLogList).hasSize(numberOfActivityLogBefore + 1);
+        ActivityLog activityLog = activityLogList.get(numberOfActivityLogBefore);
+        assertThat(activityLog.getDescription()).isEqualTo(testRecipe.getDescription());
+        assertThat(activityLog.getLogin()).isEqualTo(testRecipe.getUser().getLogin());
+        assertThat(activityLog.getName()).isEqualTo(testRecipe.getName());
+        assertThat(activityLog.getObjectId()).isEqualTo(testRecipe.getId());
+        assertThat(activityLog.getObjectType()).isEqualTo(ActivityLogTypeEnum.RECIPE.toString());
+        assertThat(activityLog.getVerb()).isEqualTo(ActivityLogVerbEnum.UPDATE.toString());
     }
 
     @Test
@@ -1702,6 +1764,7 @@ public class RecipeResourceTest {
         recipeService.save(recipe);
 
         int databaseSizeBeforeUpdate = recipeService.findAll().size();
+        int numberOfActivityLogBefore = activityLogRepository.findAll().size();
 
         // Update the recipe with other user
         SecurityContextHolder.getContext().setAuthentication(this.secondAuthentication);
@@ -1720,6 +1783,9 @@ public class RecipeResourceTest {
         // Validate the Recipe in the database
         List<Recipe> recipes = recipeService.findAll();
         assertThat(recipes).hasSize(databaseSizeBeforeUpdate);
+        // Check activity log
+        List<ActivityLog> activityLogList = activityLogRepository.findAll();
+        assertThat(activityLogList).hasSize(numberOfActivityLogBefore);
     }
 
     @Test

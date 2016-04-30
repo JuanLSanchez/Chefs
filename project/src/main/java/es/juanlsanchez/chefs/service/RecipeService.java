@@ -92,14 +92,15 @@ public class RecipeService {
                 steps.forEach(step -> step.setRecipe(result));
             steps = stepService.save(steps);
             result.setSteps(steps);
+            // Se crea la actividad
+            if(create){
+                activityLogService.createRecipe(result);
+            }else {
+                activityLogService.updateRecipe(result);
+            }
+
         }else{
             result = null;
-        }
-
-        if(create){
-            activityLogService.createRecipe(recipe);
-        }else {
-            activityLogService.updateRecipe(recipe);
         }
         return result;
 
