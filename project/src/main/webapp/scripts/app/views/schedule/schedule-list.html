@@ -2,12 +2,14 @@
     <jh-alert></jh-alert>
     <back-button></back-button>
 
-    <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
+    <div infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" class="row">
         <div ng-repeat="schedule in schedules">
-            <hr>
-            <div ui-sref="HomeSchedulesDisplay({id:schedule.id})" class="thumbnail hand">
-                <h4>{{schedule.name}}</h4>
-                <h5>{{schedule.description}}</h5>
+            <div class="clearfix" ng-if="$index % 2 == 0"></div>
+            <div ui-sref="HomeSchedulesDisplay({id:schedule.id})" class="hand col-md-6">
+                <time class="icon">
+                    <strong>{{schedule.name}}</strong>
+                    <span>{{schedule.description}}</span>
+                </time>
             </div>
         </div>
     </div>
