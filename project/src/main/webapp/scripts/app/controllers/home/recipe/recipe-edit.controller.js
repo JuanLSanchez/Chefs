@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chefsApp').controller('RecipeEditController',
-        function($rootScope, $state, $scope, $stateParams, entity, Recipe, FoodSearch, TagByNameContains) {
+        function($rootScope, $state, $scope, $stateParams, entity, Recipe, FoodSearch, TagByNameContains, $uibModal) {
 
         $scope.step = {position: null, section: null, id: null, stepPicture:[], ingredients:[]};
         $scope.recipe = entity;
@@ -47,15 +47,34 @@ angular.module('chefsApp').controller('RecipeEditController',
             }
         };
 
-        $scope.delete = function (id) {
-            Recipe.get({id: id}, function(result) {
-                $scope.recipe = result;
-                Recipe.delete({id: id},
-                    function () {
-                        $state.go('HomeRecipes');
-                    });
-            });
+        $scope.delete = function () {
+            $scope.modal = $uibModal.open({
+                templateUrl:'deleteRecipeConfirmation',
+                controller: function ($scope, $state, $uibModalInstance, id) {
+
+                    $scope.close = function() {
+                        $uibModalInstance.close();
+                    };
+
+                    $scope.confirmDelete = function () {
+                        $uibModalInstance.close();
+                        Recipe.get({id: id}, function(result) {
+                            $scope.recipe = result;
+                            Recipe.delete({id: id},
+                                function () {
+                                    $state.go('HomeRecipes');
+                                });
+                        });
+                    };
+                },
+                resolve:{
+                    id:function(){return $scope.recipe.id;}
+                }
+            }).result.then(function(result) {
+                    result();
+                });
         };
+
 //Tags
 
         $scope.loadTags = function(query) {

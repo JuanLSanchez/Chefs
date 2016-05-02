@@ -176,7 +176,7 @@
             "createdfrom": "Creada de"
         },
         "delete": {
-            "title": "Confirm delete operation"
+            "title": "Confirmación de eliminación"
         },
         "validation": {
             "required": "Este campo es obligatorio.",
