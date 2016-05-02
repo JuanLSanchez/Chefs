@@ -50,23 +50,7 @@ angular.module('chefsApp').controller('RecipeEditController',
         $scope.delete = function () {
             $scope.modal = $uibModal.open({
                 templateUrl:'deleteRecipeConfirmation',
-                controller: function ($scope, $state, $uibModalInstance, id) {
-
-                    $scope.close = function() {
-                        $uibModalInstance.close();
-                    };
-
-                    $scope.confirmDelete = function () {
-                        $uibModalInstance.close();
-                        Recipe.get({id: id}, function(result) {
-                            $scope.recipe = result;
-                            Recipe.delete({id: id},
-                                function () {
-                                    $state.go('HomeRecipes');
-                                });
-                        });
-                    };
-                },
+                controller: 'DeleteRecipeConfirmationController',
                 resolve:{
                     id:function(){return $scope.recipe.id;}
                 }
@@ -157,4 +141,23 @@ angular.module('chefsApp').controller('RecipeEditController',
 
         $rootScope.securityEntity = $scope.recipe;
 
+});
+angular.module('chefsApp').controller('DeleteRecipeConfirmationController',
+    function ($scope, $state, $uibModalInstance, id, Recipe) {
+
+    $scope.close = function() {
+        $uibModalInstance.close(function(){});
+    };
+
+    $scope.confirmDelete = function () {
+        $uibModalInstance.close(function(){
+            Recipe.get({id: id}, function(result) {
+                $scope.recipe = result;
+                Recipe.delete({id: id},
+                    function () {
+                        $state.go('HomeRecipes');
+                    });
+            });
+        });
+    };
 });

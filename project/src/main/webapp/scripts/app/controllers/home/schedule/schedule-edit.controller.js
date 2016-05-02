@@ -43,21 +43,7 @@ angular.module('chefsApp').controller('ScheduleEditController',
         $scope.delete = function () {
             $scope.modal = $uibModal.open({
                 templateUrl:'deleteScheduleConfirmation',
-                controller: function ($scope, $state, $uibModalInstance, id) {
-
-                    $scope.close = function() {
-                        $uibModalInstance.close();
-                    };
-
-                    $scope.confirmDelete = function () {
-                        Schedule.delete({id: id},
-                            function (result) {
-                                $uibModalInstance.close( function(result){
-                                    $state.go('HomeSchedules', {message:result});
-                                })
-                            });
-                    };
-                },
+                controller: 'DeleteScheduleConfirmationController',
                 resolve:{
                     id:function(){return $scope.schedule.id;}
                 }
@@ -156,3 +142,18 @@ angular.module('chefsApp').controller('ScheduleEditController',
         clearMenu();
         $scope.loadMenus();
 });
+angular.module('chefsApp').controller('DeleteScheduleConfirmationController',
+    function ($scope, $state, $uibModalInstance, id, Schedule) {
+
+        $scope.close = function() {
+            $uibModalInstance.close(function(){});
+        };
+
+        $scope.confirmDelete = function () {
+            $uibModalInstance.close(function(){
+                Schedule.delete({id: id}, function(){
+                    $state.go('HomeSchedules');
+                });
+            });
+        };
+    });
