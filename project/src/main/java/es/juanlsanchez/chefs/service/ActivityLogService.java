@@ -82,7 +82,7 @@ public class ActivityLogService {
     }
     public void deleteRecipe(Recipe recipe) {
         saveRecipe(recipe, ActivityLogVerbEnum.DELETE);
-        activityLogRepository.dropObjectId(recipe.getId(), ActivityLogTypeEnum.RECIPE.toString());
+        activityLogRepository.dropObjectId(recipe.getId(), "%"+ActivityLogTypeEnum.RECIPE.toString()+"%");
     }
     public void updateRecipe(Recipe recipe) {
         saveRecipe(recipe, ActivityLogVerbEnum.UPDATE);
