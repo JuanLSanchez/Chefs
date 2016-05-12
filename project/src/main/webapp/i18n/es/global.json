@@ -51,6 +51,7 @@
         "title": "Chefs",
         "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
         "menu": {
+            "info":"Manual de usuario",
             "activities":{
                 "likes":"Recetas favoritas",
                 "assessed":"Assessed recipes"

@@ -136,3 +136,6 @@ time.icon span{
     pointer-events: none;
     cursor: not-allowed !important;
 }
+.margin-right{
+    margin-right: 10px;
+}

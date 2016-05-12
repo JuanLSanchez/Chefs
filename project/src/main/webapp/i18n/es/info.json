@@ -1,0 +1,22 @@
+{
+    "chefsApp": {
+        "info" : {
+            "recipe":{
+                "menu":"Recetas"
+            },
+            "user":{
+                "menu":"Usuarios"
+            },
+            "search":{
+                "menu":"Búsquedas"
+            },
+            "schedule":{
+                "menu":"Planes"
+            },
+            "activities":{
+                "menu":"Actividades"
+            }
+
+        }
+    }
+}
