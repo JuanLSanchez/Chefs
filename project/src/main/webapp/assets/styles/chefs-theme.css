@@ -139,3 +139,6 @@ time.icon span{
 .margin-right{
     margin-right: 10px;
 }
+.inline-block{
+    display: inline-block;
+}

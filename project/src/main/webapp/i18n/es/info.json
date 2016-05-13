@@ -1,11 +1,37 @@
 {
     "chefsApp": {
         "info" : {
-            "recipe":{
-                "menu":"Recetas"
+            "home":"Inicio",
+            "beginning":{
+                "menu":"Introducción"
             },
             "user":{
-                "menu":"Usuarios"
+                "menu":"Usuarios",
+                "beginning":"1 Introducción",
+                "card":{
+                    "menu":"1.1 Tarjetas",
+                    "intro":"En esta web podemos ver la información principal de los usuarios en una tarjeta. Estas tarjetas contienen la siguiente información:",
+                    "login":"<b>Login:</b> Login del usuario, precedido de una @. Este es el identificador único e inmodificable de este usuario.",
+                    "name":"<b>Name:</b> Nombre que el usuario se ha decidio dar. En principio este nombre es el mismo que el identificador, hata que el susuario decida modificarlo.",
+                    "description":"<b>Descripción:</b> Este es un campo opcional, en el cual el usuario puede poner una breve descripción.",
+                    "following":"<b>Siguiendo:</b> Este campo indica el número de usuarios a los que sigue. Este número contiene un enlace a la lista de los usuarios en si. Se puede obtener más información en el apartado ",
+                    "followers":"<b>Seguidores:</b> Este campo es como el campo de los usuarios que sigue, pero con los seguidores. Se puede obtener más información en el apartado ",
+                    "recipes":"<b>Recetas:</b> Contiene el número de recetas no bloqueadas del usuario, al igual que los seguidores y los usuarios que sigue, contiene un enlace hacia las recetas. Podemos obtener más información sobre las recetas en el capítulo",
+                    "activities":"<b>Actividades:</b> El icono <span class=\"glyphicon glyphicon-time\"></span> que encontramos al final de la tarjeta, es un enlace al listado de las actividades realizadas por el usuario. Podemos obtener más información sobre las actividades en el capítulo",
+                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/user/card-es.png\" alt=\"Tarjeta de usuario\"><div class=\"caption text-center\">Imagen de una tarjeta de usuario</div></div>"
+                },
+                "information":{
+                    "menu":"1.2 Editar información"
+                },
+                "following":{
+                    "menu":"2 Siguiendo"
+                },
+                "followers":{
+                    "menu":"3 Seguidores"
+                }
+            },
+            "recipe":{
+                "menu":"Recetas"
             },
             "search":{
                 "menu":"Búsquedas"

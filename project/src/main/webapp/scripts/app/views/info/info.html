@@ -1,19 +1,37 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <!-- User -->
+<!-- Intro -->
+    <div class="panel panel-info">
+        <div class="panel-heading" ng-click="collapse = 'beginning'" ng-show="collapse != 'beginning'">
+            <h1 class="panel-title">
+                <span class="glyphicon glyphicon-info-sign margin-right"></span><b><span translate="chefsApp.info.beginning.menu">Users</span></b>
+            </h1>
+        </div>
+        <div class="panel-heading" ng-click="collapse = ''" ng-show="collapse == 'beginning'">
+            <h1 class="panel-title">
+                <span class="glyphicon glyphicon-info-sign margin-right"></span><b><span translate="chefsApp.info.beginning.menu">Users</span></b>
+            </h1>
+        </div>
+        <div uib-collapse="collapse!='beginning'" class="panel-collapse">
+            <div class="panel-body">
+                <div ng-include="'scripts/app/views/info/beginning.html'"></div>
+            </div>
+        </div>
+    </div>
+<!-- User -->
     <div class="panel panel-info">
         <div class="panel-heading" ng-click="collapse = 'user'" ng-show="collapse != 'user'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-user margin-right"></span><b><span translate="chefsApp.info.user.menu"></span></b>
+                <span class="glyphicon glyphicon-user margin-right"></span><b><span translate="chefsApp.info.user.menu">Users</span></b>
             </h1>
         </div>
         <div class="panel-heading" ng-click="collapse = ''" ng-show="collapse == 'user'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-user margin-right"></span><b><span translate="chefsApp.info.user.menu"></span></b>
+                <span class="glyphicon glyphicon-user margin-right"></span><b><span translate="chefsApp.info.user.menu">Users</span></b>
             </h1>
         </div>
         <div uib-collapse="collapse!='user'" class="panel-collapse">
             <div class="panel-body">
-
+                <div ng-include="'scripts/app/views/info/user.html'"></div>
             </div>
         </div>
     </div>
@@ -21,12 +39,12 @@
     <div class="panel panel-info">
         <div class="panel-heading" ng-click="collapse = 'recipe'" ng-show="collapse != 'recipe'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-cutlery margin-right"></span><b><span translate="chefsApp.info.recipe.menu"></span></b>
+                <span class="glyphicon glyphicon-cutlery margin-right"></span><b><span translate="chefsApp.info.recipe.menu">Recipes</span></b>
             </h1>
         </div>
         <div class="panel-heading" ng-click="collapse = ''" ng-show="collapse == 'recipe'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-cutlery margin-right"></span><b><span translate="chefsApp.info.recipe.menu"></span></b>
+                <span class="glyphicon glyphicon-cutlery margin-right"></span><b><span translate="chefsApp.info.recipe.menu">Recipes</span></b>
             </h1>
         </div>
         <div uib-collapse="collapse!='recipe'" class="panel-collapse">
@@ -39,12 +57,12 @@
     <div class="panel panel-info">
         <div class="panel-heading" ng-click="collapse = 'schedule'" ng-show="collapse != 'schedule'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-calendar margin-right"></span><b><span translate="chefsApp.info.schedule.menu"></span></b>
+                <span class="glyphicon glyphicon-calendar margin-right"></span><b><span translate="chefsApp.info.schedule.menu">Schedules</span></b>
             </h1>
         </div>
         <div class="panel-heading" ng-click="collapse = ''" ng-show="collapse == 'schedule'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-calendar margin-right"></span><b><span translate="chefsApp.info.schedule.menu"></span></b>
+                <span class="glyphicon glyphicon-calendar margin-right"></span><b><span translate="chefsApp.info.schedule.menu">Schedules</span></b>
             </h1>
         </div>
         <div uib-collapse="collapse!='schedule'" class="panel-collapse">
@@ -57,12 +75,12 @@
     <div class="panel panel-info">
         <div class="panel-heading" ng-click="collapse = 'activities'" ng-show="collapse != 'activities'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-time margin-right"></span><b><span translate="chefsApp.info.activities.menu"></span></b>
+                <span class="glyphicon glyphicon-time margin-right"></span><b><span translate="chefsApp.info.activities.menu">Activities</span></b>
             </h1>
         </div>
         <div class="panel-heading" ng-click="collapse = ''" ng-show="collapse == 'activities'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-time margin-right"></span><b><span translate="chefsApp.info.activities.menu"></span></b>
+                <span class="glyphicon glyphicon-time margin-right"></span><b><span translate="chefsApp.info.activities.menu">Activities</span></b>
             </h1>
         </div>
         <div uib-collapse="collapse!='activities'" class="panel-collapse">
@@ -75,12 +93,12 @@
     <div class="panel panel-info">
         <div class="panel-heading" ng-click="collapse = 'search'" ng-show="collapse != 'search'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-search margin-right"></span><b><span translate="chefsApp.info.search.menu"></span></b>
+                <span class="glyphicon glyphicon-search margin-right"></span><b><span translate="chefsApp.info.search.menu">Searchs</span></b>
             </h1>
         </div>
         <div class="panel-heading" ng-click="collapse = ''" ng-show="collapse == 'search'">
             <h1 class="panel-title">
-                <span class="glyphicon glyphicon-search margin-right"></span><b><span translate="chefsApp.info.search.menu"></span></b>
+                <span class="glyphicon glyphicon-search margin-right"></span><b><span translate="chefsApp.info.search.menu">Searchs</span></b>
             </h1>
         </div>
         <div uib-collapse="collapse!='search'" class="panel-collapse">

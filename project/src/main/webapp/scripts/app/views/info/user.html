@@ -1,0 +1,72 @@
+<ol class="breadcrumb">
+    <li ng-click="user = null"><span translate="chefsApp.info.user.menu"></span></li>
+    <li ng-click="user='followers'" ng-show="user.indexOf('followers')>-1"><span translate="chefsApp.info.user.followers.menu"></span></li>
+    <li ng-click="user='following'" ng-show="user.indexOf('following')>-1"><span translate="chefsApp.info.user.following.menu"></span></li>
+    <li ng-click="user='beginning'" ng-show="user.indexOf('beginning')>-1"><span translate="chefsApp.info.user.beginning"></span></li>
+    <li ng-click="user='beginning.cards'" ng-show="user.indexOf('beginning.cards')>-1"><span translate="chefsApp.info.user.card.menu"></span></li>
+    <li ng-click="user='beginning.information'" ng-show="user.indexOf('beginning.information')>-1"><span translate="chefsApp.info.user.information.menu"></span></li>
+</ol>
+<!-- Beginning -->
+<h3 ng-click="user = 'beginning'" ng-show="user==null||user.indexOf('beginning')>-1" ng-class="{'text-primary':user==null}">
+    <span translate="chefsApp.info.user.beginning"></span>
+</h3>
+<div ng-show="user.indexOf('beginning')>-1">
+    <!-- Cards -->
+    <h4 ng-click="user = 'beginning.cards'" ng-show="user=='beginning'||user.indexOf('cards')>-1"
+        ng-class="{'text-primary':user=='beginning'}">
+        <span translate="chefsApp.info.user.card.menu"></span>
+    </h4>
+    <div ng-show="user=='beginning.cards'">
+        <p translate="chefsApp.info.user.card.intro"></p>
+        <ul>
+            <li><span translate="chefsApp.info.user.card.login"></span></li>
+            <li><span translate="chefsApp.info.user.card.name"></span></li>
+            <li><span translate="chefsApp.info.user.card.description"></span></li>
+            <li>
+                <span translate="chefsApp.info.user.card.following"></span>
+                <em ng-click="user = 'following'" class="text-primary"><span translate="chefsApp.info.user.following.menu"></span></em>.
+            </li>
+            <li>
+                <span translate="chefsApp.info.user.card.followers"></span>
+                <em ng-click="user = 'followers'" class="text-primary"><span translate="chefsApp.info.user.followers.menu"></span></em>.
+            </li>
+            <li>
+                <span translate="chefsApp.info.user.card.recipes"></span>
+                <em class="text-primary inline-block" ng-click="$parent.collapse = 'recipe'">
+                    <span class="glyphicon glyphicon-cutlery margin-right"></span><b><span translate="chefsApp.info.recipe.menu">Recipes</span></b>
+                </em>.
+            </li>
+            <li>
+                <span translate="chefsApp.info.user.card.activities"></span>
+                <em class="text-primary inline-block" ng-click="$parent.collapse = 'activities'">
+                    <span class="glyphicon glyphicon-time margin-right"></span><b><span translate="chefsApp.info.activities.menu">Activities</span></b>
+                </em>.
+            </li>
+        </ul>
+        <div class="text-center">
+            <div translate="chefsApp.info.user.card.card-img" class="inline-block"></div>
+        </div>
+    </div>
+    <!-- Edit information -->
+    <h4 ng-click="user = 'beginning.information'" ng-show="user=='beginning'||user.indexOf('information')>-1"
+        ng-class="{'text-primary':user=='beginning'}">
+        <span translate="chefsApp.info.user.information.menu"></span>
+    </h4>
+    <div ng-show="user=='beginning.information'">
+    </div>
+
+</div>
+<!-- Following -->
+<h3 ng-click="user = 'following'" ng-show="user==null||user.indexOf('following')>-1" ng-class="{'text-primary':user==null}">
+    <span translate="chefsApp.info.user.following.menu"></span>
+</h3>
+<div ng-show="user.indexOf('following')>-1">
+
+</div>
+<!-- Followers -->
+<h3 ng-click="user = 'followers'" ng-show="user==null||user.indexOf('followers')>-1" ng-class="{'text-primary':user==null}">
+    <span translate="chefsApp.info.user.followers.menu"></span>
+</h3>
+<div ng-show="user.indexOf('followers')>-1">
+
+</div>
