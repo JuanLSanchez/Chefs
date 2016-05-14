@@ -3,31 +3,61 @@
         "info" : {
             "home":"Inicio",
             "beginning":{
-                "menu":"Introducción"
+                "menu":"Introducción",
+                "chefs":{
+                    "menu":"1. Chefs",
+                    "intro":"<p>Chefs es una red social, enfocada al ámbito de las recetas de cocinas.</p><p>Su objetivo es que los usuarios puedan compartir sus recetas de cocinas con otros usuarios, y que cada uno aporte su punto de vista a las recetas.</p><p>Como extra, también nos ofrece la posibilidad de crearnos nuestros planes de comidas con las recetas disponibles en la aplicación.</p>"
+                },
+                "sections":{
+                    "menu":"2. Secciones",
+                    "intro":"<p>Esta aplicación esta divididas en diferentes secciones. Si nos identificamos como un usuario, veremos en la barra superior de navegación las diferentes secciones de la misma.</p><p>Si picamos sobre una de estas secciones nos iremos al apartado personal de dicha sección. Este apartado contendrá los objetos relacionados con dicha sección relacionados con nosotros.</p><p>Por ejemplo, si picamos en apartado de recetas, nos aparecerá información sobre las recetas que hemos creado.</p>",
+                    "info":"<p>La sección en la que nos encontramos actualmente, es una sección especial en la cual se explica como utilizar la aplicación.</p><p>En esta sección de la aplicación encontrará diferentes capítulos, con información relacionada sobre cada una de las principales características de Chefs.</p><p>Estos capítulos pueden contener apartados y subapartados sobre cada una de las características, desglosando así la aplicación en apartados más específicos.</p><p>Para facilitar la lectura, estos apartados y sus subapartados, pueden ir abriéndose, y nos aparecerá en la parte superior un rastro de migas de pan de los apartados que tenemos abiertos.</p>",
+                    "nav-bar-img":"<div class=\"thumbnail col-sm-10\"><img src=\"assets/images/info/beginning/nav-bar.png\" alt=\"Barra de navegación\"><div class=\"caption text-center\">Imagen de la barra de navegación, en la sección información.</div></div>"
+                }
             },
             "user":{
                 "menu":"Usuarios",
-                "beginning":"1 Introducción",
+                "beginning":"1. Introducción",
                 "card":{
-                    "menu":"1.1 Tarjetas",
+                    "menu":"1.1. Tarjetas",
                     "intro":"En esta web podemos ver la información principal de los usuarios en una tarjeta. Estas tarjetas contienen la siguiente información:",
-                    "login":"<b>Login:</b> Login del usuario, precedido de una @. Este es el identificador único e inmodificable de este usuario.",
-                    "name":"<b>Name:</b> Nombre que el usuario se ha decidio dar. En principio este nombre es el mismo que el identificador, hata que el susuario decida modificarlo.",
-                    "description":"<b>Descripción:</b> Este es un campo opcional, en el cual el usuario puede poner una breve descripción.",
+                    "img":"<b>Imagenes:</b> Imagen de fondo y de perfil que el usuario puede subir desde su dispositivo.",
+                    "login":"<b>Login:</b> Login del usuario, precedido de una @. Éste es el identificador único e inmodificable de este usuario.",
+                    "name":"<b>Nombre:</b> Nombre que el usuario se ha decidio dar. En principio este nombre es el mismo que el identificador, hasta que el usuario decida modificarlo.",
+                    "description":"<b>Descripción:</b> Éste es un campo opcional, en el cual el usuario puede poner una breve descripción.",
                     "following":"<b>Siguiendo:</b> Este campo indica el número de usuarios a los que sigue. Este número contiene un enlace a la lista de los usuarios en si. Se puede obtener más información en el apartado ",
                     "followers":"<b>Seguidores:</b> Este campo es como el campo de los usuarios que sigue, pero con los seguidores. Se puede obtener más información en el apartado ",
                     "recipes":"<b>Recetas:</b> Contiene el número de recetas no bloqueadas del usuario, al igual que los seguidores y los usuarios que sigue, contiene un enlace hacia las recetas. Podemos obtener más información sobre las recetas en el capítulo",
                     "activities":"<b>Actividades:</b> El icono <span class=\"glyphicon glyphicon-time\"></span> que encontramos al final de la tarjeta, es un enlace al listado de las actividades realizadas por el usuario. Podemos obtener más información sobre las actividades en el capítulo",
-                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/user/card-es.png\" alt=\"Tarjeta de usuario\"><div class=\"caption text-center\">Imagen de una tarjeta de usuario</div></div>"
+                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/user/card-es.png\" alt=\"Tarjeta de usuario\" class=\"img-rounded\"><div class=\"caption text-center\"><small>Imagen de una tarjeta de usuario<small></div></div>"
                 },
                 "information":{
-                    "menu":"1.2 Editar información"
+                    "menu":"1.2. Editar información",
+                    "intro":"La tarjetas de usuarios contienen información sobre los usuarios. En esta sección se hablará sobre cómo modificar dicha información. Si quiere saber más sobre las tarjetas de usuarios visita la subsección ",
+                    "how":"Para editar nuestra información, basta con dirigirnos a alguna de nuestras secciones de la barra de navegación. Más información en el apartado ",
+                    "how-do":"Una vez estemos en la sección, debemos de pulsar sobre el icono <span class=\"glyphicon glyphicon-cog\"></span> que podemos encontrar en la parte superior de nuestra tarjeta. Esto nos modificará la vista de nuestra tarjeta, y los campos de textos se convertirán en campos de formularios y las imágenes podremos eliminarlas o editarlas. El único campo que no podremos editar es el <b>login</b>.",
+                    "more":"<p>Cuando estemos en el modo edición, el botón de guardado no aparecerá hasta que realicemos algún cambio.</p><p>También observaremos que el icono de edición se ha modificado por el icono <span class=\"glyphicon glyphicon-eye-open\"></span>. Este icono nos permite visualizar como quedará nuestra tarjeta antes de guardarla.</p><p>Cuando cambiemos a la vista de previsualización, si hemos realizado algún cambio, el botón de guardado permanecerá, de manera que si nos gusta como ha quedado la tarjeta, solo tendremos que pulsar el botón de guardado.</p>",
+                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/user/card-edit-es.png\" alt=\"Tarjeta de usuario en modo edición\" class=\"img-rounded\"><div class=\"caption text-center\"><small>Imagen de una tarjeta de usuario en modo edición</small></div></div>"
                 },
                 "following":{
-                    "menu":"2 Siguiendo"
+                    "menu":"2. Siguiendo",
+                    "info":"En esta aplicación podremos seguir a los usuarios cullas recetas nos gusten más.",
+                    "imply":"Al seguir un usuario, podremos visualizar la recetas que dicho usuario tenga privadas. Además nos aparecerán sus actividades en nuestras lista de actividades, de la barra de navegación.",
+                    "about-recipe":"Para saber más sobre las recetas visita el capítulo ",
+                    "about-activity":"Para saber más sobre las actividades visita el capítulo ",
+                    "follow":"<p>Para seguir a un usuario, debemos de pulsar sobre un botón que aparecerá en la parte superior de su tarjeta, ya sea en una búsqueda o en su página principal.</p><p>Este botón puede aparecer en cuatro estados:</p>",
+                    "btns":"<ul><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-follow-es.png\"> Enviar petición para seguir.</li><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-waiting-es.png\"> Esperando que acepte la petición.</li><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-following-es.png\"> Seguimos a dicho usuario.</li><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-locked-es.png\"> El usuario nos ha bloqueado.</li></ul>",
+                    "btn-info":"Si pulsamos en un botón <em>Seguir</em>, este cambiara al estado <em>Esperando</em>. Una vez el usuario vea su petición, este puede realizar las siguientes acciones: <b>Aceptarla</b>, el botón pasará al estado <em>Aceptada</em>, <b>Bloquearla</b>, el botón pasará al estado <em>Bloqueado</em>, <b>Ignorarla</b>, el botón volverá al estado <em>Seguir</em>.",
+                    "btn-info-more":"Si pulsamos un botón que esta en el estado <em>Siguiendo</em>, dejaremos de seguir a dicho usuario",
+                    "list":"Por último, podemos ver el listado de los usuarios a los que seguimos, pulsando en el número de usuarios que seguimos, que aparece en nuestra tarjeta."
                 },
                 "followers":{
-                    "menu":"3 Seguidores"
+                    "menu":"3. Seguidores",
+                    "intro":"Si tenemos buenas recetas, otros usuarios  querrán seguirnos, para poder ver recetas que tengamos ocultas o ver nuestras acciones.",
+                    "info":"Si un usuario nos ha enviado una petición que todavía no hemos contestado, al iniciar la sesión nos aparecerá junto al número de usuarios que nos siguen de nuestra tarjeta, el número de peticiones pendientes, algo como esto <small class=\"badge\">1</small>.",
+                    "list":"<p>Al pulsar sobre la lista de los usuarios que nos siguen, aparecerán tanto los usuarios que nos siguen, los que nos quieren seguir y los que hemos bloqueado.<p><p>Sobre la tarjeta del usuario, encima del botón de seguir, nos aparecerán tres botones que solo nos aparecerán en este listado. Esos tres botones, son las tres acciones que podemos realizar con una petición, pudiendo Aceptarla, Bloquearla o Ignorarla.</p>",
+                    "actions":"<p>Con estas acciones ocurrirá lo siguiente:</p><ul><li><b>Siguiendote:</b> El usuario será tu seguidor</li><li><b>Bloqueado:</b> El usuario pasará a estar bloqueado, y no podrá volver a pedirte ser tu seguidor</li><li><b>Ignorar:</b> El usuario será ignorado, no te seguirá, pero podrá volver a realizar otra petición de seguimiento</li></ul>",
+                    "tool-img":"<div class=\"thumbnail col-sm-8\"><img src=\"assets/images/info/user/tool-follow-es.png\" alt=\"Botones de acción\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de los botones de tratamiento de peticiones</small></figcaption></div>"
                 }
             },
             "recipe":{
