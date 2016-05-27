@@ -114,7 +114,9 @@
                 }
             },
             "activities":{
-                "menu":"Actividades"
+                "menu":"Actividades",
+                "intro":"<p>En esta web, podemos ver diferentes listados de actividades. Cada elemento de este listado contiene una actividad relevante que ha realizado un usuario con la información relevante de dicha actividad.</p><p>A estos listados se acceden con el icono <span class=\"glyphicon glyphicon-time\"></span>. Hay dos tipos de listados, el listado de un usuario, este listado lo podemos ver pulsando en el icono de la tarjeta del usuario y solo muestra las actividades de dicho usuario y el listado de los usuarios que sigues, este listado lo podemos ver pulsando en el icono situado en la barra de navegación y en el se muestran las actividades de todos los usuarios que sigues.</p><p>En todas las actividades podremos encontrar un enlace al usuario que realizó dicho acción, un enlace al elemento vinculado a la acción, la acción realizada, un resumen, enlaces a las etiquetas del elemento vinculado y la fecha de la actividad</p>",
+                "list-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/activities/list-es.png\" alt=\"Listado de actividades\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de un listado de actividades</small></figcaption></div>"
             },
             "search":{
                 "menu":"Búsquedas"
