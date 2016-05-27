@@ -61,16 +61,63 @@
                 }
             },
             "recipe":{
-                "menu":"Recetas"
-            },
-            "search":{
-                "menu":"Búsquedas"
+                "menu":"Recetas",
+                "edit":{
+                    "menu":"1. Edición de recetas",
+                    "general":{
+                        "menu":"1.1. Información general",
+                        "info":"<p>La creación de recetas, se puede realizar desde cualquier pantalla, siempre que estemos identificados. Esto podemos hacerlo gracias al modulo de creación, con el cual se pueden crear todo tipos de objetos.</p><p>Este modulo nos proporciona la posibilidad de crear una receta, pudiendo definir previamente el nombre, aunque no es necesario.</p>",
+                        "generator-img":"<div class=\"thumbnail col-sm-8\"><img src=\"assets/images/info/recipe/generator-es.png\" alt=\"Modulo de creación de objetos\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen del modulo de creación de objetos</small></figcaption></div>",
+                        "form":"<p>Una vez nos encontremos en el formulario para la creación de la receta, los campos generales que nos encontraremos serán:</p><ul><li><b>Nombre :</b> Este campo es obligatorio, en el pondremos el nombre de nuestra receta. </li><li><b>Imagen :</b> Imagen opcional, sobre nuestra receta. Esta imagen aparecerá en el listado de las recetas. </li><li><b>Descripción :</b> Descripción obligatoria de nuestra receta.</li><li><b>Url de Información :</b> En este campo podremos poner una url hacía una web donde se den más detalles sobre la receta. </li><li><b> Sugerencia a la hora de cocinarlo :</b> En este campo podemos poner algún truco para la elaboración de la receta.</li><li><b>¿Cuando se lo tomaría :</b> Podemos poner un momento, o una temporada para realizar este plato.</li><li><b>Etiquetas :</b> Podemos añadir tantas etiquetas como queramos a nuestra receta. Esto nos ayudará a encontrarlo en búsquedas por recetas, y en el listado nos ayuda a tener una idea de la receta.</li></ul>",
+                        "steps":"Estos son los campos generales de una receta, para saber más sobre como añadir pasos a nuestra receta mire la sección "
+                    },
+                    "steps":{
+                        "menu":"1.2. Pasos de la receta",
+                        "info":"<p>La creación de una receta puede tener pasos. Para añadir pasos a una receta, tenemos en la parte central del formulario, una sección dedicada a ello.</p><p> Para añadir un nuevo paso, solo debemos de pulsar el botón de añadir paso, esto nos añadirá un bloque a nuestra sección de pasos.</p>",
+                        "add-step-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/recipe/add-step-es.png\" alt=\"Añadir paso\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la creación de un nuevo paso</small></figcaption></div>",
+                        "create":"<p>La creación de un paso de receta es algo bastante sencillo, lo único que debemos de hacer tras añadir el paso es agregar la descripción del paso, y si queremos podemos añadir imágenes o ingredientes a nuestros pasos.</p><p>Para añadir ingredientes basta con pulsar el icono <span class=\"glyphicon glyphicon-pencil\"></span>, esto nos añadirá una linea de ingrediente, la cual cuenta con:<ul><li><b>Alimento :</b> Nombre del alimento que se añadirá. En esta casilla van apareciendo sugerencias de alimentos con los que cuenta la aplicación.</li><li><b>Cantidad :</b> Número de la cantidad que se va a echar de dicho alimento.</li><li><b>Medida :</b> Medida de la cantidad introducida en el campo <em>Cantidad</em>.</li><li><b>Kcal por 100g :</b> Kilocalorías que contiene el alimento por cada 100 gramos del mismo. Esta medida es opcional y en caso de haberse auto-completado la primera casilla, esta casilla también aparecerá.</li></ul></p>",
+                        "add-img":"<p>También podemos añadir imágenes a nuestros pasos, para ilústralos mejor la realización del paso o para mostrar como quedaría.</p><p> Para añadir una imagen basta con pulsar el botón con el icono <span class=\"glyphicon glyphicon-picture\"></span>. Esto nos añadirá un cuadro en el paso, en el cual podremos arrastrar nuestra imagen o búscarla.</p>",
+                        "edit":"<p>Por último también debemos de saber que nuestros pasos se pueden mover o eliminar con los iconos <span class=\"glyphicon glyphicon-move\"></span> y <span class=\"glyphicon glyphicon-remove\" style=\"color: red;\"></span> respectivamente.</p>"
+                    }
+                },
+                "security":{
+                    "menu":"2. Seguridad en recetas",
+                    "intro":"<p>Todas las recetas que creemos tienen una configuración respecto a la seguridad. Tendiendo cada receta una configuración independiente.</p><p>Esta configuración se modifica en el modulo de seguridad que aparece cuando estamos editando o creando una receta.</p>",
+                    "security-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/recipe/security-es.png\" alt=\"Modulo de seguridad de una receta\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen del modulo de seguridad de una receta</small></figcaption></div>",
+                    "info":"<p>La configuración de seguridad consta de tres características:</p><ul><li><b>Bloqueada :</b> Si esta propiedad esta activa, solo el propietario puede ver e interactuar con la receta. </li><li><b>Pública :</b> Si esta propiedad esta activada, no es necesario que un usuario sea tu seguidor para poder ver dicha receta. </li><li><b>Clonable :</b> Esta propiedad especifica si un usuario que tenga permisos de visualización, pude clonar dicha receta.</li></ul><p>De estas propiedades siempre prevalece la más restrictiva. Por ejemplo, si tenemos activado el bloqueo, nadie podrá verla ni clonarla.</p>"
+                },
+                "list":{
+                    "menu":"3. Listado de recetas",
+                    "intro":"<p>Cuando listamos recetas, en el listado se muestra una tarjeta con información sobre la cada receta del listado.</p>",
+                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/recipe/card-es.png\" alt=\"Tarjeta de una receta\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la tarjeta de una receta</small></figcaption></div>",
+                    "info":"<p>En estas tarjetas encontramos:</p><ul><li>La imagen de la receta, si la tiene.</li><li>El nombre de la receta.</li><li>El número de personas a la que le gusta, además podemos añadirla a nuestras recetas favoritas, si no esta ya o eliminarla si esta. Esto se sabe con el color del corazón, siendo rojo que nos gusta y negro que no esta en nuestra lista de favoritas. </li><li>La descripción.</li><li>El número de pasos y comentarios que tiene.</li><li>Algunas de las etiquetas que contiene.</li><li>La puntuación medía de la tarjeta y la nuestra, si la tiene. Esta parte al igual que la de las recetas favoritas es interactiva.</li></ul>"
+                }
             },
             "schedule":{
-                "menu":"Planes"
+                "menu":"Planes",
+                "general":{
+                    "menu":"1.1. Información general",
+                    "intro":"<p>Esta aplicación tiene disponible un apartado donde podremos crear nuestra planificación de comidas, con las recetas disponibles en la web.</p><p>Podemos crearnos todos los planes que queramos, estos planes, son totalmente privados, y solo el creador del plan puede verlo.</p><p>Los planes están compuestos por un nombre y descripción, y un conjunto de menús que vamos colocando a lo largo de un calendario por semanas. Este calendario no tiene fechas, si no unas semanas, por lo que se puede realizar un plan en cualquier momento.</p><p>Los menús, contienen las recetas y se definen para un día de una de las semanas y una hora. Estos aparecerán en el calendario como una nota amarilla, donde aparece la hora y el listado de las recetas, como enlace hacia las recetas que hacen referencia.</p><p>A la hora de visualizar los planes, podemos hacerlo de forma horizontal o vertical con los iconos <span class=\"glyphicon glyphicon-th-list ng-scope\"></span> y <span class=\"glyphicon glyphicon-th ng-scope\"></span>, según el modo en el que estemos</p>",
+                    "schedule-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/schedule-es.png\" alt=\"Plan de comidas\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de un plan de comidas en modo vertical</small></figcaption></div>",
+                    "pdf":"<p>Por último, también esta la posibilidad de imprimir nuestro plan en formato PDF. Esto nos da la posibilidad de imprimir nuestro plan de una manera sencilla. Para imprimirlo, obtener el PDF, solo debemos de presionar el botón que pone \"<em>Crear PDF</em>\" en rojo.</p><p>Al presionar el botón, se nos descargará un PDF, donde su disponibilidad (Vertical u Horizontal) depende de como estemos viendo en ese momento nuestra planificación.</p>"
+                },
+                "create":{
+                    "menu":"1.2. Creación de planes",
+                    "intro":"<p>La creación del plan, se puede realizar desde cualquier pantalla, siempre que estemos identificados. Esto podemos hacerlo gracias al modulo de creación, con el cual se pueden crear todo tipos de objetos.</p><p>Este modulo nos proporciona la posibilidad de crear un plan, pudiendo definir previamente el nombre, aunque no es necesario.</p>",
+                    "start":"<p>Una vez hayamos comenzado la creación del plan, lo primero que debemos de rellenar es el nombre del plan y poner una descripción. Una vez introducidos estos datos se nos habilitará el botón de empezar.</p>",
+                    "start-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/start-es.png\" alt=\"Empezar un plan\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen del comienzo de un plan</small></figcaption></div>",
+                    "started":"<p>Una vez pulsemos empezar, aparecerá la pantalla de edición de planes, apareciéndonos nuevos campos.</p><p>Estos campos estarán colocados en forma de calendario por semanas, el cual podremos colocar en horizontal o en vertical, según nos sea más cómodo.</p><p>Con este calendario podremos realizar las siguientes acciones:</p><ul><li><b>Añadir menús:</b> Los botones azules con un + nos permiten añadir nuevos menús a nuestros planes. Estos menús se añadirán al día donde se encuentre el botón que hemos pulsado.</li><li><b>Eliminar semana o menú:</b> Tanto al principio de la semana como en las tarjetas de los menús, nos aparecerá el icono <span class=\"glyphicon glyphicon-trash\"></span>, con el cual podremos eliminar dicha semana o dicho menú de nuestro plan.</li><li><b>Añadir nuevas semanas:</b> Este botón se encuentra al final de las semanas, es un botón naranja con un + en su interior. Con el podremos añadir todas las semanas que queramos a nuestro calendario.</li><li><b>Editar menús:</b> Tenemos la opción de editar un menú ya creado con el icono <span class=\"glyphicon glyphicon-cog\"></span> situado en dicho menú.</li></ul>",
+                    "started-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/started-es.png\" alt=\"Editar un plan\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la edición de un plan</small></figcaption></div>",
+                    "edit-menu":"<p>Los menús son las comidas que hacemos al día. Cuando empecemos o editemos un menú, en el debemos de especificar la hora del menú y las recetas del menú.</p><p>Para añadir recetas, tenemos un buscador de recetas, el cual nos va sugiriendo recetas, según vamos escribiendo, cuando tengamos la receta deseada solo debemos de seleccionarla y se añadirá a nuestro menú.</p><p>Si hemos añadido por equivocación una receta equivocada, no ocurre nada, con el icono <span class=\"glyphicon glyphicon-remove text-danger\"></span> situado junto a ella podemos eliminarlo de nuestro menú.</p>",
+                    "edit-menu-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/menu-es.png\" alt=\"Crear o editar un menú\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la edición o creación de un menú</small></figcaption></div>",
+                    "end":"<p>Una vez tengamos nuestro plan, solo debemos de pulsar sobre el botón finalizar. Si por lo contrario queremos eliminar la receta, pulsaremos el botón eliminar</p>"
+                }
             },
             "activities":{
                 "menu":"Actividades"
+            },
+            "search":{
+                "menu":"Búsquedas"
             }
 
         }

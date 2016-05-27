@@ -1,0 +1,36 @@
+<ol class="breadcrumb">
+    <li ng-click="schedule=null"><span translate="chefsApp.info.schedule.menu"></span></li>
+    <li ng-click="schedule='general'" ng-show="schedule.indexOf('general')>-1"><span translate="chefsApp.info.schedule.general.menu"></span></li>
+    <li ng-click="schedule='create'" ng-show="schedule.indexOf('create')>-1"><span translate="chefsApp.info.schedule.create.menu"></span></li>
+</ol>
+<!-- General -->
+<h3 ng-click="schedule = 'general'" ng-show="schedule==null||schedule.indexOf('general')>-1" ng-class="{'text-primary':schedule==null}">
+    <span translate="chefsApp.info.schedule.general.menu"></span>
+</h3>
+<div ng-show="schedule.indexOf('general')>-1">
+    <div translate="chefsApp.info.schedule.general.intro"></div>
+    <div class="text-center">
+        <div translate="chefsApp.info.schedule.general.schedule-img" class="inline-block"></div>
+    </div>
+    <div translate="chefsApp.info.schedule.general.pdf"></div>
+</div>
+<!-- Create -->
+<h3 ng-click="schedule = 'create'" ng-show="schedule==null||schedule.indexOf('create')>-1" ng-class="{'text-primary':schedule==null}">
+    <span translate="chefsApp.info.schedule.create.menu"></span>
+</h3>
+<div ng-show="schedule.indexOf('create')>-1">
+    <div translate="chefsApp.info.schedule.create.intro"></div>
+    <div translate="chefsApp.info.schedule.create.start"></div>
+    <div class="text-center">
+        <div translate="chefsApp.info.schedule.create.start-img" class="inline-block"></div>
+    </div>
+    <div translate="chefsApp.info.schedule.create.started"></div>
+    <div class="text-center">
+        <div translate="chefsApp.info.schedule.create.started-img"></div>
+    </div>
+    <div translate="chefsApp.info.schedule.create.edit-menu"></div>
+    <div class="text-center">
+        <div translate="chefsApp.info.schedule.create.edit-menu-img"></div>
+    </div>
+    <div translate="chefsApp.info.schedule.create.end"></div>
+</div>

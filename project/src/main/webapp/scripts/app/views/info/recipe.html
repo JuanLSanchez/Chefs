@@ -1,0 +1,67 @@
+<ol class="breadcrumb">
+    <li ng-click="recipe=null"><span translate="chefsApp.info.recipe.menu"></span></li>
+    <li ng-click="recipe='edit'" ng-show="recipe.indexOf('edit')>-1"><span translate="chefsApp.info.recipe.edit.menu"></span></li>
+    <li ng-click="recipe='security'" ng-show="recipe.indexOf('security')>-1"><span translate="chefsApp.info.recipe.security.menu"></span></li>
+    <li ng-click="recipe='list'" ng-show="recipe.indexOf('list')>-1"><span translate="chefsApp.info.recipe.list.menu"></span></li>
+    <li ng-click="recipe='edit.general'" ng-show="recipe.indexOf('edit.general')>-1"><span translate="chefsApp.info.recipe.edit.general.menu"></span></li>
+    <li ng-click="recipe='edit.steps'" ng-show="recipe.indexOf('edit.steps')>-1"><span translate="chefsApp.info.recipe.edit.steps.menu"></span></li>
+</ol>
+<!-- Edit -->
+<h3 ng-click="recipe = 'edit'" ng-show="recipe==null||recipe.indexOf('edit')>-1" ng-class="{'text-primary':recipe==null}">
+    <span translate="chefsApp.info.recipe.edit.menu"></span>
+</h3>
+<div ng-show="recipe.indexOf('edit')>-1">
+    <!-- General -->
+    <h4 ng-click="recipe = 'edit.general'" ng-show="recipe=='edit'||recipe.indexOf('general')>-1" ng-class="{'text-primary':recipe=='edit'}">
+        <span translate="chefsApp.info.recipe.edit.general.menu"></span>
+    </h4>
+    <div ng-show="recipe.indexOf('general')>-1">
+        <div translate="chefsApp.info.recipe.edit.general.info"></div>
+        <div class="text-center">
+            <div translate="chefsApp.info.recipe.edit.general.generator-img" class="inline-block"></div>
+        </div>
+        <div translate="chefsApp.info.recipe.edit.general.form"></div>
+        <p>
+            <span translate="chefsApp.info.recipe.edit.general.steps"></span>
+            <span ng-click="recipe = 'edit.steps'" class="text-primary">
+                <span translate="chefsApp.info.recipe.edit.steps.menu"></span>
+            </span>.
+        </p>
+    </div>
+    <!-- Steps -->
+    <h4 ng-click="recipe = 'edit.steps'" ng-show="recipe=='edit'||recipe.indexOf('steps')>-1" ng-class="{'text-primary':recipe=='edit'}">
+        <span translate="chefsApp.info.recipe.edit.steps.menu"></span>
+    </h4>
+    <div ng-show="recipe.indexOf('steps')>-1">
+        <div translate="chefsApp.info.recipe.edit.steps.info"></div>
+        <div class="text-center">
+            <div translate="chefsApp.info.recipe.edit.steps.add-step-img" class="inline-block"></div>
+        </div>
+        <div translate="chefsApp.info.recipe.edit.steps.create"></div>
+        <div translate="chefsApp.info.recipe.edit.steps.add-img"></div>
+        <div translate="chefsApp.info.recipe.edit.steps.edit"></div>
+    </div>
+</div>
+<!-- Security -->
+<h3 ng-click="recipe = 'security'" ng-show="recipe==null||recipe.indexOf('security')>-1" ng-class="{'text-primary':recipe==null}">
+    <span translate="chefsApp.info.recipe.security.menu"></span>
+</h3>
+<div ng-show="recipe.indexOf('security')>-1">
+    <div translate="chefsApp.info.recipe.security.intro"></div>
+    <div class="text-center">
+        <div translate="chefsApp.info.recipe.security.security-img" class="inline-block"></div>
+    </div>
+    <div translate="chefsApp.info.recipe.security.info"></div>
+</div>
+<!-- List -->
+<h3 ng-click="recipe = 'list'" ng-show="recipe==null||recipe.indexOf('list')>-1" ng-class="{'text-primary':recipe==null}">
+    <span translate="chefsApp.info.recipe.list.menu"></span>
+</h3>
+<div ng-show="recipe.indexOf('list')>-1">
+    <div translate="chefsApp.info.recipe.list.intro"></div>
+    <div class="text-center">
+        <div translate="chefsApp.info.recipe.list.card-img" class="inline-block"></div>
+    </div>
+    <div translate="chefsApp.info.recipe.list.info"></div>
+</div>
+
