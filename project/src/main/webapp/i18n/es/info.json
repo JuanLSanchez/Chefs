@@ -119,7 +119,11 @@
                 "list-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/activities/list-es.png\" alt=\"Listado de actividades\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de un listado de actividades</small></figcaption></div>"
             },
             "search":{
-                "menu":"Búsquedas"
+                "menu":"Búsquedas",
+                "intro":"<p>Para buscar nuevas recetas o usuarios, disponemos de un buscador situado en la barra de navegación. Con  este buscador, podemos buscar tanto recetas, como usuarios o buscar etiquetas.</p><p>Por defecto, si empezamos a introducir letras, nos irá apareciendo recomendaciones  tanto para recetas, como para usuarios, como para etiquetas.</p><p>Si pulsamos el elemento de la recomendación, iremos directamente a dicho elemento. En caso de ser una etiqueta, aparecerán las recetas relacionadas con dicha etiqueta.</p>",
+                "advice-img":"<div class=\"thumbnail col-sm-10\"><img src=\"assets/images/info/search/search-es.png\" alt=\"Recomendaciones\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de las recomendaciones de una búsuqeda</small></figcaption></div>",
+                "general":"<p>Si realizamos una búsqueda general puede ocurrir dos casos<p><ul><li>Encuentra elementos de solo un tipo, en este caso el listado de la búsqueda solo tendrá objetos de ese tipo</li><li>Encuentra elementos de varios tipos, en este caso el listado será mixto, mostrando elementos de todos los tipos encontrados</li></ul><p>En caso de no encontrar elementos de ningún tipo, nos aparecerá un mensaje advirtiéndonos de ello</p>",
+                "specific":"<p>También podemos realizar búsqueda sobre un tipo de elementos específicos indicándolo con un carácter al principio de la búsqueda.</p><p>Los caracteres para las diferentes búsquedas son:</p><ul><li><b>&:</b> Recetas</li><li><b>@:</b> Usuarios</li><li><b>#:</b> Etiquetas</li></ul>"
             }
 
         }
