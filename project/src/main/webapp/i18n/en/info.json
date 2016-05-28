@@ -1,7 +1,131 @@
 {
     "chefsApp": {
         "info" : {
-            
+            "home":"Start",
+            "beginning":{
+                "menu":"Introduction",
+                "chefs":{
+                    "menu":"1. Chefs",
+                    "intro":"<p>Chefs is a social network, focused on the field of cooking recipes.</p><p>Its goal is to enable users to share their cooking recipes with other users, and each brings its point of view to recipes.</p><p>As a bonus, it also offers the possibility of creating us our meal plans with recipes available in the application.</p>"
+                },
+                "sections":{
+                    "menu":"2. Secciones",
+                    "intro":"<p>This application is divided into different sections If we identify as a user, we will see in the top bar navigation different sections of the same</p><p>If you push on one of these sections shall we go away to the staff section of this section. This section will contain objects related to that related to us section.</p><p>For example, if we chop in section recipes, we will display information about the recipes we've created.</p>",
+                    "info":"<p>The section in which we are now is a special section which explains how to use the application.</p><p>In this section of the application will find different chapters, with information relating to each of the main features of Chefs.</p><p>These chapters may contain sections and subsections on each of the characteristics and disaggregating the application on more specific sections.</p><p>To facilitate reading, these sections and its sub-sections can be open, and will appear at the top of a trail of bread crumbs that have open sections.</p>",
+                    "nav-bar-img":"<div class=\"thumbnail col-sm-10\"><img src=\"assets/images/info/beginning/nav-bar.png\" alt=\"Navigation bar\"><div class=\"caption text-center\">Picture of the navigation bar in the information section.</div></div>"
+                }
+            },
+            "user":{
+                "menu":"Users",
+                "beginning":"1. Introduction",
+                "card":{
+                    "menu":"1.1. Cards",
+                    "intro":"On this site we can see the main user information on a card. These cards contain the following information:",
+                    "img":"<b>Pictures:</b> Background images and profile that the user can upload from your device.",
+                    "login":"<b>Login:</b> User login preceded by an @. This is the only and unchangeable identifier for this user.",
+                    "name":"<b>Name:</b> Name the user has decided to. In principle this name is the same as the identifier until the user decides to change it.",
+                    "description":"<b>Description:</b> This is an optional field where the user can put a brief description.",
+                    "following":"<b>Following:</b> This field indicates the number of users below. This issue contains a link to the list of users itself. You can get more information in the section. ",
+                    "followers":"<b>Followers:</b> This field is like field users who follows, but with followers. You can get more information in the section.",
+                    "recipes":"<b>Recipes:</b> Contains the number of recipes unblocked user, as users followers and below, it contains a link to the recipes. We can learn more about the recipes in the chapter.",
+                    "activities":"<b>Activities:</b> The icon <span class=\"glyphicon glyphicon-time\"></span> found at the end of the card, is a link to the list of activities performed by the user. We can get more information about activities in the chapter.",
+                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/user/card-en.png\" alt=\"Card user\" class=\"img-rounded\"><div class=\"caption text-center\"><small>Image of a user card<small></div></div>"
+                },
+                "information":{
+                    "menu":"1.2. Edit information",
+                    "intro":"The user cards containing information about users. This section will discuss how to modify such information. If you want to know more about the card users visit subsection ",
+                    "how":"To edit our information, simply head to any of our sections of the navigation bar. More information in paragraph ",
+                    "how-do":"Once we are in the section, we must click on the icon <span class=\"glyphicon glyphicon-cog\"></span> can find at the top of our card. This will change our view of our card, and text fields will be converted into form fields and images can delete or edit them. The only field that can not edit is the <b>login</b>.",
+                    "more":"<p>When we are in edit mode, the save button will not appear until we make any change. </p><p> We also observe that the edit icon has been modified by the icon<span class=\"glyphicon glyphicon-eye-open\"></span>. This icon allows us to visualize how will our card before storing. </p><p>When you change the view preview, if you've made any changes, the save button will remain, so that whether we like it has as been the card, just have to press the save button.</p>",
+                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/user/card-edit-en.png\" alt=\"User card in edit mode\" class=\"img-rounded\"><div class=\"caption text-center\"><small>Image of a card user in edit mode</small></div></div>"
+                },
+                "following":{
+                    "menu":"2. Following",
+                    "info":"In this application we can follow users whose recipes we like more.",
+                    "imply":"By following a user, we can see the recipes that the user is private. Besides its activities we appear in our list of activities, from the navigation bar.",
+                    "about-recipe":"To learn more about recipes visit chapter ",
+                    "about-activity":"To learn more about activities visit chapter ",
+                    "follow":"<p>To follow a user, we must click on a button that appears at the top of your card, either in search or on your home page.</p><p>This button can appear in four states:</p>",
+                    "btns":"<ul><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-follow-en.png\">Send request to follow.</li><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-waiting-en.png\"> Waiting to accept the request.</li><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-following-en.png\"> We follow that user.</li><li class=\"list-unstyled\"><img  src=\"assets/images/info/user/btn-locked-en.png\"> We have been locked by the user.</li></ul>",
+                    "btn-info":"If you click on a button <em>follow</em>, this change to the state <em>waiting</em>. Once the user to see your request, it can perform the following actions: <b>Accept</b>, the button will change the state <em>Accepted</em>, <b>Locked</b>, the button will change the state <em>Locked</em>, <b>Ignore</b>, the button will return to <em>follow</em>.",
+                    "btn-info-more":"If you press a button that is in the state <em>Following</em>, we will not follow that user.",
+                    "list":"Finally, we can see the list of users who follow, clicking on the number of users who follow, which appears on our card."
+                },
+                "followers":{
+                    "menu":"3. Followers",
+                    "intro":"If we have good recipes, others will want to follow us, to see recipes that have hidden or see our actions.",
+                    "info":"If a user has sent us a request that we have not answered, at logon we will appear next to the number of users who follow us from our card, the number of pending requests, something like this <small class=\"badge\">1</small>.",
+                    "list":"<p>Clicking on the list of users who follow us, they appear both users who follow us, those who want us to go and we have locked.<p><p>On the card user to follow up button, three buttons that we will only appear in this list we appear. These three buttons are the three actions you can perform with a request, may accept it, Lock it or ignore it.</p>",
+                    "actions":"<p>With these actions, the following will occur:</p><ul><li><b>Following:</b> The user will be your follower</li><li><b>Locked:</b> The user will be locked, and can no longer ask to be your follower.</li><li><b>Ignored:</b> The user will be ignored, will not follow, but will return to make another request tracking.</li></ul>",
+                    "tool-img":"<div class=\"thumbnail col-sm-8\"><img src=\"assets/images/info/user/tool-follow-en.png\" alt=\"Action buttons\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Buttons image processing requests</small></figcaption></div>"
+                }
+            },
+            "recipe":{
+                "menu":"Recetas",
+                "edit":{
+                    "menu":"1. Edición de recetas",
+                    "general":{
+                        "menu":"1.1. Información general",
+                        "info":"<p>La creación de recetas, se puede realizar desde cualquier pantalla, siempre que estemos identificados. Esto podemos hacerlo gracias al modulo de creación, con el cual se pueden crear todo tipos de objetos.</p><p>Este modulo nos proporciona la posibilidad de crear una receta, pudiendo definir previamente el nombre, aunque no es necesario.</p>",
+                        "generator-img":"<div class=\"thumbnail col-sm-8\"><img src=\"assets/images/info/recipe/generator-es.png\" alt=\"Modulo de creación de objetos\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen del modulo de creación de objetos</small></figcaption></div>",
+                        "form":"<p>Una vez nos encontremos en el formulario para la creación de la receta, los campos generales que nos encontraremos serán:</p><ul><li><b>Nombre :</b> Este campo es obligatorio, en el pondremos el nombre de nuestra receta. </li><li><b>Imagen :</b> Imagen opcional, sobre nuestra receta. Esta imagen aparecerá en el listado de las recetas. </li><li><b>Descripción :</b> Descripción obligatoria de nuestra receta.</li><li><b>Url de Información :</b> En este campo podremos poner una url hacía una web donde se den más detalles sobre la receta. </li><li><b> Sugerencia a la hora de cocinarlo :</b> En este campo podemos poner algún truco para la elaboración de la receta.</li><li><b>¿Cuando se lo tomaría :</b> Podemos poner un momento, o una temporada para realizar este plato.</li><li><b>Etiquetas :</b> Podemos añadir tantas etiquetas como queramos a nuestra receta. Esto nos ayudará a encontrarlo en búsquedas por recetas, y en el listado nos ayuda a tener una idea de la receta.</li></ul>",
+                        "steps":"Estos son los campos generales de una receta, para saber más sobre como añadir pasos a nuestra receta mire la sección "
+                    },
+                    "steps":{
+                        "menu":"1.2. Pasos de la receta",
+                        "info":"<p>La creación de una receta puede tener pasos. Para añadir pasos a una receta, tenemos en la parte central del formulario, una sección dedicada a ello.</p><p> Para añadir un nuevo paso, solo debemos de pulsar el botón de añadir paso, esto nos añadirá un bloque a nuestra sección de pasos.</p>",
+                        "add-step-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/recipe/add-step-es.png\" alt=\"Añadir paso\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la creación de un nuevo paso</small></figcaption></div>",
+                        "create":"<p>La creación de un paso de receta es algo bastante sencillo, lo único que debemos de hacer tras añadir el paso es agregar la descripción del paso, y si queremos podemos añadir imágenes o ingredientes a nuestros pasos.</p><p>Para añadir ingredientes basta con pulsar el icono <span class=\"glyphicon glyphicon-pencil\"></span>, esto nos añadirá una linea de ingrediente, la cual cuenta con:<ul><li><b>Alimento :</b> Nombre del alimento que se añadirá. En esta casilla van apareciendo sugerencias de alimentos con los que cuenta la aplicación.</li><li><b>Cantidad :</b> Número de la cantidad que se va a echar de dicho alimento.</li><li><b>Medida :</b> Medida de la cantidad introducida en el campo <em>Cantidad</em>.</li><li><b>Kcal por 100g :</b> Kilocalorías que contiene el alimento por cada 100 gramos del mismo. Esta medida es opcional y en caso de haberse auto-completado la primera casilla, esta casilla también aparecerá.</li></ul></p>",
+                        "add-img":"<p>También podemos añadir imágenes a nuestros pasos, para ilústralos mejor la realización del paso o para mostrar como quedaría.</p><p> Para añadir una imagen basta con pulsar el botón con el icono <span class=\"glyphicon glyphicon-picture\"></span>. Esto nos añadirá un cuadro en el paso, en el cual podremos arrastrar nuestra imagen o búscarla.</p>",
+                        "edit":"<p>Por último también debemos de saber que nuestros pasos se pueden mover o eliminar con los iconos <span class=\"glyphicon glyphicon-move\"></span> y <span class=\"glyphicon glyphicon-remove\" style=\"color: red;\"></span> respectivamente.</p>"
+                    }
+                },
+                "security":{
+                    "menu":"2. Seguridad en recetas",
+                    "intro":"<p>Todas las recetas que creemos tienen una configuración respecto a la seguridad. Tendiendo cada receta una configuración independiente.</p><p>Esta configuración se modifica en el modulo de seguridad que aparece cuando estamos editando o creando una receta.</p>",
+                    "security-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/recipe/security-es.png\" alt=\"Modulo de seguridad de una receta\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen del modulo de seguridad de una receta</small></figcaption></div>",
+                    "info":"<p>La configuración de seguridad consta de tres características:</p><ul><li><b>Bloqueada :</b> Si esta propiedad esta activa, solo el propietario puede ver e interactuar con la receta. </li><li><b>Pública :</b> Si esta propiedad esta activada, no es necesario que un usuario sea tu seguidor para poder ver dicha receta. </li><li><b>Clonable :</b> Esta propiedad especifica si un usuario que tenga permisos de visualización, pude clonar dicha receta.</li></ul><p>De estas propiedades siempre prevalece la más restrictiva. Por ejemplo, si tenemos activado el bloqueo, nadie podrá verla ni clonarla.</p>"
+                },
+                "list":{
+                    "menu":"3. Listado de recetas",
+                    "intro":"<p>Cuando listamos recetas, en el listado se muestra una tarjeta con información sobre la cada receta del listado.</p>",
+                    "card-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/recipe/card-es.png\" alt=\"Tarjeta de una receta\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la tarjeta de una receta</small></figcaption></div>",
+                    "info":"<p>En estas tarjetas encontramos:</p><ul><li>La imagen de la receta, si la tiene.</li><li>El nombre de la receta.</li><li>El número de personas a la que le gusta, además podemos añadirla a nuestras recetas favoritas, si no esta ya o eliminarla si esta. Esto se sabe con el color del corazón, siendo rojo que nos gusta y negro que no esta en nuestra lista de favoritas. </li><li>La descripción.</li><li>El número de pasos y comentarios que tiene.</li><li>Algunas de las etiquetas que contiene.</li><li>La puntuación medía de la tarjeta y la nuestra, si la tiene. Esta parte al igual que la de las recetas favoritas es interactiva.</li></ul>"
+                }
+            },
+            "schedule":{
+                "menu":"Planes",
+                "general":{
+                    "menu":"1.1. Información general",
+                    "intro":"<p>Esta aplicación tiene disponible un apartado donde podremos crear nuestra planificación de comidas, con las recetas disponibles en la web.</p><p>Podemos crearnos todos los planes que queramos, estos planes, son totalmente privados, y solo el creador del plan puede verlo.</p><p>Los planes están compuestos por un nombre y descripción, y un conjunto de menús que vamos colocando a lo largo de un calendario por semanas. Este calendario no tiene fechas, si no unas semanas, por lo que se puede realizar un plan en cualquier momento.</p><p>Los menús, contienen las recetas y se definen para un día de una de las semanas y una hora. Estos aparecerán en el calendario como una nota amarilla, donde aparece la hora y el listado de las recetas, como enlace hacia las recetas que hacen referencia.</p><p>A la hora de visualizar los planes, podemos hacerlo de forma horizontal o vertical con los iconos <span class=\"glyphicon glyphicon-th-list ng-scope\"></span> y <span class=\"glyphicon glyphicon-th ng-scope\"></span>, según el modo en el que estemos</p>",
+                    "schedule-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/schedule-es.png\" alt=\"Plan de comidas\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de un plan de comidas en modo vertical</small></figcaption></div>",
+                    "pdf":"<p>Por último, también esta la posibilidad de imprimir nuestro plan en formato PDF. Esto nos da la posibilidad de imprimir nuestro plan de una manera sencilla. Para imprimirlo, obtener el PDF, solo debemos de presionar el botón que pone \"<em>Crear PDF</em>\" en rojo.</p><p>Al presionar el botón, se nos descargará un PDF, donde su disponibilidad (Vertical u Horizontal) depende de como estemos viendo en ese momento nuestra planificación.</p>"
+                },
+                "create":{
+                    "menu":"1.2. Creación de planes",
+                    "intro":"<p>La creación del plan, se puede realizar desde cualquier pantalla, siempre que estemos identificados. Esto podemos hacerlo gracias al modulo de creación, con el cual se pueden crear todo tipos de objetos.</p><p>Este modulo nos proporciona la posibilidad de crear un plan, pudiendo definir previamente el nombre, aunque no es necesario.</p>",
+                    "start":"<p>Una vez hayamos comenzado la creación del plan, lo primero que debemos de rellenar es el nombre del plan y poner una descripción. Una vez introducidos estos datos se nos habilitará el botón de empezar.</p>",
+                    "start-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/start-es.png\" alt=\"Empezar un plan\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen del comienzo de un plan</small></figcaption></div>",
+                    "started":"<p>Una vez pulsemos empezar, aparecerá la pantalla de edición de planes, apareciéndonos nuevos campos.</p><p>Estos campos estarán colocados en forma de calendario por semanas, el cual podremos colocar en horizontal o en vertical, según nos sea más cómodo.</p><p>Con este calendario podremos realizar las siguientes acciones:</p><ul><li><b>Añadir menús:</b> Los botones azules con un + nos permiten añadir nuevos menús a nuestros planes. Estos menús se añadirán al día donde se encuentre el botón que hemos pulsado.</li><li><b>Eliminar semana o menú:</b> Tanto al principio de la semana como en las tarjetas de los menús, nos aparecerá el icono <span class=\"glyphicon glyphicon-trash\"></span>, con el cual podremos eliminar dicha semana o dicho menú de nuestro plan.</li><li><b>Añadir nuevas semanas:</b> Este botón se encuentra al final de las semanas, es un botón naranja con un + en su interior. Con el podremos añadir todas las semanas que queramos a nuestro calendario.</li><li><b>Editar menús:</b> Tenemos la opción de editar un menú ya creado con el icono <span class=\"glyphicon glyphicon-cog\"></span> situado en dicho menú.</li></ul>",
+                    "started-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/started-es.png\" alt=\"Editar un plan\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la edición de un plan</small></figcaption></div>",
+                    "edit-menu":"<p>Los menús son las comidas que hacemos al día. Cuando empecemos o editemos un menú, en el debemos de especificar la hora del menú y las recetas del menú.</p><p>Para añadir recetas, tenemos un buscador de recetas, el cual nos va sugiriendo recetas, según vamos escribiendo, cuando tengamos la receta deseada solo debemos de seleccionarla y se añadirá a nuestro menú.</p><p>Si hemos añadido por equivocación una receta equivocada, no ocurre nada, con el icono <span class=\"glyphicon glyphicon-remove text-danger\"></span> situado junto a ella podemos eliminarlo de nuestro menú.</p>",
+                    "edit-menu-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/schedule/menu-es.png\" alt=\"Crear o editar un menú\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de la edición o creación de un menú</small></figcaption></div>",
+                    "end":"<p>Una vez tengamos nuestro plan, solo debemos de pulsar sobre el botón finalizar. Si por lo contrario queremos eliminar la receta, pulsaremos el botón eliminar</p>"
+                }
+            },
+            "activities":{
+                "menu":"Actividades",
+                "intro":"<p>En esta web, podemos ver diferentes listados de actividades. Cada elemento de este listado contiene una actividad relevante que ha realizado un usuario con la información relevante de dicha actividad.</p><p>A estos listados se acceden con el icono <span class=\"glyphicon glyphicon-time\"></span>. Hay dos tipos de listados, el listado de un usuario, este listado lo podemos ver pulsando en el icono de la tarjeta del usuario y solo muestra las actividades de dicho usuario y el listado de los usuarios que sigues, este listado lo podemos ver pulsando en el icono situado en la barra de navegación y en el se muestran las actividades de todos los usuarios que sigues.</p><p>En todas las actividades podremos encontrar un enlace al usuario que realizó dicho acción, un enlace al elemento vinculado a la acción, la acción realizada, un resumen, enlaces a las etiquetas del elemento vinculado y la fecha de la actividad</p>",
+                "list-img":"<div class=\"thumbnail\"><img src=\"assets/images/info/activities/list-es.png\" alt=\"Listado de actividades\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de un listado de actividades</small></figcaption></div>"
+            },
+            "search":{
+                "menu":"Búsquedas",
+                "intro":"<p>Para buscar nuevas recetas o usuarios, disponemos de un buscador situado en la barra de navegación. Con  este buscador, podemos buscar tanto recetas, como usuarios o buscar etiquetas.</p><p>Por defecto, si empezamos a introducir letras, nos irá apareciendo recomendaciones  tanto para recetas, como para usuarios, como para etiquetas.</p><p>Si pulsamos el elemento de la recomendación, iremos directamente a dicho elemento. En caso de ser una etiqueta, aparecerán las recetas relacionadas con dicha etiqueta.</p>",
+                "advice-img":"<div class=\"thumbnail col-sm-10\"><img src=\"assets/images/info/search/search-es.png\" alt=\"Recomendaciones\" class=\"img-rounded\"><figcaption class=\"figure-caption\"><small>Imagen de las recomendaciones de una búsuqeda</small></figcaption></div>",
+                "general":"<p>Si realizamos una búsqueda general puede ocurrir dos casos<p><ul><li>Encuentra elementos de solo un tipo, en este caso el listado de la búsqueda solo tendrá objetos de ese tipo</li><li>Encuentra elementos de varios tipos, en este caso el listado será mixto, mostrando elementos de todos los tipos encontrados</li></ul><p>En caso de no encontrar elementos de ningún tipo, nos aparecerá un mensaje advirtiéndonos de ello</p>",
+                "specific":"<p>También podemos realizar búsqueda sobre un tipo de elementos específicos indicándolo con un carácter al principio de la búsqueda.</p><p>Los caracteres para las diferentes búsquedas son:</p><ul><li><b>&:</b> Recetas</li><li><b>@:</b> Usuarios</li><li><b>#:</b> Etiquetas</li></ul>"
+            }
+
         }
     }
 }
