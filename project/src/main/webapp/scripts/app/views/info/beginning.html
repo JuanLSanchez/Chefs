@@ -1,0 +1,25 @@
+<ol class="breadcrumb">
+    <li ng-click="beginning=null"><span translate="chefsApp.info.beginning.menu"></span></li>
+    <li ng-click="beginning='chefs'" ng-show="beginning.indexOf('chefs')>-1"><span translate="chefsApp.info.beginning.chefs.menu"></span></li>
+    <li ng-click="beginning='sections'" ng-show="beginning.indexOf('sections')>-1"><span translate="chefsApp.info.beginning.sections.menu"></span></li>
+</ol>
+<!-- Chefs -->
+<h3 ng-click="beginning = 'chefs'" ng-show="beginning==null||beginning.indexOf('chefs')>-1" ng-class="{'text-primary':beginning==null}">
+    <span translate="chefsApp.info.beginning.chefs.menu"></span>
+</h3>
+<div ng-show="beginning.indexOf('chefs')>-1">
+    <div translate="chefsApp.info.beginning.chefs.intro"></div>
+</div>
+<!-- sections -->
+<h3 ng-click="beginning = 'sections'" ng-show="beginning==null||beginning.indexOf('sections')>-1" ng-class="{'text-primary':beginning==null}">
+    <span translate="chefsApp.info.beginning.sections.menu"></span>
+</h3>
+<div ng-show="beginning.indexOf('sections')>-1">
+    <div translate="chefsApp.info.beginning.sections.intro"></div>
+    <div translate="chefsApp.info.beginning.sections.info"></div>
+    <div class="text-center">
+        <div translate="chefsApp.info.beginning.sections.nav-bar-img" class="inline-block"></div>
+    </div>
+
+</div>
+

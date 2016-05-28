@@ -32,7 +32,7 @@
                 <li ng-switch-when="true" ui-sref-active="active" ><a href="" ng-click="logout()">
                     <span class="glyphicon glyphicon glyphicon-off" title="{{'global.menu.account.logout'|translate}}"></span>
                 </a></li>
-                <li ng-switch-when="false" ui-sref-active="hidden" ng-switch-when="false"><a ui-sref="login">
+                <li ng-switch-when="false" ui-sref-active="hidden"><a ui-sref="login">
                     <span class="glyphicon glyphicon-log-in" title="{{'global.menu.account.login'|translate}}"></span>
                 </a></li>
                 <li ng-class="{active: $state.includes('admin')}"  ng-switch-when="true" has-authority="ROLE_ADMIN" class="dropdown pointer">
@@ -60,6 +60,9 @@
                             &#xA0;<span translate="global.menu.admin.apidocs">API</span></a></li>
                     </ul>
                 </li>
+                <li ui-sref-active="active"><a ui-sref="info">
+                    <span class="glyphicon glyphicon-info-sign hand" title="{{'global.menu.info'|translate}}"></span>
+                </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ui-sref-active="active" class="dropdown pointer" ng-controller="LanguageController">
